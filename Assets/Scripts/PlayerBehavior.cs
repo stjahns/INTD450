@@ -6,16 +6,21 @@ public class PlayerBehavior : MonoBehaviour {
 	public float moveForce = 1.0f;
 	public float jumpForce = 1.0f;
 
-	private bool jumping = false;
+	public bool onGround = false;
 
 	private Animator anim = null;
 
+	public Transform groundCheck;
 	public Transform leftArmJoint;
 
 	// Use this for initialization
 	void Start () {
-		jumping = false;
 		anim = GetComponentInChildren<Animator>();
+	}
+
+	void Update () {
+		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
+		onGround = Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
 	}
 
 	// Update is called once per frame
@@ -31,10 +36,9 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.AddForce(Vector2.right * moveForce);
 		}
 
-		if (!jumping && Input.GetKey(KeyCode.Space)) {
+		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
 			// jump
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
-			//jumping = true;
 		}
 
 		anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));

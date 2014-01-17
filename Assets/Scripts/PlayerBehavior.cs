@@ -41,6 +41,7 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
 		}
 
+		/*
 		anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
 
 		Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
@@ -51,6 +52,7 @@ public class PlayerBehavior : MonoBehaviour {
 		playerToPointer.Normalize();
 		anim.SetFloat("mouseX", playerToPointer.x);
 		anim.SetFloat("mouseY", playerToPointer.y);
+*/
 
 	}
 }

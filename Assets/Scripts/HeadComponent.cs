@@ -4,34 +4,49 @@ using System.Collections;
 public class HeadComponent : MonoBehaviour {
 
 	public Transform neckConnection;
+	public Transform groundCheck;
 	public TorsoComponent torso;
 
-	private TorsoComponent connectedTorso;
-
-	//public SpringJoint2D neckJoint;
-
-	public bool connected;
+	private TorsoComponent connectedTorso = null;
 
 	// Use this for initialization
 	void Start () {
-		connected = false;
+		CheckNeckConnection();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+
+		CheckNeckConnection();
+
+	}
+
+	public bool checkOnGround() {
+
+		if (connectedTorso) {
+			return connectedTorso.checkOnGround();
+		}
+
+		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
+		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+	}
+
+	void CheckNeckConnection() {
 
 		// If a connected component is set
-		if (!connected && torso != null)
+		if (!connectedTorso && torso)
 		{
+			Debug.Log("Torso Connected");
 			torso.Connect(this);
 			connectedTorso = torso;
-			connected = true;
+			Animator anim = GetComponentInChildren<Animator>();
+			anim.animatePhysics = false;
+			anim.animatePhysics = true;
 		}
-		else if (connected && torso == null)
+		else if (connectedTorso && !torso)
 		{
 			connectedTorso.Disconnect();
 			connectedTorso = null;
-			connected = false;
 		}
 	}
 }

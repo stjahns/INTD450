@@ -10,8 +10,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 	private Animator anim = null;
 
-	public Transform groundCheck;
-	public Transform leftArmJoint;
+	public HeadComponent head;
 
 	// Use this for initialization
 	void Start () {
@@ -19,8 +18,9 @@ public class PlayerBehavior : MonoBehaviour {
 	}
 
 	void Update () {
-		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-		onGround = Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+		onGround = head.checkOnGround();
+		//int groundOnly = 1 << LayerMask.NameToLayer("Ground");
+		//onGround = Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
 	}
 
 	// Update is called once per frame
@@ -41,18 +41,19 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
 		}
 
-		/*
-		anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+		anim = GetComponentInChildren<Animator>();
+		if (anim) {
+			anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
 
-		Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
-		Vector2 playerToPointer;
+			Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
+			Vector2 playerToPointer;
 
-		playerToPointer.x = Input.mousePosition.x - playerScreenPos.x;
-    	playerToPointer.y = Input.mousePosition.y - playerScreenPos.y;
-		playerToPointer.Normalize();
-		anim.SetFloat("mouseX", playerToPointer.x);
-		anim.SetFloat("mouseY", playerToPointer.y);
-*/
+			playerToPointer.x = Input.mousePosition.x - playerScreenPos.x;
+	    	playerToPointer.y = Input.mousePosition.y - playerScreenPos.y;
+			playerToPointer.Normalize();
+			anim.SetFloat("mouseX", playerToPointer.x);
+			anim.SetFloat("mouseY", playerToPointer.y);
+		}
 
 	}
 }

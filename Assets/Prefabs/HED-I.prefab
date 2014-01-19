@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: HED-I
   m_TagString: Untagged
@@ -71,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.520645857, y: 3.30432463, z: 0}
+  m_LocalPosition: {x: -.503867149, y: 3.03075647, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -153,6 +154,19 @@ MonoBehaviour:
   onGround: 0
   groundCheck: {fileID: 400002}
   leftArmJoint: {fileID: 0}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e7987a7cd0e14055b8b2b039dc4b72e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  neckConnection: {fileID: 400006}
+  torso: {fileID: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

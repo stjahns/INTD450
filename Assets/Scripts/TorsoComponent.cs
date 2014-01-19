@@ -6,6 +6,8 @@ public class TorsoComponent : MonoBehaviour {
 	public Rigidbody2D body;
 	public Collider2D collider;
 
+	public Transform groundCheck;
+
 	public Transform neckJoint;
 	public Transform leftArmJoint;
 	public Transform rightArmJoint;
@@ -22,55 +24,84 @@ public class TorsoComponent : MonoBehaviour {
 	private LimbComponent connectedLeftLeg = null;
 	private LimbComponent connectedRightLeg = null;
 
+	private HeadComponent m_head = null;
+
 	// Use this for initialization
 	void Start () {
-	
+		CheckLimbConnections();
 	}
+
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
+		CheckLimbConnections();
+	}
+
+	public bool checkOnGround() {
+
+		if (connectedLeftLeg && connectedLeftLeg.checkOnGround()) {
+			return true;
+		}
+
+		if (connectedRightLeg && connectedRightLeg.checkOnGround()) {
+			return true;
+		}
+
+		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
+		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+
+	}
+
+	public HeadComponent getHead() {
+		return m_head;
+	}
+
+	void CheckLimbConnections() {
 
 		if (!connectedLeftArm && leftArm)
 		{
-			leftArm.Connect(this, leftArmJoint);
+			leftArm.Connect(this, leftArmJoint, false);
 			connectedLeftArm = leftArm;
 		}
 		else if (connectedLeftArm && !leftArm)
+
 		{
-			leftArm.Disconnect();
+			connectedLeftArm.Disconnect();
 			connectedLeftArm = null;
 		}
 
 		if (!connectedRightArm && rightArm)
 		{
-			rightArm.Connect(this, rightArmJoint);
+			rightArm.Connect(this, rightArmJoint, false);
 			connectedRightArm = rightArm;
 		}
 		else if (connectedRightArm && !rightArm)
 		{
-			rightArm.Disconnect();
+			connectedRightArm.Disconnect();
 			connectedRightArm = null;
 		}
 
+		bool noLegs = !connectedLeftLeg && !connectedRightLeg;
+
 		if (!connectedLeftLeg && leftLeg)
 		{
-			leftLeg.Connect(this, leftLegJoint);
+			leftLeg.Connect(this, leftLegJoint, noLegs);
 			connectedLeftLeg = leftLeg;
 		}
 		else if (connectedLeftLeg && !leftLeg)
 		{
-			leftLeg.Disconnect();
+			connectedLeftLeg.Disconnect();
 			connectedLeftLeg = null;
 		}
 
 		if (!connectedRightLeg && rightLeg)
 		{
-			rightLeg.Connect(this, rightLegJoint);
+			rightLeg.Connect(this, rightLegJoint, noLegs);
 			connectedRightLeg = rightLeg;
 		}
 		else if (connectedRightLeg && !rightLeg)
 		{
-			rightLeg.Disconnect();
+			connectedRightLeg.Disconnect();
 			connectedRightLeg = null;
 		}
 	
@@ -78,8 +109,12 @@ public class TorsoComponent : MonoBehaviour {
 
 	public void Disconnect() {
 		transform.parent = null;
-		body.isKinematic = false;
 		collider.enabled = true;
+
+		// Restore rigid body to unattached torso
+		body = gameObject.AddComponent<Rigidbody2D>();
+
+		m_head = null;
 	}
 
 	public void Connect(HeadComponent head) {
@@ -87,15 +122,27 @@ public class TorsoComponent : MonoBehaviour {
 		Vector3 offset = neckJoint.localPosition; 
 		transform.parent = head.neckConnection;
 
-		// make body kinematic
+		// If we don't set body to kinematic, it will get will physics update that will move component after attaching...
 		body.isKinematic = true;
 
+
+		// TODO Save rigidbody properties..
+
+		Destroy(body);
+		body = null;
+
 		// TEMP - disable collider
-		collider.enabled = false;
+		//collider.enabled = false;
 
 		// set position + orientation
-		transform.eulerAngles = new Vector3(0,0,0);
+		transform.localEulerAngles = new Vector3(0,0,0);
 		transform.localPosition= new Vector3(-offset.x, -offset.y);
+
+		// HACK - move head up to make room for torso...
+		float torsoSize = head.groundCheck.position.y - groundCheck.position.y;
+		head.transform.Translate(0, torsoSize, 0);
+
+		m_head = head;
 
 	}
 }

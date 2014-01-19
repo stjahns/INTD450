@@ -33,7 +33,10 @@ public class PlayerBehavior : MonoBehaviour {
 
 		if (!jumping && Input.GetKey(KeyCode.Space)) {
 			// jump
+			if (leftArmJoint.position.y < 3.0)
+			{
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
+			}
 			//jumping = true;
 		}
 

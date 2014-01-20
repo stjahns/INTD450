@@ -21,6 +21,7 @@ public class PlayerBehavior : MonoBehaviour {
 		onGround = head.checkOnGround();
 		//int groundOnly = 1 << LayerMask.NameToLayer("Ground");
 		//onGround = Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+
 	}
 
 	// Update is called once per frame

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
-public class HeadComponent : MonoBehaviour {
+public class HeadComponent : RobotComponent {
 
 	public Transform neckConnection;
-	public Transform groundCheck;
 	public TorsoComponent torso;
 
 	private TorsoComponent connectedTorso = null;
@@ -21,15 +21,6 @@ public class HeadComponent : MonoBehaviour {
 
 	}
 
-	public bool checkOnGround() {
-
-		if (connectedTorso) {
-			return connectedTorso.checkOnGround();
-		}
-
-		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
-	}
 
 	void CheckNeckConnection() {
 

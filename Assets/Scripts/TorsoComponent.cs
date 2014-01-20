@@ -1,12 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TorsoComponent : MonoBehaviour {
+public class TorsoComponent : RobotComponent {
 
 	public Rigidbody2D body;
-	public Collider2D collider;
-
-	public Transform groundCheck;
 
 	public Transform neckJoint;
 	public Transform leftArmJoint;
@@ -28,29 +25,15 @@ public class TorsoComponent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CheckLimbConnections();
+		//CheckLimbConnections();
 	}
 
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-		CheckLimbConnections();
+		//CheckLimbConnections();
 	}
 
-	public bool checkOnGround() {
-
-		if (connectedLeftLeg && connectedLeftLeg.checkOnGround()) {
-			return true;
-		}
-
-		if (connectedRightLeg && connectedRightLeg.checkOnGround()) {
-			return true;
-		}
-
-		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
-
-	}
 
 	public HeadComponent getHead() {
 		return m_head;
@@ -109,7 +92,6 @@ public class TorsoComponent : MonoBehaviour {
 
 	public void Disconnect() {
 		transform.parent = null;
-		collider.enabled = true;
 
 		// Restore rigid body to unattached torso
 		body = gameObject.AddComponent<Rigidbody2D>();
@@ -130,9 +112,6 @@ public class TorsoComponent : MonoBehaviour {
 
 		Destroy(body);
 		body = null;
-
-		// TEMP - disable collider
-		//collider.enabled = false;
 
 		// set position + orientation
 		transform.localEulerAngles = new Vector3(0,0,0);

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LimbComponent : MonoBehaviour {
+public class LimbComponent : RobotComponent {
 
 	public Rigidbody2D body;
-	public Collider2D collider;
 	public Transform joint;
-	public Transform groundCheck;
 
 	// Use this for initialization
 	void Start () {
@@ -18,31 +16,23 @@ public class LimbComponent : MonoBehaviour {
 	
 	}
 
-	public bool checkOnGround() {
-
-		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
-
-	}
-
 	public void Disconnect() {
+		/*
 		transform.parent = null;
-		collider.enabled = true;
 
 		body = gameObject.AddComponent<Rigidbody2D>();
+*/
 	}
 
 	public void Connect(TorsoComponent torso, Transform parentJoint, bool bumpUpForLeg) {
 
+		/*
 		// TODO save body properties
 		body.isKinematic = true;
 		DestroyObject(body);
 
 		Vector3 offset = joint.localPosition; 
 		transform.parent = parentJoint;
-
-		// TEMP - disable collider
-		//collider.enabled = false;
 
 		// set position + orientation
 		transform.localEulerAngles = new Vector3(0,0,0);
@@ -53,6 +43,7 @@ public class LimbComponent : MonoBehaviour {
 			float dist = torso.groundCheck.position.y - groundCheck.position.y;
 			torso.getHead().transform.Translate(0, dist, 0);
 		}
+*/
 
 	}
 }

@@ -1,21 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerBehavior : MonoBehaviour {
 
 	public float moveForce = 1.0f;
 	public float jumpForce = 1.0f;
 
-	private bool jumping = false;
+	public bool onGround = false;
 
 	private Animator anim = null;
 
-	public Transform leftArmJoint;
+	public HeadComponent head;
+
+	public RobotComponent activeArm = null;
 
 	// Use this for initialization
 	void Start () {
-		jumping = false;
 		anim = GetComponentInChildren<Animator>();
+	}
+
+	void Update () {
+		onGround = head.checkOnGround();
 	}
 
 	// Update is called once per frame
@@ -31,25 +37,71 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.AddForce(Vector2.right * moveForce);
 		}
 
-		if (!jumping && Input.GetKey(KeyCode.Space)) {
-			// jump
-			if (leftArmJoint.position.y < 3.0)
-			{
-			rigidbody2D.AddForce(Vector2.up * jumpForce);
-			}
-			//jumping = true;
+		if (Input.GetKeyDown(KeyCode.Q)) {
+			nextAbility();
 		}
 
-		anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
+			// jump
+			rigidbody2D.AddForce(Vector2.up * jumpForce);
+		}
 
-		Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(transform.position);
-		Vector2 playerToPointer;
+		if (activeArm && Input.GetMouseButtonDown(0))
+		{
+			activeArm.FireAbility();
+		}
 
-		playerToPointer.x = Input.mousePosition.x - playerScreenPos.x;
-    	playerToPointer.y = Input.mousePosition.y - playerScreenPos.y;
-		playerToPointer.Normalize();
-		anim.SetFloat("mouseX", playerToPointer.x);
-		anim.SetFloat("mouseY", playerToPointer.y);
+		anim = GetComponentInChildren<Animator>();
+		if (anim) {
+			anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
 
+
+			if (activeArm && activeArm.shouldAim) {
+				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(activeArm.parentAttachmentPoint.transform.position);
+				Vector2 playerToPointer;
+
+				playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
+		    	playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
+				playerToPointer.Normalize();
+
+				string xVar = activeArm.parentAttachmentPoint.aimX;
+				string yVar = activeArm.parentAttachmentPoint.aimY;
+
+				anim.SetFloat(xVar, playerToPointer.x);
+				anim.SetFloat(yVar, playerToPointer.y);
+			}
+		}
+
+	}
+
+	void nextAbility() {
+		List<RobotComponent> armAbilities = head.getArmLimbs();
+
+		anim = GetComponentInChildren<Animator>();
+		int activeIndex = 0;
+		if (activeArm != null)
+		{
+			if (anim && activeArm.shouldAim == true) {
+				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 0);
+			}
+			activeIndex = armAbilities.FindIndex(arm => arm == activeArm);
+			activeIndex += 1;
+			if (armAbilities.Count > 0)
+			{
+				activeIndex %= armAbilities.Count;
+			}
+		}
+
+		if (armAbilities.Count > 0)
+		{
+			activeArm = armAbilities[activeIndex];
+			if (anim) {
+				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 1);
+			}
+		}
+		else
+		{
+			activeArm = null;
+		}
 	}
 }

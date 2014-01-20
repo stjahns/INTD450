@@ -59,6 +59,10 @@ public class AttachmentPoint : MonoBehaviour {
 	public AttachmentPoint parent = null;
 	public AttachmentPoint child = null;
 
+	public int animatorAimLayer;
+	public string aimX;
+	public string aimY;
+
 	public RobotComponent owner;
 	public ParticleSystem emitter;
 
@@ -101,7 +105,7 @@ public class AttachmentPoint : MonoBehaviour {
 		Vector2 tp = new Vector2(wp.x, wp.y);
 		if (collider2D == Physics2D.OverlapPoint(tp))
 		{
-			if (Input.GetMouseButtonUp(0))
+			if (Input.GetKeyDown(KeyCode.F))
 			{
 				mouseClick();
 			}

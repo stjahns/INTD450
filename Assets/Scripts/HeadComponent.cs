@@ -16,9 +16,7 @@ public class HeadComponent : RobotComponent {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-
 		CheckNeckConnection();
-
 	}
 
 

@@ -186,7 +186,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.999871194, y: 2.05098033, z: 0}
+  m_LocalPosition: {x: -.0360168219, y: .897275686, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -341,8 +341,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attached: 0
   parentComponent: {fileID: 0}
+  parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400012}
   groundConnections: []
+  armAbilityJoints:
+  - {fileID: 11400006}
+  - {fileID: 11400004}
+  legAbilityJoints:
+  - {fileID: 11400008}
+  - {fileID: 11400010}
   body: {fileID: 5000000}
   neckJoint: {fileID: 400000}
   leftArmJoint: {fileID: 400006}
@@ -366,6 +373,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  aimX: 
+  aimY: 
   owner: {fileID: 11400000}
   emitter: {fileID: 19800000}
   connectsGround: 0
@@ -382,6 +391,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  aimX: rightArmX
+  aimY: rightArmY
   owner: {fileID: 11400000}
   emitter: {fileID: 19800002}
   connectsGround: 0
@@ -398,6 +409,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  aimX: leftArmX
+  aimY: leftArmY
   owner: {fileID: 11400000}
   emitter: {fileID: 19800004}
   connectsGround: 0
@@ -414,6 +427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  aimX: 
+  aimY: 
   owner: {fileID: 11400000}
   emitter: {fileID: 19800006}
   connectsGround: 1
@@ -430,6 +445,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  aimX: 
+  aimY: 
   owner: {fileID: 11400000}
   emitter: {fileID: 19800008}
   connectsGround: 1

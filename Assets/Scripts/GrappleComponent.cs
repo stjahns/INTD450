@@ -34,10 +34,13 @@ public class GrappleComponent : LimbComponent {
 			// Orient arm in direction of clamp
 			Animator anim = getRootComponent().GetComponentInChildren<Animator>();
 			Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
+			string xVar = parentAttachmentPoint.aimX;
+			string yVar = parentAttachmentPoint.aimY;
+
 			if (anim)
 			{
-				anim.SetFloat("mouseX", direction.x);
-				anim.SetFloat("mouseY", direction.y);
+				anim.SetFloat(xVar, direction.x);
+				anim.SetFloat(yVar, direction.y);
 			}
 
 
@@ -47,15 +50,11 @@ public class GrappleComponent : LimbComponent {
 				getRootComponent().rigidbody2D.AddForce(direction * pullForce);
 			}
 		}
-
-		if (attachedToPlayer() && Input.GetMouseButtonDown(0))
-		{
-			FireAbility();
-		}
 	}
 
-	public void FireAbility() {
+	override public void FireAbility() {
 
+		Debug.Log("GRAPPLE FIRED!");
 		if (!fired)
 		{
 			// For now, just fire in the direction
@@ -66,6 +65,7 @@ public class GrappleComponent : LimbComponent {
 			{
 				clamp.position = hit.point;
 				fired = true;
+				shouldAim = false;
 				clamp.parent = null;
 			}
 		}
@@ -75,6 +75,7 @@ public class GrappleComponent : LimbComponent {
 			clamp.parent = clampOrigin;
 			clamp.localEulerAngles = Vector3.zero;
 			clamp.localPosition = Vector3.zero;
+			shouldAim = true;
 			fired = false;
 		}
 	}

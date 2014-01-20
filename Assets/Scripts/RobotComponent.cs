@@ -7,9 +7,16 @@ public class RobotComponent : MonoBehaviour {
 	public bool attached = false;
 
 	public RobotComponent parentComponent = null;
+	public AttachmentPoint parentAttachmentPoint = null;
+
 	public Transform groundCheck;
 
 	public List<RobotComponent> groundConnections = new List<RobotComponent>();
+
+	public List<AttachmentPoint> armAbilityJoints = new List<AttachmentPoint>();
+	public List<AttachmentPoint> legAbilityJoints = new List<AttachmentPoint>();
+
+	public bool shouldAim = true;
 
 	public void Attach(AttachmentPoint attachedPoint, AttachmentPoint unattachedPoint)
 	{
@@ -29,6 +36,7 @@ public class RobotComponent : MonoBehaviour {
 		unattachedPoint.parent = attachedPoint;
 
 		unattachedPoint.owner.parentComponent = attachedPoint.owner;
+		unattachedPoint.owner.parentAttachmentPoint = attachedPoint;
 
 		if (attachedPoint.connectsGround)
 		{
@@ -49,6 +57,7 @@ public class RobotComponent : MonoBehaviour {
 		parent.child = null;
 		child.parent = null;
 		child.owner.parentComponent = null;
+		child.owner.parentAttachmentPoint= null;
 
 		if (parent.connectsGround)
 		{
@@ -92,6 +101,32 @@ public class RobotComponent : MonoBehaviour {
 
 		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
 		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+	}
+
+	public List<RobotComponent> getArmLimbs()
+	{
+		List<RobotComponent> limbs = new List<RobotComponent>();
+
+		foreach (AttachmentPoint armJoint in armAbilityJoints)
+		{
+			if (armJoint.child && armJoint.child.owner)
+			{
+				limbs.AddRange(armJoint.child.owner.getArmLimbs());
+			}
+		}
+
+		if (armAbilityJoints.Count == 0)
+		{
+			limbs.Add(this);
+		}
+
+		return limbs;
+	}
+
+	virtual public void FireAbility()
+	{
+		Debug.Log("Fire Dummy Ability");
+	
 	}
 
 }

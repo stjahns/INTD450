@@ -15,9 +15,6 @@ public class RobotComponent : MonoBehaviour {
 
 	public List<AttachmentPoint> allJoints = new List<AttachmentPoint>();
 
-	public List<AttachmentPoint> armAbilityJoints = new List<AttachmentPoint>();
-	public List<AttachmentPoint> legAbilityJoints = new List<AttachmentPoint>();
-
 	public bool shouldAim = true;
 
 	private bool resettingPhysics = false;

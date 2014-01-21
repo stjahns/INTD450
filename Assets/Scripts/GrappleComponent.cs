@@ -22,12 +22,19 @@ public class GrappleComponent : LimbComponent {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		// Adjust rope length
 		float length = Vector3.Distance(ropeStart.position, ropeEnd.position);
 		Vector3 scale = ropeStart.localScale;
 		ropeStart.localScale = new Vector3(scale.x, length, scale.z);
+
+		// Adjust rope angle 
+		Vector3 angles = ropeStart.eulerAngles;
+		angles.z = ( Mathf.Atan2(ropeEnd.position.y - ropeStart.position.y,
+				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
+		Debug.Log(angles);
+		ropeStart.eulerAngles = angles;
 
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)

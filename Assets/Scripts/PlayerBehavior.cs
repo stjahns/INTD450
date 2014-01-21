@@ -15,13 +15,55 @@ public class PlayerBehavior : MonoBehaviour {
 
 	public RobotComponent activeArm = null;
 
+	public List<RobotComponent> currentArms;
+	public List<RobotComponent> currentLegs;
+
 	// Use this for initialization
 	void Start () {
 		anim = GetComponentInChildren<Animator>();
+		currentArms = new List<RobotComponent>();
+		currentLegs = new List<RobotComponent>();
+		head.LimbAdded += OnLimbAdded;
+		head.LimbRemoved += OnLimbRemoved;
 	}
 
 	void Update () {
 		onGround = head.checkOnGround();
+	}
+	
+	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
+	{
+		if (type == AttachmentType.Arm)
+		{
+			currentArms.Add(limb);
+			if (activeArm == null)
+			{
+				nextArmAbility();
+			}
+		}
+
+		if (type == AttachmentType.Leg)
+		{
+			currentLegs.Add(limb);
+		}
+	}
+
+	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
+	{
+		if (type == AttachmentType.Arm)
+		{
+			currentArms.Remove(limb);
+			if (limb == activeArm)
+			{
+				activeArm = null;
+				nextArmAbility();
+			}
+		}
+
+		if (type == AttachmentType.Leg)
+		{
+			currentLegs.Remove(limb);
+		}
 	}
 
 	// Update is called once per frame
@@ -38,7 +80,7 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Q)) {
-			nextAbility();
+			nextArmAbility();
 		}
 
 		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
@@ -57,7 +99,8 @@ public class PlayerBehavior : MonoBehaviour {
 
 
 			if (activeArm && activeArm.shouldAim) {
-				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(activeArm.parentAttachmentPoint.transform.position);
+				Vector2 jointOrigin = activeArm.parentAttachmentPoint.transform.position;
+				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
 				Vector2 playerToPointer;
 
 				playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
@@ -74,9 +117,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 	}
 
-	void nextAbility() {
-		List<RobotComponent> armAbilities = head.getArmLimbs();
-
+	void nextArmAbility() {
 		anim = GetComponentInChildren<Animator>();
 		int activeIndex = 0;
 		if (activeArm != null)
@@ -84,17 +125,17 @@ public class PlayerBehavior : MonoBehaviour {
 			if (anim && activeArm.shouldAim == true) {
 				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 0);
 			}
-			activeIndex = armAbilities.FindIndex(arm => arm == activeArm);
+			activeIndex = currentArms.FindIndex(arm => arm == activeArm);
 			activeIndex += 1;
-			if (armAbilities.Count > 0)
+			if (currentArms.Count > 0)
 			{
-				activeIndex %= armAbilities.Count;
+				activeIndex %= currentArms.Count;
 			}
 		}
 
-		if (armAbilities.Count > 0)
+		if (currentArms.Count > 0)
 		{
-			activeArm = armAbilities[activeIndex];
+			activeArm = currentArms[activeIndex];
 			if (anim) {
 				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 1);
 			}

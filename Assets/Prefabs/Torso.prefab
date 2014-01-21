@@ -13,7 +13,7 @@ GameObject:
   - 199: {fileID: 19900000}
   - 198: {fileID: 19800000}
   - 58: {fileID: 5800000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: NeckJoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33,7 +33,7 @@ GameObject:
   - 199: {fileID: 19900008}
   - 198: {fileID: 19800008}
   - 58: {fileID: 5800008}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightLegJoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,7 +53,7 @@ GameObject:
   - 199: {fileID: 19900006}
   - 198: {fileID: 19800006}
   - 58: {fileID: 5800006}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftLegJoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ GameObject:
   - 199: {fileID: 19900004}
   - 198: {fileID: 19800004}
   - 58: {fileID: 5800004}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: LeftArmJoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - 199: {fileID: 19900002}
   - 198: {fileID: 19800002}
   - 58: {fileID: 5800002}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RightArmJoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -175,7 +175,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .195198059, y: .218063116, z: 0}
+  m_LocalPosition: {x: .300000012, y: .300000012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -186,7 +186,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.117001772, y: .730836749, z: 0}
+  m_LocalPosition: {x: -2.57999992, y: 2.69000006, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -203,7 +203,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.247941554, y: .204975128, z: 0}
+  m_LocalPosition: {x: -.300000012, y: .300000012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -344,6 +344,11 @@ MonoBehaviour:
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400012}
   groundConnections: []
+  allJoints:
+  - {fileID: 11400006}
+  - {fileID: 11400008}
+  - {fileID: 11400004}
+  - {fileID: 11400010}
   armAbilityJoints:
   - {fileID: 11400006}
   - {fileID: 11400004}

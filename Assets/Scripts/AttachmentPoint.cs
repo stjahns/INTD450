@@ -54,6 +54,12 @@ public class AttachmentSystem {
 	}
 }
 
+public enum AttachmentType {
+	Default,
+	Arm,
+	Leg
+}
+
 public class AttachmentPoint : MonoBehaviour {
 
 	public AttachmentPoint parent = null;
@@ -67,6 +73,8 @@ public class AttachmentPoint : MonoBehaviour {
 	public ParticleSystem emitter;
 
 	public bool connectsGround = false;
+
+	public AttachmentType attachmentType = AttachmentType.Default;
 
 	bool m_selected;
 	public bool selected
@@ -98,12 +106,14 @@ public class AttachmentPoint : MonoBehaviour {
 		emitter.enableEmission = false;
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void FixedUpdate () {
 
 		Vector3 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector2 tp = new Vector2(wp.x, wp.y);
-		if (collider2D == Physics2D.OverlapPoint(tp))
+
+		int attachments = 1 << LayerMask.NameToLayer("Attachments");
+
+		if (collider2D == Physics2D.OverlapPoint(tp, attachments))
 		{
 			if (Input.GetKeyDown(KeyCode.F))
 			{

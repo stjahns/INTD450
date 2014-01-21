@@ -29,7 +29,8 @@ public class GrappleComponent : LimbComponent {
 		Vector3 scale = ropeStart.localScale;
 		ropeStart.localScale = new Vector3(scale.x, length, scale.z);
 
-		if (fired)
+		// TODO -- properly handle case where grapple is fired but no longer attached to player
+		if (fired && parentAttachmentPoint)
 		{
 			// Orient arm in direction of clamp
 			Animator anim = getRootComponent().GetComponentInChildren<Animator>();
@@ -47,6 +48,7 @@ public class GrappleComponent : LimbComponent {
 			if (length > 0.5)
 			{
 				// 'pull' player to clamp
+				// TODO -- causes exception while player physics is resetting - null check?
 				getRootComponent().rigidbody2D.AddForce(direction * pullForce);
 			}
 		}

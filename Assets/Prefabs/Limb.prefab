@@ -13,7 +13,7 @@ GameObject:
   - 198: {fileID: 19800000}
   - 114: {fileID: 11400002}
   - 58: {fileID: 5800000}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -72,7 +72,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.940009, y: 1.83152342, z: 0}
+  m_LocalPosition: {x: -4.89723539, y: 1.98700154, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -139,8 +139,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attached: 0
   parentComponent: {fileID: 0}
+  parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400004}
   groundConnections: []
+  armAbilityJoints: []
+  legAbilityJoints: []
+  shouldAim: 1
   body: {fileID: 0}
   joint: {fileID: 400000}
 --- !u!114 &11400002
@@ -156,6 +160,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
+  animatorAimLayer: 0
+  aimX: 
+  aimY: 
   owner: {fileID: 11400000}
   emitter: {fileID: 19800000}
   connectsGround: 0

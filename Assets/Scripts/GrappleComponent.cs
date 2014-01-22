@@ -33,7 +33,6 @@ public class GrappleComponent : LimbComponent {
 		Vector3 angles = ropeStart.eulerAngles;
 		angles.z = ( Mathf.Atan2(ropeEnd.position.y - ropeStart.position.y,
 				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
-		Debug.Log(angles);
 		ropeStart.eulerAngles = angles;
 
 		// TODO -- properly handle case where grapple is fired but no longer attached to player

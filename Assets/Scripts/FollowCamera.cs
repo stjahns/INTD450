@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Follow : MonoBehaviour {
+public class FollowCamera : MonoBehaviour {
 	
 	
 	// Set target

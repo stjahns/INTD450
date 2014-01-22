@@ -161,7 +161,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.7379179, y: 1.89564431, z: 0}
+  m_LocalPosition: {x: 5.0218544, y: 2.03268075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -311,6 +311,7 @@ MonoBehaviour:
   owner: {fileID: 11400002}
   emitter: {fileID: 19800000}
   connectsGround: 0
+  attachmentType: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -327,11 +328,8 @@ MonoBehaviour:
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400000}
   groundConnections: []
-  armAbilityJoints: []
-  legAbilityJoints: []
+  allJoints: []
   shouldAim: 1
-  body: {fileID: 0}
-  joint: {fileID: 400002}
   ropeStart: {fileID: 400014}
   ropeEnd: {fileID: 400012}
   ropeQuad: {fileID: 400006}
@@ -1456,7 +1454,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 2
   m_SortingLayerID: 2586796783
   m_Sprite: {fileID: 21300000, guid: adb37d723335846c6b6beddfb442c9a3, type: 3}

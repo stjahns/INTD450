@@ -261,21 +261,6 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110217987
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: RightArmAimLeft
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: aab5a175a531e4b058bb79f62275312b, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 297, y: 267, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
 --- !u!1102 &110219468
 State:
   m_ObjectHideFlags: 3
@@ -288,36 +273,6 @@ State:
   - {fileID: 7400000, guid: 77ffe9a683f104674a96313909709da6, type: 2}
   m_ParentStateMachine: {fileID: 110700000}
   m_Position: {x: -55, y: 298, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110228945
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: RightArmAimDown
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: e615859baa68941caa4c91ac12ded541, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 262, y: 202, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
---- !u!1102 &110256762
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: RightArmAimUp
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 5bb43a2d8d7f6441ea361faad2c1290b, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 227, y: 137, z: 0}
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
@@ -351,21 +306,6 @@ State:
   m_IKOnFeet: 0
   m_Mirror: 0
   m_Tag: 
---- !u!1102 &110297610
-State:
-  m_ObjectHideFlags: 3
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_Name: RightArmAimRight
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Motions:
-  - {fileID: 7400000, guid: 567f6084c5d434ab48f8e4155e7b80df, type: 2}
-  m_ParentStateMachine: {fileID: 110700000}
-  m_Position: {x: 332, y: 332, z: 0}
-  m_IKOnFeet: 0
-  m_Mirror: 0
-  m_Tag: 
 --- !u!1107 &110700000
 StateMachine:
   serializedVersion: 2
@@ -377,10 +317,6 @@ StateMachine:
   m_States:
   - {fileID: 110200000}
   - {fileID: 110290047}
-  - {fileID: 110256762}
-  - {fileID: 110228945}
-  - {fileID: 110217987}
-  - {fileID: 110297610}
   m_ChildStateMachine: []
   m_ChildStateMachinePosition: []
   m_OrderedTransitions:
@@ -396,16 +332,16 @@ StateMachine:
       second:
       - {fileID: 110177423}
     data:
-      first: {fileID: 110256762}
+      first: {fileID: 0}
       second: []
     data:
-      first: {fileID: 110228945}
+      first: {fileID: 0}
       second: []
     data:
-      first: {fileID: 110217987}
+      first: {fileID: 0}
       second: []
     data:
-      first: {fileID: 110297610}
+      first: {fileID: 0}
       second: []
   m_MotionSetCount: 1
   m_AnyStatePosition: {x: 60, y: 0, z: 0}

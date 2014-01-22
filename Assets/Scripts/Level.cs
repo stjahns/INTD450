@@ -31,7 +31,13 @@ public class Level : MonoBehaviour
 
 	void Reset ()
 	{
-		levelStart.Reset();
+		// In the future, may want only reset key objects to not interrupt level 
+		// animations, sounds and music
+		// levelStart.Reset();
+		
+		// For now, simply reload the level
+		Application.LoadLevel(Application.loadedLevel);
 	}
+
 	
 }

@@ -12,6 +12,15 @@ public class LevelStart : MonoBehaviour
 	public event PlayerSpawnedHandler PlayerSpawned;
 
 	//
+	// Draw a green sphere at the spawn position
+	//
+	void OnDrawGizmos()
+	{
+		Gizmos.color = new Color(0, 155, 0);
+		Gizmos.DrawSphere(spawnPoint.position, 0.25f);
+	}
+
+	//
 	// On level start, spawn player
 	//
 	void Start ()

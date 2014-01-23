@@ -16,4 +16,13 @@ public class DeathHazard : MonoBehaviour
 			level.Reset();
 		}
 	}
+
+	void OnCollisionEnter2D(Collision2D other)
+	{
+		if (tag.Length == 0 || other.rigidbody.gameObject.tag == tag)
+		{
+			// TODO -- something fancier...
+			level.Reset();
+		}
+	}
 }

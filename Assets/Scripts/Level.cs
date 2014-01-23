@@ -29,7 +29,7 @@ public class Level : MonoBehaviour
 		}
 	}
 
-	void Reset ()
+	public void Reset ()
 	{
 		// In the future, may want only reset key objects to not interrupt level 
 		// animations, sounds and music

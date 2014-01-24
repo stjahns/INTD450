@@ -3,10 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class ButtonTrigger : MonoBehaviour
+public class ButtonTrigger : TriggerBase
 {
+	[OutputEventConnections]
 	public List<SignalConnection> onPressed = new List<SignalConnection>();
+
+	[OutputEventConnections]
 	public List<SignalConnection> onReleased = new List<SignalConnection>();
+
+	[OutputEventConnections]
 	public List<SignalConnection> onHold = new List<SignalConnection>();
 
 	public string tag;

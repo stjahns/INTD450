@@ -1,12 +1,20 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System;
 
-public class AreaTrigger : MonoBehaviour
+public class AreaTrigger : TriggerBase
 {
+	[OutputEventConnections]
 	public List<SignalConnection> onEnter = new List<SignalConnection>();
+
+	[OutputEventConnections]
 	public List<SignalConnection> onExit = new List<SignalConnection>();
+
+	[OutputEventConnections]
 	public List<SignalConnection> onStay = new List<SignalConnection>();
 
 	public string tag;
@@ -16,8 +24,9 @@ public class AreaTrigger : MonoBehaviour
 	public BoxCollider2D collider;
 	public Color color;
 
-	void OnDrawGizmos()
+	override public void OnDrawGizmos()
 	{
+		base.OnDrawGizmos();
 		Gizmos.color = color;
 		Gizmos.DrawCube(transform.position, new Vector3(collider.size.x, collider.size.y, 1));
 	}

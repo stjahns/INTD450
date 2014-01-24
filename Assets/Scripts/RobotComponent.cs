@@ -49,14 +49,14 @@ public class RobotComponent : MonoBehaviour {
 		//unattachedPoint.owner.transform.localEulerAngles = new Vector3(0,0,0);
 		//unattachedPoint.owner.transform.localPosition= new Vector3(-offset.x, -offset.y);
 
-		// listen to childs' add/removeArm event
+		// listen to childs' add/removelimb event
 		unattachedPoint.owner.LimbAdded += OnLimbAdded;
 		unattachedPoint.owner.LimbRemoved += OnLimbRemoved;
 
-		foreach (RobotComponent arm in unattachedComponent.getAllChildren())
+		foreach (RobotComponent limb in unattachedComponent.getAllChildren())
 		{
-			AttachmentType type = arm.parentAttachmentPoint.attachmentType;
-			OnLimbAdded(arm, type);
+			AttachmentType type = limb.parentAttachmentPoint.attachmentType;
+			OnLimbAdded(limb, type);
 		}
 
 		// HACK - bump up to make room
@@ -66,14 +66,14 @@ public class RobotComponent : MonoBehaviour {
 
 	}
 
-	public void OnLimbAdded(RobotComponent arm, AttachmentType type)
+	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
 	{
-		LimbAdded(arm, type);
+		LimbAdded(limb, type);
 	}
 
-	public void OnLimbRemoved(RobotComponent arm, AttachmentType type)
+	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
 	{
-		LimbRemoved(arm, type);
+		LimbRemoved(limb, type);
 	}
 
 	public void Unattach(AttachmentPoint parent, AttachmentPoint child)
@@ -91,9 +91,9 @@ public class RobotComponent : MonoBehaviour {
 			groundConnections.Remove(child.owner);
 		}
 
-		foreach (RobotComponent arm in child.owner.getAllChildren())
+		foreach (RobotComponent limb in child.owner.getAllChildren())
 		{
-			OnLimbRemoved(arm, attachmentType);
+			OnLimbRemoved(limb, attachmentType);
 		}
 
 		// stop listening to childs' add/removeArm event

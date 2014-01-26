@@ -3,13 +3,16 @@ using SimpleJSON;
 using System.IO;
 
 
-public class Save_Load : MonoBehaviour
+public class Save_Load 
 {
 	public int score = 0;
 	public int level = 0;
 	public string player_name = "";
 	 
-	
+	public Save_Load()
+	{
+		//Empty for Now
+	}
 	
 	public bool create_new()
 	{
@@ -32,8 +35,8 @@ public class Save_Load : MonoBehaviour
 		sw.Close ();
 		
 	}
-	public string file_load(){
-		
+	public JSONNode file_load(){
+
 		string file = Directory.GetCurrentDirectory () + "\\Saved Data\\"+player_name;
 		StreamReader sr = new StreamReader(file);
 		FileInfo myFileInfo = new FileInfo(file);
@@ -42,7 +45,7 @@ public class Save_Load : MonoBehaviour
 		var lines  = sr.ReadLine();
 		sr.Close();
 		var Data =JSONNode.LoadFromBase64(lines);
-		return lines;
+		return Data;
 	}
 
 }

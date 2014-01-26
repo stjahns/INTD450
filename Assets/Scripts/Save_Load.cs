@@ -3,6 +3,7 @@ using SimpleJSON;
 using System.IO;
 
 
+
 public class Save_Load 
 {
 	public int score = 0;
@@ -14,16 +15,14 @@ public class Save_Load
 		//Empty for Now
 	}
 	
-	public bool create_new()
+	public void create_new()
 	{
-		bool flag = false;
 		var data = JSONNode.Parse("{\"Player name\":\""+player_name+"\", \"array\":[1,{\"data\":\"value\"}]}");
 		data ["array"] [1] ["name"] = player_name;
 		data["array"][1]["Score"] = score.ToString();
 		data ["array"] [1] ["Level"] = level.ToString();
 		data = data.SaveToBase64();	
 		file_save (data);
-		return flag;
 	}
 	 void file_save(string data){
 		string file = Directory.GetCurrentDirectory () + "\\Saved Data\\"+player_name;

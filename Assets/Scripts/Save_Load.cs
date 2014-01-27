@@ -14,13 +14,14 @@ public class Save_Load
 	{
 		//Empty for Now
 	}
-	
+
 	public void create_new()
 	{
 		var data = JSONNode.Parse("{\"Player name\":\""+player_name+"\", \"array\":[1,{\"data\":\"value\"}]}");
 		data ["array"] [1] ["name"] = player_name;
-		data["array"][1]["Score"] = score.ToString();
+		data ["array"] [1] ["Score"] = score.ToString();
 		data ["array"] [1] ["Level"] = level.ToString();
+		data ["array"] [1] ["checkpoint"] = "Null";
 		data = data.SaveToBase64();	
 		file_save (data);
 	}
@@ -45,6 +46,14 @@ public class Save_Load
 		sr.Close();
 		var Data =JSONNode.LoadFromBase64(lines);
 		return Data;
+	}
+
+	public void add_checkpoint(Vector3 v)
+	{
+		var data = file_load ();
+		data ["array"] [1] ["checkpoint"] = v.ToString ();
+		data = data.SaveToBase64();
+		file_save (data);	
 	}
 
 }

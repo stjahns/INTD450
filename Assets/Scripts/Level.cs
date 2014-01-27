@@ -25,11 +25,11 @@ public class Level : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			Reset();
+			ResetLevel();
 		}
 	}
 
-	public void Reset ()
+	public void ResetLevel ()
 	{
 		// In the future, may want only reset key objects to not interrupt level 
 		// animations, sounds and music

@@ -41,6 +41,7 @@ public class ConveyorBehavior : MonoBehaviour
 		}
 	}
 
+	[InputSocket]
 	public void StopBelt()
 	{
 		running = false;
@@ -52,6 +53,7 @@ public class ConveyorBehavior : MonoBehaviour
 		oldSpeed = 0;
 	}
 
+	[InputSocket]
 	public void StartBelt()
 	{
 		running = true;

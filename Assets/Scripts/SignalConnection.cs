@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
+using System;
 
+[Serializable]
 public class SignalConnection : MonoBehaviour
 {
 	public GameObject target;

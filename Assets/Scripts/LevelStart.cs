@@ -39,7 +39,7 @@ public class LevelStart : MonoBehaviour
 		string flag="";
 		flag = data ["array"][1]["checkpoint"];
 		if (flag != "Null") 
-		{
+		{	///load.create_new();
 			flag = flag.Replace('(',' ');
 			flag = flag.Replace(')',' ');
 			string[] vecotr = flag.Split(',');

@@ -7,12 +7,14 @@ public class DoorBehaviour : MonoBehaviour
 	public Transform openPosition;
 	public GameObject doorCollider;
 
+	[InputSocket]
 	public void Open()
 	{
 		Debug.Log("OPENING DOOR");
 		doorCollider.transform.position = openPosition.position;
 	}
 
+	[InputSocket]
 	public void Close()
 	{
 		Debug.Log("CLOSING DOOR");

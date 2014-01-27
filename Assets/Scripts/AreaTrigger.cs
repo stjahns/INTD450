@@ -9,12 +9,15 @@ using System;
 public class AreaTrigger : TriggerBase
 {
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onEnter = new List<SignalConnection>();
 
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onExit = new List<SignalConnection>();
 
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onStay = new List<SignalConnection>();
 
 	public string tag;

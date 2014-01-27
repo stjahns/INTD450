@@ -7,11 +7,16 @@ using System.Reflection;
 using System;
 
 [AttributeUsage(AttributeTargets.Field)]
-class OutputEventConnectionsAttribute : Attribute
+public class OutputEventConnectionsAttribute : Attribute
 {
 }
 
-class TargetInfo
+[AttributeUsage(AttributeTargets.Method)]
+public class InputSocketAttribute : Attribute
+{
+}
+
+public class TargetInfo
 {
 	public string info;
 	public Vector3 position;
@@ -21,6 +26,9 @@ public class TriggerBase : MonoBehaviour
 {
 
 	private Dictionary<GameObject, TargetInfo> targetInfos = new Dictionary<GameObject, TargetInfo>();
+
+
+	public bool Test;
 
 	virtual public void OnDrawGizmos()
 	{
@@ -34,7 +42,7 @@ public class TriggerBase : MonoBehaviour
 
 			foreach (SignalConnection conn in socket)
 			{
-				if (conn.target != null)
+				if (conn && conn.target != null)
 				{
 					Gizmos.color = Color.red;
 					Gizmos.DrawLine(transform.position, conn.target.transform.position);
@@ -58,7 +66,7 @@ public class TriggerBase : MonoBehaviour
 			foreach (SignalConnection conn in connections)
 			{
 				TargetInfo target = new TargetInfo();
-				if (conn.target != null)
+				if (conn && conn.target != null)
 				{
 					if (targetInfos.TryGetValue(conn.target, out target))
 					{

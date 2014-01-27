@@ -15835,6 +15835,7 @@ GameObject:
   - 61: {fileID: 789661561}
   - 114: {fileID: 789661560}
   - 61: {fileID: 789661559}
+  - 114: {fileID: 789661565}
   - 114: {fileID: 789661564}
   m_Layer: 0
   m_Name: Button
@@ -15934,6 +15935,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1596482815}
   message: Toggle
+--- !u!114 &789661565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: f91d14ecedee04cf5966ed629fac82a3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1984370193}
+  m_GameObject: {fileID: 789661558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-triggers
 --- !u!1 &798323337
 GameObject:
   m_ObjectHideFlags: 0
@@ -16013,11 +16027,11 @@ Prefab:
       propertyPath: message
       value: Open
       objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: d78f37a69b19d4cc7ad63738cca8dba5, type: 2}
+    - target: {fileID: 0}
       propertyPath: message
       value: Close
       objectReference: {fileID: 0}
-    - target: {fileID: 11400002, guid: d78f37a69b19d4cc7ad63738cca8dba5, type: 2}
+    - target: {fileID: 0}
       propertyPath: target
       value: 
       objectReference: {fileID: 1416793428}
@@ -24747,6 +24761,7 @@ GameObject:
   - 61: {fileID: 1299015848}
   - 114: {fileID: 1299015851}
   - 61: {fileID: 1299015852}
+  - 114: {fileID: 1299015853}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -24831,6 +24846,19 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: .790000021, y: .25}
   m_Center: {x: 0, y: .180000007}
+--- !u!114 &1299015853
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: f91d14ecedee04cf5966ed629fac82a3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1944367446}
+  m_GameObject: {fileID: 1299015847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-triggers
 --- !u!1001 &1299691558
 Prefab:
   m_ObjectHideFlags: 0
@@ -31156,6 +31184,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1596482817}
   - 114: {fileID: 1596482816}
+  - 114: {fileID: 1596482826}
   - 114: {fileID: 1596482821}
   - 114: {fileID: 1596482820}
   - 114: {fileID: 1596482819}
@@ -31310,6 +31339,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1589524692}
   message: FanOn
+--- !u!114 &1596482826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: f83d678a082e94f2083ba18764b57918,
+    type: 2}
+  m_PrefabInternal: {fileID: 485911381}
+  m_GameObject: {fileID: 1596482815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-taking-it-further
 --- !u!1 &1597315663
 GameObject:
   m_ObjectHideFlags: 0
@@ -37438,6 +37480,7 @@ GameObject:
   - 4: {fileID: 1866316197}
   - 61: {fileID: 1866316199}
   - 114: {fileID: 1866316198}
+  - 114: {fileID: 1866316200}
   m_Layer: 0
   m_Name: AreaTrigger
   m_TagString: Untagged
@@ -37488,6 +37531,19 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_Size: {x: 2.41000009, y: 1}
   m_Center: {x: 0, y: 0}
+--- !u!114 &1866316200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: d78f37a69b19d4cc7ad63738cca8dba5,
+    type: 2}
+  m_PrefabInternal: {fileID: 226464221}
+  m_GameObject: {fileID: 1866316196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-triggers
 --- !u!1 &1867212082
 GameObject:
   m_ObjectHideFlags: 0
@@ -39819,6 +39875,7 @@ GameObject:
   - 61: {fileID: 2024504145}
   - 114: {fileID: 2024504144}
   - 61: {fileID: 2024504143}
+  - 114: {fileID: 2024504148}
   - 114: {fileID: 2024504147}
   m_Layer: 0
   m_Name: Button
@@ -39918,6 +39975,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1316422069}
   message: Toggle
+--- !u!114 &2024504148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: f91d14ecedee04cf5966ed629fac82a3,
+    type: 2}
+  m_PrefabInternal: {fileID: 527523122}
+  m_GameObject: {fileID: 2024504141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-triggers
 --- !u!1 &2024795939
 GameObject:
   m_ObjectHideFlags: 0
@@ -40390,6 +40460,7 @@ GameObject:
   - 4: {fileID: 2061016805}
   - 61: {fileID: 2061016807}
   - 114: {fileID: 2061016806}
+  - 114: {fileID: 2061016810}
   - 114: {fileID: 2061016809}
   - 114: {fileID: 2061016808}
   m_Layer: 0
@@ -40470,6 +40541,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1416793428}
   message: Open
+--- !u!114 &2061016810
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400002, guid: d78f37a69b19d4cc7ad63738cca8dba5,
+    type: 2}
+  m_PrefabInternal: {fileID: 799121976}
+  m_GameObject: {fileID: 2061016804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad42ec96626242c3b869e5c669a1458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DocumenationUrl: https://github.com/stjahns/INTD450/wiki/Level-Design#wiki-triggers
 --- !u!1 &2065034961
 GameObject:
   m_ObjectHideFlags: 0

@@ -27,9 +27,6 @@ public class TriggerBase : MonoBehaviour
 
 	private Dictionary<GameObject, TargetInfo> targetInfos = new Dictionary<GameObject, TargetInfo>();
 
-
-	public bool Test;
-
 	virtual public void OnDrawGizmos()
 	{
 		IEnumerable<FieldInfo> outputSockets = this.GetType().GetFields()

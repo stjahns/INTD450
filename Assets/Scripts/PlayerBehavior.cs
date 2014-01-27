@@ -14,6 +14,7 @@ public class PlayerBehavior : MonoBehaviour {
 	public HeadComponent head;
 
 	public RobotComponent activeArm = null;
+	public RobotComponent activeLeg = null;
 
 	public List<RobotComponent> currentArms;
 	public List<RobotComponent> currentLegs;
@@ -45,6 +46,10 @@ public class PlayerBehavior : MonoBehaviour {
 		if (type == AttachmentType.Leg)
 		{
 			currentLegs.Add(limb);
+			if (activeLeg == null)
+			{
+				nextLegAbility();
+			}
 		}
 	}
 
@@ -63,6 +68,11 @@ public class PlayerBehavior : MonoBehaviour {
 		if (type == AttachmentType.Leg)
 		{
 			currentLegs.Remove(limb);
+			if (limb == activeLeg)
+			{
+				activeLeg = null;
+				nextLegAbility();
+			}
 		}
 	}
 
@@ -83,6 +93,10 @@ public class PlayerBehavior : MonoBehaviour {
 			nextArmAbility();
 		}
 
+		if (Input.GetKeyDown(KeyCode.E)) {
+			nextLegAbility();
+		}
+
 		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
 			// jump
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
@@ -91,6 +105,11 @@ public class PlayerBehavior : MonoBehaviour {
 		if (activeArm && Input.GetMouseButtonDown(0))
 		{
 			activeArm.FireAbility();
+		}
+
+		if (activeLeg && Input.GetMouseButtonDown(1))
+		{
+			activeLeg.FireAbility();
 		}
 
 		anim = GetComponentInChildren<Animator>();
@@ -143,6 +162,28 @@ public class PlayerBehavior : MonoBehaviour {
 		else
 		{
 			activeArm = null;
+		}
+	}
+
+	void nextLegAbility() {
+		int activeIndex = 0;
+		if (activeLeg != null)
+		{
+			activeIndex = currentLegs.FindIndex(leg => leg == activeLeg);
+			activeIndex += 1;
+			if (currentLegs.Count > 0)
+			{
+				activeIndex %= currentLegs.Count;
+			}
+		}
+
+		if (currentLegs.Count > 0)
+		{
+			activeLeg = currentLegs[activeIndex];
+		}
+		else
+		{
+			activeLeg = null;
 		}
 	}
 }

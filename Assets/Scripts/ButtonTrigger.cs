@@ -6,12 +6,15 @@ using System.Linq;
 public class ButtonTrigger : TriggerBase
 {
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onPressed = new List<SignalConnection>();
 
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onReleased = new List<SignalConnection>();
 
 	[OutputEventConnections]
+	[HideInInspector]
 	public List<SignalConnection> onHold = new List<SignalConnection>();
 
 	public string tag;

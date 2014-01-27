@@ -14,7 +14,6 @@ public class TriggerEditor : Editor
 		base.OnInspectorGUI();
 		
 		Rect r;
-
 		TriggerBase trigger = target as TriggerBase;
 
 		// for every output socket...
@@ -51,7 +50,6 @@ public class TriggerEditor : Editor
 
 				if (conn && conn.target != null)
 				{
-
 					List<string> messageOptions = new List<string>();
 
 					messageOptions.Add(conn.message);
@@ -74,6 +72,8 @@ public class TriggerEditor : Editor
 				r = EditorGUILayout.BeginHorizontal();
 				if (GUILayout.Button("Delete Connection"))
 				{
+					int undoIndex = Undo.GetCurrentGroup();
+					Undo.RecordObject(trigger.gameObject, "Remove Connection");
 					socket.Remove(conn);
 					var socketProperty = serializedObject.FindProperty(socketField.Name);
 
@@ -82,10 +82,8 @@ public class TriggerEditor : Editor
 					socketProperty.DeleteArrayElementAtIndex(connectionIndex);
 					socketProperty.DeleteArrayElementAtIndex(connectionIndex);
 
-					// TODO how to undo??
-					/// ???
-					DestroyImmediate(conn);
-				
+					Undo.DestroyObjectImmediate(conn);
+					Undo.CollapseUndoOperations(undoIndex);
 				}
 				EditorGUILayout.EndHorizontal();
 
@@ -96,9 +94,9 @@ public class TriggerEditor : Editor
 			r = EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("New Connection"))
 			{
-				var conn = trigger.gameObject.AddComponent<SignalConnection>();
+				var conn = Undo.AddComponent<SignalConnection>(trigger.gameObject);
 				var socketProperty = serializedObject.FindProperty(socketField.Name);
-				//conn.hideFlags = HideFlags.HideInInspector;
+				conn.hideFlags = HideFlags.HideInInspector;
 				socketProperty.InsertArrayElementAtIndex(socketProperty.arraySize);
 				var connProperty = socketProperty.GetArrayElementAtIndex(socketProperty.arraySize - 1);
 				connProperty.objectReferenceValue = conn;
@@ -110,10 +108,6 @@ public class TriggerEditor : Editor
 		EditorGUILayout.EndToggleGroup();
 
 		serializedObject.ApplyModifiedProperties();
-	}
-	
-	void OnSceneGUI () {
-	
 	}
 }
 

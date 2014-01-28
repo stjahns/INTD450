@@ -142,11 +142,8 @@ MonoBehaviour:
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400004}
   groundConnections: []
-  armAbilityJoints: []
-  legAbilityJoints: []
+  allJoints: []
   shouldAim: 1
-  body: {fileID: 0}
-  joint: {fileID: 400000}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -166,6 +163,7 @@ MonoBehaviour:
   owner: {fileID: 11400000}
   emitter: {fileID: 19800000}
   connectsGround: 0
+  attachmentType: 0
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -1259,7 +1257,7 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 1
+  m_SortingLayer: -1
   m_SortingOrder: 2
   m_SortingLayerID: 2586796783
   m_Sprite: {fileID: 21300000, guid: 7b320e6d77fec45aea09a74aed4a06c1, type: 3}

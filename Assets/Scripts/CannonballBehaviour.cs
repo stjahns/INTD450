@@ -49,6 +49,12 @@ public class CannonballBehaviour : MonoBehaviour
 			{
 				affectedBodies.Add(other.attachedRigidbody);
 			}
+
+			var destructable = other.gameObject.GetComponent<DestructableBehaviour>();
+			if (destructable && destructable.enabled)
+			{
+				destructable.Explode();
+			}
 		}
 
 		// apply force on all affected bodies

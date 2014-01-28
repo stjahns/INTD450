@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections;
 
-public class SpringComponent : LimbComponent {
+public class SpringComponent : LimbComponent
+{
 
 	public Animator animator;
 	public Transform springRange;

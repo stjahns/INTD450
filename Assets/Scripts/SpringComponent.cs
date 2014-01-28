@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class SpringComponent : LimbComponent
 {
@@ -19,7 +20,11 @@ public class SpringComponent : LimbComponent
 		{
 			Vector2 force = transform.position - springRange.position;
 			force.Normalize();
-			collider2D.attachedRigidbody.AddForce(force * springForce);
+
+			Collider2D collider = GetComponents<Collider2D>()
+				.First(c => c.attachedRigidbody != null);
+
+			collider.attachedRigidbody.AddForce(force * springForce);
 		}
 	}
 }

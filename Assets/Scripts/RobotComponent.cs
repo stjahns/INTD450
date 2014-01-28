@@ -11,6 +11,9 @@ public class RobotComponent : MonoBehaviour {
 
 	public Transform groundCheck;
 
+	public List<Collider2D> unattachedColliders = new List<Collider2D>();
+	public List<Collider2D> attachedColliders = new List<Collider2D>();
+
 	public List<RobotComponent> groundConnections = new List<RobotComponent>();
 
 	public List<AttachmentPoint> allJoints = new List<AttachmentPoint>();
@@ -22,6 +25,11 @@ public class RobotComponent : MonoBehaviour {
 	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
 	public event LimbChangedHandler LimbAdded;
 	public event LimbChangedHandler LimbRemoved;
+
+	void Awake()
+	{
+		ResetColliders();
+	}
 
 	public void Attach(AttachmentPoint attachedPoint, AttachmentPoint unattachedPoint)
 	{
@@ -44,11 +52,6 @@ public class RobotComponent : MonoBehaviour {
 			groundConnections.Add(unattachedPoint.owner);
 		}
 
-		// set position + orientation
-		//Vector3 offset = unattachedPoint.transform.localPosition;
-		//unattachedPoint.owner.transform.localEulerAngles = new Vector3(0,0,0);
-		//unattachedPoint.owner.transform.localPosition= new Vector3(-offset.x, -offset.y);
-
 		// listen to childs' add/removelimb event
 		unattachedPoint.owner.LimbAdded += OnLimbAdded;
 		unattachedPoint.owner.LimbRemoved += OnLimbRemoved;
@@ -62,6 +65,7 @@ public class RobotComponent : MonoBehaviour {
 		// HACK - bump up to make room
 		getRootComponent().transform.Translate(0, 2.0f, 0);
 
+		unattachedComponent.ResetColliders();
 		getRootComponent().ResetPhysics();
 
 	}
@@ -197,10 +201,17 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void ResetPhysics()
 	{
+		ResetColliders();
 		resettingPhysics = true;
 		if (rigidbody2D)
 		{
 			Destroy(rigidbody2D);
 		}
+	}
+
+	virtual public void ResetColliders()
+	{
+		unattachedColliders.ForEach(c => c.enabled = !attachedToPlayer());
+		attachedColliders.ForEach(c => c.enabled = attachedToPlayer());
 	}
 }

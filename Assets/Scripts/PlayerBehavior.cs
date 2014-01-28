@@ -19,6 +19,8 @@ public class PlayerBehavior : MonoBehaviour {
 	public List<RobotComponent> currentArms;
 	public List<RobotComponent> currentLegs;
 
+	public List<string> jumpableLayers = new List<string>();
+
 	// Use this for initialization
 	void Start () {
 		anim = GetComponentInChildren<Animator>();
@@ -29,7 +31,13 @@ public class PlayerBehavior : MonoBehaviour {
 	}
 
 	void Update () {
-		onGround = head.checkOnGround();
+
+		int layerMask = 0;
+		foreach (string layer in jumpableLayers)
+		{
+			layerMask |= 1 << LayerMask.NameToLayer(layer);
+		}
+		onGround = head.checkOnGround(layerMask);
 	}
 	
 	public void OnLimbAdded(RobotComponent limb, AttachmentType type)

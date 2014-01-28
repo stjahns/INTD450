@@ -129,18 +129,17 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
-	public bool checkOnGround() {
+	public bool checkOnGround(int layerMask) {
 
 		foreach (RobotComponent component in groundConnections)
 		{
-			if (component.checkOnGround())
+			if (component.checkOnGround(layerMask))
 			{
 				return true;
 			}
 		}
 
-		int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-		return Physics2D.Linecast(transform.position, groundCheck.position, groundOnly);
+		return Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
 	}
 
 	public List<RobotComponent> getAllChildren()

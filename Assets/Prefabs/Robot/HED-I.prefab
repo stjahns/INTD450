@@ -173,6 +173,9 @@ MonoBehaviour:
   activeLeg: {fileID: 0}
   currentArms: []
   currentLegs: []
+  jumpableLayers:
+  - Ground
+  - LevelObjects
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -188,6 +191,8 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400002}
+  unattachedColliders: []
+  attachedColliders: []
   groundConnections: []
   allJoints:
   - {fileID: 11400004}

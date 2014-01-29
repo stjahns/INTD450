@@ -19,14 +19,15 @@ public class LevelEnd : MonoBehaviour
 	//
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		int nextlevel = Application.loadedLevel + 1;
 		Save_Load save = new Save_Load ();
 		save.score = 200;
-		save.level = 1;
+		save.level = nextlevel;
 		save.player_name = "player";
 		if (other.gameObject.tag == "Player")
 		{
 			save.create_new();
-			Application.LoadLevel(nextLevel);
+			Application.LoadLevel(nextlevel);
 		}
 	}
 }

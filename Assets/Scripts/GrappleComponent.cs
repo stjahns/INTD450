@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GrappleComponent : LimbComponent {
 
@@ -16,14 +17,10 @@ public class GrappleComponent : LimbComponent {
 	public float maxDistance = 10.0f;
 	public float pullForce = 10.0f;
 
-	// Use this for initialization
-	void Start () {
+	public List<string> grappleableLayers = new List<string>();
 	
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-
+	void FixedUpdate ()
+	{
 		// Adjust rope length
 		float length = Vector3.Distance(ropeStart.position, ropeEnd.position);
 		Vector3 scale = ropeStart.localScale;
@@ -60,14 +57,19 @@ public class GrappleComponent : LimbComponent {
 		}
 	}
 
-	override public void FireAbility() {
+	override public void FireAbility()
+	{
 
-		Debug.Log("GRAPPLE FIRED!");
 		if (!fired)
 		{
-			// For now, just fire in the direction
-			int groundOnly = 1 << LayerMask.NameToLayer("Ground");
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.rotation * Vector3.down, maxDistance, groundOnly);
+			int mask = 0;
+
+			foreach (string layer in grappleableLayers)
+			{
+				mask |= 1 << LayerMask.NameToLayer(layer);
+			}
+
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.rotation * Vector3.down, maxDistance, mask);
 
 			if (hit)
 			{

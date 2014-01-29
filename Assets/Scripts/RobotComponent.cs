@@ -18,6 +18,8 @@ public class RobotComponent : MonoBehaviour {
 
 	public List<AttachmentPoint> allJoints = new List<AttachmentPoint>();
 
+	public AudioSource limbTrack;
+
 	public bool shouldAim = true;
 
 	private bool resettingPhysics = false;
@@ -62,6 +64,12 @@ public class RobotComponent : MonoBehaviour {
 		foreach (RobotComponent limb in unattachedComponent.getAllChildren())
 		{
 			AttachmentType type = limb.parentAttachmentPoint.attachmentType;
+
+			if (limb.limbTrack)
+			{
+				limb.limbTrack.mute = false;
+			}
+
 			OnLimbAdded(limb, type);
 		}
 
@@ -101,6 +109,11 @@ public class RobotComponent : MonoBehaviour {
 		foreach (RobotComponent limb in child.owner.getAllChildren())
 		{
 			OnLimbRemoved(limb, attachmentType);
+
+			if (limb.limbTrack)
+			{
+				limb.limbTrack.mute = true;
+			}
 		}
 
 		// stop listening to childs' add/removeArm event
@@ -162,10 +175,7 @@ public class RobotComponent : MonoBehaviour {
 			}
 		}
 
-		if (allJoints.Count == 0)
-		{
-			limbs.Add(this);
-		}
+		limbs.Add(this);
 
 		return limbs;
 	}

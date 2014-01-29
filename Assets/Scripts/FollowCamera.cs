@@ -6,9 +6,10 @@ public class FollowCamera : MonoBehaviour {
 	
 	// Set target
 	public Transform target;
-	private int zoom = 20;
-	private int normal = 60;
-	private float smooth =5;
+	public int zoom = 20;
+	public int zoom_size=5;
+	public int normal = 60;
+	public float smooth =5;
 	private bool isZoomed = false;
 	
 	void  Update (){
@@ -19,19 +20,28 @@ public class FollowCamera : MonoBehaviour {
 			target.position.y, 
 			transform.position.z 
 				);
-		if (Input.GetAxis ("Mouse ScrollWheel") < 0) {
-			isZoomed = !isZoomed; 
-		} else {
-			if (Input.GetAxis ("Mouse ScrollWheel") > 0) {
-				isZoomed = isZoomed; 
+
+		if (Input.GetKeyDown(KeyCode.M)) {
+			Debug.Log("True");
+
+			zoom+=zoom_size;
+
+
+		} 
+		if (Input.GetKeyDown(KeyCode.N)) {
+				Debug.Log("False");
+
+			zoom-=zoom_size;
+
 			}
-		}
-		
+
+		camera.orthographicSize= Mathf.Lerp(camera.orthographicSize,zoom,Time.deltaTime*smooth);
 		if(isZoomed == true){
-			camera.fieldOfView = Mathf.Lerp(camera.fieldOfView,zoom,Time.deltaTime*smooth);
+
+
 		}
 		else{
-			camera.fieldOfView = Mathf.Lerp(camera.fieldOfView,normal,Time.deltaTime*smooth);
+
 		}
 
 	} 

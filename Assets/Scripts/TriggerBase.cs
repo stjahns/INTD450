@@ -1,4 +1,4 @@
-﻿using UnityEditor;
+﻿//using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using System.Linq;
@@ -81,11 +81,13 @@ public class TriggerBase : MonoBehaviour
 			}
 		}
 
+		/*
 		foreach (TargetInfo target in targetInfos.Values)
 		{
 			Handles.color = Color.white;
 			Handles.Label(target.position, target.info);
 		}
+		*/
 
 	}
 

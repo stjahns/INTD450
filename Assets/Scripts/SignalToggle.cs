@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -31,10 +31,12 @@ public class SignalToggle : TriggerBase {
 		Gizmos.DrawCube(transform.position, new Vector3(3, 1, 1));
 		Gizmos.DrawCube(transform.position, new Vector3(3, 1, 1));
 
+		/*
 		Handles.color = Color.white;
 		Vector3 position = transform.position;
 		position.y += 0.5f;
 		Handles.Label(position, "TOGGLE");
+		*/
 	}
 
 	[InputSocket]

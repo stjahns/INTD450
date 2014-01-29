@@ -8,6 +8,11 @@ public class FanBehaviour : MonoBehaviour
 	public DeathHazard fanHazard;
 	public Animator fanAnimator;
 
+	void Start()
+	{
+		fanAnimator.SetBool("Running", fanOn);
+	}
+
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if (fanOn)

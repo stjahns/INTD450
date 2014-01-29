@@ -13,7 +13,6 @@ public class TriggerEditor : Editor
 	{
 		base.OnInspectorGUI();
 		
-		Rect r;
 		TriggerBase trigger = target as TriggerBase;
 
 		// for every output socket...
@@ -23,6 +22,7 @@ public class TriggerEditor : Editor
 		EditorGUILayout.BeginToggleGroup("Output Connections", true);
 		foreach (FieldInfo socketField in outputSockets)
 		{
+
 			EditorGUILayout.Separator();
 			EditorGUILayout.BeginToggleGroup(socketField.Name, true);
 
@@ -69,7 +69,7 @@ public class TriggerEditor : Editor
 					conn.message = messageOptions[message];
 				}
 
-				r = EditorGUILayout.BeginHorizontal();
+				EditorGUILayout.BeginHorizontal();
 				if (GUILayout.Button("Delete Connection"))
 				{
 					int undoIndex = Undo.GetCurrentGroup();
@@ -91,7 +91,7 @@ public class TriggerEditor : Editor
 				connectionIndex++;
 			}
 
-			r = EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.BeginHorizontal();
 			if (GUILayout.Button("New Connection"))
 			{
 				var conn = Undo.AddComponent<SignalConnection>(trigger.gameObject);

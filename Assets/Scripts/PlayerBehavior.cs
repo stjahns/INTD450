@@ -19,6 +19,8 @@ public class PlayerBehavior : MonoBehaviour {
 	public List<RobotComponent> currentArms;
 	public List<RobotComponent> currentLegs;
 
+	public List<RobotComponent> allComponents = new List<RobotComponent>();
+
 	public List<string> jumpableLayers = new List<string>();
 
 	// Use this for initialization
@@ -28,6 +30,21 @@ public class PlayerBehavior : MonoBehaviour {
 		currentLegs = new List<RobotComponent>();
 		head.LimbAdded += OnLimbAdded;
 		head.LimbRemoved += OnLimbRemoved;
+
+		// If we are just a head, roll around
+		rigidbody2D.fixedAngle = allComponents.Count != 0;
+
+		head.PhysicsReset += c => {
+			// If physics is reset, head should roll if there's no attatched components
+			if (c == head && allComponents.Count == 0)
+			{
+				rigidbody2D.fixedAngle = false;
+			}
+			else
+			{
+				rigidbody2D.fixedAngle = true;
+			}
+		};
 	}
 
 	void Update () {
@@ -59,6 +76,10 @@ public class PlayerBehavior : MonoBehaviour {
 				nextLegAbility();
 			}
 		}
+
+		allComponents.Add(limb);
+
+		transform.eulerAngles = Vector3.zero;
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
@@ -81,6 +102,12 @@ public class PlayerBehavior : MonoBehaviour {
 				activeLeg = null;
 				nextLegAbility();
 			}
+		}
+
+		allComponents.Remove(limb);
+		if (allComponents.Count == 0)
+		{
+			rigidbody2D.fixedAngle = false;
 		}
 	}
 

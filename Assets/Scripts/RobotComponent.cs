@@ -26,6 +26,9 @@ public class RobotComponent : MonoBehaviour {
 	public event LimbChangedHandler LimbAdded;
 	public event LimbChangedHandler LimbRemoved;
 
+	public delegate void PhysicsResetHandler(RobotComponent component);
+	public event PhysicsResetHandler PhysicsReset;
+
 	void Awake()
 	{
 		ResetColliders();
@@ -139,7 +142,12 @@ public class RobotComponent : MonoBehaviour {
 			}
 		}
 
-		return Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
+		
+		float checkDistance = (transform.position - groundCheck.position).magnitude;
+		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
+
+		//return Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
+		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
 	}
 
 	public List<RobotComponent> getAllChildren()
@@ -177,9 +185,16 @@ public class RobotComponent : MonoBehaviour {
 
 			resettingPhysics = false;
 			var body = gameObject.AddComponent<Rigidbody2D>();
+
 			body.fixedAngle = attachedToPlayer();
 
 			// TODO restore any other properties..?
+
+			if (PhysicsReset != null)
+			{
+				// Let things know (eg PlayerBehaviour) that rigid body was just reinitialized
+				PhysicsReset(this);
+			}
 		}
 	}
 

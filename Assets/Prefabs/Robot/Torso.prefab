@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0924924612, y: 2.30686498, z: 0}
+  m_LocalPosition: {x: -3.08108425, y: 2.61706424, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -242,7 +242,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -253,7 +253,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -264,7 +264,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -275,7 +275,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -286,7 +286,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -351,7 +351,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 1
   Priority: 128
   DopplerLevel: 1
@@ -459,6 +459,7 @@ MonoBehaviour:
   emitter: {fileID: 19800000}
   connectsGround: 0
   attachmentType: 0
+  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -479,6 +480,7 @@ MonoBehaviour:
   emitter: {fileID: 19800002}
   connectsGround: 0
   attachmentType: 1
+  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -499,6 +501,7 @@ MonoBehaviour:
   emitter: {fileID: 19800004}
   connectsGround: 0
   attachmentType: 1
+  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -519,6 +522,7 @@ MonoBehaviour:
   emitter: {fileID: 19800006}
   connectsGround: 1
   attachmentType: 2
+  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -539,6 +543,7 @@ MonoBehaviour:
   emitter: {fileID: 19800008}
   connectsGround: 1
   attachmentType: 2
+  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

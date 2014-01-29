@@ -99,21 +99,35 @@ public class AttachmentPoint : MonoBehaviour {
 
 	private bool mouseOver;
 
+	public GameObject triggerPrefab;
+	private GameObject trigger;
+
 	// Use this for initialization
 	void Start () {
 		selected = false;
 		mouseOver = false;
 		emitter.enableEmission = false;
+
+		// Create a new, unparented GameObject for the trigger so it doesn't affect 
+		// center of mass
+
+		//trigger = Instantiate(triggerPrefab, transform.position, Quaternion.identity)
+		trigger = Instantiate(triggerPrefab, transform.position, Quaternion.identity)
+			as GameObject;
+		trigger.transform.parent = null;
 	}
 	
 	void FixedUpdate () {
+
+		// move collider
+		trigger.transform.position = transform.position;
 
 		Vector3 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		Vector2 tp = new Vector2(wp.x, wp.y);
 
 		int attachments = 1 << LayerMask.NameToLayer("Attachments");
 
-		if (collider2D == Physics2D.OverlapPoint(tp, attachments))
+		if (trigger.collider2D == Physics2D.OverlapPoint(tp, attachments))
 		{
 			if (Input.GetKeyDown(KeyCode.F))
 			{

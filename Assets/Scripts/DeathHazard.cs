@@ -13,7 +13,8 @@ public class DeathHazard : MonoBehaviour
 		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
 		{
 			// TODO -- something fancier...
-			level.ResetLevel();
+			//level.ResetLevel();
+			Application.LoadLevel(Application.loadedLevel);
 		}
 	}
 
@@ -22,7 +23,8 @@ public class DeathHazard : MonoBehaviour
 		if (tag.Length == 0 || other.rigidbody.gameObject.tag == tag)
 		{
 			// TODO -- something fancier...
-			level.ResetLevel();
+			//level.ResetLevel();
+			Application.LoadLevel(Application.loadedLevel);
 		}
 	}
 }

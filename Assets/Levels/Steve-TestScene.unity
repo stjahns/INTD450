@@ -13670,7 +13670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b36dc3b74394ecc896c93c092c89ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanForce: 5
+  fanForce: 10
   fanOn: 1
   fanHazard: {fileID: 614183484}
   fanAnimator: {fileID: 516116265}
@@ -14969,8 +14969,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c22728e4a08f4650aec19d3dd4479ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: Player
-  level: {fileID: 866964288}
+  vulnerableTags: []
 --- !u!61 &614183485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -22606,6 +22605,9 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 880791513}
   shouldAim: 1
+  explosionPrefab: {fileID: 0}
+  explosionTime: .100000001
+  partSprite: {fileID: 0}
   ropeStart: {fileID: 436935344}
   ropeEnd: {fileID: 602282370}
   ropeQuad: {fileID: 1957344616}
@@ -23121,8 +23123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c22728e4a08f4650aec19d3dd4479ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: Player
-  level: {fileID: 866964288}
+  vulnerableTags: []
 --- !u!61 &901473011
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -25073,7 +25074,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33b36dc3b74394ecc896c93c092c89ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fanForce: 5
+  fanForce: 10
   fanOn: 1
   fanHazard: {fileID: 2107136856}
   fanAnimator: {fileID: 1013808238}
@@ -29026,6 +29027,9 @@ MonoBehaviour:
   - {fileID: 73732177}
   limbTrack: {fileID: 1154506682}
   shouldAim: 1
+  explosionPrefab: {fileID: 0}
+  explosionTime: .100000001
+  partSprite: {fileID: 0}
 --- !u!4 &1154506675
 Transform:
   m_ObjectHideFlags: 0
@@ -29586,6 +29590,10 @@ Prefab:
     - target: {fileID: 6100002, guid: 35114b1510b95497283c131d73fb6b3d, type: 2}
       propertyPath: m_Center.y
       value: -7.48607363e-07
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 35114b1510b95497283c131d73fb6b3d, type: 2}
+      propertyPath: fanForce
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35114b1510b95497283c131d73fb6b3d, type: 2}
@@ -31302,8 +31310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c22728e4a08f4650aec19d3dd4479ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: Player
-  level: {fileID: 866964288}
+  vulnerableTags: []
 --- !u!61 &1291682811
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -39206,6 +39213,9 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 1626904596}
   shouldAim: 1
+  explosionPrefab: {fileID: 0}
+  explosionTime: .100000001
+  partSprite: {fileID: 0}
   animator: {fileID: 1626904600}
   springRange: {fileID: 195009436}
   springForce: 750
@@ -41785,6 +41795,9 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 1696211259}
   shouldAim: 1
+  explosionPrefab: {fileID: 0}
+  explosionTime: .100000001
+  partSprite: {fileID: 0}
   animator: {fileID: 1696211255}
   springRange: {fileID: 1806690154}
   springForce: 750
@@ -47135,6 +47148,10 @@ Prefab:
       propertyPath: m_Center.y
       value: -7.48607022e-07
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: 35114b1510b95497283c131d73fb6b3d, type: 2}
+      propertyPath: fanForce
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 35114b1510b95497283c131d73fb6b3d, type: 2}
   m_RootGameObject: {fileID: 516116260}
@@ -48159,6 +48176,9 @@ MonoBehaviour:
   - {fileID: 1856529114}
   limbTrack: {fileID: 1965730690}
   shouldAim: 1
+  explosionPrefab: {fileID: 0}
+  explosionTime: .100000001
+  partSprite: {fileID: 0}
 --- !u!60 &1965730684
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -50678,8 +50698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c22728e4a08f4650aec19d3dd4479ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tag: Player
-  level: {fileID: 866964288}
+  vulnerableTags: []
 --- !u!61 &2107136857
 BoxCollider2D:
   m_ObjectHideFlags: 0

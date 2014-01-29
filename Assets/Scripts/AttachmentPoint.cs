@@ -110,8 +110,6 @@ public class AttachmentPoint : MonoBehaviour {
 
 		// Create a new, unparented GameObject for the trigger so it doesn't affect 
 		// center of mass
-
-		//trigger = Instantiate(triggerPrefab, transform.position, Quaternion.identity)
 		trigger = Instantiate(triggerPrefab, transform.position, Quaternion.identity)
 			as GameObject;
 		trigger.transform.parent = null;

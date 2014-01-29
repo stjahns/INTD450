@@ -5,26 +5,33 @@ using System.Linq;
 
 public class DeathHazard : MonoBehaviour
 {
-	public string tag;
-	public Level level;
+	public List<string> vulnerableTags;
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
+		if (vulnerableTags.Count == 0 || 
+				vulnerableTags.Contains(other.attachedRigidbody.gameObject.tag))
 		{
-			// TODO -- something fancier...
-			//level.ResetLevel();
-			Application.LoadLevel(Application.loadedLevel);
+			GameObject obj = other.attachedRigidbody.gameObject;
+			PlayerBehavior player = obj.GetComponent<PlayerBehavior>();
+			if (player)
+			{
+				player.Die();
+			}
 		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (tag.Length == 0 || other.rigidbody.gameObject.tag == tag)
+		if (vulnerableTags.Count == 0 || 
+				vulnerableTags.Contains(other.rigidbody.gameObject.tag))
 		{
-			// TODO -- something fancier...
-			//level.ResetLevel();
-			Application.LoadLevel(Application.loadedLevel);
+			GameObject obj = other.rigidbody.gameObject;
+			PlayerBehavior player = obj.GetComponent<PlayerBehavior>();
+			if (player)
+			{
+				player.Die();
+			}
 		}
 	}
 }

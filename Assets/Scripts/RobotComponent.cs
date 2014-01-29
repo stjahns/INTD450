@@ -31,6 +31,11 @@ public class RobotComponent : MonoBehaviour {
 	public delegate void PhysicsResetHandler(RobotComponent component);
 	public event PhysicsResetHandler PhysicsReset;
 
+	public GameObject explosionPrefab;
+	public float explosionTime = 0.1f;
+
+	public SpriteRenderer partSprite;
+
 	void Awake()
 	{
 		ResetColliders();
@@ -180,6 +185,21 @@ public class RobotComponent : MonoBehaviour {
 		return limbs;
 	}
 
+	public List<RobotComponent> getDirectChildren()
+	{
+		List<RobotComponent> limbs = new List<RobotComponent>();
+
+		foreach (AttachmentPoint armJoint in allJoints)
+		{
+			if (armJoint.child && armJoint.child.owner)
+			{
+				limbs.Add(armJoint.child.owner);
+			}
+		}
+
+		return limbs;
+	}
+
 	virtual public void FireAbility()
 	{
 		Debug.Log("Fire Dummy Ability");
@@ -237,5 +257,30 @@ public class RobotComponent : MonoBehaviour {
 	{
 		unattachedColliders.ForEach(c => c.enabled = !attachedToPlayer());
 		attachedColliders.ForEach(c => c.enabled = attachedToPlayer());
+	}
+
+	public void DestroyRobotComponent()
+	{
+
+		// Spawn explosion prefab
+		if (explosionPrefab)
+		{
+			// TODO let the explosion destroy itself...
+			var explosion = Instantiate(explosionPrefab, 
+					transform.position, 
+					Quaternion.identity) as GameObject;
+			Destroy(explosion, explosionTime);
+		}
+
+		if (partSprite)
+		{
+			partSprite.enabled = false;
+		}
+
+		// Destroy children
+		foreach (var child in getDirectChildren())
+		{
+			child.DestroyRobotComponent();
+		}
 	}
 }

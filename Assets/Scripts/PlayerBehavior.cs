@@ -23,6 +23,11 @@ public class PlayerBehavior : MonoBehaviour {
 
 	public List<string> jumpableLayers = new List<string>();
 
+	public AudioSource soundSource;
+	public AudioClip deathSound;
+
+	private bool dying = false;
+
 	// Use this for initialization
 	void Start () {
 		anim = GetComponentInChildren<Animator>();
@@ -55,6 +60,34 @@ public class PlayerBehavior : MonoBehaviour {
 			layerMask |= 1 << LayerMask.NameToLayer(layer);
 		}
 		onGround = head.checkOnGround(layerMask);
+	}
+	
+	public void Die()
+	{
+		if (!dying)
+		{
+			StartCoroutine(OnDeath());
+			dying = true;
+		}
+	}
+
+	// Restart level after a delay
+	public IEnumerator OnDeath()
+	{
+		// Play audio clip for death
+		if (soundSource && deathSound)
+		{
+			soundSource.PlayOneShot(deathSound);
+		}
+
+		// stop the body from moving ...
+		rigidbody2D.isKinematic = true;
+
+		head.DestroyRobotComponent();
+
+		yield return new WaitForSeconds(1.0f);
+
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	
 	public void OnLimbAdded(RobotComponent limb, AttachmentType type)

@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.08108425, y: 2.61706424, z: 0}
+  m_LocalPosition: {x: .136244759, y: 3.05460167, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -426,11 +426,8 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400012}
-  unattachedColliders:
-  - {fileID: 6000000}
-  attachedColliders:
-  - {fileID: 5800010}
-  - {fileID: 6100000}
+  unattachedColliders: []
+  attachedColliders: []
   groundConnections: []
   allJoints:
   - {fileID: 11400006}
@@ -439,6 +436,10 @@ MonoBehaviour:
   - {fileID: 11400010}
   limbTrack: {fileID: 8200000}
   shouldAim: 1
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
+  explosionTime: .100000001
+  sprites:
+  - {fileID: 21200000}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

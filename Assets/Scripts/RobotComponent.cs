@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class RobotComponent : MonoBehaviour {
 
@@ -34,7 +35,7 @@ public class RobotComponent : MonoBehaviour {
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
 
-	public SpriteRenderer partSprite;
+	public List<SpriteRenderer> sprites;
 
 	void Awake()
 	{
@@ -272,10 +273,8 @@ public class RobotComponent : MonoBehaviour {
 			Destroy(explosion, explosionTime);
 		}
 
-		if (partSprite)
-		{
-			partSprite.enabled = false;
-		}
+		// hide all sprites for the component
+		sprites.ForEach(s => s.enabled = false);
 
 		// Destroy children
 		foreach (var child in getDirectChildren())

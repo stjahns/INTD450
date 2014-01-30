@@ -31,6 +31,7 @@ public class AreaTrigger : TriggerBase
 	{
 		base.OnDrawGizmos();
 		Gizmos.color = color;
+		//Gizmos.DrawCube(transform.position + collider.center, new Vector3(collider.size.x, collider.size.y, 1));
 		Gizmos.DrawCube(transform.position, new Vector3(collider.size.x, collider.size.y, 1));
 	}
 

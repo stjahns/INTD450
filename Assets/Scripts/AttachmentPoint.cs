@@ -112,6 +112,12 @@ public class AttachmentPoint : MonoBehaviour {
 		// center of mass
 		trigger = Instantiate(triggerPrefab, transform.position, Quaternion.identity)
 			as GameObject;
+
+		if (trigger == null)
+		{
+			Debug.LogError("Trigger prefab not set on attachment point.", this);
+		}
+
 		trigger.transform.parent = null;
 	}
 	

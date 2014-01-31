@@ -32,6 +32,8 @@ GameObject:
   - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 58: {fileID: 5800004}
+  - 58: {fileID: 5800002}
   m_Layer: 10
   m_Name: Limb
   m_TagString: Untagged
@@ -72,7 +74,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.89723539, y: 1.98700154, z: 0}
+  m_LocalPosition: {x: -2.12539101, y: -2.72200108, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -115,6 +117,28 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_Radius: .159999996
   m_Center: {x: 0, y: 0}
+--- !u!58 &5800002
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Radius: .159999996
+  m_Center: {x: 0, y: .180000007}
+--- !u!58 &5800004
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100002}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Radius: .159999996
+  m_Center: {x: 0, y: -.129999995}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -124,7 +148,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .319999993, y: .639999986}
+  m_Size: {x: .319999993, y: .270000011}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -146,10 +170,11 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   limbTrack: {fileID: 0}
+  SFXSource: {fileID: 0}
   shouldAim: 1
   explosionPrefab: {fileID: 0}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites: []
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

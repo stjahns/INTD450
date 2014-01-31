@@ -10,7 +10,14 @@ public class FanBehaviour : MonoBehaviour
 
 	void Start()
 	{
-		fanAnimator.SetBool("Running", fanOn);
+		if (fanOn)
+		{
+			FanOn();
+		}
+		else
+		{
+			FanOff();
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D other)
@@ -32,6 +39,7 @@ public class FanBehaviour : MonoBehaviour
 		}
 
 		fanAnimator.SetBool("Running", true);
+		audio.Play();
 
 	}
 
@@ -46,5 +54,6 @@ public class FanBehaviour : MonoBehaviour
 		}
 
 		fanAnimator.SetBool("Running", false);
+		audio.Stop();
 	}
 }

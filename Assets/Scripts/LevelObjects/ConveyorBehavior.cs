@@ -51,6 +51,8 @@ public class ConveyorBehavior : MonoBehaviour
 			m.motor = motor;
 		});
 		oldSpeed = 0;
+
+		audio.Stop();
 	}
 
 	[InputSocket]
@@ -63,5 +65,7 @@ public class ConveyorBehavior : MonoBehaviour
 			motor.motorSpeed = ConveyorSpeed;
 			m.motor = motor;
 		});
+
+		audio.Play();
 	}
 }

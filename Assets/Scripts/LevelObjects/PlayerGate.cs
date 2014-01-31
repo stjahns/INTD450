@@ -16,7 +16,6 @@ public class PlayerGate : MonoBehaviour
 	{
 		if (AllowAttachedLimbs || !PlayerBehavior.Player.HasLimbs)
 		{
-			Debug.Log("Gate Disabled");
 			collider2D.enabled = false;
 		}
 	}
@@ -24,7 +23,6 @@ public class PlayerGate : MonoBehaviour
 	[InputSocket]
 	public void Close()
 	{
-		Debug.Log("Gate Enabled");
 		collider2D.enabled = true;
 	}
 

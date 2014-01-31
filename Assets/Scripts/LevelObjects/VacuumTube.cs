@@ -10,8 +10,6 @@ public class VacuumTube : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		Debug.Log("TUBE ENTERED");
-		Debug.Log(other);
 		if (content == null && !other.isTrigger)
 		{
 			content = other.attachedRigidbody;
@@ -27,13 +25,22 @@ public class VacuumTube : MonoBehaviour
 			{
 				direction = -tubeDirection;
 			}
+
+			if (audio)
+			{
+				audio.Play();
+			}
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		Debug.Log("TUBE EXITED");
 		content = null;
+
+		if (audio)
+		{
+			audio.Stop();
+		}
 	}
 
 	void FixedUpdate ()

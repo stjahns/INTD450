@@ -18,6 +18,9 @@ public class GrappleComponent : LimbComponent {
 	public float pullForce = 10.0f;
 
 	public List<string> grappleableLayers = new List<string>();
+
+	public AudioClip fireClip;
+	public AudioClip releaseClip;
 	
 	void FixedUpdate ()
 	{
@@ -77,6 +80,8 @@ public class GrappleComponent : LimbComponent {
 				fired = true;
 				shouldAim = false;
 				clamp.parent = null;
+
+				SFXSource.PlayOneShot(fireClip);
 			}
 		}
 		else
@@ -87,6 +92,8 @@ public class GrappleComponent : LimbComponent {
 			clamp.localPosition = Vector3.zero;
 			shouldAim = true;
 			fired = false;
+
+			SFXSource.PlayOneShot(releaseClip);
 		}
 	}
 }

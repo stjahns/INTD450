@@ -21,6 +21,8 @@ public class RobotComponent : MonoBehaviour {
 
 	public AudioSource limbTrack;
 
+	public AudioSource SFXSource;
+
 	public bool shouldAim = true;
 
 	private bool resettingPhysics = false;

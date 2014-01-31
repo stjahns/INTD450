@@ -9,6 +9,8 @@ public class SpringComponent : LimbComponent
 	public Transform springRange;
 	public float springForce;
 
+	public AudioClip fireClip;
+
 	override public void FireAbility()
 	{
 		// BOING
@@ -26,5 +28,7 @@ public class SpringComponent : LimbComponent
 
 			collider.attachedRigidbody.AddForce(force * springForce);
 		}
+
+		SFXSource.PlayOneShot(fireClip);
 	}
 }

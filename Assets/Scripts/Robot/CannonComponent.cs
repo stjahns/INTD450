@@ -11,10 +11,12 @@ public class CannonComponent : LimbComponent
 
 	public Transform shotOrigin;
 
+	public AudioClip fireClip;
+
 	override public void FireAbility()
 	{
-		// BOING
 		animator.SetTrigger("Fire");
+		SFXSource.PlayOneShot(fireClip);
 
 		// fire cannonball
 		GameObject cannonBall = Instantiate(cannonballPrefab, shotOrigin.position, Quaternion.identity) as GameObject;

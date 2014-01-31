@@ -450,8 +450,11 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 1316326229}
-  unattachedColliders: []
-  attachedColliders: []
+  unattachedColliders:
+  - {fileID: 43041103}
+  attachedColliders:
+  - {fileID: 43041102}
+  - {fileID: 43041101}
   groundConnections: []
   allJoints:
   - {fileID: 1344552662}
@@ -3949,7 +3952,7 @@ MonoBehaviour:
   objectPrefab: {fileID: 100004, guid: 968a52493ed6d47ea94b160c0669fa54, type: 2}
   spawnPoint: {fileID: 224577957}
   spawnedObjects: []
-  spawnLimit: 2
+  spawnLimit: 1
   cooloffTime: 1
   destroyExistingOnRespawn: 0
 --- !u!1001 &243435261
@@ -6781,6 +6784,7 @@ GameObject:
   - 4: {fileID: 460708688}
   - 212: {fileID: 460708687}
   - 58: {fileID: 460708686}
+  - 58: {fileID: 460708689}
   m_Layer: 11
   m_Name: Anchor
   m_TagString: Untagged
@@ -6835,6 +6839,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!58 &460708689
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5800002, guid: c367273855bf64869a161d15b931b1ac,
+    type: 2}
+  m_PrefabInternal: {fileID: 764980586}
+  m_GameObject: {fileID: 460708685}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: 1
+  m_Center: {x: 0, y: 0}
 --- !u!1001 &468308316
 Prefab:
   m_ObjectHideFlags: 0
@@ -9650,7 +9666,7 @@ MonoBehaviour:
   - {fileID: 796793784}
   animator: {fileID: 643668212}
   springRange: {fileID: 1980290224}
-  springForce: 400
+  springForce: 700
   fireClip: {fileID: 8300000, guid: 03b4736ad8787b847a1089de2a8325c1, type: 3}
 --- !u!4 &643668211
 Transform:
@@ -15293,6 +15309,7 @@ GameObject:
   - 4: {fileID: 881926532}
   - 212: {fileID: 881926531}
   - 58: {fileID: 881926530}
+  - 58: {fileID: 881926533}
   m_Layer: 11
   m_Name: Anchor
   m_TagString: Untagged
@@ -15347,6 +15364,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!58 &881926533
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5800002, guid: c367273855bf64869a161d15b931b1ac,
+    type: 2}
+  m_PrefabInternal: {fileID: 701162730}
+  m_GameObject: {fileID: 881926529}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: 1
+  m_Center: {x: 0, y: 0}
 --- !u!1 &890229086
 GameObject:
   m_ObjectHideFlags: 0
@@ -21775,7 +21804,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11400000, guid: 15b39f8214a92427b9f122fbb0e64bb4, type: 2}
       propertyPath: spawnLimit
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 15b39f8214a92427b9f122fbb0e64bb4, type: 2}
@@ -27560,6 +27589,7 @@ GameObject:
   - 4: {fileID: 1534358747}
   - 212: {fileID: 1534358746}
   - 58: {fileID: 1534358745}
+  - 58: {fileID: 1534358748}
   m_Layer: 11
   m_Name: Anchor
   m_TagString: Untagged
@@ -27614,6 +27644,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!58 &1534358748
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5800002, guid: c367273855bf64869a161d15b931b1ac,
+    type: 2}
+  m_PrefabInternal: {fileID: 1075086113}
+  m_GameObject: {fileID: 1534358744}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: 1
+  m_Center: {x: 0, y: 0}
 --- !u!1001 &1538573632
 Prefab:
   m_ObjectHideFlags: 0
@@ -28479,6 +28521,7 @@ GameObject:
   - 4: {fileID: 1615589376}
   - 212: {fileID: 1615589375}
   - 58: {fileID: 1615589374}
+  - 58: {fileID: 1615589377}
   m_Layer: 11
   m_Name: Anchor
   m_TagString: Untagged
@@ -28533,6 +28576,18 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!58 &1615589377
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 5800002, guid: c367273855bf64869a161d15b931b1ac,
+    type: 2}
+  m_PrefabInternal: {fileID: 628097145}
+  m_GameObject: {fileID: 1615589373}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Radius: 1
+  m_Center: {x: 0, y: 0}
 --- !u!1001 &1619797876
 Prefab:
   m_ObjectHideFlags: 0

@@ -76,13 +76,19 @@ public class GrappleComponent : LimbComponent {
 
 			if (hit)
 			{
-				clamp.position = hit.point;
+				// TEMP: use gameObject's position to allow for larger trigger collider
+				//clamp.position = hit.point;
+				clamp.position = hit.collider.gameObject.transform.position;
 				fired = true;
 				shouldAim = false;
 				clamp.parent = null;
 
 				SFXSource.PlayOneShot(fireClip);
 			}
+			
+			// TODO - fire grapple at pullable objects
+
+			// TODO - fire grapple at ground layer, retract immediately
 		}
 		else
 		{

@@ -101,12 +101,18 @@ public class RobotComponent : MonoBehaviour {
 
 	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
 	{
-		LimbAdded(limb, type);
+		if (LimbAdded != null)
+		{
+			LimbAdded(limb, type);
+		}
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
 	{
-		LimbRemoved(limb, type);
+		if (LimbRemoved != null)
+		{
+			LimbRemoved(limb, type);
+		}
 	}
 
 	public void Unattach(AttachmentPoint parent, AttachmentPoint child)

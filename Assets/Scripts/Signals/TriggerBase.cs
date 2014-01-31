@@ -27,6 +27,11 @@ public class TriggerBase : MonoBehaviour
 
 	private Dictionary<GameObject, TargetInfo> targetInfos = new Dictionary<GameObject, TargetInfo>();
 
+	public Dictionary<GameObject, TargetInfo> getTargetInfos()
+	{
+		return targetInfos;
+	}
+
 	virtual public void OnDrawGizmos()
 	{
 		IEnumerable<FieldInfo> outputSockets = this.GetType().GetFields()
@@ -80,14 +85,6 @@ public class TriggerBase : MonoBehaviour
 				}
 			}
 		}
-
-		/*
-		foreach (TargetInfo target in targetInfos.Values)
-		{
-			Handles.color = Color.white;
-			Handles.Label(target.position, target.info);
-		}
-		*/
 
 	}
 

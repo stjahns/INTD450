@@ -9,10 +9,21 @@ using System.Linq;
 [CustomEditor(typeof(TriggerBase), true)]
 public class TriggerEditor : Editor
 {
+	public void OnSceneGUI()
+	{
+		TriggerBase trigger = target as TriggerBase;
+
+		foreach (TargetInfo targetInfo in trigger.getTargetInfos().Values)
+		{
+			Handles.color = Color.white;
+			Handles.Label(targetInfo.position, targetInfo.info);
+		}
+	}
+
 	public override void OnInspectorGUI()
 	{
 		base.OnInspectorGUI();
-		
+
 		TriggerBase trigger = target as TriggerBase;
 
 		// for every output socket...

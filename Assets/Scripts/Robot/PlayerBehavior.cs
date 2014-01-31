@@ -28,8 +28,20 @@ public class PlayerBehavior : MonoBehaviour {
 
 	private bool dying = false;
 
+	public float hopForce = 10;
+
+	[HideInInspector]
+	public static PlayerBehavior Player;
+
+	// True if player has any limbs attatched
+	public bool HasLimbs { get { return allComponents.Count > 0; } }
+
 	// Use this for initialization
 	void Start () {
+
+		// Set static reference (kinda hacky :/)
+		PlayerBehavior.Player = this;
+
 		anim = GetComponentInChildren<Animator>();
 		currentArms = new List<RobotComponent>();
 		currentLegs = new List<RobotComponent>();
@@ -179,6 +191,7 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			activeLeg.FireAbility();
 		}
+		
 
 		anim = GetComponentInChildren<Animator>();
 		if (anim) {

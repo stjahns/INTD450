@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 82: {fileID: 8200000}
   - 82: {fileID: 8200002}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: HED-I
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 212: {fileID: 21200000}
   - 58: {fileID: 5800000}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Head
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -295,8 +295,10 @@ MonoBehaviour:
   jumpableLayers:
   - Ground
   - LevelObjects
+  - LimbGate
   soundSource: {fileID: 8200002}
   deathSound: {fileID: 8300000, guid: ef62b84dae4ec4a3a846ba8fc26ff4cb, type: 3}
+  hopForce: 10
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

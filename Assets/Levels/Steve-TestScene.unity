@@ -13671,7 +13671,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fanForce: 10
-  fanOn: 1
+  fanOn: 0
   fanHazard: {fileID: 614183484}
   fanAnimator: {fileID: 516116265}
 --- !u!212 &516116263
@@ -22605,9 +22605,11 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 880791513}
   shouldAim: 1
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites:
+  - {fileID: 880791508}
+  - {fileID: 1860217582}
   ropeStart: {fileID: 436935344}
   ropeEnd: {fileID: 602282370}
   ropeQuad: {fileID: 1957344616}
@@ -25075,7 +25077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fanForce: 10
-  fanOn: 1
+  fanOn: 0
   fanHazard: {fileID: 2107136856}
   fanAnimator: {fileID: 1013808238}
 --- !u!212 &1013808236
@@ -29014,11 +29016,8 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 482923981}
-  unattachedColliders:
-  - {fileID: 1154506677}
-  attachedColliders:
-  - {fileID: 1154506681}
-  - {fileID: 1154506680}
+  unattachedColliders: []
+  attachedColliders: []
   groundConnections: []
   allJoints:
   - {fileID: 1538036904}
@@ -29027,9 +29026,10 @@ MonoBehaviour:
   - {fileID: 73732177}
   limbTrack: {fileID: 1154506682}
   shouldAim: 1
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites:
+  - {fileID: 1154506679}
 --- !u!4 &1154506675
 Transform:
   m_ObjectHideFlags: 0
@@ -31833,7 +31833,6 @@ MonoBehaviour:
   - {fileID: 1316422073}
   - {fileID: 1316422072}
   state: 0
-  color: {r: .678431392, g: 0, b: 0, a: .368627459}
 --- !u!4 &1316422071
 Transform:
   m_ObjectHideFlags: 0
@@ -38565,7 +38564,6 @@ MonoBehaviour:
   - {fileID: 1596482820}
   - {fileID: 1596482819}
   state: 0
-  color: {r: .678431392, g: 0, b: 0, a: .368627459}
 --- !u!4 &1596482817
 Transform:
   m_ObjectHideFlags: 0
@@ -39213,9 +39211,12 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 1626904596}
   shouldAim: 1
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites:
+  - {fileID: 1626904604}
+  - {fileID: 1116232897}
+  - {fileID: 779449776}
   animator: {fileID: 1626904600}
   springRange: {fileID: 195009436}
   springForce: 750
@@ -41795,9 +41796,12 @@ MonoBehaviour:
   allJoints: []
   limbTrack: {fileID: 1696211259}
   shouldAim: 1
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites:
+  - {fileID: 1696211253}
+  - {fileID: 688104821}
+  - {fileID: 90167628}
   animator: {fileID: 1696211255}
   springRange: {fileID: 1806690154}
   springForce: 750
@@ -46031,9 +46035,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 0
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 2586796783
   m_Sprite: {fileID: 21300000, guid: f54d5cfb2e5844ff2a82cd6a3e97850e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1865235542
@@ -46175,11 +46179,11 @@ MonoBehaviour:
   onEnter: []
   onExit: []
   onStay: []
-  tag: Player
   debug: 0
   triggerOnce: 0
   collider: {fileID: 1866316199}
   color: {r: 0, g: 0, b: 1, a: .501960814}
+  tags: []
 --- !u!61 &1866316199
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -48163,11 +48167,8 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 788546536}
-  unattachedColliders:
-  - {fileID: 1965730684}
-  attachedColliders:
-  - {fileID: 1965730689}
-  - {fileID: 1965730688}
+  unattachedColliders: []
+  attachedColliders: []
   groundConnections: []
   allJoints:
   - {fileID: 369685081}
@@ -48176,9 +48177,10 @@ MonoBehaviour:
   - {fileID: 1856529114}
   limbTrack: {fileID: 1965730690}
   shouldAim: 1
-  explosionPrefab: {fileID: 0}
+  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  partSprite: {fileID: 0}
+  sprites:
+  - {fileID: 1965730686}
 --- !u!60 &1965730684
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -49799,11 +49801,11 @@ MonoBehaviour:
   onExit:
   - {fileID: 2061016808}
   onStay: []
-  tag: Player
   debug: 0
   triggerOnce: 0
   collider: {fileID: 2061016807}
   color: {r: 0, g: 0, b: 1, a: .501960814}
+  tags: []
 --- !u!61 &2061016807
 BoxCollider2D:
   m_ObjectHideFlags: 0

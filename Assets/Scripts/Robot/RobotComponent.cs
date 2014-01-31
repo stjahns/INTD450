@@ -258,6 +258,15 @@ public class RobotComponent : MonoBehaviour {
 	{
 		unattachedColliders.ForEach(c => c.enabled = !attachedToPlayer());
 		attachedColliders.ForEach(c => c.enabled = attachedToPlayer());
+
+
+		foreach (var c in unattachedColliders.Concat(attachedColliders))
+		{
+			c.gameObject.layer = attachedToPlayer() ?
+				LayerMask.NameToLayer("Player") :
+				LayerMask.NameToLayer("LevelObjects");
+		}
+
 	}
 
 	public void DestroyRobotComponent()

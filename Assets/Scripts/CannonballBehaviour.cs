@@ -16,6 +16,8 @@ public class CannonballBehaviour : MonoBehaviour
 
 	private float elapsedTime = 0.0f;
 
+	public AudioClip explosionClip;
+
 	void Update ()
 	{
 		elapsedTime += Time.deltaTime;
@@ -64,5 +66,7 @@ public class CannonballBehaviour : MonoBehaviour
 			direction.Normalize();
 			body.AddForce(direction * explosionForce);
 		}
+
+		AudioSource.PlayClipAtPoint(explosionClip, transform.position);
 	}
 }

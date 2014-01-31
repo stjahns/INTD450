@@ -30,6 +30,8 @@ public class PlayerBehavior : MonoBehaviour {
 	public AudioClip limbRemoveSound;
 
 	private bool dying = false;
+	public float jumpCooloff = 0.25f;
+	private float jumpTimer = 0.0f;
 
 	public float hopForce = 10;
 
@@ -101,9 +103,9 @@ public class PlayerBehavior : MonoBehaviour {
 	public IEnumerator OnDeath()
 	{
 		// Play audio clip for death
-		if (soundSource && deathSound)
+		if (deathSound)
 		{
-			soundSource.PlayOneShot(deathSound);
+			AudioSource.PlayClipAtPoint(deathSound, transform.position);
 		}
 
 		// stop the body from moving ...
@@ -195,10 +197,17 @@ public class PlayerBehavior : MonoBehaviour {
 			nextLegAbility();
 		}
 
-		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
+		if (jumpTimer > 0.0f)
+		{
+			jumpTimer -= Time.deltaTime;
+		}
+
+		if (onGround && jumpTimer <= 0.0f && Input.GetKeyDown(KeyCode.Space)) {
 			// jump
+			jumpTimer = jumpCooloff;
 			soundSource.PlayOneShot(jumpSound);
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
+			Debug.Log("JUMP!");
 		}
 
 		if (activeArm && Input.GetMouseButtonDown(0))

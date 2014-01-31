@@ -21,29 +21,58 @@ public class ButtonTrigger : TriggerBase
 	public bool debug = false;
 	public bool triggerOnce = false;
 
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
-		{
-			if (debug)
-			{
-				Debug.Log("On Pressed", this);
-			}
+	private bool pressed;
+	private bool objectInTrigger;
 
-			onPressed.ForEach(s => s.Fire());
-		}
+	void Start()
+	{
+		pressed = false;
+		objectInTrigger = false;
 	}
 
-	void OnTriggerExit2D(Collider2D other)
+	void FixedUpdate()
+	{
+		if (objectInTrigger)
+		{
+			if (!pressed)
+			{
+				if (debug)
+				{
+					Debug.Log("On Pressed", this);
+				}
+				onPressed.ForEach(s => s.Fire());
+			}
+			else
+			{
+				if (debug)
+				{
+					Debug.Log("On Hold", this);
+				}
+				onHold.ForEach(s => s.Fire());
+			}
+			pressed = true;
+		}
+		else
+		{
+			if (pressed)
+			{
+				if (debug)
+				{
+					Debug.Log("On Released", this);
+				}
+				onReleased.ForEach(s => s.Fire());
+			}
+			pressed = false;
+		}
+
+		objectInTrigger = false;
+	}
+
+	void OnTriggerStay2D(Collider2D other)
 	{
 		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
 		{
-			if (debug)
-			{
-				Debug.Log("On Released", this);
-			}
-
-			onReleased.ForEach(s => s.Fire());
+			objectInTrigger = true;
 		}
 	}
 }

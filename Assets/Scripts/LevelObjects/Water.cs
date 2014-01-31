@@ -22,6 +22,9 @@ public class Water : MonoBehaviour {
 	
 	public List<Rigidbody2D> contents = new List<Rigidbody2D>();
 
+	public AudioClip splashClip;
+	public float splashVolume = 1.0f;
+
 	public float waterDrag;
 
 	void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +39,8 @@ public class Water : MonoBehaviour {
 					var submergedBody = new SubmergedBody(other.attachedRigidbody);
 					affectedBodies.Add(submergedBody);
 					submergedBody.rigidbody2D.drag = waterDrag;
+
+					AudioSource.PlayClipAtPoint(splashClip, transform.position, splashVolume);
 				}
 			}
 		}
@@ -53,6 +58,7 @@ public class Water : MonoBehaviour {
 				{
 					submergedBody.rigidbody2D.drag = submergedBody.originalDrag;
 					affectedBodies.Remove(submergedBody);
+					AudioSource.PlayClipAtPoint(splashClip, transform.position, splashVolume);
 				}
 			}
 		}

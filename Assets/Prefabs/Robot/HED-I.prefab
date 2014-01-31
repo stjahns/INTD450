@@ -298,6 +298,9 @@ MonoBehaviour:
   - LimbGate
   soundSource: {fileID: 8200002}
   deathSound: {fileID: 8300000, guid: ef62b84dae4ec4a3a846ba8fc26ff4cb, type: 3}
+  jumpSound: {fileID: 8300000, guid: 893b759d33b33467681ed719c8c64c0d, type: 3}
+  limbAttachSound: {fileID: 8300000, guid: 893b759d33b33467681ed719c8c64c0d, type: 3}
+  limbRemoveSound: {fileID: 8300000, guid: 893b759d33b33467681ed719c8c64c0d, type: 3}
   hopForce: 10
 --- !u!114 &11400002
 MonoBehaviour:
@@ -320,6 +323,7 @@ MonoBehaviour:
   allJoints:
   - {fileID: 11400004}
   limbTrack: {fileID: 8200000}
+  SFXSource: {fileID: 0}
   shouldAim: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001

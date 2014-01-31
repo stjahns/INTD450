@@ -25,6 +25,9 @@ public class PlayerBehavior : MonoBehaviour {
 
 	public AudioSource soundSource;
 	public AudioClip deathSound;
+	public AudioClip jumpSound;
+	public AudioClip limbAttachSound;
+	public AudioClip limbRemoveSound;
 
 	private bool dying = false;
 
@@ -136,6 +139,8 @@ public class PlayerBehavior : MonoBehaviour {
 		allComponents.Add(limb);
 
 		transform.eulerAngles = Vector3.zero;
+
+		soundSource.PlayOneShot(limbRemoveSound);
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
@@ -165,6 +170,8 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			rigidbody2D.fixedAngle = false;
 		}
+
+		soundSource.PlayOneShot(limbAttachSound);
 	}
 
 	// Update is called once per frame
@@ -190,6 +197,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 		if (onGround && Input.GetKeyDown(KeyCode.Space)) {
 			// jump
+			soundSource.PlayOneShot(jumpSound);
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
 		}
 

@@ -24,6 +24,12 @@ public class ButtonTrigger : TriggerBase
 	private bool pressed;
 	private bool objectInTrigger;
 
+	public AudioClip pressClip;
+	public AudioClip releaseClip;
+
+	public SpriteRenderer buttonUp;
+	public SpriteRenderer buttonDown;
+
 	void Start()
 	{
 		pressed = false;
@@ -41,6 +47,8 @@ public class ButtonTrigger : TriggerBase
 					Debug.Log("On Pressed", this);
 				}
 				onPressed.ForEach(s => s.Fire());
+				AudioSource.PlayClipAtPoint(pressClip, transform.position);
+
 			}
 			else
 			{
@@ -51,6 +59,9 @@ public class ButtonTrigger : TriggerBase
 				onHold.ForEach(s => s.Fire());
 			}
 			pressed = true;
+
+			buttonUp.enabled = false;
+			buttonDown.enabled = true;
 		}
 		else
 		{
@@ -61,8 +72,12 @@ public class ButtonTrigger : TriggerBase
 					Debug.Log("On Released", this);
 				}
 				onReleased.ForEach(s => s.Fire());
+				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
 			}
 			pressed = false;
+
+			buttonUp.enabled = true;
+			buttonDown.enabled = false;
 		}
 
 		objectInTrigger = false;

@@ -52,10 +52,17 @@ public class RobotComponent : MonoBehaviour {
 		RobotComponent unattachedComponent = unattachedPoint.owner;
 		unattachedComponent.transform.parent = attachedPoint.transform;
 
-		// If we don't set body to kinematic, it will get will physics update that will 
-		// move component after attaching...
-		unattachedComponent.rigidbody2D.isKinematic = true;
-		Destroy(unattachedPoint.owner.rigidbody2D);
+		if (unattachedPoint.rigidbody2D)
+		{
+			// If we don't set body to kinematic, it will get will physics update that will 
+			// move component after attaching...
+			unattachedComponent.rigidbody2D.isKinematic = true;
+		}
+
+		if (unattachedPoint.owner.rigidbody2D)
+		{
+			Destroy(unattachedPoint.owner.rigidbody2D);
+		}
 
 		attachedPoint.child = unattachedPoint;
 		unattachedPoint.parent = attachedPoint;

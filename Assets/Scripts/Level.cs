@@ -15,6 +15,14 @@ public class Level : MonoBehaviour
 		levelStart.PlayerSpawned += (spawner, spawnedPlayer) => {
 			// When player is spawned, set follow camera to target player
 			playerCamera.target = spawnedPlayer.transform;
+
+			var player = spawnedPlayer.GetComponent<PlayerBehavior>();
+			player.OnDestroy += destroyedPlayer => {
+
+				// Stop following player when it is destroyed
+				playerCamera.target = playerCamera.transform;
+				Debug.Log("CAMERA FREED");
+			};
 		};
 	}
 

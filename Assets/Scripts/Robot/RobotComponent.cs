@@ -32,6 +32,9 @@ public class RobotComponent : MonoBehaviour {
 	public delegate void PhysicsResetHandler(RobotComponent component);
 	public event PhysicsResetHandler PhysicsReset;
 
+	public delegate void OnDestroyHandler(RobotComponent component);
+	public event OnDestroyHandler OnDestroy;
+
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
 
@@ -271,6 +274,11 @@ public class RobotComponent : MonoBehaviour {
 
 	public void DestroyRobotComponent()
 	{
+		// Detatch from parent...
+		if (parentComponent && parentAttachmentPoint && parentAttachmentPoint.child)
+		{
+			parentComponent.Unattach(parentAttachmentPoint, parentAttachmentPoint.child);
+		}
 
 		// Spawn explosion prefab
 		if (explosionPrefab)
@@ -289,6 +297,20 @@ public class RobotComponent : MonoBehaviour {
 		foreach (var child in getDirectChildren())
 		{
 			child.DestroyRobotComponent();
+		}
+
+		// any child robot components should be unattached now...
+
+		for (int i = 0; i < transform.GetChildCount(); ++i)
+		{
+			//Destroy(transform.GetChild(i).gameObject, explosionTime);
+		}
+
+		Destroy(gameObject, explosionTime);
+
+		if (OnDestroy != null)
+		{
+			OnDestroy(this);
 		}
 	}
 }

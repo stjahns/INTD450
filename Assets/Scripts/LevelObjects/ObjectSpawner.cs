@@ -13,19 +13,20 @@ public class ObjectSpawner : MonoBehaviour
 
 	public float cooloffTime = 1.0f;
 
+	public bool destroyExistingOnRespawn = false;
+
 	private float timer = 0.0f;
+	
 
 	//
-	// Draw a blue sphere at the spawn position
+	// lets us set an icon...
 	//
 	void OnDrawGizmos()
 	{
-		Gizmos.color = new Color(0, 0, 155);
-		Gizmos.DrawSphere(spawnPoint.position, 0.25f);
 	}
 
 	//
-	// 
+	// Count down on cooloff time
 	//
 	void Update()
 	{
@@ -41,13 +42,27 @@ public class ObjectSpawner : MonoBehaviour
 	[InputSocket]
 	public void Spawn()
 	{
-		if (timer <= 0.0f && spawnedObjects.Count < spawnLimit)
+		if (timer <= 0.0f)
 		{
-			var obj = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity)
-				as GameObject;
-			spawnedObjects.Add(obj);
+			if (destroyExistingOnRespawn)
+			{
+				foreach (GameObject spawnedObject in spawnedObjects)
+				{
+					// TODO more general..
+					spawnedObject.SendMessage("DestroyRobotComponent");
+				}
 
-			timer = cooloffTime;
+				spawnedObjects.Clear();
+			}
+
+			if (spawnedObjects.Count < spawnLimit)
+			{
+				var obj = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity)
+					as GameObject;
+				spawnedObjects.Add(obj);
+
+				timer = cooloffTime;
+			}
 
 			// TODO -- would be nice to have some kind of event to listen for when the 
 			// object is destroyed by something

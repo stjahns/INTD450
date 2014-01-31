@@ -36,6 +36,9 @@ public class PlayerBehavior : MonoBehaviour {
 	// True if player has any limbs attatched
 	public bool HasLimbs { get { return allComponents.Count > 0; } }
 
+	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
+	public event OnDestroyHandler OnDestroy;
+
 	// Use this for initialization
 	void Start () {
 
@@ -60,6 +63,14 @@ public class PlayerBehavior : MonoBehaviour {
 			else
 			{
 				rigidbody2D.fixedAngle = true;
+			}
+		};
+
+		head.OnDestroy += h => {
+			Debug.Log("ON DESTROY");
+			if (OnDestroy != null)
+			{
+				OnDestroy(this);
 			}
 		};
 	}
@@ -195,7 +206,11 @@ public class PlayerBehavior : MonoBehaviour {
 
 		anim = GetComponentInChildren<Animator>();
 		if (anim) {
-			anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+
+			if (rigidbody2D)
+			{
+				anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+			}
 
 
 			if (activeArm && activeArm.shouldAim) {

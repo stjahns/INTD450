@@ -8,7 +8,7 @@ public class LevelStart : MonoBehaviour
 	public PlayerBehavior player;
 	public Transform spawnPoint;
 
-	public delegate void PlayerSpawnedHandler(GameObject spawner, GameObject spawnedObject);
+	public delegate void PlayerSpawnedHandler(GameObject spawner, GameObject spawnedPlayer);
 	public event PlayerSpawnedHandler PlayerSpawned;
 
 	//

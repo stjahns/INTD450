@@ -12,12 +12,10 @@ public class LevelStart : MonoBehaviour
 	public event PlayerSpawnedHandler PlayerSpawned;
 
 	//
-	// Draw a green sphere at the spawn position
+	// Lets us pick an editor icon..
 	//
 	void OnDrawGizmos()
 	{
-		Gizmos.color = new Color(0, 155, 0);
-		Gizmos.DrawSphere(spawnPoint.position, 0.25f);
 	}
 
 	//

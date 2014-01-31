@@ -6,12 +6,10 @@ public class LevelEnd : MonoBehaviour
 	public string nextLevel;
 
 	//
-	// Draw a red sphere to indicate this is level end
+	// Lets us pick an editor icon..
 	//
 	void OnDrawGizmos()
 	{
-		Gizmos.color = new Color(155, 0, 0);
-		Gizmos.DrawSphere(transform.position, 0.25f);
 	}
 
 	//

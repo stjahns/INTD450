@@ -8,16 +8,14 @@ public class LevelStart : MonoBehaviour
 	public PlayerBehavior player;
 	public Transform spawnPoint;
 
-	public delegate void PlayerSpawnedHandler(GameObject spawner, GameObject spawnedObject);
+	public delegate void PlayerSpawnedHandler(GameObject spawner, GameObject spawnedPlayer);
 	public event PlayerSpawnedHandler PlayerSpawned;
 
 	//
-	// Draw a green sphere at the spawn position
+	// Lets us pick an editor icon..
 	//
 	void OnDrawGizmos()
 	{
-		Gizmos.color = new Color(0, 155, 0);
-		Gizmos.DrawSphere(spawnPoint.position, 0.25f);
 	}
 
 	//
@@ -37,8 +35,10 @@ public class LevelStart : MonoBehaviour
 		load.player_name="player";
 		var data = load.file_load ();
 		string flag="";
+		int level = 0;
 		flag = data ["array"][1]["checkpoint"];
-		if (flag != "Null") 
+		level = System.Convert.ToInt32(data ["array"][1]["Level"]);
+		if (flag != "Null" && level == Application.loadedLevel) 
 		{	///load.create_new();
 			flag = flag.Replace('(',' ');
 			flag = flag.Replace(')',' ');

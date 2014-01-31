@@ -15,6 +15,14 @@ public class Level : MonoBehaviour
 		levelStart.PlayerSpawned += (spawner, spawnedPlayer) => {
 			// When player is spawned, set follow camera to target player
 			playerCamera.target = spawnedPlayer.transform;
+
+			var player = spawnedPlayer.GetComponent<PlayerBehavior>();
+			player.OnDestroy += destroyedPlayer => {
+
+				// Stop following player when it is destroyed
+				playerCamera.target = playerCamera.transform;
+				Debug.Log("CAMERA FREED");
+			};
 		};
 	}
 
@@ -25,15 +33,15 @@ public class Level : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.R))
 		{
-			Reset();
+			ResetLevel();
 		}
 	}
 
-	public void Reset ()
+	public void ResetLevel ()
 	{
 		// In the future, may want only reset key objects to not interrupt level 
 		// animations, sounds and music
-		// levelStart.Reset();
+		// levelStart.ResetLevel();
 		
 		// For now, simply reload the level
 		Application.LoadLevel(Application.loadedLevel);

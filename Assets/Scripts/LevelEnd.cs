@@ -6,12 +6,10 @@ public class LevelEnd : MonoBehaviour
 	public string nextLevel;
 
 	//
-	// Draw a red sphere to indicate this is level end
+	// Lets us pick an editor icon..
 	//
 	void OnDrawGizmos()
 	{
-		Gizmos.color = new Color(155, 0, 0);
-		Gizmos.DrawSphere(transform.position, 0.25f);
 	}
 
 	//
@@ -19,14 +17,15 @@ public class LevelEnd : MonoBehaviour
 	//
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		int nextlevel = Application.loadedLevel + 1;
 		Save_Load save = new Save_Load ();
 		save.score = 200;
-		save.level = 1;
+		save.level = nextlevel;
 		save.player_name = "player";
 		if (other.gameObject.tag == "Player")
 		{
 			save.create_new();
-			Application.LoadLevel(nextLevel);
+			Application.LoadLevel(nextlevel);
 		}
 	}
 }

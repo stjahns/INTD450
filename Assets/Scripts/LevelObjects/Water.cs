@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class SubmergedBody
 {
@@ -18,6 +19,8 @@ public class Water : MonoBehaviour {
 
 	public List<string> affectedTags;
 	public List<SubmergedBody> affectedBodies = new List<SubmergedBody>();
+	
+	public List<Rigidbody2D> contents = new List<Rigidbody2D>();
 
 	public float waterDrag;
 
@@ -27,7 +30,8 @@ public class Water : MonoBehaviour {
 		{
 			if (affectedTags.Contains(other.attachedRigidbody.tag))
 			{
-				if (!affectedBodies.Exists(b => b.rigidbody2D == other.attachedRigidbody));
+				bool exists = affectedBodies.Exists(b => b.rigidbody2D == other.attachedRigidbody);
+				if (exists == false)
 				{
 					var submergedBody = new SubmergedBody(other.attachedRigidbody);
 					affectedBodies.Add(submergedBody);
@@ -35,6 +39,7 @@ public class Water : MonoBehaviour {
 				}
 			}
 		}
+		contents = affectedBodies.Select(s => s.rigidbody2D).ToList();
 	}
 
 	void OnTriggerExit2D(Collider2D other)
@@ -44,10 +49,14 @@ public class Water : MonoBehaviour {
 			if (affectedTags.Contains(other.attachedRigidbody.tag))
 			{
 				var submergedBody = affectedBodies.Find(b => b.rigidbody2D == other.attachedRigidbody);
-				submergedBody.rigidbody2D.drag = submergedBody.originalDrag;
-				affectedBodies.Remove(submergedBody);
+				if (submergedBody != null)
+				{
+					submergedBody.rigidbody2D.drag = submergedBody.originalDrag;
+					affectedBodies.Remove(submergedBody);
+				}
 			}
 		}
+		contents = affectedBodies.Select(s => s.rigidbody2D).ToList();
 	}
 
 }

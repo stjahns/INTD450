@@ -106,7 +106,7 @@ public class AttachmentPoint : MonoBehaviour {
 	void Start () {
 		selected = false;
 		mouseOver = false;
-		emitter.enableEmission = false;
+		emitter.startLifetime = 0.05f;
 
 		// Create a new, unparented GameObject for the trigger so it doesn't affect 
 		// center of mass
@@ -154,7 +154,7 @@ public class AttachmentPoint : MonoBehaviour {
 			emitter.emissionRate = 50;
 		}
 
-		emitter.enableEmission = (mouseOver || selected);
+		emitter.startLifetime = (mouseOver || selected) ? 0.5f : 0.05f;
 	}
 
 	void mouseClick() {

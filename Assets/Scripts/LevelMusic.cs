@@ -18,6 +18,9 @@ public class LevelMusic : MonoBehaviour
 
 	public static LevelMusic Instance;
 
+	// Tracks numbers of attached limb types
+	private static Dictionary<LimbType, int> activeLimbs;
+
 	//
 	// Set static instance to this, mute all limb tracks
 	// Limb tracks will be umnuted in their limb's Start() if they are attached,
@@ -27,11 +30,13 @@ public class LevelMusic : MonoBehaviour
 	{
 		LevelMusic.Instance = this;
 
+		activeLimbs = new Dictionary<LimbType, int>();
+		limbTypes.ForEach(l => activeLimbs.Add(l, 0));
+
 		foreach (AudioSource track in limbTracks)
 		{
 			track.mute = true;
 		}
-
 	}
 
 	//
@@ -53,15 +58,37 @@ public class LevelMusic : MonoBehaviour
 	}
 
 	//
-	// Mute or unmuted the autio track associated with the given LimbType
+	// Tell music system a limb was added, unmuting track if necessary
 	//
-	public void SetLimbTrackMuted(LimbType limb, bool muted)
+	public void AttachLimb(LimbType limb)
+	{
+		if (activeLimbs.ContainsKey(limb))
+		{
+			activeLimbs[limb]++;
+		}
+
+		CheckTrackMuted(limb);
+	}
+
+	//
+	// Tell music system a limb was removed, muting track if necessary
+	//
+	public void DetachLimb(LimbType limb)
+	{
+		if (activeLimbs.ContainsKey(limb))
+		{
+			activeLimbs[limb]--;
+		}
+		CheckTrackMuted(limb);
+	}
+
+	private void CheckTrackMuted(LimbType limb)
 	{
 		int trackIndex = limbTypes.FindIndex(t => t == limb);
 		if (trackIndex != -1 && trackIndex < limbTracks.Count)
 		{
-			limbTracks[trackIndex].mute = muted;
+			// Mute the track if less than one active limb of its type
+			limbTracks[trackIndex].mute = activeLimbs[limb] < 1;
 		}
 	}
-
 }

@@ -6,6 +6,7 @@ using System.Linq;
 public class RobotComponent : MonoBehaviour {
 
 	public bool attached = false;
+	public LimbType limbType;
 
 	public RobotComponent parentComponent = null;
 	public AttachmentPoint parentAttachmentPoint = null;
@@ -18,8 +19,6 @@ public class RobotComponent : MonoBehaviour {
 	public List<RobotComponent> groundConnections = new List<RobotComponent>();
 
 	public List<AttachmentPoint> allJoints = new List<AttachmentPoint>();
-
-	public AudioSource limbTrack;
 
 	public AudioSource SFXSource;
 
@@ -45,6 +44,14 @@ public class RobotComponent : MonoBehaviour {
 	void Awake()
 	{
 		ResetColliders();
+	}
+
+	void Start()
+	{
+		if (attachedToPlayer())
+		{
+			LevelMusic.Instance.AttachLimb(limbType);
+		}
 	}
 
 	public void Attach(AttachmentPoint attachedPoint, AttachmentPoint unattachedPoint)
@@ -83,10 +90,7 @@ public class RobotComponent : MonoBehaviour {
 		{
 			AttachmentType type = limb.parentAttachmentPoint.attachmentType;
 
-			if (limb.limbTrack)
-			{
-				limb.limbTrack.mute = false;
-			}
+			LevelMusic.Instance.AttachLimb(limb.limbType);
 
 			OnLimbAdded(limb, type);
 		}
@@ -134,10 +138,7 @@ public class RobotComponent : MonoBehaviour {
 		{
 			OnLimbRemoved(limb, attachmentType);
 
-			if (limb.limbTrack)
-			{
-				limb.limbTrack.mute = true;
-			}
+			LevelMusic.Instance.DetachLimb(limb.limbType);
 		}
 
 		// stop listening to childs' add/removeArm event

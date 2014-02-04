@@ -218,7 +218,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.40235949, y: -5.23787546, z: 0}
+  m_LocalPosition: {x: -3.86078262, y: -4.63453245, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400014}
@@ -609,7 +609,11 @@ MonoBehaviour:
   upperLimb: {fileID: 100004}
   upperLimbSprite: {fileID: 21200008}
   lowerLimb: {fileID: 100002}
-  lowerLimbSprite: {fileID: 21200002}
+  lowerLimbSprites:
+  - {fileID: 21200002}
+  - {fileID: 21200006}
+  - {fileID: 21200004}
+  lowerLimbSpriteOrders: 00000000ffffffff00000000
   currentBone: {fileID: 0}
   animator: {fileID: 9500000}
   springRange: {fileID: 400012}

@@ -48,7 +48,8 @@ public class RobotComponent : MonoBehaviour {
 	public GameObject upperLimb;
 	public SpriteRenderer upperLimbSprite;
 	public GameObject lowerLimb;
-	public SpriteRenderer lowerLimbSprite;
+	public List<SpriteRenderer> lowerLimbSprites;
+	public List<int> lowerLimbSpriteOrders;
 
 	public Bone currentBone = null;
 
@@ -66,9 +67,12 @@ public class RobotComponent : MonoBehaviour {
 
 		upperLimbSprite.sortingOrder = (int)currentBone.spriteOrder;
 
-		if (currentBone.LowerJoint && lowerLimbSprite)
+		if (currentBone.LowerJoint)
 		{
-			lowerLimbSprite.sortingOrder = (int)currentBone.LowerJoint.spriteOrder;
+			for (int i = 0; i < lowerLimbSprites.Count; ++i)
+			{
+				lowerLimbSprites[i].sortingOrder = (int)currentBone.LowerJoint.spriteOrder + lowerLimbSpriteOrders[i];
+			}
 		}
 	}
 
@@ -102,14 +106,20 @@ public class RobotComponent : MonoBehaviour {
 			child.lowerLimb.transform.localPosition = Vector3.zero;
 			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
 
-			child.lowerLimbSprite.sortingLayerName = "Player";
-			child.lowerLimbSprite.sortingOrder = (int)bone.LowerJoint.spriteOrder;
+			for (int i = 0; i < child.lowerLimbSprites.Count; ++i)
+			{
+				child.lowerLimbSprites[i].sortingLayerName = "Player";
+				child.lowerLimbSprites[i].sortingOrder = (int)bone.LowerJoint.spriteOrder + child.lowerLimbSpriteOrders[i];
+			}
 
 			if (bone.LowerJoint.spriteMirrored)
 			{
-				Vector3 scale = child.lowerLimbSprite.gameObject.transform.localScale;
-				scale.x *= -1;
-				child.lowerLimbSprite.gameObject.transform.localScale = scale;
+				for (int i = 0; i < child.lowerLimbSprites.Count; ++i)
+				{
+					Vector3 scale = child.lowerLimbSprites[i].gameObject.transform.localScale;
+					scale.x *= -1;
+					child.lowerLimbSprites[i].gameObject.transform.localScale = scale;
+				}
 			}
 		}
 

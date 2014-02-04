@@ -50,9 +50,26 @@ public class RobotComponent : MonoBehaviour {
 	public GameObject lowerLimb;
 	public SpriteRenderer lowerLimbSprite;
 
+	public Bone currentBone = null;
+
 	void Awake()
 	{
 		ResetColliders();
+	}
+
+	public void ResetSpriteOrders()
+	{
+		foreach (RobotComponent part in getDirectChildren())
+		{
+			part.ResetSpriteOrders();
+		}
+
+		upperLimbSprite.sortingOrder = (int)currentBone.spriteOrder;
+
+		if (currentBone.LowerJoint && lowerLimbSprite)
+		{
+			lowerLimbSprite.sortingOrder = (int)currentBone.LowerJoint.spriteOrder;
+		}
 	}
 
 	public void Attach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
@@ -61,6 +78,8 @@ public class RobotComponent : MonoBehaviour {
 		Bone bone = Skeleton.GetBoneForSlot(slot);
 
 		RobotComponent child = childJoint.owner;
+
+		child.currentBone = bone;
 
 		child.Skeleton = Skeleton;
 
@@ -71,7 +90,7 @@ public class RobotComponent : MonoBehaviour {
 		child.transform.localEulerAngles = Vector3.zero;
 
 		child.upperLimbSprite.sortingLayerName = "Player";
-		child.upperLimbSprite.sortingOrder = bone.spriteOrder;
+		child.upperLimbSprite.sortingOrder = (int)bone.spriteOrder;
 
 		// if child has lowerlimb, parent lowerlimb to bone.lowerlimb
 		if (child.lowerLimb && bone.LowerJoint)
@@ -81,7 +100,7 @@ public class RobotComponent : MonoBehaviour {
 			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
 
 			child.lowerLimbSprite.sortingLayerName = "Player";
-			child.lowerLimbSprite.sortingOrder = bone.LowerJoint.spriteOrder;
+			child.lowerLimbSprite.sortingOrder = (int)bone.LowerJoint.spriteOrder;
 
 			if (bone.LowerJoint.spriteMirrored)
 			{

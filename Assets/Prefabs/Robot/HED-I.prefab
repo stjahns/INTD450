@@ -290,7 +290,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.55739808, y: 3.89024639, z: 0}
+  m_LocalPosition: {x: 1.90564632, y: 3.29617047, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -684,6 +684,7 @@ MonoBehaviour:
   limbRemoveSound: {fileID: 8300000, guid: 46b19c4ad6380d94c8ec9ec761ef9f98, type: 3}
   jumpCooloff: .25
   hopForce: 10
+  Skeleton: {fileID: 11400016}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -717,6 +718,7 @@ MonoBehaviour:
   upperLimbSprite: {fileID: 21200000}
   lowerLimb: {fileID: 0}
   lowerLimbSprite: {fileID: 0}
+  currentBone: {fileID: 11400010}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

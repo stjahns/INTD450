@@ -44,6 +44,9 @@ public class PlayerBehavior : MonoBehaviour {
 	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
 	public event OnDestroyHandler OnDestroy;
 
+
+	private bool facingLeft = true;
+
 	// Use this for initialization
 	void Start () {
 
@@ -80,7 +83,8 @@ public class PlayerBehavior : MonoBehaviour {
 		};
 	}
 
-	void Update () {
+	void Update ()
+	{
 
 		int layerMask = 0;
 		foreach (string layer in jumpableLayers)
@@ -251,6 +255,20 @@ public class PlayerBehavior : MonoBehaviour {
 						== Animator.StringToHash("Facing.FaceRight"))
 				{
 					playerToPointer.x *= -1;
+
+					if (facingLeft)
+					{
+						head.ResetSpriteOrders();
+						facingLeft = false;
+					}
+				}
+				else
+				{
+					if (!facingLeft)
+					{
+						head.ResetSpriteOrders();
+						facingLeft = true;
+					}
 				}
 
 				anim.SetFloat(xVar, playerToPointer.x);

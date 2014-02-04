@@ -8,7 +8,7 @@ public class Bone : MonoBehaviour
 
 	public List<Bone> childBones;
 
-	public int spriteOrder = 0;
+	public float spriteOrder = 0;
 	public bool spriteMirrored = false;
 
 	public void OnDrawGizmos()

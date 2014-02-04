@@ -235,6 +235,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 			if (rigidbody2D)
 			{
+				anim.SetFloat("lateralSpeed", Mathf.Abs(rigidbody2D.velocity.x));
 				anim.SetFloat("lateralVelocity", rigidbody2D.velocity.x);
 			}
 

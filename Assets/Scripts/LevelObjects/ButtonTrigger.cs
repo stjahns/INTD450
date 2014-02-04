@@ -83,6 +83,14 @@ public class ButtonTrigger : TriggerBase
 		objectInTrigger = false;
 	}
 
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
+		{
+			objectInTrigger = true;
+		}
+	}
+
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)

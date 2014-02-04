@@ -143,6 +143,8 @@ public class PlayerBehavior : MonoBehaviour {
 		transform.eulerAngles = Vector3.zero;
 
 		soundSource.PlayOneShot(limbRemoveSound);
+
+		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
@@ -168,12 +170,15 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 
 		allComponents.Remove(limb);
+
 		if (allComponents.Count == 0)
 		{
 			rigidbody2D.fixedAngle = false;
 		}
 
 		soundSource.PlayOneShot(limbAttachSound);
+
+		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
 
 	// Update is called once per frame

@@ -42,44 +42,83 @@ public class RobotComponent : MonoBehaviour {
 
 	public List<SpriteRenderer> sprites;
 
+	public PlayerSkeleton Skeleton = null;
+
+	public Transform lowerLimbJoint;
+	public GameObject upperLimb;
+	public SpriteRenderer upperLimbSprite;
+	public GameObject lowerLimb;
+	public SpriteRenderer lowerLimbSprite;
+
 	void Awake()
 	{
 		ResetColliders();
 	}
 
-	public void Attach(AttachmentPoint attachedPoint, AttachmentPoint unattachedPoint)
+	public void Attach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
 	{
-		RobotComponent unattachedComponent = unattachedPoint.owner;
-		unattachedComponent.transform.parent = attachedPoint.transform;
+		AttachmentSlot slot = parentJoint.slot;
+		Bone bone = Skeleton.GetBoneForSlot(slot);
 
-		if (unattachedPoint.rigidbody2D)
+		RobotComponent child = childJoint.owner;
+
+		child.Skeleton = Skeleton;
+
+		// parent child to bone
+		child.transform.parent = bone.gameObject.transform;
+		child.transform.localScale = Vector3.one;
+		child.transform.localPosition = Vector3.zero;
+		child.transform.localEulerAngles = Vector3.zero;
+
+		child.upperLimbSprite.sortingLayerName = "Player";
+		child.upperLimbSprite.sortingOrder = bone.spriteOrder;
+
+		// if child has lowerlimb, parent lowerlimb to bone.lowerlimb
+		if (child.lowerLimb && bone.LowerJoint)
+		{
+			child.lowerLimb.transform.parent = bone.LowerJoint.gameObject.transform;
+			child.lowerLimb.transform.localPosition = Vector3.zero;
+			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
+
+			child.lowerLimbSprite.sortingLayerName = "Player";
+			child.lowerLimbSprite.sortingOrder = bone.LowerJoint.spriteOrder;
+
+			if (bone.LowerJoint.spriteMirrored)
+			{
+				Vector3 scale = child.lowerLimbSprite.gameObject.transform.localScale;
+				scale.x *= -1;
+				child.lowerLimbSprite.gameObject.transform.localScale = scale;
+			}
+		}
+
+		if (childJoint.rigidbody2D)
 		{
 			// If we don't set body to kinematic, it will get will physics update that will 
 			// move component after attaching...
-			unattachedComponent.rigidbody2D.isKinematic = true;
+			child.rigidbody2D.isKinematic = true;
 		}
 
-		if (unattachedPoint.owner.rigidbody2D)
+		if (childJoint.owner.rigidbody2D)
 		{
-			Destroy(unattachedPoint.owner.rigidbody2D);
+			Destroy(childJoint.owner.rigidbody2D);
 		}
 
-		attachedPoint.child = unattachedPoint;
-		unattachedPoint.parent = attachedPoint;
+		parentJoint.child = childJoint;
+		childJoint.parent = parentJoint;
 
-		unattachedPoint.owner.parentComponent = attachedPoint.owner;
-		unattachedPoint.owner.parentAttachmentPoint = attachedPoint;
+		childJoint.owner.parentComponent = parentJoint.owner;
+		childJoint.owner.parentAttachmentPoint = parentJoint;
 
-		if (attachedPoint.connectsGround)
+		if (parentJoint.connectsGround)
 		{
-			groundConnections.Add(unattachedPoint.owner);
+			groundConnections.Add(childJoint.owner);
 		}
 
 		// listen to childs' add/removelimb event
-		unattachedPoint.owner.LimbAdded += OnLimbAdded;
-		unattachedPoint.owner.LimbRemoved += OnLimbRemoved;
+		childJoint.owner.LimbAdded += OnLimbAdded;
+		childJoint.owner.LimbRemoved += OnLimbRemoved;
 
-		foreach (RobotComponent limb in unattachedComponent.getAllChildren())
+		foreach (RobotComponent limb in child.getAllChildren())
 		{
 			AttachmentType type = limb.parentAttachmentPoint.attachmentType;
 
@@ -94,10 +133,69 @@ public class RobotComponent : MonoBehaviour {
 		// HACK - bump up to make room
 		getRootComponent().transform.Translate(0, 2.0f, 0);
 
-		unattachedComponent.ResetColliders();
+		child.ResetColliders();
 		getRootComponent().ResetPhysics();
 
 	}
+
+	public void Unattach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
+	{
+		AttachmentType attachmentType = childJoint.owner.parentAttachmentPoint.attachmentType;
+
+		RobotComponent child = childJoint.owner;
+		child.Skeleton = null;
+
+		parentJoint.child = null;
+		childJoint.parent = null;
+		childJoint.owner.parentComponent = null;
+		childJoint.owner.parentAttachmentPoint= null;
+
+		if (parentJoint.connectsGround)
+		{
+			groundConnections.Remove(childJoint.owner);
+		}
+
+		// parent child to null
+		child.transform.parent = null;
+		child.parentComponent = null;
+		child.Skeleton = null;
+
+		// if child has lowerlimb, parent lowerlimb to child.join
+		if (child.lowerLimb)
+		{
+			child.lowerLimb.transform.parent = child.lowerLimbJoint;
+			child.lowerLimb.transform.localPosition = Vector3.zero;
+			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
+			child.lowerLimb.transform.localScale = Vector3.one;
+		}
+
+
+		child.transform.localScale = Vector3.one;
+
+		// Also remove all children of limb from skeleton...
+		foreach (RobotComponent limb in childJoint.owner.getDirectChildren())
+		{
+			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
+		}
+
+		foreach (RobotComponent limb in childJoint.owner.getAllChildren())
+		{
+			OnLimbRemoved(limb, attachmentType);
+
+			if (limb.limbTrack)
+			{
+				limb.limbTrack.mute = true;
+			}
+		}
+
+		// stop listening to childs' add/removeArm event
+		childJoint.owner.LimbAdded -= OnLimbAdded;
+		childJoint.owner.LimbRemoved -= OnLimbRemoved;
+
+		// Restore rigid body to unattached childJoint part
+		childJoint.owner.ResetPhysics();
+	}
+
 
 	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
 	{
@@ -113,39 +211,6 @@ public class RobotComponent : MonoBehaviour {
 		{
 			LimbRemoved(limb, type);
 		}
-	}
-
-	public void Unattach(AttachmentPoint parent, AttachmentPoint child)
-	{
-		AttachmentType attachmentType = child.owner.parentAttachmentPoint.attachmentType;
-		child.owner.transform.parent = null;
-
-		parent.child = null;
-		child.parent = null;
-		child.owner.parentComponent = null;
-		child.owner.parentAttachmentPoint= null;
-
-		if (parent.connectsGround)
-		{
-			groundConnections.Remove(child.owner);
-		}
-
-		foreach (RobotComponent limb in child.owner.getAllChildren())
-		{
-			OnLimbRemoved(limb, attachmentType);
-
-			if (limb.limbTrack)
-			{
-				limb.limbTrack.mute = true;
-			}
-		}
-
-		// stop listening to childs' add/removeArm event
-		child.owner.LimbAdded -= OnLimbAdded;
-		child.owner.LimbRemoved -= OnLimbRemoved;
-
-		// Restore rigid body to unattached child part
-		child.owner.ResetPhysics();
 	}
 
 	public bool attachedToPlayer()
@@ -274,8 +339,16 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void ResetColliders()
 	{
-		unattachedColliders.ForEach(c => c.enabled = !attachedToPlayer());
-		attachedColliders.ForEach(c => c.enabled = attachedToPlayer());
+		if (attachedToPlayer())
+		{
+			unattachedColliders.ForEach(c => c.enabled = false);
+			attachedColliders.ForEach(c => c.enabled = true);
+		}
+		else
+		{
+			attachedColliders.ForEach(c => c.enabled = false);
+			unattachedColliders.ForEach(c => c.enabled = true);
+		}
 
 
 		foreach (var c in unattachedColliders.Concat(attachedColliders))

@@ -50,6 +50,18 @@ public class AttachmentSystem {
 			AttachedPoint.selected = false;
 			UnattachedPoint = null;
 			AttachedPoint = null;
+
+			/*
+			AttachedPoint.child = UnattachedPoint;
+			UnattachedPoint.parent = AttachedPoint;
+
+			AttachedPoint.owner.Attach(UnattachedPoint.owner, AttachedPoint.slot);
+			
+			UnattachedPoint.selected = false;
+			AttachedPoint.selected = false;
+			UnattachedPoint = null;
+			AttachedPoint = null;
+			*/
 		}
 	}
 }
@@ -75,6 +87,8 @@ public class AttachmentPoint : MonoBehaviour {
 	public bool connectsGround = false;
 
 	public AttachmentType attachmentType = AttachmentType.Default;
+
+	public AttachmentSlot slot;
 
 	bool m_selected;
 	public bool selected

@@ -207,6 +207,7 @@ public class PlayerBehavior : MonoBehaviour {
 			jumpTimer = jumpCooloff;
 			soundSource.PlayOneShot(jumpSound);
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
+			anim.SetTrigger("jump");
 		}
 
 		if (activeArm && Input.GetMouseButtonDown(0))

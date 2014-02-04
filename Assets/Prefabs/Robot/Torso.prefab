@@ -89,6 +89,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 212: {fileID: 21200000}
+  - 60: {fileID: 6000000}
   m_Layer: 10
   m_Name: TorsoSprite
   m_TagString: Untagged
@@ -234,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.853257418, y: 3.65467572, z: 0}
+  m_LocalPosition: {x: -.962111473, y: 2.144979, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -326,6 +327,34 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_Radius: .270000011
   m_Center: {x: 0, y: -.620000005}
+--- !u!60 &6000000
+PolygonCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Poly:
+    m_Paths:
+    - - {x: .299999982, y: .199999988}
+      - {x: .25, y: .379999995}
+      - {x: .140000001, y: .459999979}
+      - {x: .0700000003, y: .469999999}
+      - {x: -.0700000003, y: .469999999}
+      - {x: -.269999981, y: .329999983}
+      - {x: -.280000001, y: .25999999}
+      - {x: -.280000001, y: 0}
+      - {x: -.239999995, y: -.149999991}
+      - {x: -.25, y: -.239999995}
+      - {x: -.239999995, y: -.289999992}
+      - {x: -.0700000003, y: -.469999999}
+      - {x: -.0199999996, y: -.469999999}
+      - {x: .209999993, y: -.370000005}
+      - {x: .189999998, y: -.229999989}
+      - {x: .189999998, y: -.0899999961}
+      - {x: .299999982, y: .099999994}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -335,7 +364,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .529999971, y: .330000013}
+  m_Size: {x: .529999971, y: .610000014}
   m_Center: {x: 0, y: -.270000011}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -353,7 +382,7 @@ MonoBehaviour:
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400012}
   unattachedColliders:
-  - {fileID: 5800010}
+  - {fileID: 6000000}
   attachedColliders:
   - {fileID: 5800010}
   - {fileID: 6100000}
@@ -376,6 +405,7 @@ MonoBehaviour:
   upperLimbSprite: {fileID: 21200000}
   lowerLimb: {fileID: 0}
   lowerLimbSprite: {fileID: 0}
+  currentBone: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

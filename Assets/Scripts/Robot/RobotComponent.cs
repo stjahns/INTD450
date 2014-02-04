@@ -89,8 +89,11 @@ public class RobotComponent : MonoBehaviour {
 		child.transform.localPosition = Vector3.zero;
 		child.transform.localEulerAngles = Vector3.zero;
 
-		child.upperLimbSprite.sortingLayerName = "Player";
-		child.upperLimbSprite.sortingOrder = (int)bone.spriteOrder;
+		if (child.upperLimbSprite)
+		{
+			child.upperLimbSprite.sortingLayerName = "Player";
+			child.upperLimbSprite.sortingOrder = (int)bone.spriteOrder;
+		}
 
 		// if child has lowerlimb, parent lowerlimb to bone.lowerlimb
 		if (child.lowerLimb && bone.LowerJoint)

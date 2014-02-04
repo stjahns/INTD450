@@ -231,7 +231,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 			if (rigidbody2D)
 			{
-				anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+				anim.SetFloat("lateralVelocity", rigidbody2D.velocity.x);
 			}
 
 
@@ -246,6 +246,12 @@ public class PlayerBehavior : MonoBehaviour {
 
 				string xVar = activeArm.parentAttachmentPoint.aimX;
 				string yVar = activeArm.parentAttachmentPoint.aimY;
+
+				if (anim.GetCurrentAnimatorStateInfo(3).nameHash
+						== Animator.StringToHash("Facing.FaceRight"))
+				{
+					playerToPointer.x *= -1;
+				}
 
 				anim.SetFloat(xVar, playerToPointer.x);
 				anim.SetFloat(yVar, playerToPointer.y);

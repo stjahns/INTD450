@@ -44,6 +44,9 @@ public class PlayerBehavior : MonoBehaviour {
 	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
 	public event OnDestroyHandler OnDestroy;
 
+
+	public bool facingLeft = true;
+
 	// Use this for initialization
 	void Start () {
 
@@ -80,7 +83,8 @@ public class PlayerBehavior : MonoBehaviour {
 		};
 	}
 
-	void Update () {
+	void Update ()
+	{
 
 		int layerMask = 0;
 		foreach (string layer in jumpableLayers)
@@ -143,6 +147,8 @@ public class PlayerBehavior : MonoBehaviour {
 		transform.eulerAngles = Vector3.zero;
 
 		soundSource.PlayOneShot(limbRemoveSound);
+
+		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
@@ -168,12 +174,15 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 
 		allComponents.Remove(limb);
+
 		if (allComponents.Count == 0)
 		{
 			rigidbody2D.fixedAngle = false;
 		}
 
 		soundSource.PlayOneShot(limbAttachSound);
+
+		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
 
 	// Update is called once per frame
@@ -207,6 +216,7 @@ public class PlayerBehavior : MonoBehaviour {
 			jumpTimer = jumpCooloff;
 			soundSource.PlayOneShot(jumpSound);
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
+			anim.SetTrigger("jump");
 		}
 
 		if (activeArm && Input.GetMouseButtonDown(0))
@@ -218,14 +228,34 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			activeLeg.FireAbility();
 		}
-		
+
 
 		anim = GetComponentInChildren<Animator>();
 		if (anim) {
 
+			if (anim.GetCurrentAnimatorStateInfo(3).nameHash
+					== Animator.StringToHash("Facing.FaceRight"))
+			{
+				if (facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = false;
+				}
+			}
+			else
+			{
+				if (!facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = true;
+				}
+			}
+
+
 			if (rigidbody2D)
 			{
-				anim.SetFloat("lateralVelocity", Mathf.Abs(rigidbody2D.velocity.x));
+				anim.SetFloat("lateralSpeed", Mathf.Abs(rigidbody2D.velocity.x));
+				anim.SetFloat("lateralVelocity", rigidbody2D.velocity.x);
 			}
 
 
@@ -240,6 +270,12 @@ public class PlayerBehavior : MonoBehaviour {
 
 				string xVar = activeArm.parentAttachmentPoint.aimX;
 				string yVar = activeArm.parentAttachmentPoint.aimY;
+
+				if (!facingLeft)
+				{
+					playerToPointer.x *= -1;
+				}
+
 
 				anim.SetFloat(xVar, playerToPointer.x);
 				anim.SetFloat(yVar, playerToPointer.y);

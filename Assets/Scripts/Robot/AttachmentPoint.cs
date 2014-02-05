@@ -76,6 +76,8 @@ public class AttachmentPoint : MonoBehaviour {
 
 	public AttachmentType attachmentType = AttachmentType.Default;
 
+	public AttachmentSlot slot;
+
 	bool m_selected;
 	public bool selected
 	{

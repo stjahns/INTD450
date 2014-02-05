@@ -21,9 +21,21 @@ public class GrappleComponent : LimbComponent {
 
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
-	
+
+	void Start ()
+	{
+		ropeStart.transform.parent = null;
+	}
+
+	void Update ()
+	{
+		ropeStart.transform.position = lowerLimb.transform.position;
+	}
+
 	void FixedUpdate ()
 	{
+		ropeStart.transform.position = lowerLimb.transform.position;
+
 		// Adjust rope length
 		float length = Vector3.Distance(ropeStart.position, ropeEnd.position);
 		Vector3 scale = ropeStart.localScale;
@@ -35,6 +47,7 @@ public class GrappleComponent : LimbComponent {
 				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
 		ropeStart.eulerAngles = angles;
 
+
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)
 		{
@@ -44,12 +57,24 @@ public class GrappleComponent : LimbComponent {
 			string xVar = parentAttachmentPoint.aimX;
 			string yVar = parentAttachmentPoint.aimY;
 
+			// HACK!
+			var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
+			if (!player.facingLeft)
+			{
+				direction.x *= -1;
+			}
+
 			if (anim)
 			{
 				anim.SetFloat(xVar, direction.x);
 				anim.SetFloat(yVar, direction.y);
 			}
 
+			// MOAR HACK
+			if (!player.facingLeft)
+			{
+				direction.x *= -1;
+			}
 
 			if (length > 0.5)
 			{
@@ -58,6 +83,7 @@ public class GrappleComponent : LimbComponent {
 				getRootComponent().rigidbody2D.AddForce(direction * pullForce);
 			}
 		}
+
 	}
 
 	override public void FireAbility()
@@ -72,7 +98,9 @@ public class GrappleComponent : LimbComponent {
 				mask |= 1 << LayerMask.NameToLayer(layer);
 			}
 
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.rotation * Vector3.down, maxDistance, mask);
+			// TODO use mouse coords!
+			Vector3 direction = ropeStart.position - transform.position;
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, maxDistance, mask);
 
 			if (hit)
 			{
@@ -84,6 +112,7 @@ public class GrappleComponent : LimbComponent {
 				clamp.parent = null;
 
 				SFXSource.PlayOneShot(fireClip);
+
 			}
 			
 			// TODO - fire grapple at pullable objects

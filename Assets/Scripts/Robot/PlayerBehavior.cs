@@ -45,7 +45,7 @@ public class PlayerBehavior : MonoBehaviour {
 	public event OnDestroyHandler OnDestroy;
 
 
-	private bool facingLeft = true;
+	public bool facingLeft = true;
 
 	// Use this for initialization
 	void Start () {
@@ -228,10 +228,29 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			activeLeg.FireAbility();
 		}
-		
+
 
 		anim = GetComponentInChildren<Animator>();
 		if (anim) {
+
+			if (anim.GetCurrentAnimatorStateInfo(3).nameHash
+					== Animator.StringToHash("Facing.FaceRight"))
+			{
+				if (facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = false;
+				}
+			}
+			else
+			{
+				if (!facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = true;
+				}
+			}
+
 
 			if (rigidbody2D)
 			{
@@ -252,25 +271,11 @@ public class PlayerBehavior : MonoBehaviour {
 				string xVar = activeArm.parentAttachmentPoint.aimX;
 				string yVar = activeArm.parentAttachmentPoint.aimY;
 
-				if (anim.GetCurrentAnimatorStateInfo(3).nameHash
-						== Animator.StringToHash("Facing.FaceRight"))
+				if (!facingLeft)
 				{
 					playerToPointer.x *= -1;
+				}
 
-					if (facingLeft)
-					{
-						head.ResetSpriteOrders();
-						facingLeft = false;
-					}
-				}
-				else
-				{
-					if (!facingLeft)
-					{
-						head.ResetSpriteOrders();
-						facingLeft = true;
-					}
-				}
 
 				anim.SetFloat(xVar, playerToPointer.x);
 				anim.SetFloat(yVar, playerToPointer.y);

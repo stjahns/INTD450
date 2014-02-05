@@ -19,8 +19,13 @@ public class CannonComponent : LimbComponent
 		SFXSource.PlayOneShot(fireClip);
 
 		// fire cannonball
+		Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		Vector2 direction = (target - shotOrigin.position).XY();
+		direction.Normalize();
+
 		GameObject cannonBall = Instantiate(cannonballPrefab, shotOrigin.position, Quaternion.identity) as GameObject;
-		cannonBall.rigidbody2D.velocity = transform.rotation * Vector3.down * shotVelocity;
+
+		cannonBall.rigidbody2D.velocity = direction * shotVelocity;
 		
 	}
 }

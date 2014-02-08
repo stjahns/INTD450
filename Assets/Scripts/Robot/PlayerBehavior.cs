@@ -44,7 +44,6 @@ public class PlayerBehavior : MonoBehaviour {
 	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
 	public event OnDestroyHandler OnDestroy;
 
-
 	public bool facingLeft = true;
 
 	// Use this for initialization
@@ -92,8 +91,65 @@ public class PlayerBehavior : MonoBehaviour {
 			layerMask |= 1 << LayerMask.NameToLayer(layer);
 		}
 		onGround = head.checkOnGround(layerMask);
+
+
+		if (Input.GetKeyDown(KeyCode.Q))
+		{
+			nextArmAbility();
+		}
+
+		if (Input.GetKeyDown(KeyCode.E))
+		{
+			nextLegAbility();
+		}
+
+		if (jumpTimer > 0.0f)
+		{
+			jumpTimer -= Time.deltaTime;
+		}
+
+		if (onGround && jumpTimer <= 0.0f && Input.GetKeyDown(KeyCode.Space)) {
+			// jump
+			jumpTimer = jumpCooloff;
+			soundSource.PlayOneShot(jumpSound);
+			rigidbody2D.AddForce(Vector2.up * jumpForce);
+			anim.SetTrigger("jump");
+		}
+
+		if (activeArm && Input.GetMouseButtonDown(0))
+		{
+			activeArm.FireAbility();
+		}
+
+		if (activeLeg && Input.GetMouseButtonDown(1))
+		{
+			activeLeg.FireAbility();
+		}
+
+		if (activeArm && activeArm.shouldAim)
+		{
+			Vector2 jointOrigin = activeArm.parentAttachmentPoint.transform.position;
+			Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
+			Vector2 playerToPointer;
+
+			playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
+			playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
+			playerToPointer.Normalize();
+
+			string xVar = activeArm.parentAttachmentPoint.aimX;
+			string yVar = activeArm.parentAttachmentPoint.aimY;
+
+			if (!facingLeft)
+			{
+				playerToPointer.x *= -1;
+			}
+
+
+			anim.SetFloat(xVar, playerToPointer.x);
+			anim.SetFloat(yVar, playerToPointer.y);
+		}
 	}
-	
+
 	public void Die()
 	{
 		if (!dying)
@@ -198,38 +254,6 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.AddForce(Vector2.right * moveForce);
 		}
 
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			nextArmAbility();
-		}
-
-		if (Input.GetKeyDown(KeyCode.E)) {
-			nextLegAbility();
-		}
-
-		if (jumpTimer > 0.0f)
-		{
-			jumpTimer -= Time.deltaTime;
-		}
-
-		if (onGround && jumpTimer <= 0.0f && Input.GetKeyDown(KeyCode.Space)) {
-			// jump
-			jumpTimer = jumpCooloff;
-			soundSource.PlayOneShot(jumpSound);
-			rigidbody2D.AddForce(Vector2.up * jumpForce);
-			anim.SetTrigger("jump");
-		}
-
-		if (activeArm && Input.GetMouseButtonDown(0))
-		{
-			activeArm.FireAbility();
-		}
-
-		if (activeLeg && Input.GetMouseButtonDown(1))
-		{
-			activeLeg.FireAbility();
-		}
-
-
 		anim = GetComponentInChildren<Animator>();
 		if (anim) {
 
@@ -251,37 +275,12 @@ public class PlayerBehavior : MonoBehaviour {
 				}
 			}
 
-
 			if (rigidbody2D)
 			{
 				anim.SetFloat("lateralSpeed", Mathf.Abs(rigidbody2D.velocity.x));
 				anim.SetFloat("lateralVelocity", rigidbody2D.velocity.x);
 			}
-
-
-			if (activeArm && activeArm.shouldAim) {
-				Vector2 jointOrigin = activeArm.parentAttachmentPoint.transform.position;
-				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
-				Vector2 playerToPointer;
-
-				playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
-		    	playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
-				playerToPointer.Normalize();
-
-				string xVar = activeArm.parentAttachmentPoint.aimX;
-				string yVar = activeArm.parentAttachmentPoint.aimY;
-
-				if (!facingLeft)
-				{
-					playerToPointer.x *= -1;
-				}
-
-
-				anim.SetFloat(xVar, playerToPointer.x);
-				anim.SetFloat(yVar, playerToPointer.y);
-			}
 		}
-
 	}
 
 	void nextArmAbility() {

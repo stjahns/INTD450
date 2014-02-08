@@ -5,8 +5,9 @@ using System.Linq;
 
 public class RobotComponent : MonoBehaviour {
 
-	public bool attached = false;
+	// Public Vars
 	public LimbType limbType;
+	public bool attached = false;
 
 	public RobotComponent parentComponent = null;
 	public AttachmentPoint parentAttachmentPoint = null;
@@ -24,18 +25,6 @@ public class RobotComponent : MonoBehaviour {
 
 	public bool shouldAim = true;
 
-	private bool resettingPhysics = false;
-
-	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
-	public event LimbChangedHandler LimbAdded;
-	public event LimbChangedHandler LimbRemoved;
-
-	public delegate void PhysicsResetHandler(RobotComponent component);
-	public event PhysicsResetHandler PhysicsReset;
-
-	public delegate void OnDestroyHandler(RobotComponent component);
-	public event OnDestroyHandler OnDestroy;
-
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
 
@@ -51,6 +40,19 @@ public class RobotComponent : MonoBehaviour {
 	public List<int> lowerLimbSpriteOrders;
 
 	public Bone currentBone = null;
+
+	// Private Vars
+	private bool resettingPhysics = false;
+
+	// Events
+	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
+	public delegate void PhysicsResetHandler(RobotComponent component);
+	public delegate void OnDestroyHandler(RobotComponent component);
+
+	public event LimbChangedHandler LimbAdded;
+	public event LimbChangedHandler LimbRemoved;
+	public event PhysicsResetHandler PhysicsReset;
+	public event OnDestroyHandler OnDestroy;
 
 	void Awake()
 	{

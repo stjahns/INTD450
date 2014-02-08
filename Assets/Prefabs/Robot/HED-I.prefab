@@ -13,6 +13,8 @@ GameObject:
   - 114: {fileID: 11400002}
   - 82: {fileID: 8200002}
   - 95: {fileID: 9500000}
+  - 114: {fileID: 11400038}
+  - 114: {fileID: 11400036}
   m_Layer: 12
   m_Name: HED-I
   m_TagString: Player
@@ -289,7 +291,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.90564632, y: 3.29617047, z: 0}
+  m_LocalPosition: {x: -1.19567752, y: 1.50451803, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -605,9 +607,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0fa8b60405994244a7aaef45dfc46c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 10
-  jumpForce: 300
-  onGround: 0
+  activeController: {fileID: 11400038}
   head: {fileID: 11400002}
   activeArm: {fileID: 0}
   activeLeg: {fileID: 0}
@@ -618,14 +618,10 @@ MonoBehaviour:
   - Ground
   - LevelObjects
   - LimbGate
-  soundSource: {fileID: 8200002}
   deathSound: {fileID: 8300000, guid: ef62b84dae4ec4a3a846ba8fc26ff4cb, type: 3}
-  jumpSound: {fileID: 8300000, guid: cbe99584e12500a438b3063ab9d0c012, type: 3}
   limbAttachSound: {fileID: 8300000, guid: ebd1efe94aefe964d9813bf64e2cfc89, type: 3}
   limbRemoveSound: {fileID: 8300000, guid: 46b19c4ad6380d94c8ec9ec761ef9f98, type: 3}
-  jumpCooloff: .25
-  hopForce: 10
-  Skeleton: {fileID: 11400016}
+  facingLeft: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -637,6 +633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e7987a7cd0e14055b8b2b039dc4b72e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limbType: 0
   attached: 1
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
@@ -646,7 +643,6 @@ MonoBehaviour:
   groundConnections: []
   allJoints:
   - {fileID: 11400004}
-  limbTrack: {fileID: 0}
   SFXSource: {fileID: 0}
   shouldAim: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
@@ -658,7 +654,8 @@ MonoBehaviour:
   upperLimb: {fileID: 100004}
   upperLimbSprite: {fileID: 21200000}
   lowerLimb: {fileID: 0}
-  lowerLimbSprite: {fileID: 0}
+  lowerLimbSprites: []
+  lowerLimbSpriteOrders: 
   currentBone: {fileID: 11400010}
 --- !u!114 &11400004
 MonoBehaviour:
@@ -922,6 +919,36 @@ MonoBehaviour:
   - {fileID: 11400026}
   spriteOrder: 2
   spriteMirrored: 0
+--- !u!114 &11400036
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae32ca363b6447b7b8d3b4ebc121b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 11400000}
+  movementController: {fileID: 11400038}
+--- !u!114 &11400038
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45badf9750a28438ea7710f47b35689b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 11400000}
+  attachmentController: {fileID: 11400036}
+  moveForce: 5
+  jumpClip: {fileID: 8300000, guid: cbe99584e12500a438b3063ab9d0c012, type: 3}
+  jumpForce: 250
+  jumpCooloff: .25
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

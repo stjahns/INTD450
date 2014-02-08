@@ -126,6 +126,7 @@ public class AttachmentPoint : MonoBehaviour {
 	void FixedUpdate () {
 
 		// move collider
+		/*
 		trigger.transform.position = transform.position;
 
 		Vector3 wp = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -157,6 +158,7 @@ public class AttachmentPoint : MonoBehaviour {
 		}
 
 		emitter.startLifetime = (mouseOver || selected) ? 0.5f : 0.05f;
+		*/
 	}
 
 	void mouseClick() {

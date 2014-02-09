@@ -226,7 +226,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.70567894, y: -3.92561698, z: 0}
+  m_LocalPosition: {x: -5.13010645, y: -4.80904531, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400022}
@@ -389,7 +389,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -517,7 +517,6 @@ MonoBehaviour:
   connectsGround: 0
   attachmentType: 0
   slot: 0
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -529,8 +528,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48229216d0951447aae34bc07f24527d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attached: 0
   limbType: 4
+  attached: 0
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400022}

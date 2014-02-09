@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class PlayerAttachmentController : MonoBehaviour
 {
 
+	// Public fields
+
 	public PlayerBehavior player;
 	public PlayerMovementController movementController;
 	public float attachmentRange;
@@ -15,6 +17,10 @@ public class PlayerAttachmentController : MonoBehaviour
 	public AudioClip onEnableClip;
 	public AudioClip onDisableClip;
 	public AudioClip jointSelectedClip;
+
+	public MeshRenderer attachmentRangeVisual;
+
+	// Private fields
 
 	private enum AttachmentState
 	{
@@ -102,6 +108,8 @@ public class PlayerAttachmentController : MonoBehaviour
 		player.camera.viewportHeight = viewportHeightOriginal;
 
 		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
+
+		attachmentRangeVisual.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -172,6 +180,11 @@ public class PlayerAttachmentController : MonoBehaviour
 				// Select a child to attach now
 				state = AttachmentState.SelectChild;
 				player.camera.viewportHeight = selectChildViewportHeight;
+
+				attachmentRangeVisual.enabled = true;
+				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange);
+
+				// Show the range...
 				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);
 			}
 		}

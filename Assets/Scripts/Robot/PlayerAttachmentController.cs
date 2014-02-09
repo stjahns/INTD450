@@ -19,6 +19,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	public AudioClip jointSelectedClip;
 
 	public MeshRenderer attachmentRangeVisual;
+	public MeshRenderer attachmentShadowVisual;
 	public LineRenderer attachmentLineVisual;
 
 	// Private fields
@@ -89,6 +90,8 @@ public class PlayerAttachmentController : MonoBehaviour
 		player.camera.viewportHeight = selectParentViewportHeight;
 
 		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
+
+		attachmentShadowVisual.enabled = true;
 	}
 
 	void OnDisable()
@@ -112,6 +115,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		attachmentRangeVisual.enabled = false;
 		attachmentLineVisual.enabled = false;
+		attachmentShadowVisual.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -194,6 +198,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				state = AttachmentState.SelectChild;
 				player.camera.viewportHeight = selectChildViewportHeight;
 
+				attachmentShadowVisual.enabled = false;
 				attachmentRangeVisual.enabled = true;
 				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange);
 

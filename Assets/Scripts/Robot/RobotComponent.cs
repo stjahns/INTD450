@@ -168,9 +168,6 @@ public class RobotComponent : MonoBehaviour {
 			OnLimbAdded(limb, type);
 		}
 
-		// HACK - bump up to make room
-		getRootComponent().transform.Translate(0, 2.0f, 0);
-
 		child.ResetColliders();
 		getRootComponent().ResetPhysics();
 

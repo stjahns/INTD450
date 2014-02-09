@@ -25,6 +25,19 @@ public class PlayerAttachmentController : MonoBehaviour
 	private AttachmentPoint selectedParentJoint;
 	private AttachmentPoint selectedChildJoint;
 
+	private Vector3 parentStartPosition;
+	private Quaternion parentStartRotation;
+	
+	private Vector3 parentTargetPosition;
+	private Quaternion parentTargetRotation;
+
+	private Vector3 childStartPosition;
+	private Quaternion childStartRotation;
+
+	private Vector3 childTargetPosition;
+	private Quaternion childTargetRotation;
+
+
 	void OnEnable ()
 	{
 		state = AttachmentState.SelectParent;
@@ -74,13 +87,6 @@ public class PlayerAttachmentController : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
-		{
-			// Abort to regular mode
-			player.SetController(movementController);
-			return;
-		}
-
 		switch (state)
 		{
 			case AttachmentState.SelectParent:
@@ -90,12 +96,23 @@ public class PlayerAttachmentController : MonoBehaviour
 				SelectChild();
 				break;
 			case AttachmentState.AttachingPart:
+				AttachingPart();
 				break;
 		}
 	}
 
+	//
+	// Select joint on body to attach new part to / detach existing part
+	//
 	void SelectParent()
 	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			// Abort to regular mode
+			player.SetController(movementController);
+			return;
+		}
+
 		if (selectedParentJoint)
 		{
 			selectedParentJoint.selected = false;
@@ -138,8 +155,18 @@ public class PlayerAttachmentController : MonoBehaviour
 		}
 	}
 
+	//
+	// Select unattached child part to attach to body
+	//
 	void SelectChild()
 	{
+		if (Input.GetKeyDown(KeyCode.Escape))
+		{
+			// Abort to regular mode
+			player.SetController(movementController);
+			return;
+		}
+
 		if (selectedChildJoint)
 		{
 			selectedChildJoint.selected = false;
@@ -171,9 +198,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			if (selectedChildJoint != null)
 			{
-				selectedParentJoint.owner.Attach(selectedParentJoint, selectedChildJoint);
-				player.SetController(movementController);
-				state = AttachmentState.AttachingPart;
+				StartAttachingPart();
 			}
 			else
 			{
@@ -181,6 +206,87 @@ public class PlayerAttachmentController : MonoBehaviour
 				state = AttachmentState.AttachingPart;
 				player.SetController(movementController);
 			}
+		}
+	}
+
+	//
+	// Determine target positions + rotations for body and attached part
+	//
+	void StartAttachingPart()
+	{
+		// For parent component (robot), determine space necessary to attach child part
+
+		// Set parent target position
+		// Set parent target rotation if necessary
+		parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+		parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
+
+		// Figure out size of new child part
+		// Given current parent joint transform, is there room for part? otherwise move 
+		// TODO might need to abort under certain circumstances (too cramped)
+
+		parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y + 1, 0);
+		parentTargetRotation = Quaternion.identity;
+
+		childStartPosition = selectedChildJoint.owner.transform.position;
+		childStartRotation = selectedChildJoint.owner.transform.rotation;
+
+		childTargetPosition = selectedParentJoint.transform.position;
+		childTargetPosition = new Vector3(childTargetPosition.x, childTargetPosition.y + 1, 0);
+		childTargetRotation = Quaternion.identity;
+
+		state = AttachmentState.AttachingPart;
+
+		if (selectedChildJoint.owner.rigidbody2D)
+		{
+			Destroy(selectedChildJoint.owner.rigidbody2D);
+		}
+
+		if (selectedParentJoint.owner.getRootComponent().rigidbody2D)
+		{
+			Destroy(selectedParentJoint.owner.getRootComponent().rigidbody2D);
+		}
+
+		// TODO attachment speed proportional to distance?
+
+		attachmentTime = 0.0f;
+	}
+
+	private float attachmentTime;
+	public float attachmentEndTime = 1.0f;
+
+	//
+	// Interpolate positions / rotations until part is attached to body
+	//
+	void AttachingPart()
+	{
+		attachmentTime += Time.deltaTime;
+
+
+		selectedChildJoint.owner.transform.position = 
+			Vector3.Lerp(childStartPosition,
+					childTargetPosition,
+					attachmentTime / attachmentEndTime);
+
+		selectedChildJoint.owner.transform.rotation = 
+			Quaternion.Slerp(childStartRotation,
+					childTargetRotation,
+					attachmentTime / attachmentEndTime);
+
+		selectedParentJoint.owner.getRootComponent().transform.position = 
+			Vector3.Lerp(parentStartPosition,
+					parentTargetPosition,
+					attachmentTime / attachmentEndTime);
+
+		selectedParentJoint.owner.getRootComponent().transform.rotation = 
+			Quaternion.Lerp(parentStartRotation,
+					parentTargetRotation,
+					attachmentTime / attachmentEndTime);
+
+		if (attachmentTime > attachmentEndTime)
+		{
+			selectedParentJoint.owner.Attach(selectedParentJoint, selectedChildJoint);
+			player.SetController(movementController);
 		}
 	}
 }

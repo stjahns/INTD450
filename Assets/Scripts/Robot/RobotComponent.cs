@@ -12,6 +12,8 @@ public class RobotComponent : MonoBehaviour {
 	public RobotComponent parentComponent = null;
 	public AttachmentPoint parentAttachmentPoint = null;
 
+	public float partLength = 1.0f;
+
 	public Transform groundCheck;
 
 	public List<Collider2D> unattachedColliders = new List<Collider2D>();
@@ -144,6 +146,16 @@ public class RobotComponent : MonoBehaviour {
 			Destroy(childJoint.owner.rigidbody2D);
 		}
 
+
+		// Parent all child joints to the bones themselves (for torso)
+		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
+		{
+			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
+			joint.transform.parent = jointBone.transform;
+			joint.transform.localPosition = Vector3.zero;
+			joint.transform.localRotation = Quaternion.identity;
+		}
+
 		parentJoint.child = childJoint;
 		childJoint.parent = parentJoint;
 
@@ -204,6 +216,11 @@ public class RobotComponent : MonoBehaviour {
 			child.lowerLimb.transform.localScale = Vector3.one;
 		}
 
+		// Unparent all child joints from bones
+		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
+		{
+			joint.transform.parent = joint.owner.transform;
+		}
 
 		child.transform.localScale = Vector3.one;
 

@@ -22,9 +22,16 @@ public class GrappleComponent : LimbComponent {
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
 
+	private Transform forward;
+
 	void Start ()
 	{
 		ropeStart.transform.parent = null;
+
+		GameObject forwardObject = new GameObject("Forward");
+		forwardObject.transform.parent = lowerLimb.transform;
+		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
+		forward = forwardObject.transform;
 	}
 
 	void Update ()
@@ -46,7 +53,6 @@ public class GrappleComponent : LimbComponent {
 		angles.z = ( Mathf.Atan2(ropeEnd.position.y - ropeStart.position.y,
 				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
 		ropeStart.eulerAngles = angles;
-
 
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)
@@ -98,8 +104,7 @@ public class GrappleComponent : LimbComponent {
 				mask |= 1 << LayerMask.NameToLayer(layer);
 			}
 
-			// TODO use mouse coords!
-			Vector3 direction = ropeStart.position - transform.position;
+			Vector3 direction = forward.position - lowerLimb.transform.position;
 			RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, maxDistance, mask);
 
 			if (hit)

@@ -9,6 +9,8 @@ public class PlayerBehavior : MonoBehaviour {
 	
 	public HeadComponent head;
 
+	public PlayerSkeleton skeleton;
+
 	public RobotComponent activeArm = null;
 	public RobotComponent activeLeg = null;
 

@@ -609,6 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeController: {fileID: 11400038}
   head: {fileID: 11400002}
+  skeleton: {fileID: 11400016}
   activeArm: {fileID: 0}
   activeLeg: {fileID: 0}
   currentArms: []
@@ -638,12 +639,14 @@ MonoBehaviour:
   attached: 1
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
+  partLength: 1
   groundCheck: {fileID: 400002}
   unattachedColliders: []
   attachedColliders: []
   groundConnections: []
   allJoints:
   - {fileID: 11400004}
+  jointSlots: 
   SFXSource: {fileID: 0}
   shouldAim: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
@@ -933,8 +936,7 @@ MonoBehaviour:
   player: {fileID: 11400000}
   movementController: {fileID: 11400038}
   attachmentRange: 5
-  parentJoints: []
-  childJoints: []
+  attachmentEndTime: 1
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -214,26 +214,42 @@ public class PlayerAttachmentController : MonoBehaviour
 	//
 	void StartAttachingPart()
 	{
-		// For parent component (robot), determine space necessary to attach child part
-
-		// Set parent target position
-		// Set parent target rotation if necessary
 		parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
 		parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
 
-		// Figure out size of new child part
-		// Given current parent joint transform, is there room for part? otherwise move 
-		// TODO might need to abort under certain circumstances (too cramped)
-
-		parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y + 1, 0);
+		parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y, 0);
 		parentTargetRotation = Quaternion.identity;
+
+		int ground = 1 << LayerMask.NameToLayer("Ground");
+		float partLength = selectedChildJoint.owner.partLength;
+
+		Vector2[] directions = new Vector2[] {
+			Vector2.up * -1,
+			Vector2.right,
+			Vector2.right * -1
+		};
+	
+		foreach (var direction in directions)
+		{
+			var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+			if (hit)
+			{
+				float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
+				parentTargetPosition -= (direction * (partLength - distance)).XY0();
+			}
+
+			// TODO might need to abort under certain circumstances if too cramped
+		}
 
 		childStartPosition = selectedChildJoint.owner.transform.position;
 		childStartRotation = selectedChildJoint.owner.transform.rotation;
 
-		childTargetPosition = selectedParentJoint.transform.position;
-		childTargetPosition = new Vector3(childTargetPosition.x, childTargetPosition.y + 1, 0);
-		childTargetRotation = Quaternion.identity;
+		Vector3 parentChange = parentTargetPosition - parentStartPosition;
+
+		Bone jointBone = player.skeleton.GetBoneForSlot(selectedParentJoint.slot);
+
+		childTargetPosition = selectedParentJoint.transform.position + parentChange;
+		childTargetRotation = jointBone.GetBoneRotation() * parentTargetRotation;
 
 		state = AttachmentState.AttachingPart;
 
@@ -247,7 +263,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			Destroy(selectedParentJoint.owner.getRootComponent().rigidbody2D);
 		}
 
-		// TODO attachment speed proportional to distance?
+		// TODO attachment speed proportional to distance / rotation?
 
 		attachmentTime = 0.0f;
 	}

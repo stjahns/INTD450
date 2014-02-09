@@ -13,14 +13,23 @@ public class CannonComponent : LimbComponent
 
 	public AudioClip fireClip;
 
+	private Transform forward;
+
+	void Start ()
+	{
+		GameObject forwardObject = new GameObject("Forward");
+		forwardObject.transform.parent = lowerLimb.transform;
+		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
+		forward = forwardObject.transform;
+	}
+
 	override public void FireAbility()
 	{
 		animator.SetTrigger("Fire");
 		SFXSource.PlayOneShot(fireClip);
 
 		// fire cannonball
-		Vector3 target = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		Vector2 direction = (target - shotOrigin.position).XY();
+		Vector3 direction = forward.position - lowerLimb.transform.position;
 		direction.Normalize();
 
 		GameObject cannonBall = Instantiate(cannonballPrefab, shotOrigin.position, Quaternion.identity) as GameObject;

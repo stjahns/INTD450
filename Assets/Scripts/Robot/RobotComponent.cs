@@ -5,11 +5,14 @@ using System.Linq;
 
 public class RobotComponent : MonoBehaviour {
 
-	public bool attached = false;
+	// Public Vars
 	public LimbType limbType;
+	public bool attached = false;
 
 	public RobotComponent parentComponent = null;
 	public AttachmentPoint parentAttachmentPoint = null;
+
+	public float partLength = 1.0f;
 
 	public Transform groundCheck;
 
@@ -23,18 +26,6 @@ public class RobotComponent : MonoBehaviour {
 	public AudioSource SFXSource;
 
 	public bool shouldAim = true;
-
-	private bool resettingPhysics = false;
-
-	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
-	public event LimbChangedHandler LimbAdded;
-	public event LimbChangedHandler LimbRemoved;
-
-	public delegate void PhysicsResetHandler(RobotComponent component);
-	public event PhysicsResetHandler PhysicsReset;
-
-	public delegate void OnDestroyHandler(RobotComponent component);
-	public event OnDestroyHandler OnDestroy;
 
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
@@ -51,6 +42,19 @@ public class RobotComponent : MonoBehaviour {
 	public List<int> lowerLimbSpriteOrders;
 
 	public Bone currentBone = null;
+
+	// Private Vars
+	private bool resettingPhysics = false;
+
+	// Events
+	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
+	public delegate void PhysicsResetHandler(RobotComponent component);
+	public delegate void OnDestroyHandler(RobotComponent component);
+
+	public event LimbChangedHandler LimbAdded;
+	public event LimbChangedHandler LimbRemoved;
+	public event PhysicsResetHandler PhysicsReset;
+	public event OnDestroyHandler OnDestroy;
 
 	void Awake()
 	{
@@ -142,6 +146,16 @@ public class RobotComponent : MonoBehaviour {
 			Destroy(childJoint.owner.rigidbody2D);
 		}
 
+
+		// Parent all child joints to the bones themselves (for torso)
+		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
+		{
+			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
+			joint.transform.parent = jointBone.transform;
+			joint.transform.localPosition = Vector3.zero;
+			joint.transform.localRotation = Quaternion.identity;
+		}
+
 		parentJoint.child = childJoint;
 		childJoint.parent = parentJoint;
 
@@ -165,9 +179,6 @@ public class RobotComponent : MonoBehaviour {
 
 			OnLimbAdded(limb, type);
 		}
-
-		// HACK - bump up to make room
-		getRootComponent().transform.Translate(0, 2.0f, 0);
 
 		child.ResetColliders();
 		getRootComponent().ResetPhysics();
@@ -205,6 +216,11 @@ public class RobotComponent : MonoBehaviour {
 			child.lowerLimb.transform.localScale = Vector3.one;
 		}
 
+		// Unparent all child joints from bones
+		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
+		{
+			joint.transform.parent = joint.owner.transform;
+		}
 
 		child.transform.localScale = Vector3.one;
 

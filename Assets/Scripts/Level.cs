@@ -17,6 +17,7 @@ public class Level : MonoBehaviour
 			playerCamera.target = spawnedPlayer.transform;
 
 			var player = spawnedPlayer.GetComponent<PlayerBehavior>();
+			player.camera = playerCamera;
 			player.OnDestroy += destroyedPlayer => {
 
 				// Stop following player when it is destroyed

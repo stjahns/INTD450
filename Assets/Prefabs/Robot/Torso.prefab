@@ -235,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.962111473, y: 2.144979, z: 0}
+  m_LocalPosition: {x: -9.0860548, y: -6.56524563, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -267,7 +267,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -278,7 +278,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100010}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -289,7 +289,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -300,7 +300,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -311,7 +311,7 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Radius: .159999996
@@ -377,8 +377,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc54a225baf5d4a489ff7c2ee5eeb6aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attached: 0
   limbType: 1
+  attached: 0
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   groundCheck: {fileID: 400012}
@@ -404,7 +404,8 @@ MonoBehaviour:
   upperLimb: {fileID: 100014}
   upperLimbSprite: {fileID: 21200000}
   lowerLimb: {fileID: 0}
-  lowerLimbSprite: {fileID: 0}
+  lowerLimbSprites: []
+  lowerLimbSpriteOrders: 
   currentBone: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
@@ -427,7 +428,6 @@ MonoBehaviour:
   connectsGround: 0
   attachmentType: 0
   slot: 0
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -449,7 +449,6 @@ MonoBehaviour:
   connectsGround: 0
   attachmentType: 1
   slot: 3
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -471,7 +470,6 @@ MonoBehaviour:
   connectsGround: 0
   attachmentType: 1
   slot: 4
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -493,7 +491,6 @@ MonoBehaviour:
   connectsGround: 1
   attachmentType: 2
   slot: 6
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -515,7 +512,6 @@ MonoBehaviour:
   connectsGround: 1
   attachmentType: 2
   slot: 5
-  triggerPrefab: {fileID: 100000, guid: 43683dac4b52f46e59ab12c4af26f15d, type: 2}
 --- !u!198 &19800000
 ParticleSystem:
   m_ObjectHideFlags: 1

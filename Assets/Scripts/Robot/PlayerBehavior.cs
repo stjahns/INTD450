@@ -4,14 +4,15 @@ using System.Collections.Generic;
 
 public class PlayerBehavior : MonoBehaviour {
 
-	public float moveForce = 1.0f;
-	public float jumpForce = 1.0f;
-
-	public bool onGround = false;
-
-	private Animator anim = null;
-
+	// Public fields
+	public MonoBehaviour activeController;
+	
 	public HeadComponent head;
+
+	[HideInInspector]
+	public FollowCamera camera;
+
+	public PlayerSkeleton skeleton;
 
 	public RobotComponent activeArm = null;
 	public RobotComponent activeLeg = null;
@@ -23,17 +24,9 @@ public class PlayerBehavior : MonoBehaviour {
 
 	public List<string> jumpableLayers = new List<string>();
 
-	public AudioSource soundSource;
 	public AudioClip deathSound;
-	public AudioClip jumpSound;
 	public AudioClip limbAttachSound;
 	public AudioClip limbRemoveSound;
-
-	private bool dying = false;
-	public float jumpCooloff = 0.25f;
-	private float jumpTimer = 0.0f;
-
-	public float hopForce = 10;
 
 	[HideInInspector]
 	public static PlayerBehavior Player;
@@ -41,17 +34,43 @@ public class PlayerBehavior : MonoBehaviour {
 	// True if player has any limbs attatched
 	public bool HasLimbs { get { return allComponents.Count > 0; } }
 
-	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
-	public event OnDestroyHandler OnDestroy;
+	public bool OnGround
+	{
+		get
+		{
+			if (head)
+			{
+				int layerMask = 0;
+				foreach (string layer in jumpableLayers)
+				{
+					layerMask |= 1 << LayerMask.NameToLayer(layer);
+				}
 
+				return head.checkOnGround(layerMask);
+			}
+			return false;
+		}
+	}
 
 	public bool facingLeft = true;
 
-	// Use this for initialization
-	void Start () {
+	// Private fields
 
+	private Animator anim = null;
+	private bool dying = false;
+	private bool inAttachmentMode = false;
+
+	// Events
+	public delegate void OnDestroyHandler(PlayerBehavior behaviour);
+	public event OnDestroyHandler OnDestroy;
+
+	// Use this for initialization
+	void Start ()
+	{
 		// Set static reference (kinda hacky :/)
 		PlayerBehavior.Player = this;
+
+		activeController.enabled = true;
 
 		anim = GetComponentInChildren<Animator>();
 		currentArms = new List<RobotComponent>();
@@ -83,17 +102,6 @@ public class PlayerBehavior : MonoBehaviour {
 		};
 	}
 
-	void Update ()
-	{
-
-		int layerMask = 0;
-		foreach (string layer in jumpableLayers)
-		{
-			layerMask |= 1 << LayerMask.NameToLayer(layer);
-		}
-		onGround = head.checkOnGround(layerMask);
-	}
-	
 	public void Die()
 	{
 		if (!dying)
@@ -129,7 +137,7 @@ public class PlayerBehavior : MonoBehaviour {
 			currentArms.Add(limb);
 			if (activeArm == null)
 			{
-				nextArmAbility();
+				NextArmAbility();
 			}
 		}
 
@@ -138,7 +146,7 @@ public class PlayerBehavior : MonoBehaviour {
 			currentLegs.Add(limb);
 			if (activeLeg == null)
 			{
-				nextLegAbility();
+				NextLegAbility();
 			}
 		}
 
@@ -146,7 +154,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 		transform.eulerAngles = Vector3.zero;
 
-		soundSource.PlayOneShot(limbRemoveSound);
+		AudioSource.PlayClipAtPoint(limbRemoveSound, transform.position);
 
 		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
@@ -159,7 +167,7 @@ public class PlayerBehavior : MonoBehaviour {
 			if (limb == activeArm)
 			{
 				activeArm = null;
-				nextArmAbility();
+				NextArmAbility();
 			}
 		}
 
@@ -169,7 +177,7 @@ public class PlayerBehavior : MonoBehaviour {
 			if (limb == activeLeg)
 			{
 				activeLeg = null;
-				nextLegAbility();
+				NextLegAbility();
 			}
 		}
 
@@ -180,59 +188,42 @@ public class PlayerBehavior : MonoBehaviour {
 			rigidbody2D.fixedAngle = false;
 		}
 
-		soundSource.PlayOneShot(limbAttachSound);
+		AudioSource.PlayClipAtPoint(limbAttachSound, transform.position);
 
 		anim.SetBool("hasTorso", allComponents.Count > 0);
 	}
 
-	// Update is called once per frame
+	void Update ()
+	{
+		anim = GetComponentInChildren<Animator>();
+		if (GetActiveArm() && GetActiveArm().shouldAim)
+		{
+			Vector2 jointOrigin = GetActiveArm().parentAttachmentPoint.transform.position;
+			Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
+			Vector2 playerToPointer;
+
+			playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
+			playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
+			playerToPointer.Normalize();
+
+			string xVar = GetActiveArm().parentAttachmentPoint.aimX;
+			string yVar = GetActiveArm().parentAttachmentPoint.aimY;
+
+			if (!facingLeft)
+			{
+				playerToPointer.x *= -1;
+			}
+
+			anim.SetFloat(xVar, playerToPointer.x);
+			anim.SetFloat(yVar, playerToPointer.y);
+		}
+	}
+
 	void FixedUpdate () {
 
-		if (Input.GetKey(KeyCode.A)) {
-			// move left
-			rigidbody2D.AddForce(Vector2.right * -moveForce);
-		}
-
-		if (Input.GetKey(KeyCode.D)) {
-			// move right
-			rigidbody2D.AddForce(Vector2.right * moveForce);
-		}
-
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			nextArmAbility();
-		}
-
-		if (Input.GetKeyDown(KeyCode.E)) {
-			nextLegAbility();
-		}
-
-		if (jumpTimer > 0.0f)
-		{
-			jumpTimer -= Time.deltaTime;
-		}
-
-		if (onGround && jumpTimer <= 0.0f && Input.GetKeyDown(KeyCode.Space)) {
-			// jump
-			jumpTimer = jumpCooloff;
-			soundSource.PlayOneShot(jumpSound);
-			rigidbody2D.AddForce(Vector2.up * jumpForce);
-			anim.SetTrigger("jump");
-		}
-
-		if (activeArm && Input.GetMouseButtonDown(0))
-		{
-			activeArm.FireAbility();
-		}
-
-		if (activeLeg && Input.GetMouseButtonDown(1))
-		{
-			activeLeg.FireAbility();
-		}
-
-
 		anim = GetComponentInChildren<Animator>();
-		if (anim) {
-
+		if (anim)
+		{
 			if (anim.GetCurrentAnimatorStateInfo(3).nameHash
 					== Animator.StringToHash("Facing.FaceRight"))
 			{
@@ -251,45 +242,22 @@ public class PlayerBehavior : MonoBehaviour {
 				}
 			}
 
-
 			if (rigidbody2D)
 			{
 				anim.SetFloat("lateralSpeed", Mathf.Abs(rigidbody2D.velocity.x));
 				anim.SetFloat("lateralVelocity", rigidbody2D.velocity.x);
 			}
-
-
-			if (activeArm && activeArm.shouldAim) {
-				Vector2 jointOrigin = activeArm.parentAttachmentPoint.transform.position;
-				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
-				Vector2 playerToPointer;
-
-				playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
-		    	playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
-				playerToPointer.Normalize();
-
-				string xVar = activeArm.parentAttachmentPoint.aimX;
-				string yVar = activeArm.parentAttachmentPoint.aimY;
-
-				if (!facingLeft)
-				{
-					playerToPointer.x *= -1;
-				}
-
-
-				anim.SetFloat(xVar, playerToPointer.x);
-				anim.SetFloat(yVar, playerToPointer.y);
-			}
 		}
-
 	}
 
-	void nextArmAbility() {
+	public void NextArmAbility()
+	{
 		anim = GetComponentInChildren<Animator>();
 		int activeIndex = 0;
 		if (activeArm != null)
 		{
-			if (anim && activeArm.shouldAim == true) {
+			if (anim && activeArm.shouldAim == true)
+			{
 				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 0);
 			}
 			activeIndex = currentArms.FindIndex(arm => arm == activeArm);
@@ -303,7 +271,8 @@ public class PlayerBehavior : MonoBehaviour {
 		if (currentArms.Count > 0)
 		{
 			activeArm = currentArms[activeIndex];
-			if (anim) {
+			if (anim) 
+			{
 				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 1);
 			}
 		}
@@ -313,7 +282,8 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 	}
 
-	void nextLegAbility() {
+	public void NextLegAbility()
+	{
 		int activeIndex = 0;
 		if (activeLeg != null)
 		{
@@ -333,5 +303,42 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			activeLeg = null;
 		}
+	}
+
+	public void FireArmAbility()
+	{
+		if (activeArm)
+		{
+			activeArm.FireAbility();
+		}
+	}
+
+	public void FireLegAbility()
+	{
+		if (activeLeg)
+		{
+			activeLeg.FireAbility();
+		}
+	}
+
+	public RobotComponent GetActiveArm()
+	{
+		return activeArm;
+	}
+
+	public RobotComponent GetActiveLeg()
+	{
+		return activeLeg;
+	}
+
+	public void SetController(MonoBehaviour controller)
+	{
+		if (activeController)
+		{
+			activeController.enabled = false;
+		}
+
+		activeController = controller;
+		controller.enabled = true;
 	}
 }

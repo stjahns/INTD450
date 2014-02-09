@@ -19,6 +19,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	public AudioClip jointSelectedClip;
 
 	public MeshRenderer attachmentRangeVisual;
+	public LineRenderer attachmentLineVisual;
 
 	// Private fields
 
@@ -110,6 +111,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
 
 		attachmentRangeVisual.enabled = false;
+		attachmentLineVisual.enabled = false;
 	}
 
 	// Update is called once per frame
@@ -126,6 +128,17 @@ public class PlayerAttachmentController : MonoBehaviour
 			case AttachmentState.AttachingPart:
 				AttachingPart();
 				break;
+		}
+
+		if (selectedChildJoint != null && selectedParentJoint != null)
+		{
+			attachmentLineVisual.enabled = true;
+			attachmentLineVisual.SetPosition(0, selectedParentJoint.transform.position);
+			attachmentLineVisual.SetPosition(1, selectedChildJoint.transform.position);
+		}
+		else
+		{
+			attachmentLineVisual.enabled = false;
 		}
 	}
 

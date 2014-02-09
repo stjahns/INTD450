@@ -297,7 +297,6 @@ public class RobotComponent : MonoBehaviour {
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
 
-		//return Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
 		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
 	}
 

@@ -9,6 +9,9 @@ public class PlayerBehavior : MonoBehaviour {
 	
 	public HeadComponent head;
 
+	[HideInInspector]
+	public FollowCamera camera;
+
 	public PlayerSkeleton skeleton;
 
 	public RobotComponent activeArm = null;

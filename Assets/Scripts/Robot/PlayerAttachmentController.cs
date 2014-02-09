@@ -8,6 +8,13 @@ public class PlayerAttachmentController : MonoBehaviour
 	public PlayerBehavior player;
 	public PlayerMovementController movementController;
 	public float attachmentRange;
+	public float attachmentEndTime = 1.0f;
+	public float selectParentViewportHeight;
+	public float selectChildViewportHeight;
+
+	public AudioClip onEnableClip;
+	public AudioClip onDisableClip;
+	public AudioClip jointSelectedClip;
 
 	private enum AttachmentState
 	{
@@ -37,6 +44,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	private Vector3 childTargetPosition;
 	private Quaternion childTargetRotation;
 
+	private float attachmentTime;
+	private float viewportHeightOriginal;
 
 	void OnEnable ()
 	{
@@ -67,6 +76,12 @@ public class PlayerAttachmentController : MonoBehaviour
 				childJoints.Add(joint);
 			}
 		}
+
+		// Set up camera zoom
+		viewportHeightOriginal = player.camera.viewportHeight;
+		player.camera.viewportHeight = selectParentViewportHeight;
+
+		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
 	}
 
 	void OnDisable()
@@ -82,6 +97,11 @@ public class PlayerAttachmentController : MonoBehaviour
 			selectedChildJoint.selected = false;
 			selectedChildJoint = null;
 		}
+
+		// Restore original zoom
+		player.camera.viewportHeight = viewportHeightOriginal;
+
+		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
 	}
 
 	// Update is called once per frame
@@ -151,6 +171,8 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				// Select a child to attach now
 				state = AttachmentState.SelectChild;
+				player.camera.viewportHeight = selectChildViewportHeight;
+				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);
 			}
 		}
 	}
@@ -198,6 +220,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			if (selectedChildJoint != null)
 			{
+				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);
 				StartAttachingPart();
 			}
 			else
@@ -267,9 +290,6 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		attachmentTime = 0.0f;
 	}
-
-	private float attachmentTime;
-	public float attachmentEndTime = 1.0f;
 
 	//
 	// Interpolate positions / rotations until part is attached to body

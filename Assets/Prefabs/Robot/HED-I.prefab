@@ -609,6 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeController: {fileID: 11400038}
   head: {fileID: 11400002}
+  camera: {fileID: 0}
   skeleton: {fileID: 11400016}
   activeArm: {fileID: 0}
   activeLeg: {fileID: 0}
@@ -646,7 +647,6 @@ MonoBehaviour:
   groundConnections: []
   allJoints:
   - {fileID: 11400004}
-  jointSlots: 
   SFXSource: {fileID: 0}
   shouldAim: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
@@ -935,8 +935,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 11400000}
   movementController: {fileID: 11400038}
-  attachmentRange: 5
+  attachmentRange: 2.5
   attachmentEndTime: 1
+  selectParentViewportHeight: 2
+  selectChildViewportHeight: 3
+  onEnableClip: {fileID: 8300000, guid: e7486248ba547c843ad53492fb854f4a, type: 3}
+  onDisableClip: {fileID: 8300000, guid: f9a71053d4fa849bdacc4bb0b9cbc5c1, type: 3}
+  jointSelectedClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1

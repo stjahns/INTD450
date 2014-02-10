@@ -65,7 +65,10 @@ public class RobotComponent : MonoBehaviour {
 	{
 		if (attachedToPlayer())
 		{
-			LevelMusic.Instance.AttachLimb(limbType);
+			if (LevelMusic.Instance)
+			{
+				LevelMusic.Instance.AttachLimb(limbType);
+			}
 		}
 	}
 
@@ -175,7 +178,10 @@ public class RobotComponent : MonoBehaviour {
 		{
 			AttachmentType type = limb.parentAttachmentPoint.attachmentType;
 
-			LevelMusic.Instance.AttachLimb(limb.limbType);
+			if (LevelMusic.Instance)
+			{
+				LevelMusic.Instance.AttachLimb(limb.limbType);
+			}
 
 			OnLimbAdded(limb, type);
 		}
@@ -234,7 +240,10 @@ public class RobotComponent : MonoBehaviour {
 		{
 			OnLimbRemoved(limb, attachmentType);
 
-			LevelMusic.Instance.DetachLimb(limb.limbType);
+			if (LevelMusic.Instance)
+			{
+				LevelMusic.Instance.DetachLimb(limb.limbType);
+			}
 		}
 
 		// stop listening to childs' add/removeArm event

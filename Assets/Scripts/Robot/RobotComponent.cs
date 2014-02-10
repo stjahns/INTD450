@@ -15,6 +15,7 @@ public class RobotComponent : MonoBehaviour {
 	public float partLength = 1.0f;
 
 	public Transform groundCheck;
+	public Transform wallCheck;
 
 	public List<Collider2D> unattachedColliders = new List<Collider2D>();
 	public List<Collider2D> attachedColliders = new List<Collider2D>();
@@ -335,6 +336,36 @@ public class RobotComponent : MonoBehaviour {
 	virtual public void FireAbility()
 	{
 		Debug.Log("Fire Dummy Ability");
+	}
+
+	virtual public void Update() 
+	{
+		if (wallCheck)
+		{
+			// Normally, colliders on limbs should prevent you from sticking them through walls
+			// However, a consequence of having limb collider transforms under animation control
+			// (especially mouse direction) means that an arm can be quickly animated into a wall,
+			// getting stuck. This is a hacky solution to pop the player out of the wall if a limb
+			// ever gets jammed in
+
+			int layerMask = 1 << LayerMask.NameToLayer("Ground");
+
+			// Check if part is jammed into a wall
+			RaycastHit2D hit = Physics2D.Linecast(transform.position, wallCheck.position, layerMask);
+			if (hit)
+			{
+				// Bump player out of wall 
+				// (Get projection of overlapped linecast onto wall normal, and bump player by that vector)
+				Vector2 cast = transform.position - wallCheck.position;
+				cast *= 1 - hit.fraction;
+				Vector2 bump = (Vector2.Dot(cast, hit.normal) / Vector2.Dot(hit.normal, hit.normal)) * hit.normal;
+				PlayerBehavior.Player.transform.position += bump.XY0();
+
+				// TODO handle edge case where bumping off right wall causes opposite limb to enter
+				// left wall (eg spreading arms in cramped space) -- better to just leave arm in
+				// wall, but try to avoid this situation in level design
+			}
+		}
 	}
 
 	void LateUpdate() 

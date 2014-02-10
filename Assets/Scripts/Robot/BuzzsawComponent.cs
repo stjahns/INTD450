@@ -23,8 +23,10 @@ public class BuzzsawComponent : LimbComponent
 	// Accelerate / decelerate blade if running / stopped
 	// Rotate blade at current bladeSpeed
 	// 
-	void Update ()
+	override public void Update ()
 	{
+		base.Update();
+
 		if (running)
 		{
 			if (bladeSpeed < bladeTopSpeed)

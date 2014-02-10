@@ -40,7 +40,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   m_Layer: 10
-  m_Name: GroundCheck
+  m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -107,7 +107,6 @@ GameObject:
   - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400002}
-  - 58: {fileID: 5800004}
   - 58: {fileID: 5800002}
   m_Layer: 10
   m_Name: BuzzsawLimb
@@ -124,6 +123,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400014}
+  - 58: {fileID: 5800006}
   m_Layer: 0
   m_Name: SawBladeAxis
   m_TagString: Untagged
@@ -157,6 +157,21 @@ GameObject:
   - 4: {fileID: 400018}
   m_Layer: 10
   m_Name: ForceDirection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &100020
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400020}
+  m_Layer: 10
+  m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,8 +242,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.00472806767, y: -1.13429606, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 5.36441746e-07, w: 1}
+  m_LocalPosition: {x: .0170892887, y: -.962164402, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400012}
@@ -242,6 +257,7 @@ Transform:
   m_LocalPosition: {x: -3.30777955, y: -6.96656799, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400020}
   - {fileID: 400010}
   - {fileID: 400008}
   - {fileID: 400006}
@@ -281,6 +297,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400002}
+--- !u!4 &400020
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100020}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.00472806767, y: -1.13429606, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400012}
 --- !u!50 &5000000
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -317,18 +344,18 @@ CircleCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Radius: .159999996
-  m_Center: {x: 0, y: -.0900000036}
---- !u!58 &5800004
+  m_Center: {x: 0, y: .0199999996}
+--- !u!58 &5800006
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
+  m_GameObject: {fileID: 100014}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .159999996
-  m_Center: {x: 0, y: -.74000001}
+  m_Radius: .219999999
+  m_Center: {x: 0, y: 0}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -377,9 +404,16 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   partLength: 1
-  groundCheck: {fileID: 400010}
-  unattachedColliders: []
-  attachedColliders: []
+  groundCheck: {fileID: 400020}
+  wallCheck: {fileID: 400010}
+  unattachedColliders:
+  - {fileID: 5800002}
+  - {fileID: 6100000}
+  - {fileID: 5800006}
+  attachedColliders:
+  - {fileID: 5800002}
+  - {fileID: 6100000}
+  - {fileID: 5800006}
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 0}

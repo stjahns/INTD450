@@ -195,28 +195,6 @@ public class PlayerBehavior : MonoBehaviour {
 
 	void Update ()
 	{
-		anim = GetComponentInChildren<Animator>();
-		if (GetActiveArm() && GetActiveArm().shouldAim)
-		{
-			Vector2 jointOrigin = GetActiveArm().parentAttachmentPoint.transform.position;
-			Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
-			Vector2 playerToPointer;
-
-			playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
-			playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
-			playerToPointer.Normalize();
-
-			string xVar = GetActiveArm().parentAttachmentPoint.aimX;
-			string yVar = GetActiveArm().parentAttachmentPoint.aimY;
-
-			if (!facingLeft)
-			{
-				playerToPointer.x *= -1;
-			}
-
-			anim.SetFloat(xVar, playerToPointer.x);
-			anim.SetFloat(yVar, playerToPointer.y);
-		}
 	}
 
 	void FixedUpdate () {

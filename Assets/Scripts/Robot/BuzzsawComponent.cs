@@ -10,11 +10,15 @@ public class BuzzsawComponent : LimbComponent
 	public float bladeForce;
 	public Transform forceDirection;
 
+	public AudioSource sawRunning; 
+	public AudioSource sawHitting; 
+
 	private bool running;
 	private float bladeSpeed;
 
-	void Start ()
+	override public void Start ()
 	{
+		base.Start();
 		running = false;
 		bladeSpeed = 0;
 	}
@@ -76,6 +80,25 @@ public class BuzzsawComponent : LimbComponent
 				Vector3 direction = forceDirection.position - sawblade.transform.position;
 				direction.Normalize();
 				getRootComponent().rigidbody2D.AddForce(bladeForce * direction);
+
+				if (!sawHitting.isPlaying)
+				{
+					sawHitting.Play();
+				}
+			}
+			else
+			{
+				if (sawHitting.isPlaying)
+				{
+					sawHitting.Stop();
+				}
+			}
+		}
+		else
+		{
+			if (sawHitting.isPlaying)
+			{
+				sawHitting.Stop();
 			}
 		}
 	}
@@ -89,11 +112,13 @@ public class BuzzsawComponent : LimbComponent
 		{
 			// start rotating sawblade
 			running = true;
+			sawRunning.Play();
 		}
 		else
 		{
 			// stop rotating sawblade
 			running = false;
+			sawRunning.Stop();
 		}
 	}
 }

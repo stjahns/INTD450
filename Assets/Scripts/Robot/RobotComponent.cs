@@ -62,7 +62,7 @@ public class RobotComponent : MonoBehaviour {
 		ResetColliders();
 	}
 
-	void Start()
+	virtual public void Start()
 	{
 		if (attachedToPlayer())
 		{

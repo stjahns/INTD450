@@ -10,6 +10,8 @@ public class BuzzsawComponent : LimbComponent
 	public float bladeForce;
 	public Transform forceDirection;
 
+	public Collider2D bladeTrigger;
+
 	public AudioSource sawRunning; 
 	public AudioSource sawHitting; 
 
@@ -113,12 +115,14 @@ public class BuzzsawComponent : LimbComponent
 			// start rotating sawblade
 			running = true;
 			sawRunning.Play();
+			bladeTrigger.enabled = true;
 		}
 		else
 		{
 			// stop rotating sawblade
 			running = false;
 			sawRunning.Stop();
+			bladeTrigger.enabled = false;
 		}
 	}
 }

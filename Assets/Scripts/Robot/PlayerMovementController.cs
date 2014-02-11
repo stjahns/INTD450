@@ -60,6 +60,40 @@ public class PlayerMovementController : MonoBehaviour {
 		{
 			player.FireLegAbility();
 		}
+
+		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		if ((mousePosition - transform.position).x > 0)
+		{
+			// face right
+			anim.SetBool("facingLeft", false);
+		}
+		else
+		{
+			// face left
+			anim.SetBool("facingLeft", true);
+		}
+
+		if (player.GetActiveArm() && player.GetActiveArm().shouldAim)
+		{
+			Vector2 jointOrigin = player.GetActiveArm().parentAttachmentPoint.transform.position;
+			Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
+			Vector2 playerToPointer;
+
+			playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
+			playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
+			playerToPointer.Normalize();
+
+			string xVar = player.GetActiveArm().parentAttachmentPoint.aimX;
+			string yVar = player.GetActiveArm().parentAttachmentPoint.aimY;
+
+			if (!player.facingLeft)
+			{
+				playerToPointer.x *= -1;
+			}
+
+			anim.SetFloat(xVar, playerToPointer.x);
+			anim.SetFloat(yVar, playerToPointer.y);
+		}
 	}
 
 	void FixedUpdate ()

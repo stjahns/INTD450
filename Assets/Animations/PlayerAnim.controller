@@ -56,6 +56,12 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
+  - m_Name: facingLeft
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 1
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 3
     m_Name: Base
@@ -327,8 +333,8 @@ Transition:
   m_TransitionDuration: .0117777092
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 4
-    m_ConditionEvent: lateralVelocity
+  - m_ConditionMode: 1
+    m_ConditionEvent: facingLeft
     m_EventTreshold: -.100000001
     m_ExitTime: .75
   m_Atomic: 1
@@ -345,8 +351,8 @@ Transition:
   m_TransitionDuration: .0304443762
   m_TransitionOffset: 0
   m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: lateralVelocity
+  - m_ConditionMode: 2
+    m_ConditionEvent: facingLeft
     m_EventTreshold: .100000001
     m_ExitTime: .75
   m_Atomic: 1

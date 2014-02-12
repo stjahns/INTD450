@@ -6,7 +6,6 @@ public class GrappleComponent : LimbComponent {
 
 	public Transform ropeStart;
 	public Transform ropeEnd;
-	public Transform ropeQuad;
 
 	public Transform clampOrigin;
 
@@ -22,38 +21,35 @@ public class GrappleComponent : LimbComponent {
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
 
+	public float ropeWidth = 0.1f;
+	public Material ropeMaterial;
+
 	private Transform forward;
+
+	private LineRenderer ropeLine;
 
 	void Start ()
 	{
-		ropeStart.transform.parent = null;
-
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = lowerLimb.transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
+		
+		ropeLine = gameObject.AddComponent<LineRenderer>();
+		ropeLine.SetWidth(ropeWidth, ropeWidth);
+		ropeLine.material = ropeMaterial;
+		ropeLine.SetPosition(0, ropeStart.position);
+		ropeLine.SetPosition(1, ropeEnd.position);
 	}
 
 	void Update ()
 	{
-		ropeStart.transform.position = lowerLimb.transform.position;
+		ropeLine.SetPosition(0, ropeStart.position);
+		ropeLine.SetPosition(1, ropeEnd.position);
 	}
 
 	void FixedUpdate ()
 	{
-		ropeStart.transform.position = lowerLimb.transform.position;
-
-		// Adjust rope length
-		float length = Vector3.Distance(ropeStart.position, ropeEnd.position);
-		Vector3 scale = ropeStart.localScale;
-		ropeStart.localScale = new Vector3(scale.x, length, scale.z);
-
-		// Adjust rope angle 
-		Vector3 angles = ropeStart.eulerAngles;
-		angles.z = ( Mathf.Atan2(ropeEnd.position.y - ropeStart.position.y,
-				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
-		ropeStart.eulerAngles = angles;
-
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)
 		{
@@ -82,19 +78,14 @@ public class GrappleComponent : LimbComponent {
 				direction.x *= -1;
 			}
 
-			if (length > 0.5)
-			{
-				// 'pull' player to clamp
-				// TODO -- causes exception while player physics is resetting - null check?
-				getRootComponent().rigidbody2D.AddForce(direction * pullForce);
-			}
+			// 'pull' player to clamp
+			// TODO -- causes exception while player physics is resetting - null check?
+			getRootComponent().rigidbody2D.AddForce(direction * pullForce);
 		}
-
 	}
 
 	override public void FireAbility()
 	{
-
 		if (!fired)
 		{
 			int mask = 0;
@@ -109,15 +100,12 @@ public class GrappleComponent : LimbComponent {
 
 			if (hit)
 			{
-				// TEMP: use gameObject's position to allow for larger trigger collider
-				//clamp.position = hit.point;
 				clamp.position = hit.collider.gameObject.transform.position;
 				fired = true;
 				shouldAim = false;
 				clamp.parent = null;
 
 				SFXSource.PlayOneShot(fireClip);
-
 			}
 			
 			// TODO - fire grapple at pullable objects
@@ -130,6 +118,7 @@ public class GrappleComponent : LimbComponent {
 			clamp.parent = clampOrigin;
 			clamp.localEulerAngles = Vector3.zero;
 			clamp.localPosition = Vector3.zero;
+			clamp.localScale = Vector3.one;
 			shouldAim = true;
 			fired = false;
 

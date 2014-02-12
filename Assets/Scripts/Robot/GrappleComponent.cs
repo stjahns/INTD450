@@ -6,134 +6,246 @@ public class GrappleComponent : LimbComponent {
 
 	public Transform ropeStart;
 	public Transform ropeEnd;
-	public Transform ropeQuad;
 
 	public Transform clampOrigin;
 
-	public Transform clamp;
+	public GrappleProjectile projectile;
+	public float projectileVelocity;
 
 	public bool fired = false;
 
-	public float maxDistance = 10.0f;
-	public float pullForce = 10.0f;
+	public float minRopeLength = 1.0f;
+	public float maxRopeLength = 5.0f;
+	public float ropePullSpeed = 1.0f; // units per second
 
 	public List<string> grappleableLayers = new List<string>();
 
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
 
+	public float ropeWidth = 0.1f;
+	public Material ropeMaterial;
+
+	public SpriteRenderer spriteRenderer;
+	public Sprite cockedSprite;
+	public Sprite firedSprite;
+
 	private Transform forward;
+
+	private float ropeLength;
+	private LineRenderer ropeLine;
+	private DistanceJoint2D ropeJoint;
+	private SliderJoint2D legJoint;
+	
+
+	private Rigidbody2D playerBody;
 
 	void Start ()
 	{
-		ropeStart.transform.parent = null;
-
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = lowerLimb.transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
+		
+		ropeLine = gameObject.AddComponent<LineRenderer>();
+		ropeLine.SetWidth(ropeWidth, ropeWidth);
+		ropeLine.material = ropeMaterial;
+		ropeLine.SetPosition(0, ropeStart.position);
+		ropeLine.SetPosition(1, ropeEnd.position);
+
+		projectile.GrappleHit += OnGrappleHit;
+	}
+
+	void OnGrappleHit(Collision2D hit)
+	{
+		ropeLength = Vector2.Distance(ropeStart.position, ropeEnd.position);
+
+		playerBody = getRootComponent().rigidbody2D;
+		if (playerBody)
+		{
+			if (IsArm)
+			{
+				ropeJoint = playerBody.gameObject.AddComponent<DistanceJoint2D>();
+				ropeJoint.connectedBody = hit.rigidbody;
+				ropeJoint.anchor = ropeStart.position - playerBody.transform.position;
+				ropeJoint.distance = ropeLength;
+			}
+			else
+			{
+				Rigidbody2D anchorBody = projectile.rigidbody2D;
+				projectile.transform.rotation = Quaternion.identity;
+
+				legJoint = playerBody.gameObject.AddComponent<SliderJoint2D>();
+				legJoint.anchor = ropeStart.position - playerBody.transform.position;
+
+				legJoint.connectedBody = anchorBody;
+				legJoint.connectedAnchor = ropeEnd.transform.position.XY()
+					- anchorBody.transform.position.XY();
+
+				legJoint.useLimits = true;
+
+				JointTranslationLimits2D limits = new JointTranslationLimits2D();
+				limits.max = ropeLength + 0.1f;
+				limits.min = ropeLength;
+				legJoint.limits = limits;
+
+			}
+		}
 	}
 
 	void Update ()
 	{
-		ropeStart.transform.position = lowerLimb.transform.position;
+		ropeLine.SetPosition(0, ropeStart.position);
+		ropeLine.SetPosition(1, ropeEnd.position);
+
+		if (ropeJoint && playerBody)
+		{
+			ropeJoint.anchor = ropeStart.position - playerBody.transform.position;
+
+			if (Input.GetKey(KeyCode.W))
+			{
+				// Pull in rope
+				if (ropeJoint.distance > minRopeLength)
+				{
+					ropeJoint.distance -= ropePullSpeed * Time.deltaTime;
+				}
+			}
+
+			if (Input.GetKey(KeyCode.S))
+			{
+				// Let rope out
+				if (ropeJoint.distance < maxRopeLength)
+				{
+					ropeJoint.distance += ropePullSpeed * Time.deltaTime;
+				}
+			}
+		}
+
+		if (legJoint && playerBody)
+		{
+			legJoint.anchor = ropeStart.position - playerBody.transform.position;
+
+			JointTranslationLimits2D limits = legJoint.limits;
+
+			if (Input.GetKey(KeyCode.W))
+			{
+				// Extend leg
+				if (limits.min < maxRopeLength)
+				{
+					limits.min += ropePullSpeed * Time.deltaTime;
+					limits.max += ropePullSpeed * Time.deltaTime;
+				}
+			}
+
+			if (Input.GetKey(KeyCode.S))
+			{
+				// Retract leg
+				if (limits.min > 0.0f)
+				{
+					limits.min -= ropePullSpeed * Time.deltaTime;
+					limits.max -= ropePullSpeed * Time.deltaTime;
+				}
+			}
+
+			legJoint.limits = limits;
+		}
 	}
 
 	void FixedUpdate ()
 	{
-		ropeStart.transform.position = lowerLimb.transform.position;
-
-		// Adjust rope length
-		float length = Vector3.Distance(ropeStart.position, ropeEnd.position);
-		Vector3 scale = ropeStart.localScale;
-		ropeStart.localScale = new Vector3(scale.x, length, scale.z);
-
-		// Adjust rope angle 
-		Vector3 angles = ropeStart.eulerAngles;
-		angles.z = ( Mathf.Atan2(ropeEnd.position.y - ropeStart.position.y,
-				ropeEnd.position.x - ropeStart.position.x) + Mathf.PI / 2f) * Mathf.Rad2Deg;
-		ropeStart.eulerAngles = angles;
 
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)
 		{
-			// Orient arm in direction of clamp
-			Animator anim = getRootComponent().GetComponentInChildren<Animator>();
-			Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
-			string xVar = parentAttachmentPoint.aimX;
-			string yVar = parentAttachmentPoint.aimY;
 
-			// HACK!
-			var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
-			if (!player.facingLeft)
+			ropeLength = Vector2.Distance(ropeStart.position, ropeEnd.position);
+			if (ropeLength > maxRopeLength)
 			{
-				direction.x *= -1;
+				projectile.ResetProjectile();
+				fired = false;
 			}
 
-			if (anim)
+			if (IsArm)
 			{
-				anim.SetFloat(xVar, direction.x);
-				anim.SetFloat(yVar, direction.y);
-			}
+				// Orient arm in direction of clamp
+				Animator anim = getRootComponent().GetComponentInChildren<Animator>();
+				Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
+				string xVar = parentAttachmentPoint.aimX;
+				string yVar = parentAttachmentPoint.aimY;
 
-			// MOAR HACK
-			if (!player.facingLeft)
-			{
-				direction.x *= -1;
-			}
+				// HACK!
+				var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
+				if (!player.facingLeft)
+				{
+					direction.x *= -1;
+				}
 
-			if (length > 0.5)
-			{
-				// 'pull' player to clamp
-				// TODO -- causes exception while player physics is resetting - null check?
-				getRootComponent().rigidbody2D.AddForce(direction * pullForce);
+				if (anim)
+				{
+					anim.SetFloat(xVar, direction.x);
+					anim.SetFloat(yVar, direction.y);
+				}
+
+				// MOAR HACK
+				if (!player.facingLeft)
+				{
+					direction.x *= -1;
+				}
 			}
 		}
-
 	}
 
 	override public void FireAbility()
 	{
+		playerBody = getRootComponent().rigidbody2D;
+
+		int layerMask = 0;
+		Vector3 direction = Vector3.down;
+
+		if (IsArm)
+		{
+			grappleableLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+			direction = forward.position - lowerLimb.transform.position;
+			direction.Normalize();
+		}
+		else // leg
+		{
+			layerMask = 1 << LayerMask.NameToLayer("Ground");
+		}
 
 		if (!fired)
 		{
-			int mask = 0;
-
-			foreach (string layer in grappleableLayers)
-			{
-				mask |= 1 << LayerMask.NameToLayer(layer);
-			}
-
-			Vector3 direction = forward.position - lowerLimb.transform.position;
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, maxDistance, mask);
-
-			if (hit)
-			{
-				// TEMP: use gameObject's position to allow for larger trigger collider
-				//clamp.position = hit.point;
-				clamp.position = hit.collider.gameObject.transform.position;
-				fired = true;
-				shouldAim = false;
-				clamp.parent = null;
-
-				SFXSource.PlayOneShot(fireClip);
-
-			}
+			// Fire it like a projectile, until it hits something...
+			projectile.FireProjectile(direction * projectileVelocity + playerBody.velocity.XY0(), layerMask);
 			
-			// TODO - fire grapple at pullable objects
+			SFXSource.PlayOneShot(fireClip);
 
-			// TODO - fire grapple at ground layer, retract immediately
+			// TODO - what about grabbing objects?
+
+			fired = true;
+			spriteRenderer.sprite = firedSprite;
 		}
 		else
 		{
-			// release
-			clamp.parent = clampOrigin;
-			clamp.localEulerAngles = Vector3.zero;
-			clamp.localPosition = Vector3.zero;
+			// Retract grappling hook back to base
+			projectile.ResetProjectile();
 			shouldAim = true;
 			fired = false;
 
+			if (ropeJoint)
+			{
+				Destroy(ropeJoint);
+				ropeJoint = null;
+			}
+
+			if (legJoint)
+			{
+				Destroy(legJoint);
+				legJoint = null;
+			}
+
 			SFXSource.PlayOneShot(releaseClip);
+			spriteRenderer.sprite = cockedSprite;
 		}
 	}
 }

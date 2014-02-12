@@ -62,6 +62,35 @@ public class RobotComponent : MonoBehaviour {
 		ResetColliders();
 	}
 
+	public bool IsArm
+	{
+		get
+		{
+			if (parentAttachmentPoint)
+			{
+				return parentAttachmentPoint.slot == AttachmentSlot.LeftShoulder
+					|| parentAttachmentPoint.slot == AttachmentSlot.RightShoulder;
+			}
+
+			return false;
+		}
+	}
+
+	public bool IsLeg
+	{
+		get
+		{
+			if (parentAttachmentPoint)
+			{
+				return parentAttachmentPoint.slot == AttachmentSlot.LeftHip
+					|| parentAttachmentPoint.slot == AttachmentSlot.RightHip;
+			}
+
+			return false;
+		}
+	}
+
+
 	virtual public void Start()
 	{
 		if (attachedToPlayer())

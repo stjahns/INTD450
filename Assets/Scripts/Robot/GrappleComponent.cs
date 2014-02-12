@@ -26,12 +26,17 @@ public class GrappleComponent : LimbComponent {
 	public float ropeWidth = 0.1f;
 	public Material ropeMaterial;
 
+	public SpriteRenderer spriteRenderer;
+	public Sprite cockedSprite;
+	public Sprite firedSprite;
+
 	private Transform forward;
 
 	private float ropeLength;
 	private LineRenderer ropeLine;
 	private DistanceJoint2D ropeJoint;
 	private SliderJoint2D legJoint;
+	
 
 	private Rigidbody2D playerBody;
 
@@ -212,11 +217,13 @@ public class GrappleComponent : LimbComponent {
 		{
 			// Fire it like a projectile, until it hits something...
 			projectile.FireProjectile(direction * projectileVelocity + playerBody.velocity.XY0(), layerMask);
+			
 			SFXSource.PlayOneShot(fireClip);
 
 			// TODO - what about grabbing objects?
 
 			fired = true;
+			spriteRenderer.sprite = firedSprite;
 		}
 		else
 		{
@@ -238,6 +245,7 @@ public class GrappleComponent : LimbComponent {
 			}
 
 			SFXSource.PlayOneShot(releaseClip);
+			spriteRenderer.sprite = cockedSprite;
 		}
 	}
 }

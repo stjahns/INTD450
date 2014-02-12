@@ -183,7 +183,7 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &100022
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
@@ -243,7 +243,6 @@ Transform:
   m_LocalPosition: {x: -4.0389204, y: -5.58367443, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 400022}
   - {fileID: 400018}
   - {fileID: 400020}
   - {fileID: 400002}
@@ -316,6 +315,7 @@ Transform:
   m_LocalPosition: {x: -.0431413651, y: .0937256813, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400022}
   - {fileID: 400008}
   - {fileID: 400014}
   - {fileID: 400000}
@@ -351,10 +351,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100022}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.00787639618, y: -.375389934, z: 0}
+  m_LocalPosition: {x: .0339789391, y: -.866730213, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 400004}
+  m_Father: {fileID: 400016}
 --- !u!4 &400024
 Transform:
   m_ObjectHideFlags: 1
@@ -537,10 +537,12 @@ MonoBehaviour:
   - {fileID: 6100002}
   - {fileID: 6100000}
   - {fileID: 5800002}
+  - {fileID: 6100004}
   attachedColliders:
   - {fileID: 6100002}
   - {fileID: 6100000}
   - {fileID: 5800002}
+  - {fileID: 6100004}
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 8200002}
@@ -587,8 +589,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a197c11627694fa8befb451fc9f7d07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grappleableLayers:
-  - Grappleable
   pointAttraction: 1000
   projectileDrag: 10
   clampSprite: {fileID: 21200004}

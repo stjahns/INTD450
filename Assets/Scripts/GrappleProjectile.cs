@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class GrappleProjectile : MonoBehaviour
 {
 
-	public List<string> grappleableLayers = new List<string>();
 	public float pointAttraction;
 	public float projectileDrag = 100f;
 	public SpriteRenderer clampSprite;
@@ -18,6 +17,8 @@ public class GrappleProjectile : MonoBehaviour
 
 	private Transform parent;
 	private Rigidbody2D body;
+
+	private int layerMask;
 
 	public delegate void GrappleHitHandler(Collision2D hit);
 	public event GrappleHitHandler GrappleHit;
@@ -37,8 +38,9 @@ public class GrappleProjectile : MonoBehaviour
 		}
 	}
 
-	public void FireProjectile(Vector3 velocity)
+	public void FireProjectile(Vector3 velocity, int mask)
 	{
+		layerMask = mask;
 		parent = transform.parent;
 		transform.parent = null;
 		transform.localScale = Vector3.one;
@@ -57,7 +59,7 @@ public class GrappleProjectile : MonoBehaviour
 	{
 		if (body)
 		{
-			body.isKinematic = false;
+			body.isKinematic = true;
 			Destroy(body);
 			body = null;
 		}
@@ -78,13 +80,13 @@ public class GrappleProjectile : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D collision)
 	{
-		if (body && grappleableLayers.Exists( l => 
-					LayerMask.NameToLayer(l) == collision.collider.gameObject.layer))
+		if (AttachedToPoint)
+			return;
+
+		if (body && (1 << collision.collider.gameObject.layer & layerMask) != 0)
 		{
 			// Hit something!
-			body.isKinematic = false;
-			Destroy(body);
-			body = null;
+			body.isKinematic = true;
 
 			AttachedToPoint = true;
 
@@ -101,8 +103,10 @@ public class GrappleProjectile : MonoBehaviour
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (body && grappleableLayers.Exists( l => 
-					LayerMask.NameToLayer(l) == other.gameObject.layer))
+		if (AttachedToPoint)
+			return;
+
+		if (body && (1 << other.gameObject.layer & layerMask) != 0)
 		{
 			// Near a grapple point, suck to it!
 			body.AddForce((other.transform.position - transform.position) * pointAttraction);
@@ -112,8 +116,10 @@ public class GrappleProjectile : MonoBehaviour
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (body && grappleableLayers.Exists( l => 
-					LayerMask.NameToLayer(l) == other.gameObject.layer))
+		if (AttachedToPoint)
+			return;
+
+		if (body && (1 << other.gameObject.layer & layerMask) != 0)
 		{
 			body.drag = 0.0f;;
 		}

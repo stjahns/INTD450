@@ -9,7 +9,8 @@ public class GrappleComponent : LimbComponent {
 
 	public Transform clampOrigin;
 
-	public Transform clamp;
+	public GrappleProjectile projectile;
+	public float projectileVelocity;
 
 	public bool fired = false;
 
@@ -50,9 +51,19 @@ public class GrappleComponent : LimbComponent {
 
 	void FixedUpdate ()
 	{
+
+
 		// TODO -- properly handle case where grapple is fired but no longer attached to player
 		if (fired && parentAttachmentPoint)
 		{
+
+			float ropeLength = Vector2.Distance(ropeStart.position, ropeEnd.position);
+			if (ropeLength > maxDistance)
+			{
+				projectile.ResetProjectile();
+				fired = false;
+			}
+
 			// Orient arm in direction of clamp
 			Animator anim = getRootComponent().GetComponentInChildren<Animator>();
 			Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
@@ -78,47 +89,37 @@ public class GrappleComponent : LimbComponent {
 				direction.x *= -1;
 			}
 
-			// 'pull' player to clamp
-			// TODO -- causes exception while player physics is resetting - null check?
-			getRootComponent().rigidbody2D.AddForce(direction * pullForce);
+			if (projectile.AttachedToPoint)
+			{
+				// 'pull' player to clamp
+				Rigidbody2D playerBody = getRootComponent().rigidbody2D;
+				if (playerBody)
+				{
+					playerBody.AddForce(direction * pullForce);
+				}
+			}
 		}
 	}
 
 	override public void FireAbility()
 	{
+		// TODO only if arm!
 		if (!fired)
 		{
-			int mask = 0;
-
-			foreach (string layer in grappleableLayers)
-			{
-				mask |= 1 << LayerMask.NameToLayer(layer);
-			}
-
+			// Fire it like a projectile, until it hits something...
 			Vector3 direction = forward.position - lowerLimb.transform.position;
-			RaycastHit2D hit = Physics2D.Raycast(transform.position, direction, maxDistance, mask);
+			direction.Normalize();
+			projectile.FireProjectile(direction * projectileVelocity);
+			SFXSource.PlayOneShot(fireClip);
 
-			if (hit)
-			{
-				clamp.position = hit.collider.gameObject.transform.position;
-				fired = true;
-				shouldAim = false;
-				clamp.parent = null;
+			// TODO - what about grabbing objects?
 
-				SFXSource.PlayOneShot(fireClip);
-			}
-			
-			// TODO - fire grapple at pullable objects
-
-			// TODO - fire grapple at ground layer, retract immediately
+			fired = true;
 		}
 		else
 		{
-			// release
-			clamp.parent = clampOrigin;
-			clamp.localEulerAngles = Vector3.zero;
-			clamp.localPosition = Vector3.zero;
-			clamp.localScale = Vector3.one;
+			// Retract grappling hook back to base
+			projectile.ResetProjectile();
 			shouldAim = true;
 			fired = false;
 

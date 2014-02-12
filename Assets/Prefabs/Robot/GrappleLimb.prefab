@@ -567,8 +567,9 @@ MonoBehaviour:
   projectile: {fileID: 11400004}
   projectileVelocity: 25
   fired: 0
-  maxDistance: 10
-  pullForce: 25
+  minRopeLength: 1
+  maxRopeLength: 10
+  ropePullSpeed: 3
   grappleableLayers:
   - Grappleable
   fireClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}

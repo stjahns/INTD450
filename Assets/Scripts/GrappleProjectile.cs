@@ -19,6 +19,9 @@ public class GrappleProjectile : MonoBehaviour
 	private Transform parent;
 	private Rigidbody2D body;
 
+	public delegate void GrappleHitHandler(Collision2D hit);
+	public event GrappleHitHandler GrappleHit;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -84,9 +87,15 @@ public class GrappleProjectile : MonoBehaviour
 			body = null;
 
 			AttachedToPoint = true;
+
 			clampSprite.sprite = clampedSprite;
 			transform.rotation = Quaternion.FromToRotation(Vector3.down, 
 					collision.transform.position.XY() - transform.position.XY());
+
+			if (GrappleHit != null)
+			{
+				GrappleHit(collision);
+			}
 		}
 	}
 

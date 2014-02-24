@@ -28,6 +28,7 @@ public class MouseOrbit : MonoBehaviour
 	
 	void Update () 
 	{
+		///animation.Play("ROBO");
 		if (target)
 		{
 			x += Input.GetAxis("Mouse X") * xSpeed * Time.deltaTime;

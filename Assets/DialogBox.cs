@@ -7,6 +7,7 @@ public class DialogBox : TriggerBase
 	public enum DialogState
 	{
 		Hidden,
+		Unhiding,
 		Typing,
 		Showing
 	};
@@ -26,8 +27,6 @@ public class DialogBox : TriggerBase
 	public float letterTime = 0.2f;
 	public float showTime = 5.0f;
 
-	public bool enterToContinue = false;
-
 	public GUIText textObject;
 	public GUITexture backgroundObject;
 
@@ -43,8 +42,6 @@ public class DialogBox : TriggerBase
 	[HideInInspector]
 	public List<SignalConnection> onHide = new List<SignalConnection>();
 
-	private bool shownOnce = false;
-
 	private int letterIndex;
 	private float letterTimer;
 
@@ -58,10 +55,19 @@ public class DialogBox : TriggerBase
 		textObject.enabled = false;
 		backgroundObject.enabled = false;
 
-		// move to center...
+		// move gui elements to center... kinda hacky...
+		Vector3 position = transform.position;
 		transform.position = Vector3.zero;
+		textObject.transform.parent = null;
+		backgroundObject.transform.parent = null;
+		transform.position = position;
 
 		delayTimer = 0.0f;
+
+		if (showOnStart)
+		{
+			Show();
+		}
 	}
 
 	[InputSocket]
@@ -86,14 +92,13 @@ public class DialogBox : TriggerBase
 		}
 
 		currentText = speaker + ": ";
-		textObject.enabled = true;
-		backgroundObject.enabled = true;
-		shownOnce = true;
+		textObject.text = GetWrappedText(currentText);
+
 		delayTimer = 0.0f;
 		letterTimer = 0.0f;
 		letterIndex = 0;
 
-		state = DialogState.Typing;
+		state = DialogState.Unhiding;
 	}
 
 	[InputSocket]
@@ -127,47 +132,67 @@ public class DialogBox : TriggerBase
 
 		if (state == DialogState.Hidden)
 		{
-			// If supposed to show on start, and haven't yet, show after delay
-			if (showOnStart && !shownOnce)
+			// DO NOTHING 
+		}
+		else if (state == DialogState.Unhiding)
+		{
+			// enable visual elements and start typing after delay
+			if (delayTimer > showDelay)
 			{
-				if (delayTimer > showDelay)
-				{
-					Show();
-				}
+				textObject.enabled = true;
+				backgroundObject.enabled = true;
+				state = DialogState.Typing;
 			}
 		}
 		else if (state == DialogState.Typing)
 		{
-			// Reveal letters one by one
-			letterTimer += Time.deltaTime;
-			if (letterTimer > letterTime)
+			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 			{
-				if (letterIndex < dialogText.Length)
+				// Skip typing, fully reveal
+				if (typeSound)
 				{
-					currentText += dialogText[letterIndex];
-					if (typeSound)
-					{
-						AudioSource.PlayClipAtPoint(typeSound, transform.position);
-					}
-				}
-				else
-				{
-					// Fully revealed, go to Showing state
-					state = DialogState.Showing;
-					delayTimer = 0.0f;
+					AudioSource.PlayClipAtPoint(typeSound, transform.position);
 				}
 
-				letterIndex++;
-				letterTimer = 0;
+				state = DialogState.Showing;
+				delayTimer = 0.0f;
+				currentText = speaker + ": " + dialogText;
+			}
+			else
+			{
+				// Reveal letters one by one
+				letterTimer += Time.deltaTime;
+				if (letterTimer > letterTime)
+				{
+					if (letterIndex < dialogText.Length)
+					{
+						currentText += dialogText[letterIndex];
+						if (typeSound)
+						{
+							AudioSource.PlayClipAtPoint(typeSound, transform.position);
+						}
+					}
+					else
+					{
+						// Fully revealed, go to Showing state
+						state = DialogState.Showing;
+						delayTimer = 0.0f;
+					}
+
+					letterIndex++;
+					letterTimer = 0;
+				}
 			}
 
 			textObject.text = GetWrappedText(currentText);
-
 		}
 		else if (state == DialogState.Showing)
 		{
-			// Hide after show time expires
-			if (delayTimer > showTime)
+			textObject.text = GetWrappedText(currentText);
+
+			// Hide if enter hit or if nonzero showtime expires
+			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)
+					|| (showTime > 0 && delayTimer > showTime))
 			{
 				Hide();
 			}

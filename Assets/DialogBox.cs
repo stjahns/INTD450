@@ -4,6 +4,16 @@ using System.Collections.Generic;
 
 public class DialogBox : TriggerBase
 {
+	public enum DialogState
+	{
+		Hidden,
+		Typing,
+		Showing
+	};
+
+	public DialogState state = DialogState.Hidden;
+
+	public string speaker;
 	public string dialogText;
 
 	public float wrapMargin;
@@ -11,6 +21,9 @@ public class DialogBox : TriggerBase
 	public bool showOnStart = false;
 	public float showDelay = 1.0f;
 
+	public float fontToScreenWidthRatio = 20.0f;
+
+	public float letterTime = 0.2f;
 	public float showTime = 5.0f;
 
 	public bool enterToContinue = false;
@@ -20,6 +33,8 @@ public class DialogBox : TriggerBase
 
 	public static DialogBox currentDialog = null;
 
+	public AudioClip typeSound;
+
 	[OutputEventConnections]
 	[HideInInspector]
 	public List<SignalConnection> onShow = new List<SignalConnection>();
@@ -28,17 +43,20 @@ public class DialogBox : TriggerBase
 	[HideInInspector]
 	public List<SignalConnection> onHide = new List<SignalConnection>();
 
-	private bool showing;
 	private bool shownOnce = false;
 
+	private int letterIndex;
+	private float letterTimer;
+
 	private float delayTimer;
+
+	private string currentText;
 
 	void Start ()
 	{
 		textObject.text = GetWrappedText(dialogText);
 		textObject.enabled = false;
 		backgroundObject.enabled = false;
-		showing = false;
 
 		// move to center...
 		transform.position = Vector3.zero;
@@ -67,11 +85,15 @@ public class DialogBox : TriggerBase
 			onShow.ForEach(s => s.Fire());
 		}
 
+		currentText = speaker + ": ";
 		textObject.enabled = true;
 		backgroundObject.enabled = true;
 		shownOnce = true;
-		showing = true;
 		delayTimer = 0.0f;
+		letterTimer = 0.0f;
+		letterIndex = 0;
+
+		state = DialogState.Typing;
 	}
 
 	[InputSocket]
@@ -91,7 +113,7 @@ public class DialogBox : TriggerBase
 
 		textObject.enabled = false;
 		backgroundObject.enabled = false;
-		showing = false;
+		state = DialogState.Hidden;
 	}
 	
 	void Update ()
@@ -99,24 +121,55 @@ public class DialogBox : TriggerBase
 		// TODO need to adjust size according to viewport size, if a threshold is exceeded, use
 		// a fixed size for the box
 
-		// TODO -- when first showing, reveal one character at a time with an appropriate
-		// sound effect...
+		textObject.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
 
 		delayTimer += Time.deltaTime;
 
-		if (showing)
+		if (state == DialogState.Hidden)
 		{
-			textObject.text = GetWrappedText(dialogText);
+			// If supposed to show on start, and haven't yet, show after delay
+			if (showOnStart && !shownOnce)
+			{
+				if (delayTimer > showDelay)
+				{
+					Show();
+				}
+			}
+		}
+		else if (state == DialogState.Typing)
+		{
+			// Reveal letters one by one
+			letterTimer += Time.deltaTime;
+			if (letterTimer > letterTime)
+			{
+				if (letterIndex < dialogText.Length)
+				{
+					currentText += dialogText[letterIndex];
+					if (typeSound)
+					{
+						AudioSource.PlayClipAtPoint(typeSound, transform.position);
+					}
+				}
+				else
+				{
+					// Fully revealed, go to Showing state
+					state = DialogState.Showing;
+					delayTimer = 0.0f;
+				}
+
+				letterIndex++;
+				letterTimer = 0;
+			}
+
+			textObject.text = GetWrappedText(currentText);
+
+		}
+		else if (state == DialogState.Showing)
+		{
+			// Hide after show time expires
 			if (delayTimer > showTime)
 			{
 				Hide();
-			}
-		}
-		else if (showOnStart && !shownOnce)
-		{
-			if (delayTimer > showDelay)
-			{
-				Show();
 			}
 		}
 	}
@@ -125,11 +178,11 @@ public class DialogBox : TriggerBase
 	// With the given string, return a new string with appropriate newlines to 
 	// nicely wrap the text in the box
 	//
-	string GetWrappedText(string currentText)
+	string GetWrappedText(string text)
 	{
 		float textWidth = Screen.width + backgroundObject.pixelInset.width - wrapMargin;
 
-		string[] words = currentText.Split(' ');
+		string[] words = text.Split(' ');
 		string finalText = "";
 
 		GUIStyle style = new GUIStyle();

@@ -12,7 +12,7 @@ public class AttachmentPoint : MonoBehaviour {
 	public AttachmentPoint parent = null;
 	public AttachmentPoint child = null;
 
-	public int animatorAimLayer;
+	public string animatorAimFlag;
 	public string aimX;
 	public string aimY;
 

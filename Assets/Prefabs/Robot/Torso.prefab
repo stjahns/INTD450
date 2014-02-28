@@ -235,7 +235,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.0860548, y: -6.56524563, z: 0}
+  m_LocalPosition: {x: -10.2504616, y: -6.05532742, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -381,7 +381,9 @@ MonoBehaviour:
   attached: 0
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
+  partLength: 1
   groundCheck: {fileID: 400012}
+  wallCheck: {fileID: 0}
   unattachedColliders:
   - {fileID: 6000000}
   attachedColliders:
@@ -421,6 +423,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimLayer: 0
+  animatorAimFlag: 
   aimX: 
   aimY: 
   owner: {fileID: 11400000}
@@ -442,6 +445,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimLayer: 2
+  animatorAimFlag: aimRight
   aimX: rightArmX
   aimY: rightArmY
   owner: {fileID: 11400000}
@@ -463,6 +467,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimLayer: 1
+  animatorAimFlag: aimLeft
   aimX: leftArmX
   aimY: leftArmY
   owner: {fileID: 11400000}
@@ -484,6 +489,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimLayer: 0
+  animatorAimFlag: 
   aimX: 
   aimY: 
   owner: {fileID: 11400000}
@@ -505,6 +511,7 @@ MonoBehaviour:
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimLayer: 0
+  animatorAimFlag: 
   aimX: 
   aimY: 
   owner: {fileID: 11400000}

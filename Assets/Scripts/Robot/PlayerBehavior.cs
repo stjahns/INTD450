@@ -236,7 +236,7 @@ public class PlayerBehavior : MonoBehaviour {
 		{
 			if (anim && activeArm.shouldAim == true)
 			{
-				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 0);
+				anim.SetBool(activeArm.parentAttachmentPoint.animatorAimFlag, false);
 			}
 			activeIndex = currentArms.FindIndex(arm => arm == activeArm);
 			activeIndex += 1;
@@ -251,7 +251,7 @@ public class PlayerBehavior : MonoBehaviour {
 			activeArm = currentArms[activeIndex];
 			if (anim) 
 			{
-				anim.SetLayerWeight(activeArm.parentAttachmentPoint.animatorAimLayer, 1);
+				anim.SetBool(activeArm.parentAttachmentPoint.animatorAimFlag, true);
 			}
 		}
 		else

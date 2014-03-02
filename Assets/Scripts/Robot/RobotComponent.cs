@@ -322,7 +322,8 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
-	public bool checkOnGround(int layerMask) {
+	public bool checkOnGround(int layerMask)
+	{
 
 		foreach (RobotComponent component in groundConnections)
 		{

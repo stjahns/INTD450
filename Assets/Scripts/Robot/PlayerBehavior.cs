@@ -31,8 +31,8 @@ public class PlayerBehavior : MonoBehaviour {
 	[HideInInspector]
 	public static PlayerBehavior Player;
 
-	// True if player has any limbs attatched
-	public bool HasLimbs { get { return allComponents.Count > 0; } }
+	// True if player has any limbs attatched (more than just head)
+	public bool HasLimbs { get { return allComponents.Count > 1; } }
 
 	public bool OnGround
 	{
@@ -79,18 +79,11 @@ public class PlayerBehavior : MonoBehaviour {
 		head.LimbRemoved += OnLimbRemoved;
 
 		// If we are just a head, roll around
-		rigidbody2D.fixedAngle = allComponents.Count != 0;
+		rigidbody2D.fixedAngle = HasLimbs;
 
 		head.PhysicsReset += c => {
 			// If physics is reset, head should roll if there's no attatched components
-			if (c == head && allComponents.Count == 0)
-			{
-				rigidbody2D.fixedAngle = false;
-			}
-			else
-			{
-				rigidbody2D.fixedAngle = true;
-			}
+			rigidbody2D.fixedAngle = HasLimbs;
 		};
 
 		head.OnDestroy += h => {
@@ -183,10 +176,7 @@ public class PlayerBehavior : MonoBehaviour {
 
 		allComponents.Remove(limb);
 
-		if (allComponents.Count == 0)
-		{
-			rigidbody2D.fixedAngle = false;
-		}
+		rigidbody2D.fixedAngle = HasLimbs;
 
 		AudioSource.PlayClipAtPoint(limbAttachSound, transform.position);
 

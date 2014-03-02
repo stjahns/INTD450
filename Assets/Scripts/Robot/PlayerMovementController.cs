@@ -7,13 +7,15 @@ public class PlayerMovementController : MonoBehaviour {
 	public PlayerBehavior player;
 	public PlayerAttachmentController attachmentController;
 
-	public float moveForce = 1.0f;
+	public float maxGroundSpeed = 3.0f;
+	public float groundMoveForce = 1.0f;
+	
+	public float airMoveForce = 1.0f;
 	
 	public AudioClip jumpClip;
 	public float jumpForce = 1.0f;
 	public float jumpCooloff = 0.25f;
 
-	private bool onGround = false;
 	private float jumpTimer = 0.0f;
 	
 	// Update is called once per frame
@@ -98,16 +100,30 @@ public class PlayerMovementController : MonoBehaviour {
 
 	void FixedUpdate ()
 	{
-		if (Input.GetKey(KeyCode.A))
+		if (Input.GetKey(KeyCode.A) && rigidbody2D.velocity.x > -maxGroundSpeed)
 		{
 			// move left
-			rigidbody2D.AddForce(Vector2.right * -moveForce);
+			if (player.OnGround)
+			{
+				rigidbody2D.AddForce(Vector2.right * -groundMoveForce);
+			}
+			else
+			{
+				rigidbody2D.AddForce(Vector2.right * -airMoveForce);
+			}
 		}
 
-		if (Input.GetKey(KeyCode.D))
+		if (Input.GetKey(KeyCode.D) && rigidbody2D.velocity.x < maxGroundSpeed)
 		{
 			// move right
-			rigidbody2D.AddForce(Vector2.right * moveForce);
+			if (player.OnGround)
+			{
+				rigidbody2D.AddForce(Vector2.right * groundMoveForce);
+			}
+			else
+			{
+				rigidbody2D.AddForce(Vector2.right * airMoveForce);
+			}
 		}
 	}
 }

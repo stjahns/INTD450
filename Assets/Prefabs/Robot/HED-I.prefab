@@ -757,6 +757,7 @@ MonoBehaviour:
   parentAttachmentPoint: {fileID: 0}
   partLength: 1
   groundCheck: {fileID: 400002}
+  wallCheck: {fileID: 0}
   unattachedColliders: []
   attachedColliders: []
   groundConnections: []
@@ -789,7 +790,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   parent: {fileID: 0}
   child: {fileID: 0}
-  animatorAimLayer: 0
+  animatorAimFlag: 
   aimX: 
   aimY: 
   owner: {fileID: 11400002}
@@ -1073,7 +1074,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 11400000}
   attachmentController: {fileID: 11400036}
-  moveForce: 10
+  maxGroundSpeed: 3
+  groundMoveForce: 20
+  airMoveForce: 5
   jumpClip: {fileID: 8300000, guid: cbe99584e12500a438b3063ab9d0c012, type: 3}
   jumpForce: 250
   jumpCooloff: .25

@@ -319,8 +319,8 @@ public class PlayerAttachmentController : MonoBehaviour
 			jointBone = jointBone.LowerJoint;
 		}
 
-		childTargetPosition = jointBone.transform.position + parentChange;
-		childTargetRotation = jointBone.GetBoneRotation() * parentTargetRotation;
+		childTargetPosition = Quaternion.Inverse(parentStartRotation) * (jointBone.transform.position - player.transform.position) + player.transform.position + parentChange;
+		childTargetRotation = Quaternion.Inverse(parentStartRotation) * jointBone.GetBoneRotation();
 
 		state = AttachmentState.AttachingPart;
 

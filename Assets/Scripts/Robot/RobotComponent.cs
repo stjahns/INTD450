@@ -167,6 +167,10 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
+	virtual public void OnRemove()
+	{
+	}
+
 	public void Attach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
 	{
 		AttachmentSlot slot = parentJoint.slot;
@@ -238,6 +242,8 @@ public class RobotComponent : MonoBehaviour {
 			OnLimbAdded(limb, type);
 		}
 
+		child.OnAttach();
+
 		child.ResetColliders();
 
 		getRootComponent().ResetPhysics();
@@ -286,6 +292,8 @@ public class RobotComponent : MonoBehaviour {
 		{
 			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
 		}
+
+		childJoint.owner.OnRemove();
 		
 		OnLimbRemoved(childJoint.owner, attachmentType);
 
@@ -350,6 +358,8 @@ public class RobotComponent : MonoBehaviour {
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
 
+		gameObject.GetComponent<SpriteRenderer>();
+
 		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
 	}
 
@@ -392,7 +402,7 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void Update() 
 	{
-		if (attached && wallCheck)
+		if (attachedToPlayer() && wallCheck)
 		{
 			// Normally, colliders on limbs should prevent you from sticking them through walls
 			// However, a consequence of having limb collider transforms under animation control
@@ -520,7 +530,7 @@ public class RobotComponent : MonoBehaviour {
 
 		// any child robot components should be unattached now...
 
-		for (int i = 0; i < transform.GetChildCount(); ++i)
+		for (int i = 0; i < transform.childCount; ++i)
 		{
 			//Destroy(transform.GetChild(i).gameObject, explosionTime);
 		}

@@ -65,6 +65,25 @@ public class RobotComponent : MonoBehaviour {
 		ResetColliders();
 	}
 
+	public AttachmentSlot Slot
+	{
+		get
+		{
+			if (parentAttachmentPoint)
+			{
+				return parentAttachmentPoint.slot;
+			}
+
+			// Head doesn't have a parent, just assume its in neck slot
+			if (limbType == LimbType.Head)
+			{
+				return AttachmentSlot.Neck;
+			}
+
+			return AttachmentSlot.None;
+		}
+	}
+
 	public bool IsArm
 	{
 		get
@@ -100,7 +119,7 @@ public class RobotComponent : MonoBehaviour {
 		{
 			if (LevelMusic.Instance)
 			{
-				LevelMusic.Instance.AttachLimb(limbType);
+				LevelMusic.Instance.AttachLimb(limbType, Slot);
 			}
 		}
 	}
@@ -213,7 +232,7 @@ public class RobotComponent : MonoBehaviour {
 
 			if (LevelMusic.Instance)
 			{
-				LevelMusic.Instance.AttachLimb(limb.limbType);
+				LevelMusic.Instance.AttachLimb(limb.limbType, limb.Slot);
 			}
 
 			OnLimbAdded(limb, type);
@@ -231,6 +250,11 @@ public class RobotComponent : MonoBehaviour {
 
 		RobotComponent child = childJoint.owner;
 		child.Skeleton = null;
+
+		if (LevelMusic.Instance)
+		{
+			LevelMusic.Instance.DetachLimb(childJoint.owner.limbType, childJoint.owner.Slot);
+		}
 
 		parentJoint.child = null;
 		childJoint.parent = null;
@@ -262,16 +286,8 @@ public class RobotComponent : MonoBehaviour {
 		{
 			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
 		}
-
-		foreach (RobotComponent limb in childJoint.owner.getAllChildren())
-		{
-			OnLimbRemoved(limb, attachmentType);
-
-			if (LevelMusic.Instance)
-			{
-				LevelMusic.Instance.DetachLimb(limb.limbType);
-			}
-		}
+		
+		OnLimbRemoved(childJoint.owner, attachmentType);
 
 		// stop listening to childs' add/removeArm event
 		childJoint.owner.LimbAdded -= OnLimbAdded;
@@ -376,7 +392,7 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void Update() 
 	{
-		if (wallCheck)
+		if (attached && wallCheck)
 		{
 			// Normally, colliders on limbs should prevent you from sticking them through walls
 			// However, a consequence of having limb collider transforms under animation control

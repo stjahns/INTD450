@@ -392,7 +392,7 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void Update() 
 	{
-		if (attached && wallCheck)
+		if (attachedToPlayer() && wallCheck)
 		{
 			// Normally, colliders on limbs should prevent you from sticking them through walls
 			// However, a consequence of having limb collider transforms under animation control

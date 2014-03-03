@@ -101,8 +101,8 @@ public class GrappleProjectile : MonoBehaviour
 				grappleJoint = gameObject.AddComponent<HingeJoint2D>();
 				grappleJoint.connectedBody = collision.rigidbody;
 
-				//grappleJoint.connectedAnchor = rigidbody2D.transform.position -
-				grappleJoint.connectedAnchor = collision.collider.transform.position -
+				grappleJoint.connectedAnchor = body.transform.position -
+				//grappleJoint.connectedAnchor = collision.collider.transform.position -
 					collision.rigidbody.transform.position;
 
 				JointAngleLimits2D limits = grappleJoint.limits;

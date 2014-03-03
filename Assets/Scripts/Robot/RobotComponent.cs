@@ -167,6 +167,10 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
+	virtual public void OnRemove()
+	{
+	}
+
 	public void Attach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
 	{
 		AttachmentSlot slot = parentJoint.slot;
@@ -238,6 +242,8 @@ public class RobotComponent : MonoBehaviour {
 			OnLimbAdded(limb, type);
 		}
 
+		child.OnAttach();
+
 		child.ResetColliders();
 
 		getRootComponent().ResetPhysics();
@@ -286,6 +292,8 @@ public class RobotComponent : MonoBehaviour {
 		{
 			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
 		}
+
+		childJoint.owner.OnRemove();
 		
 		OnLimbRemoved(childJoint.owner, attachmentType);
 
@@ -349,6 +357,8 @@ public class RobotComponent : MonoBehaviour {
 		
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
+
+		gameObject.GetComponent<SpriteRenderer>();
 
 		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
 	}

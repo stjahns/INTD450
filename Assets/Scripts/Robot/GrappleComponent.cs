@@ -43,7 +43,7 @@ public class GrappleComponent : LimbComponent {
 	void Start ()
 	{
 		GameObject forwardObject = new GameObject("Forward");
-		forwardObject.transform.parent = lowerLimb.transform;
+		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
 		
@@ -205,7 +205,7 @@ public class GrappleComponent : LimbComponent {
 		if (IsArm)
 		{
 			grappleableLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
-			direction = forward.position - lowerLimb.transform.position;
+			direction = forward.position - transform.position;
 			direction.Normalize();
 		}
 		else // leg

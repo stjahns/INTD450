@@ -20,7 +20,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 	public MeshRenderer attachmentRangeVisual;
 	public MeshRenderer attachmentShadowVisual;
-	public LineRenderer attachmentLineVisual;
+
 
 	// Private fields
 
@@ -114,8 +114,27 @@ public class PlayerAttachmentController : MonoBehaviour
 		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
 
 		attachmentRangeVisual.enabled = false;
-		attachmentLineVisual.enabled = false;
 		attachmentShadowVisual.enabled = false;
+	}
+
+	void Abort()
+	{
+		if (selectedParentJoint)
+		{
+			if (selectedParentJoint.child == null)
+			{
+				selectedParentJoint.childTransform = selectedParentJoint.transform;
+			}
+
+			selectedParentJoint.selected = false;
+			selectedParentJoint = null;
+		}
+
+		if (selectedChildJoint)
+		{
+			selectedChildJoint.selected = false;
+			selectedChildJoint = null;
+		}
 	}
 
 	// Update is called once per frame
@@ -133,17 +152,6 @@ public class PlayerAttachmentController : MonoBehaviour
 				AttachingPart();
 				break;
 		}
-
-		if (selectedChildJoint != null && selectedParentJoint != null)
-		{
-			attachmentLineVisual.enabled = true;
-			attachmentLineVisual.SetPosition(0, selectedParentJoint.transform.position);
-			attachmentLineVisual.SetPosition(1, selectedChildJoint.transform.position);
-		}
-		else
-		{
-			attachmentLineVisual.enabled = false;
-		}
 	}
 
 	//
@@ -154,6 +162,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			// Abort to regular mode
+			Abort();
 			player.SetController(movementController);
 			return;
 		}
@@ -189,6 +198,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				// If selected parent joint already has a child, detach it
 				selectedParentJoint.owner.Unattach(selectedParentJoint, selectedParentJoint.child);
+				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				state = AttachmentState.AttachingPart;
 				player.SetController(movementController);
 			}
@@ -216,6 +226,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			// Abort to regular mode
+			Abort();
 			player.SetController(movementController);
 			return;
 		}
@@ -245,6 +256,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			selectedChildJoint = closestJoint;
 			selectedChildJoint.selected = true;
+			selectedParentJoint.childTransform = selectedChildJoint.transform;
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))
@@ -257,6 +269,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			else
 			{
 				// Nothing selected, abort
+				Abort();
 				state = AttachmentState.AttachingPart;
 				player.SetController(movementController);
 			}
@@ -301,8 +314,12 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector3 parentChange = parentTargetPosition - parentStartPosition;
 
 		Bone jointBone = player.skeleton.GetBoneForSlot(selectedParentJoint.slot);
+		if (jointBone.LowerJoint)
+		{
+			jointBone = jointBone.LowerJoint;
+		}
 
-		childTargetPosition = selectedParentJoint.transform.position + parentChange;
+		childTargetPosition = jointBone.transform.position + parentChange;
 		childTargetRotation = jointBone.GetBoneRotation() * parentTargetRotation;
 
 		state = AttachmentState.AttachingPart;

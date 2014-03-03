@@ -23,10 +23,7 @@ public class SpringComponent : LimbComponent
 			Vector2 force = transform.position - springRange.position;
 			force.Normalize();
 
-			Collider2D collider = GetComponents<Collider2D>()
-				.First(c => c.attachedRigidbody != null);
-
-			collider.attachedRigidbody.AddForce(force * springForce);
+			PlayerBehavior.Player.rigidbody2D.AddForce(force * springForce);
 		}
 
 		SFXSource.PlayOneShot(fireClip);

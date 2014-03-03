@@ -17,13 +17,32 @@ public class AttachmentPoint : MonoBehaviour {
 	public string aimY;
 
 	public RobotComponent owner;
-	public ParticleSystem emitter;
 
 	public bool connectsGround = false;
 
 	public AttachmentType attachmentType = AttachmentType.Default;
 
 	public AttachmentSlot slot;
+
+	public LightningRenderer lightningEffect;
+
+	public Bone bone;
+
+	public Transform childTransform
+	{
+		set
+		{
+			if (value)
+			{
+				lightningEffect.end = value;
+				lightningEffect.enabled = true;
+			}
+			else
+			{
+				lightningEffect.enabled = false;
+			}
+		}
+	}
 
 	bool m_selected;
 	public bool selected
@@ -32,11 +51,11 @@ public class AttachmentPoint : MonoBehaviour {
 		{
 			if (value)
 			{
-				emitter.startColor = Color.white;
+				lightningEffect.color = Color.white; 
 			}
 			else
 			{
-				emitter.startColor = Color.blue;
+				lightningEffect.color = Color.blue; 
 			}
 			m_selected = value;
 		}
@@ -50,6 +69,5 @@ public class AttachmentPoint : MonoBehaviour {
 	void Start ()
 	{
 		selected = false;
-		emitter.startLifetime = 0.05f;
 	}
 }

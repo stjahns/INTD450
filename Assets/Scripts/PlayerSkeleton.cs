@@ -28,22 +28,16 @@ public class PlayerSkeleton : MonoBehaviour
 		{
 			case AttachmentSlot.Neck:
 				return Neck;
-				break;
 			case AttachmentSlot.Spine:
 				return Spine;
-				break;
 			case AttachmentSlot.LeftShoulder:
 				return LeftShoulder;
-				break;
 			case AttachmentSlot.RightShoulder:
 				return RightShoulder;
-				break;
 			case AttachmentSlot.LeftHip:
 				return LeftHip;
-				break;
 			case AttachmentSlot.RightHip:
 				return RightHip;
-				break;
 		}
 
 		return null;

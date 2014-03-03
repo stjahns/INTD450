@@ -7,9 +7,14 @@ public class RobotComponent : MonoBehaviour {
 
 	// Public Vars
 	public LimbType limbType;
+
+	[HideInInspector]
 	public bool attached = false;
 
+	[HideInInspector]
 	public RobotComponent parentComponent = null;
+
+	[HideInInspector]
 	public AttachmentPoint parentAttachmentPoint = null;
 
 	public float partLength = 1.0f;
@@ -20,28 +25,26 @@ public class RobotComponent : MonoBehaviour {
 	public List<Collider2D> unattachedColliders = new List<Collider2D>();
 	public List<Collider2D> attachedColliders = new List<Collider2D>();
 
+	[HideInInspector]
 	public List<RobotComponent> groundConnections = new List<RobotComponent>();
 
 	public List<AttachmentPoint> allJoints = new List<AttachmentPoint>();
 
 	public AudioSource SFXSource;
 
+	[HideInInspector]
 	public bool shouldAim = true;
 
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
 
 	public List<SpriteRenderer> sprites;
+	public List<int> spriteOrders;
 
+	[HideInInspector]
 	public PlayerSkeleton Skeleton = null;
 
-	public Transform lowerLimbJoint;
-	public GameObject upperLimb;
-	public SpriteRenderer upperLimbSprite;
-	public GameObject lowerLimb;
-	public List<SpriteRenderer> lowerLimbSprites;
-	public List<int> lowerLimbSpriteOrders;
-
+	[HideInInspector]
 	public Bone currentBone = null;
 
 	// Private Vars
@@ -102,20 +105,45 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
-	public void ResetSpriteOrders()
+	virtual public void ResetSpriteOrders()
 	{
 		foreach (RobotComponent part in getDirectChildren())
 		{
 			part.ResetSpriteOrders();
 		}
 
-		upperLimbSprite.sortingOrder = (int)currentBone.spriteOrder;
-
-		if (currentBone.LowerJoint)
+		for (int i = 0; i < sprites.Count; ++i)
 		{
-			for (int i = 0; i < lowerLimbSprites.Count; ++i)
+			sprites[i].sortingOrder = (int)currentBone.spriteOrder + spriteOrders[i];
+		}
+
+		foreach (AttachmentPoint joint in allJoints)
+		{
+			joint.lightningEffect.sortingOrder = (int)joint.bone.spriteOrder;
+			joint.lightningEffect.sortingLayerName = "Player";
+		}
+	}
+
+	virtual public void OnAttach()
+	{
+		foreach (AttachmentPoint joint in allJoints)
+		{
+			joint.lightningEffect.sortingLayerName = "Player";
+		}
+
+		for (int i = 0; i < sprites.Count; ++i)
+		{
+			sprites[i].sortingLayerName = "Player";
+			sprites[i].sortingOrder = (int)currentBone.spriteOrder + spriteOrders[i];
+		}
+
+		if (currentBone.spriteMirrored)
+		{
+			for (int i = 0; i < sprites.Count; ++i)
 			{
-				lowerLimbSprites[i].sortingOrder = (int)currentBone.LowerJoint.spriteOrder + lowerLimbSpriteOrders[i];
+				Vector3 scale = sprites[i].gameObject.transform.localScale;
+				scale.x *= -1;
+				sprites[i].gameObject.transform.localScale = scale;
 			}
 		}
 	}
@@ -127,8 +155,13 @@ public class RobotComponent : MonoBehaviour {
 
 		RobotComponent child = childJoint.owner;
 
-		child.currentBone = bone;
+		// Parent to lower joint bone if it exists (for limbs)
+		if (bone.LowerJoint)
+		{
+			bone = bone.LowerJoint;
+		}
 
+		child.currentBone = bone;
 		child.Skeleton = Skeleton;
 
 		// parent child to bone
@@ -136,36 +169,6 @@ public class RobotComponent : MonoBehaviour {
 		child.transform.localScale = Vector3.one;
 		child.transform.localPosition = Vector3.zero;
 		child.transform.localEulerAngles = Vector3.zero;
-
-		if (child.upperLimbSprite)
-		{
-			child.upperLimbSprite.sortingLayerName = "Player";
-			child.upperLimbSprite.sortingOrder = (int)bone.spriteOrder;
-		}
-
-		// if child has lowerlimb, parent lowerlimb to bone.lowerlimb
-		if (child.lowerLimb && bone.LowerJoint)
-		{
-			child.lowerLimb.transform.parent = bone.LowerJoint.gameObject.transform;
-			child.lowerLimb.transform.localPosition = Vector3.zero;
-			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
-
-			for (int i = 0; i < child.lowerLimbSprites.Count; ++i)
-			{
-				child.lowerLimbSprites[i].sortingLayerName = "Player";
-				child.lowerLimbSprites[i].sortingOrder = (int)bone.LowerJoint.spriteOrder + child.lowerLimbSpriteOrders[i];
-			}
-
-			if (bone.LowerJoint.spriteMirrored)
-			{
-				for (int i = 0; i < child.lowerLimbSprites.Count; ++i)
-				{
-					Vector3 scale = child.lowerLimbSprites[i].gameObject.transform.localScale;
-					scale.x *= -1;
-					child.lowerLimbSprites[i].gameObject.transform.localScale = scale;
-				}
-			}
-		}
 
 		if (childJoint.rigidbody2D)
 		{
@@ -179,11 +182,11 @@ public class RobotComponent : MonoBehaviour {
 			Destroy(childJoint.owner.rigidbody2D);
 		}
 
-
 		// Parent all child joints to the bones themselves (for torso)
 		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
 		{
 			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
+			joint.bone = jointBone;
 			joint.transform.parent = jointBone.transform;
 			joint.transform.localPosition = Vector3.zero;
 			joint.transform.localRotation = Quaternion.identity;
@@ -217,6 +220,7 @@ public class RobotComponent : MonoBehaviour {
 		}
 
 		child.ResetColliders();
+
 		getRootComponent().ResetPhysics();
 
 	}
@@ -238,19 +242,12 @@ public class RobotComponent : MonoBehaviour {
 			groundConnections.Remove(childJoint.owner);
 		}
 
+		parentJoint.childTransform = parentJoint.transform;
+
 		// parent child to null
 		child.transform.parent = null;
 		child.parentComponent = null;
 		child.Skeleton = null;
-
-		// if child has lowerlimb, parent lowerlimb to child.join
-		if (child.lowerLimb)
-		{
-			child.lowerLimb.transform.parent = child.lowerLimbJoint;
-			child.lowerLimb.transform.localPosition = Vector3.zero;
-			child.lowerLimb.transform.localEulerAngles = Vector3.zero;
-			child.lowerLimb.transform.localScale = Vector3.one;
-		}
 
 		// Unparent all child joints from bones
 		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
@@ -322,7 +319,8 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
-	public bool checkOnGround(int layerMask) {
+	public bool checkOnGround(int layerMask)
+	{
 
 		foreach (RobotComponent component in groundConnections)
 		{
@@ -360,11 +358,11 @@ public class RobotComponent : MonoBehaviour {
 	{
 		List<RobotComponent> limbs = new List<RobotComponent>();
 
-		foreach (AttachmentPoint armJoint in allJoints)
+		foreach (AttachmentPoint joint in allJoints)
 		{
-			if (armJoint.child && armJoint.child.owner)
+			if (joint.child && joint.child.owner)
 			{
-				limbs.Add(armJoint.child.owner);
+				limbs.Add(joint.child.owner);
 			}
 		}
 
@@ -389,7 +387,7 @@ public class RobotComponent : MonoBehaviour {
 			int layerMask = 1 << LayerMask.NameToLayer("Ground");
 
 			// Check if part is jammed into a wall
-			RaycastHit2D hit = Physics2D.Linecast(transform.position, wallCheck.position, layerMask);
+			RaycastHit2D hit = Physics2D.Linecast(PlayerBehavior.Player.transform.position, wallCheck.position, layerMask);
 			if (hit)
 			{
 				// Bump player out of wall 

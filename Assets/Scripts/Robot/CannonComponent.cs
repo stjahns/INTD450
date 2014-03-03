@@ -18,7 +18,7 @@ public class CannonComponent : LimbComponent
 	void Start ()
 	{
 		GameObject forwardObject = new GameObject("Forward");
-		forwardObject.transform.parent = lowerLimb.transform;
+		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
 	}
@@ -29,7 +29,7 @@ public class CannonComponent : LimbComponent
 		SFXSource.PlayOneShot(fireClip);
 
 		// fire cannonball
-		Vector3 direction = forward.position - lowerLimb.transform.position;
+		Vector3 direction = forward.position - transform.position;
 		direction.Normalize();
 
 		GameObject cannonBall = Instantiate(cannonballPrefab, shotOrigin.position, Quaternion.identity) as GameObject;

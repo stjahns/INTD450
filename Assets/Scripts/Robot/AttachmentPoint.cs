@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public enum AttachmentType {
+public enum AttachmentType
+{
 	Default,
 	Arm,
-	Leg
+	Leg,
+	LevelAttachment
 }
 
-public class AttachmentPoint : MonoBehaviour {
+public class AttachmentPoint : MonoBehaviour
+{
 
 	public AttachmentPoint parent = null;
 	public AttachmentPoint child = null;
@@ -63,6 +66,36 @@ public class AttachmentPoint : MonoBehaviour {
 		{
 			return m_selected;
 		}
+	}
+
+	private DistanceJoint2D joint;
+
+	public bool AttachedToLevelObject
+	{
+		get { return joint != null; }
+	}
+
+	public void AttachToLevelObject(AttachmentPoint levelAttachment)
+	{
+		joint = PlayerBehavior.Player.gameObject.AddComponent<DistanceJoint2D>();
+		joint.anchor = transform.position - PlayerBehavior.Player.transform.position;
+		joint.connectedBody = levelAttachment.collider2D.attachedRigidbody;
+		joint.connectedAnchor = levelAttachment.transform.position
+			- levelAttachment.collider2D.attachedRigidbody.transform.position;
+	}
+
+	public void DetachFromLevelObject()
+	{
+		if (AttachedToLevelObject)
+		{
+			Destroy(joint);
+			joint = null;
+		}
+	}
+
+	public void SetAttachmentDistance(float distance)
+	{
+		joint.distance = distance;
 	}
 
 	// Use this for initialization

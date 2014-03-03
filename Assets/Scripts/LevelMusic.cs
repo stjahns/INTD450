@@ -8,18 +8,18 @@ public enum LimbType
 	Torso,
 	Cannon,
 	Spring,
-	Grapple
+	Grapple,
+	Saw,
+	Shield
 }
 
 public class LevelMusic : MonoBehaviour
 {
-	public List<LimbType> limbTypes;
-	public List<AudioSource> limbTracks;
+
+	public List<AttachmentSlot> limbSlots;
+	public List<SlotTracks> slotTracks;
 
 	public static LevelMusic Instance;
-
-	// Tracks numbers of attached limb types
-	private static Dictionary<LimbType, int> activeLimbs;
 
 	//
 	// Set static instance to this, mute all limb tracks
@@ -29,14 +29,6 @@ public class LevelMusic : MonoBehaviour
 	void Awake ()
 	{
 		LevelMusic.Instance = this;
-
-		activeLimbs = new Dictionary<LimbType, int>();
-		limbTypes.ForEach(l => activeLimbs.Add(l, 0));
-
-		foreach (AudioSource track in limbTracks)
-		{
-			track.mute = true;
-		}
 	}
 
 	//
@@ -44,10 +36,7 @@ public class LevelMusic : MonoBehaviour
 	//
 	void Start ()
 	{
-		foreach (AudioSource track in limbTracks)
-		{
-			track.Play();
-		}
+		slotTracks.ForEach(s => s.PlayTracks());
 	}
 
 	//
@@ -57,38 +46,23 @@ public class LevelMusic : MonoBehaviour
 	{
 	}
 
-	//
-	// Tell music system a limb was added, unmuting track if necessary
-	//
-	public void AttachLimb(LimbType limb)
+	public void AttachLimb(LimbType limb, AttachmentSlot slot)
 	{
-		if (activeLimbs.ContainsKey(limb))
+		int slotIndex = limbSlots.FindIndex(s => s == slot);
+		if (slotIndex != -1 && slotIndex < slotTracks.Count)
 		{
-			activeLimbs[limb]++;
+			SlotTracks tracks = slotTracks[slotIndex];
+			tracks.UnmuteTrack(limb);
 		}
-
-		CheckTrackMuted(limb);
 	}
 
-	//
-	// Tell music system a limb was removed, muting track if necessary
-	//
-	public void DetachLimb(LimbType limb)
+	public void DetachLimb(LimbType limb, AttachmentSlot slot)
 	{
-		if (activeLimbs.ContainsKey(limb))
+		int slotIndex = limbSlots.FindIndex(s => s == slot);
+		if (slotIndex != -1 && slotIndex < slotTracks.Count)
 		{
-			activeLimbs[limb]--;
-		}
-		CheckTrackMuted(limb);
-	}
-
-	private void CheckTrackMuted(LimbType limb)
-	{
-		int trackIndex = limbTypes.FindIndex(t => t == limb);
-		if (trackIndex != -1 && trackIndex < limbTracks.Count)
-		{
-			// Mute the track if less than one active limb of its type
-			limbTracks[trackIndex].mute = activeLimbs[limb] < 1;
+			SlotTracks tracks = slotTracks[slotIndex];
+			tracks.MuteTrack(limb);
 		}
 	}
 }

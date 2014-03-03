@@ -520,7 +520,7 @@ public class RobotComponent : MonoBehaviour {
 
 		// any child robot components should be unattached now...
 
-		for (int i = 0; i < transform.GetChildCount(); ++i)
+		for (int i = 0; i < transform.childCount; ++i)
 		{
 			//Destroy(transform.GetChild(i).gameObject, explosionTime);
 		}

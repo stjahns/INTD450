@@ -40,8 +40,10 @@ public class GrappleComponent : LimbComponent {
 
 	private Rigidbody2D playerBody;
 
-	void Start ()
+	override public void Start ()
 	{
+		base.Start();
+
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
@@ -93,8 +95,10 @@ public class GrappleComponent : LimbComponent {
 		}
 	}
 
-	void Update ()
+	override public void Update ()
 	{
+		base.Update();
+
 		ropeLine.SetPosition(0, ropeStart.position);
 		ropeLine.SetPosition(1, ropeEnd.position);
 

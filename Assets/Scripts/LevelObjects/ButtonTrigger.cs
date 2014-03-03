@@ -17,7 +17,6 @@ public class ButtonTrigger : TriggerBase
 	[HideInInspector]
 	public List<SignalConnection> onHold = new List<SignalConnection>();
 
-	public string tag;
 	public bool debug = false;
 	public bool triggerOnce = false;
 
@@ -85,17 +84,11 @@ public class ButtonTrigger : TriggerBase
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
-		{
-			objectInTrigger = true;
-		}
+		objectInTrigger = true;
 	}
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
-		{
-			objectInTrigger = true;
-		}
+		objectInTrigger = true;
 	}
 }

@@ -411,6 +411,7 @@ MonoBehaviour:
   attachmentType: 0
   slot: 0
   lightningEffect: {fileID: 11400004}
+  bone: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -446,10 +447,13 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  connectionEffect: {fileID: 11400004}
   animator: {fileID: 9500000}
   springRange: {fileID: 400012}
   springForce: 700
+  pushForce: 700
+  layers:
+  - Ground
+  - LevelObjects
   fireClip: {fileID: 8300000, guid: 03b4736ad8787b847a1089de2a8325c1, type: 3}
 --- !u!114 &11400004
 MonoBehaviour:

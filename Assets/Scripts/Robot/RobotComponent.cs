@@ -387,7 +387,7 @@ public class RobotComponent : MonoBehaviour {
 			int layerMask = 1 << LayerMask.NameToLayer("Ground");
 
 			// Check if part is jammed into a wall
-			RaycastHit2D hit = Physics2D.Linecast(transform.position, wallCheck.position, layerMask);
+			RaycastHit2D hit = Physics2D.Linecast(PlayerBehavior.Player.transform.position, wallCheck.position, layerMask);
 			if (hit)
 			{
 				// Bump player out of wall 

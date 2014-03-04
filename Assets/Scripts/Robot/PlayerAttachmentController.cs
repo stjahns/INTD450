@@ -28,7 +28,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		SelectParent,
 		SelectChild,
-		AttachingPart
+		AttachingPart,
+		AttachingToLevelObject
 	}
 
 	private AttachmentState state;
@@ -55,6 +56,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	private float attachmentTime;
 	private float viewportHeightOriginal;
 
+	private float initialDistance;
+
 	void OnEnable ()
 	{
 		state = AttachmentState.SelectParent;
@@ -66,6 +69,20 @@ public class PlayerAttachmentController : MonoBehaviour
 		foreach (var part in attachedParts)
 		{
 			parentJoints.AddRange(part.allJoints);
+		}
+
+		// Special case: we are hooked into a terminal, as just a head
+		if (parentJoints.Count == 1)
+		{
+			AttachmentPoint parentJoint = parentJoints[0];
+			if (parentJoint && parentJoint.AttachedToLevelObject)
+			{
+				parentJoint.child.OnDetach();
+				parentJoint.DetachFromLevelObject();
+				parentJoint.childTransform = parentJoint.transform;
+				player.SetController(movementController);
+				return;
+			}
 		}
 
 		// Get all unattached parts in range
@@ -151,6 +168,9 @@ public class PlayerAttachmentController : MonoBehaviour
 			case AttachmentState.AttachingPart:
 				AttachingPart();
 				break;
+			case AttachmentState.AttachingToLevelObject:
+				AttachingToLevelObject();
+				break;
 		}
 	}
 
@@ -194,9 +214,17 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			if (selectedParentJoint.child != null)
+			if (selectedParentJoint.AttachedToLevelObject)
+			{
+				selectedParentJoint.child.OnDetach();
+				selectedParentJoint.DetachFromLevelObject();
+				selectedParentJoint.childTransform = selectedParentJoint.transform;
+				player.SetController(movementController);
+			}
+			else if (selectedParentJoint.child != null )
 			{
 				// If selected parent joint already has a child, detach it
+				selectedParentJoint.child.OnDetach();
 				selectedParentJoint.owner.Unattach(selectedParentJoint, selectedParentJoint.child);
 				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				state = AttachmentState.AttachingPart;
@@ -281,62 +309,85 @@ public class PlayerAttachmentController : MonoBehaviour
 	//
 	void StartAttachingPart()
 	{
-		parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
-		parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
-
-		parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y, 0);
-		parentTargetRotation = Quaternion.identity;
-
-		int ground = 1 << LayerMask.NameToLayer("Ground");
-		float partLength = selectedChildJoint.owner.partLength;
-
-		Vector2[] directions = new Vector2[] {
-			Vector2.up * -1,
-			Vector2.right,
-			Vector2.right * -1
-		};
-	
-		foreach (var direction in directions)
+		if (selectedChildJoint.attachmentType != AttachmentType.LevelAttachment)
 		{
-			var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
-			if (hit)
+			parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+			parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
+
+			parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y, 0);
+			parentTargetRotation = Quaternion.identity;
+
+			int ground = 1 << LayerMask.NameToLayer("Ground");
+			float partLength = selectedChildJoint.owner.partLength;
+
+			Vector2[] directions = new Vector2[] {
+				Vector2.up * -1,
+				Vector2.right,
+				Vector2.right * -1
+			};
+		
+			foreach (var direction in directions)
 			{
-				float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
-				parentTargetPosition -= (direction * (partLength - distance)).XY0();
-			}
+				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+				if (hit)
+				{
+					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
+					parentTargetPosition -= (direction * (partLength - distance)).XY0();
+				}
 
 			// TODO might need to abort under certain circumstances if too cramped
+			}
+
+			childStartPosition = selectedChildJoint.owner.transform.position;
+			childStartRotation = selectedChildJoint.owner.transform.rotation;
+
+			Vector3 parentChange = parentTargetPosition - parentStartPosition;
+
+			Bone jointBone = player.skeleton.GetBoneForSlot(selectedParentJoint.slot);
+			if (jointBone.LowerJoint)
+			{
+				jointBone = jointBone.LowerJoint;
+			}
+
+			childTargetPosition = Quaternion.Inverse(parentStartRotation) * (jointBone.transform.position - player.transform.position) + player.transform.position + parentChange;
+			childTargetRotation = Quaternion.Inverse(parentStartRotation) * jointBone.GetBoneRotation();
+
+			state = AttachmentState.AttachingPart;
+
+			if (selectedChildJoint.owner.rigidbody2D)
+			{
+				Destroy(selectedChildJoint.owner.rigidbody2D);
+			}
+
+			if (selectedParentJoint.owner.getRootComponent().rigidbody2D)
+			{
+				Destroy(selectedParentJoint.owner.getRootComponent().rigidbody2D);
+			}
+
+			// TODO attachment speed proportional to distance / rotation?
+
+			attachmentTime = 0.0f;
 		}
-
-		childStartPosition = selectedChildJoint.owner.transform.position;
-		childStartRotation = selectedChildJoint.owner.transform.rotation;
-
-		Vector3 parentChange = parentTargetPosition - parentStartPosition;
-
-		Bone jointBone = player.skeleton.GetBoneForSlot(selectedParentJoint.slot);
-		if (jointBone.LowerJoint)
+		else
 		{
-			jointBone = jointBone.LowerJoint;
+			// it's a 'static' level object we are attaching to, it won't move (to us, at least)
+			// so just attach player to it using a hinge joint..
+			if (selectedChildJoint.collider2D.attachedRigidbody)
+			{
+				// First, make a distance joint to pull body to attachment
+				selectedParentJoint.AttachToLevelObject(selectedChildJoint);
+
+				// TODO attachment speed proportional to distance / rotation?
+				initialDistance = Vector2.Distance(selectedParentJoint.transform.position,
+						selectedChildJoint.transform.position);
+
+				attachmentTime = 0.0f;
+				selectedParentJoint.SetAttachmentDistance(initialDistance);
+
+				attachmentTime = 0.0f;
+				state = AttachmentState.AttachingToLevelObject;
+			}
 		}
-
-		childTargetPosition = Quaternion.Inverse(parentStartRotation) * (jointBone.transform.position - player.transform.position) + player.transform.position + parentChange;
-		childTargetRotation = Quaternion.Inverse(parentStartRotation) * jointBone.GetBoneRotation();
-
-		state = AttachmentState.AttachingPart;
-
-		if (selectedChildJoint.owner.rigidbody2D)
-		{
-			Destroy(selectedChildJoint.owner.rigidbody2D);
-		}
-
-		if (selectedParentJoint.owner.getRootComponent().rigidbody2D)
-		{
-			Destroy(selectedParentJoint.owner.getRootComponent().rigidbody2D);
-		}
-
-		// TODO attachment speed proportional to distance / rotation?
-
-		attachmentTime = 0.0f;
 	}
 
 	//
@@ -369,7 +420,22 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (attachmentTime > attachmentEndTime)
 		{
+			selectedChildJoint.OnAttach();
 			selectedParentJoint.owner.Attach(selectedParentJoint, selectedChildJoint);
+			player.SetController(movementController);
+		}
+	}
+
+	// Suck down on distance joint
+	void AttachingToLevelObject()
+	{
+		attachmentTime += Time.deltaTime;
+		float distance = Mathf.Lerp(initialDistance, 0.0f, attachmentTime / attachmentEndTime);
+		selectedParentJoint.SetAttachmentDistance(distance);
+
+		if (attachmentTime > attachmentEndTime)
+		{
+			selectedChildJoint.OnAttach();
 			player.SetController(movementController);
 		}
 	}

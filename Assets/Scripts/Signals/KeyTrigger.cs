@@ -17,16 +17,33 @@ public class KeyTrigger : TriggerBase
 
 	public string key;
 
+	public bool keyEnabled = false;
+
+	[InputSocket]
+	public void EnableKey()
+	{
+		keyEnabled = true;
+	}
+
+	[InputSocket]
+	public void DisableKey()
+	{
+		keyEnabled = false;
+	}
+
 	void Update()
 	{
-		if (Input.GetKeyDown(key))
+		if (keyEnabled)
 		{
-			onKeyDown.ForEach(s => s.Fire());
-		}
+			if (Input.GetKeyDown(key))
+			{
+				onKeyDown.ForEach(s => s.Fire());
+			}
 
-		if (Input.GetKeyUp(key))
-		{
-			onKeyUp.ForEach(s => s.Fire());
+			if (Input.GetKeyUp(key))
+			{
+				onKeyUp.ForEach(s => s.Fire());
+			}
 		}
 	}
 }

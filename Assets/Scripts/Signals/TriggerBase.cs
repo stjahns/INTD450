@@ -72,13 +72,23 @@ public class TriggerBase : MonoBehaviour
 				{
 					if (targetInfos.TryGetValue(conn.target, out target))
 					{
-						target.info += eventLabel + " -> " + conn.message + "\n";
+						target.info += eventLabel + " -> " + conn.message;
+						if (conn.argument != null)
+						{
+							target.info += "(" + conn.argument + ")";
+						}
+						target.info += "\n";
 					}
 					else
 					{
 						target = new TargetInfo();
 						target.position = conn.target.transform.position;
-						target.info = eventLabel + " -> " + conn.message + "\n";
+						target.info = eventLabel + " -> " + conn.message;
+						if (conn.argument != null)
+						{
+							target.info += "(" + conn.argument + ")";
+						}
+						target.info += "\n";
 					}
 
 					targetInfos[conn.target] = target;

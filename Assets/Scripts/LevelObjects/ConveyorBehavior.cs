@@ -68,4 +68,10 @@ public class ConveyorBehavior : MonoBehaviour
 
 		audio.Play();
 	}
+	
+	[InputSocket]
+	public void SetSpeed(string speed)
+	{
+		ConveyorSpeed = float.Parse(speed);
+	}
 }

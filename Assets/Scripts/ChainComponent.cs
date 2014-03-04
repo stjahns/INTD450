@@ -11,6 +11,12 @@ public class ChainComponent : MonoBehaviour
 
 	public bool liveEdit = false;
 
+	public Vector2 offsetA;
+	public Vector2 offsetB;
+
+	public string spriteLayer;
+	public int layerOrder;
+
 	private LineRenderer chainLine;
 	private HingeJoint2D jointA;
 	private HingeJoint2D jointB;
@@ -33,11 +39,13 @@ public class ChainComponent : MonoBehaviour
 		jointA = gameObject.AddComponent<HingeJoint2D>();
 		jointA.connectedBody = bodyA;
 		jointA.anchor = bodyA.transform.position - transform.position;
+		jointA.connectedAnchor = offsetA;
 
 		// Attach to body B
 		jointB = gameObject.AddComponent<HingeJoint2D>();
 		jointB.connectedBody = bodyB;
 		jointB.anchor = bodyB.transform.position - transform.position;
+		jointB.connectedAnchor = offsetB;
 
 		endA = bodyA.transform.position;
 		endB = bodyB.transform.position;
@@ -49,6 +57,8 @@ public class ChainComponent : MonoBehaviour
 		chainLine.SetPosition(0, endA);
 		chainLine.SetPosition(1, endB);
 
+		chainLine.sortingLayerName = spriteLayer;
+		chainLine.sortingOrder = layerOrder;
 	}
 
 	public void Update()

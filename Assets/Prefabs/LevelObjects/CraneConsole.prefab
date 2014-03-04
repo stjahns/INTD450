@@ -72,6 +72,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400058}
+  - 114: {fileID: 11400056}
   m_Layer: 0
   m_Name: Key D
   m_TagString: Untagged
@@ -88,6 +90,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400010}
   - 114: {fileID: 11400014}
+  - 114: {fileID: 11400062}
+  - 114: {fileID: 11400060}
   m_Layer: 0
   m_Name: Key A
   m_TagString: Untagged
@@ -184,6 +188,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   - 114: {fileID: 11400022}
+  - 114: {fileID: 11400050}
+  - 114: {fileID: 11400048}
   m_Layer: 0
   m_Name: Key W
   m_TagString: Untagged
@@ -200,6 +206,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400022}
   - 114: {fileID: 11400024}
+  - 114: {fileID: 11400054}
+  - 114: {fileID: 11400052}
   m_Layer: 0
   m_Name: Key S
   m_TagString: Untagged
@@ -216,6 +224,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 400024}
   - 114: {fileID: 11400034}
+  - 114: {fileID: 11400046}
+  - 114: {fileID: 11400044}
   m_Layer: 0
   m_Name: Key Space
   m_TagString: Untagged
@@ -281,7 +291,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.7929554, y: 10.3312149, z: 0}
+  m_LocalPosition: {x: -6.23851299, y: -.0914120078, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400014}
@@ -358,7 +368,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.9700871, y: 2.7328968, z: .561767995}
+  m_LocalPosition: {x: 25.6863136, y: 2.16913629, z: .561767995}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400006}
@@ -539,8 +549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247d4a1c78e847948a5328a94f273ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onKeyDown: []
-  onKeyUp: []
+  onKeyDown:
+  - {fileID: 11400058}
+  onKeyUp:
+  - {fileID: 11400056}
   key: d
   keyEnabled: 0
 --- !u!114 &11400014
@@ -554,8 +566,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247d4a1c78e847948a5328a94f273ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onKeyDown: []
-  onKeyUp: []
+  onKeyDown:
+  - {fileID: 11400062}
+  onKeyUp:
+  - {fileID: 11400060}
   key: a
   keyEnabled: 0
 --- !u!114 &11400016
@@ -633,8 +647,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247d4a1c78e847948a5328a94f273ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onKeyDown: []
-  onKeyUp: []
+  onKeyDown:
+  - {fileID: 11400050}
+  onKeyUp:
+  - {fileID: 11400048}
   key: w
   keyEnabled: 0
 --- !u!114 &11400024
@@ -648,8 +664,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247d4a1c78e847948a5328a94f273ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onKeyDown: []
-  onKeyUp: []
+  onKeyDown:
+  - {fileID: 11400054}
+  onKeyUp:
+  - {fileID: 11400052}
   key: s
   keyEnabled: 0
 --- !u!114 &11400026
@@ -719,8 +737,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8247d4a1c78e847948a5328a94f273ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onKeyDown: []
-  onKeyUp: []
+  onKeyDown:
+  - {fileID: 11400046}
+  onKeyUp:
+  - {fileID: 11400044}
   key: space
   keyEnabled: 0
 --- !u!114 &11400036
@@ -779,6 +799,146 @@ MonoBehaviour:
   target: {fileID: 100018}
   message: AcquireCamera
   argument: 
+--- !u!114 &11400044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SawOff
+  argument: 
+--- !u!114 &11400046
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SawOn
+  argument: 
+--- !u!114 &11400048
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 0
+--- !u!114 &11400050
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: -100
+--- !u!114 &11400052
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 0
+--- !u!114 &11400054
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 100
+--- !u!114 &11400056
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 0
+--- !u!114 &11400058
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 100
+--- !u!114 &11400060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: 0
+--- !u!114 &11400062
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: SetSpeed
+  argument: -100
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

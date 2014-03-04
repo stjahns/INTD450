@@ -71,6 +71,20 @@ public class PlayerAttachmentController : MonoBehaviour
 			parentJoints.AddRange(part.allJoints);
 		}
 
+		// Special case: we are hooked into a terminal, as just a head
+		if (parentJoints.Count == 1)
+		{
+			AttachmentPoint parentJoint = parentJoints[0];
+			if (parentJoint && parentJoint.AttachedToLevelObject)
+			{
+				parentJoint.child.OnDetach();
+				parentJoint.DetachFromLevelObject();
+				parentJoint.childTransform = parentJoint.transform;
+				player.SetController(movementController);
+				return;
+			}
+		}
+
 		// Get all unattached parts in range
 		int attachmentLayer = 1 << LayerMask.NameToLayer("Attachments");
 		var attachments = Physics2D.OverlapCircleAll(transform.position,
@@ -200,18 +214,20 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (Input.GetKeyDown(KeyCode.F))
 		{
-			if (selectedParentJoint.child != null)
+			if (selectedParentJoint.AttachedToLevelObject)
+			{
+				selectedParentJoint.child.OnDetach();
+				selectedParentJoint.DetachFromLevelObject();
+				selectedParentJoint.childTransform = selectedParentJoint.transform;
+				player.SetController(movementController);
+			}
+			else if (selectedParentJoint.child != null )
 			{
 				// If selected parent joint already has a child, detach it
+				selectedParentJoint.child.OnDetach();
 				selectedParentJoint.owner.Unattach(selectedParentJoint, selectedParentJoint.child);
 				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				state = AttachmentState.AttachingPart;
-				player.SetController(movementController);
-			}
-			else if (selectedParentJoint.AttachedToLevelObject)
-			{
-				selectedParentJoint.DetachFromLevelObject();
-				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				player.SetController(movementController);
 			}
 			else
@@ -404,6 +420,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (attachmentTime > attachmentEndTime)
 		{
+			selectedChildJoint.OnAttach();
 			selectedParentJoint.owner.Attach(selectedParentJoint, selectedChildJoint);
 			player.SetController(movementController);
 		}
@@ -418,6 +435,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (attachmentTime > attachmentEndTime)
 		{
+			selectedChildJoint.OnAttach();
 			player.SetController(movementController);
 		}
 	}

@@ -7,13 +7,20 @@ public class SignalConnection : MonoBehaviour
 {
 	public GameObject target;
 	public string message;
-	public object argument;
+	public string argument = null;
 
 	public void Fire()
 	{
 		if (target != null)
 		{
-			target.SendMessage(message);
+			if (argument != null)
+			{
+				target.SendMessage(message, argument);
+			}
+			else
+			{
+				target.SendMessage(message);
+			}
 		}
 	}
 }

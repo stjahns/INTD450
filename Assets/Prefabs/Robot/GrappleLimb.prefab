@@ -45,6 +45,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 61: {fileID: 6100002}
   - 82: {fileID: 8200002}
+  - 114: {fileID: 11400008}
   m_Layer: 10
   m_Name: GrappleLimb
   m_TagString: Untagged
@@ -425,6 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -487,8 +490,6 @@ MonoBehaviour:
   - Grappleable
   fireClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   releaseClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
-  ropeWidth: .0500000007
-  ropeMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
   spriteRenderer: {fileID: 21200002}
   cockedSprite: {fileID: 21300000, guid: 0cf7b10aaf4d14b8ba8ff3d1b549ca92, type: 3}
   firedSprite: {fileID: 21300000, guid: 92c138ae474f44691b26876c34fabab6, type: 3}
@@ -525,6 +526,24 @@ MonoBehaviour:
   end: {fileID: 400002}
   segmentCount: 4
   spread: .100000001
+--- !u!114 &11400008
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2551312b0824bd19e33c2c7ac00381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chainWidth: .0500000007
+  chainMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
+  start: {fileID: 400024}
+  end: {fileID: 400014}
+  sortingLayer: Player
+  sortingOrder: -5
+  pixelsPerUnit: 400
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

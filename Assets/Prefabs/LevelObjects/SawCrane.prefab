@@ -724,8 +724,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chainWidth: .0500000007
   chainMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
-  start: {fileID: 400002}
-  end: {fileID: 400000}
+  start: {fileID: 400000}
+  end: {fileID: 400002}
+  sortingLayer: LevelObjects
+  sortingOrder: -1
+  pixelsPerUnit: 400
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -767,9 +770,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 0
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: 2669311083
   m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!212 &21200004

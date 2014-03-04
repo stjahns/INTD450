@@ -8,7 +8,7 @@ public class CameraTarget : MonoBehaviour
 	[InputSocket]
 	public void AcquireCamera()
 	{
-		FollowCamera camera = Camera.mainCamera.GetComponent<FollowCamera>();
+		FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
 		if (camera)
 		{
 			oldTarget = camera.target;
@@ -19,7 +19,7 @@ public class CameraTarget : MonoBehaviour
 	[InputSocket]
 	public void ReleaseCamera()
 	{
-		FollowCamera camera = Camera.mainCamera.GetComponent<FollowCamera>();
+		FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
 		if (camera && oldTarget)
 		{
 			camera.target = oldTarget;

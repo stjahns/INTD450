@@ -11,6 +11,7 @@ public class SliderController : MonoBehaviour
 
 	public Vector2 bodyAnchor;
 
+	public float motorForce = 10f;
 	public bool useMotor;
 
 	private GameObject rootObject;
@@ -45,6 +46,10 @@ public class SliderController : MonoBehaviour
 				endLimit.position - startLimit.position).eulerAngles.z;
 
 		sliderJoint.useMotor = useMotor;
+
+		JointMotor2D motor = sliderJoint.motor;
+		motor.maxMotorTorque = motorForce;
+		sliderJoint.motor = motor;
 
 		// Attach body to joint
 		if (body)

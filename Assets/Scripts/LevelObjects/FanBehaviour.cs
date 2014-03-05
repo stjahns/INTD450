@@ -8,6 +8,8 @@ public class FanBehaviour : MonoBehaviour
 	public DeathHazard fanHazard;
 	public Animator fanAnimator;
 
+	private bool running;
+
 	void Start()
 	{
 		if (fanOn)
@@ -15,6 +17,19 @@ public class FanBehaviour : MonoBehaviour
 			FanOn();
 		}
 		else
+		{
+			FanOff();
+		}
+	}
+
+	void Update()
+	{
+		if (!running && fanOn)
+		{
+			FanOn();
+		}
+
+		if (running && !fanOn)
 		{
 			FanOff();
 		}
@@ -41,6 +56,8 @@ public class FanBehaviour : MonoBehaviour
 		fanAnimator.SetBool("Running", true);
 		audio.Play();
 
+		running = true;
+
 	}
 
 	[InputSocket]
@@ -55,5 +72,7 @@ public class FanBehaviour : MonoBehaviour
 
 		fanAnimator.SetBool("Running", false);
 		audio.Stop();
+
+		running = false;
 	}
 }

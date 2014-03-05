@@ -22,7 +22,15 @@ public class ChainRenderer : MonoBehaviour
 
 	public void Start()
 	{
-		chainLine = gameObject.AddComponent<LineRenderer>();
+		if (chainLine == null)
+		{
+			chainLine = gameObject.GetComponent<LineRenderer>();
+		}
+
+		if (chainLine == null)
+		{
+			chainLine = gameObject.AddComponent<LineRenderer>();
+		}
 
 		material = new Material(chainMaterial);
 		chainLine.material = material;

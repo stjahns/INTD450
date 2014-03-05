@@ -9,6 +9,23 @@ public class ConveyorBehavior : MonoBehaviour
 	public float ConveyorSpeed;
 	public bool running;
 
+	public Transform start;
+	public Transform end;
+	public float axlesPerUnit;
+	public float linksPerUnit;
+	public float linkDistance;
+
+	public float axleRadius;
+
+	public GameObject axlePrefab;
+	public GameObject beltLinkPrefab;
+
+	public GameObject axleContainer;
+	public GameObject beltContainer;
+	public GameObject guideContainer;
+
+	public string guideLayer;
+
 	private float oldSpeed;
 
 	void Start()

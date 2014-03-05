@@ -44,7 +44,6 @@ public class BuzzsawComponent : LimbComponent
 			{
 				bladeSpeed = bladeTopSpeed;
 			}
-
 		}
 		else
 		{
@@ -114,6 +113,13 @@ public class BuzzsawComponent : LimbComponent
 		{
 			// start rotating sawblade
 			running = true;
+
+			SawbladeController blade = GetComponentInChildren<SawbladeController>();
+			if (blade)
+			{
+				blade.Running = true;
+			}
+
 			sawRunning.Play();
 			bladeTrigger.enabled = true;
 		}
@@ -121,6 +127,13 @@ public class BuzzsawComponent : LimbComponent
 		{
 			// stop rotating sawblade
 			running = false;
+
+			SawbladeController blade = GetComponentInChildren<SawbladeController>();
+			if (blade)
+			{
+				blade.Running = false;
+			}
+
 			sawRunning.Stop();
 			bladeTrigger.enabled = false;
 		}

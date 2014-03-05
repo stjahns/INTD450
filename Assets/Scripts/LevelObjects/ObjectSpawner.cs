@@ -49,7 +49,7 @@ public class ObjectSpawner : MonoBehaviour
 				foreach (GameObject spawnedObject in spawnedObjects)
 				{
 					// TODO more general..
-					spawnedObject.SendMessage("DestroyRobotComponent");
+					spawnedObject.SendMessage("DestroyRobotComponent", SendMessageOptions.DontRequireReceiver);
 				}
 
 				spawnedObjects.Clear();

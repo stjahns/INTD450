@@ -10,7 +10,7 @@ public class PlayerBehavior : MonoBehaviour {
 	public HeadComponent head;
 
 	[HideInInspector]
-	public FollowCamera camera;
+	public FollowCamera followCamera;
 
 	public PlayerSkeleton skeleton;
 
@@ -58,7 +58,6 @@ public class PlayerBehavior : MonoBehaviour {
 
 	private Animator anim = null;
 	private bool dying = false;
-	private bool inAttachmentMode = false;
 
 	// Events
 	public delegate void OnDestroyHandler(PlayerBehavior behaviour);

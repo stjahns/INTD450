@@ -76,8 +76,45 @@ public class TriggerEditor : Editor
 								.OrderBy(m => m));
 					}
 					
+					// Choose message
 					var message = EditorGUILayout.Popup("Message", 0, messageOptions.ToArray());
 					conn.message = messageOptions[message];
+
+
+					// Specify argument for message if applicable
+					MethodInfo methodInfo = null;
+					foreach (var component in components)
+					{
+						IEnumerable<MethodInfo> methods = component.GetType().GetMethods();
+
+						methodInfo = methods
+								.Where(m => Attribute.IsDefined(m, typeof(InputSocketAttribute)))
+								.FirstOrDefault(m => m.Name == conn.message);
+
+						if (methodInfo != null)
+						{
+							break;
+						}
+					}
+
+					if (methodInfo != null && methodInfo.GetParameters().Count() > 0)
+					{
+						ParameterInfo param = methodInfo.GetParameters().First();
+						string argument = EditorGUILayout.TextField("Argument: " + param.Name.ToUpper(),
+								conn.argument != null ? conn.argument : "");
+						if (argument.Length > 0)
+						{
+							conn.argument = argument;
+						}
+						else
+						{
+							conn.argument = null;
+						}
+					}
+					else
+					{
+						conn.argument = null;
+					}
 				}
 
 				EditorGUILayout.BeginHorizontal();

@@ -15,8 +15,10 @@ public class CannonComponent : LimbComponent
 
 	private Transform forward;
 
-	void Start ()
+	override public void Start ()
 	{
+		base.Start();
+
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);

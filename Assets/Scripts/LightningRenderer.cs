@@ -65,7 +65,6 @@ public class LightningRenderer : MonoBehaviour
 	
 	void Update ()
 	{
-		float length = Vector2.Distance(start.position, end.position);
 		lineRenderer.SetVertexCount(segmentCount);
 
 		lineRenderer.SetPosition(0, start.position);

@@ -17,85 +17,62 @@ public class ButtonTrigger : TriggerBase
 	[HideInInspector]
 	public List<SignalConnection> onHold = new List<SignalConnection>();
 
-	public string tag;
 	public bool debug = false;
 	public bool triggerOnce = false;
 
+	public Transform buttonContact;
+	public Transform triggerContact;
+
+	public bool onCeiling = false;
+
 	private bool pressed;
-	private bool objectInTrigger;
 
 	public AudioClip pressClip;
 	public AudioClip releaseClip;
 
-	public SpriteRenderer buttonUp;
-	public SpriteRenderer buttonDown;
+	public SpriteRenderer spriteRenderer;
+	public Sprite buttonUp;
+	public Sprite buttonDown;
+
 
 	void Start()
 	{
 		pressed = false;
-		objectInTrigger = false;
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponent<SpriteRenderer>();
+		}
 	}
 
 	void FixedUpdate()
 	{
-		if (objectInTrigger)
+		if (!pressed)
 		{
-			if (!pressed)
+			// If buttonContact below trigger contact, pressed!
+			if ((onCeiling && buttonContact.position.y > triggerContact.position.y)
+					|| (!onCeiling && buttonContact.position.y < triggerContact.position.y))
 			{
-				if (debug)
-				{
-					Debug.Log("On Pressed", this);
-				}
 				onPressed.ForEach(s => s.Fire());
 				AudioSource.PlayClipAtPoint(pressClip, transform.position);
-
+				pressed = true;
+				spriteRenderer.sprite = buttonDown;
+			}
+		}
+		else // held down
+		{
+			// If buttonContact above trigger contact, unpressed!
+			if ((onCeiling && buttonContact.position.y < triggerContact.position.y)
+					|| (!onCeiling && buttonContact.position.y > triggerContact.position.y))
+			{
+				onReleased.ForEach(s => s.Fire());
+				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
+				pressed = false;
+				spriteRenderer.sprite = buttonUp;
 			}
 			else
 			{
-				if (debug)
-				{
-					Debug.Log("On Hold", this);
-				}
 				onHold.ForEach(s => s.Fire());
 			}
-			pressed = true;
-
-			buttonUp.enabled = false;
-			buttonDown.enabled = true;
-		}
-		else
-		{
-			if (pressed)
-			{
-				if (debug)
-				{
-					Debug.Log("On Released", this);
-				}
-				onReleased.ForEach(s => s.Fire());
-				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
-			}
-			pressed = false;
-
-			buttonUp.enabled = true;
-			buttonDown.enabled = false;
-		}
-
-		objectInTrigger = false;
-	}
-
-	void OnTriggerEnter2D(Collider2D other)
-	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
-		{
-			objectInTrigger = true;
-		}
-	}
-
-	void OnTriggerStay2D(Collider2D other)
-	{
-		if (tag.Length == 0 || other.attachedRigidbody.gameObject.tag == tag)
-		{
-			objectInTrigger = true;
 		}
 	}
 }

@@ -23,6 +23,8 @@ public class GrappleProjectile : MonoBehaviour
 	public delegate void GrappleHitHandler(Collision2D hit);
 	public event GrappleHitHandler GrappleHit;
 
+	private HingeJoint2D grappleJoint = null;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -57,6 +59,12 @@ public class GrappleProjectile : MonoBehaviour
 
 	public void ResetProjectile()
 	{
+		if (grappleJoint)
+		{
+			Destroy(grappleJoint);
+			grappleJoint = null;
+		}
+
 		if (body)
 		{
 			body.isKinematic = true;
@@ -86,7 +94,27 @@ public class GrappleProjectile : MonoBehaviour
 		if (body && (1 << collision.collider.gameObject.layer & layerMask) != 0)
 		{
 			// Hit something!
-			body.isKinematic = true;
+			if (collision.rigidbody)
+			{
+				// Create a distance joint to the body
+				body.fixedAngle = true;
+				grappleJoint = gameObject.AddComponent<HingeJoint2D>();
+				grappleJoint.connectedBody = collision.rigidbody;
+
+				grappleJoint.connectedAnchor = body.transform.position -
+				//grappleJoint.connectedAnchor = collision.collider.transform.position -
+					collision.rigidbody.transform.position;
+
+				JointAngleLimits2D limits = grappleJoint.limits;
+				limits.max = 0;
+				limits.min = 0;
+				grappleJoint.limits = limits;
+			}
+			else
+			{
+				body.isKinematic = true;
+				transform.parent = collision.transform;
+			}
 
 			AttachedToPoint = true;
 

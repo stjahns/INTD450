@@ -112,6 +112,7 @@ GameObject:
   - 4: {fileID: 400016}
   - 212: {fileID: 21200004}
   - 58: {fileID: 5800004}
+  - 114: {fileID: 11400006}
   m_Layer: 16
   m_Name: SawBlade
   m_TagString: Untagged
@@ -200,7 +201,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: .724321604, w: .689462364}
-  m_LocalPosition: {x: -5.2197938, y: -4.33970737, z: 0}
+  m_LocalPosition: {x: 19.5340652, y: .253540158, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400018}
@@ -299,10 +300,10 @@ CircleCollider2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100016}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Radius: .215000108
+  m_Radius: .230000004
   m_Center: {x: 4.76837158e-07, y: 4.76837158e-07}
 --- !u!58 &5800006
 CircleCollider2D:
@@ -453,6 +454,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -525,6 +528,17 @@ MonoBehaviour:
   end: {fileID: 400008}
   segmentCount: 4
   spread: .100000001
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af042f2a5aa73444b92ddcc9eba4912f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

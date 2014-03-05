@@ -22,6 +22,8 @@ public class TurretController : MonoBehaviour
 
 	public bool activated = true;
 
+	public GameObject explosionPrefab;
+
 	public enum FiringState
 	{
 		Ready,
@@ -228,5 +230,18 @@ public class TurretController : MonoBehaviour
 	public void Deactivate()
 	{
 		activated = false;
+	}
+
+	[InputSocket]
+	public void Kill()
+	{
+		activated = false;
+
+		if (explosionPrefab)
+		{
+			Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+		}
+
+		Destroy(gameObject);
 	}
 }

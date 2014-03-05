@@ -43,8 +43,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	private List<AttachmentPoint> parentJoints;
 	private List<AttachmentPoint> childJoints;
 
-	private AttachmentPoint selectedParentJoint;
-	private AttachmentPoint selectedChildJoint;
+	private AttachmentPoint selectedParentJoint = null;
+	private AttachmentPoint selectedChildJoint = null;
 
 	private Vector3 parentStartPosition;
 	private Quaternion parentStartRotation;
@@ -137,17 +137,8 @@ public class PlayerAttachmentController : MonoBehaviour
 
 	void OnDisable()
 	{
-		if (selectedParentJoint)
-		{
-			selectedParentJoint.selected = false;
-			selectedParentJoint = null;
-		}
-
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
-			selectedChildJoint = null;
-		}
+		SetSelectedParent(null);
+		SetSelectedChild(null);
 
 		// Restore original zoom
 		player.followCamera.viewportHeight = viewportHeightOriginal;
@@ -164,20 +155,11 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		if (selectedParentJoint)
 		{
-			if (selectedParentJoint.child == null)
-			{
-				selectedParentJoint.childTransform = selectedParentJoint.transform;
-			}
-
-			selectedParentJoint.selected = false;
-			selectedParentJoint = null;
+			selectedParentJoint.childTransform = selectedParentJoint.transform;
 		}
 
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
-			selectedChildJoint = null;
-		}
+		SetSelectedParent(null);
+		SetSelectedChild(null);
 
 		player.SetController(movementController);
 	}
@@ -214,11 +196,6 @@ public class PlayerAttachmentController : MonoBehaviour
 			return;
 		}
 
-		if (selectedParentJoint)
-		{
-			selectedParentJoint.selected = false;
-		}
-
 		// Select the joint closest to the mouse pointer / direction
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		float closestDistance = float.MaxValue;
@@ -238,18 +215,17 @@ public class PlayerAttachmentController : MonoBehaviour
 			attachmentText.enabled = true;
 			attachmentText.color = Color.white;
 
-			selectedParentJoint = closestJoint;
-			selectedParentJoint.selected = true;
+			SetSelectedParent(closestJoint);
 
 			if (selectedParentJoint.AttachedToLevelObject)
 			{
 				attachmentText.text = "DISCONNECT FROM ";
-				attachmentText.text += selectedParentJoint.child.name;
+				attachmentText.text += selectedParentJoint.child.AttachmentName;
 			}
 			else if (selectedParentJoint.child != null )
 			{
 				attachmentText.text = "DETACH ";
-				attachmentText.text += selectedParentJoint.child.owner.name;
+				attachmentText.text += selectedParentJoint.child.AttachmentName;
 				attachmentText.text += " FROM ";
 				attachmentText.text += selectedParentJoint.slot.ToString();
 			}
@@ -313,11 +289,6 @@ public class PlayerAttachmentController : MonoBehaviour
 			return;
 		}
 
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
-		}
-
 		// Select the joint closest to the mouse pointer / direction
 
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -338,8 +309,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (closestJoint)
 		{
-			selectedChildJoint = closestJoint;
-			selectedChildJoint.selected = true;
+			SetSelectedChild(closestJoint);
 			selectedParentJoint.childTransform = selectedChildJoint.transform;
 
 			attachmentText.enabled = true;
@@ -351,7 +321,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			else
 			{
 				attachmentText.color = Color.white;
-				attachmentText.text = selectedChildJoint.owner.name;
+				attachmentText.text = selectedChildJoint.AttachmentName;
 			}
 		}
 		else
@@ -383,21 +353,25 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector3 targetPosition = new Vector3(startPosition.x, startPosition.y, 0);
 
 		int ground = 1 << LayerMask.NameToLayer("Ground");
-		float partLength = selectedChildJoint.owner.partLength;
-
-		Vector2[] directions = new Vector2[] {
-			Vector2.up * -1,
-				Vector2.right,
-				Vector2.right * -1
-		};
-
-		foreach (var direction in directions)
+		
+		if (selectedChildJoint.owner != null)
 		{
-			var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
-			if (hit)
+			float partLength = selectedChildJoint.owner.partLength;
+
+			Vector2[] directions = new Vector2[] {
+				Vector2.up * -1,
+					Vector2.right,
+					Vector2.right * -1
+			};
+
+			foreach (var direction in directions)
 			{
-				float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
-				targetPosition -= (direction * (partLength - distance)).XY0();
+				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+				if (hit)
+				{
+					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
+					targetPosition -= (direction * (partLength - distance)).XY0();
+				}
 			}
 		}
 
@@ -412,7 +386,11 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector3 targetPosition = FindParentTargetPosition();
 
 		// Determine target configuration
-		if (selectedParentJoint.slot == AttachmentSlot.Spine)
+		if (selectedChildJoint.attachmentType == AttachmentType.LevelAttachment)
+		{
+			// don't worry about bounds?
+		}
+		else if (selectedParentJoint.slot == AttachmentSlot.Spine)
 		{
 			// head + torso
 			bounds = headBodyBounds;
@@ -558,6 +536,75 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			selectedChildJoint.OnAttach();
 			player.SetController(movementController);
+		}
+	}
+
+	void SetSelectedParent(AttachmentPoint point)
+	{
+		if (selectedParentJoint != point)
+		{
+			if (selectedParentJoint != null)
+			{
+				selectedParentJoint.selected = false;
+
+				if (selectedParentJoint.owner != null)
+				{
+					selectedParentJoint.owner.OnDestroy -= OnParentDestroyed;
+				}
+			}
+
+			if (point != null && point.owner != null)
+			{
+				point.owner.OnDestroy += OnParentDestroyed;
+			}
+		}
+
+		selectedParentJoint = point;
+	}
+
+	void OnParentDestroyed(RobotComponent component)
+	{
+		SetSelectedParent(null);
+
+		if (state == AttachmentState.SelectChild 
+			|| state == AttachmentState.AttachingPart 
+			|| state == AttachmentState.AttachingToLevelObject)
+		{
+			Abort();
+		}
+	}
+
+	void SetSelectedChild(AttachmentPoint point)
+	{
+		if (selectedChildJoint != point)
+		{
+			if (selectedChildJoint != null)
+			{
+				selectedChildJoint.selected = false;
+
+				if (selectedChildJoint.owner != null)
+				{
+					selectedChildJoint.owner.OnDestroy -= OnChildDestroyed;
+				}
+			}
+
+			if (point != null && point.owner != null)
+			{
+				point.owner.OnDestroy += OnChildDestroyed;
+			}
+		}
+
+		selectedChildJoint = point;
+	}
+
+	void OnChildDestroyed(RobotComponent component)
+	{
+		SetSelectedChild(null);
+
+		if (state == AttachmentState.AttachingPart 
+			|| state == AttachmentState.AttachingToLevelObject)
+		{
+			Abort();
 		}
 	}
 }

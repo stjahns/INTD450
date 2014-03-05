@@ -340,7 +340,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.19753695, y: -6.47827816, z: -3.18021584}
+  m_LocalPosition: {x: -7.33407211, y: -5.88060379, z: -3.18021584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400036}
@@ -750,7 +750,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activeController: {fileID: 11400038}
   head: {fileID: 11400002}
-  camera: {fileID: 0}
+  followCamera: {fileID: 0}
   skeleton: {fileID: 11400016}
   activeArm: {fileID: 0}
   activeLeg: {fileID: 0}
@@ -811,6 +811,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -1084,6 +1086,25 @@ MonoBehaviour:
   jointSelectedClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   attachmentRangeVisual: {fileID: 2300002}
   attachmentShadowVisual: {fileID: 2300000}
+  headBounds:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: .5
+    height: .5
+  headBodyBounds:
+    serializedVersion: 2
+    x: 0
+    y: -.5
+    width: 1
+    height: 1.5
+  headBodyLegBounds:
+    serializedVersion: 2
+    x: 0
+    y: -1
+    width: 1
+    height: 2
+  textPrefab: {fileID: 100000, guid: 26e0b71190d214e259a04881fe767438, type: 2}
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1

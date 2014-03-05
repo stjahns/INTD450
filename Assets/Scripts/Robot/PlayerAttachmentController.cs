@@ -21,6 +21,11 @@ public class PlayerAttachmentController : MonoBehaviour
 	public MeshRenderer attachmentRangeVisual;
 	public MeshRenderer attachmentShadowVisual;
 
+	public Rect headBounds;
+	public Rect headBodyBounds;
+	public Rect headBodyLegBounds;
+
+	public GameObject textPrefab;
 
 	// Private fields
 
@@ -57,6 +62,22 @@ public class PlayerAttachmentController : MonoBehaviour
 	private float viewportHeightOriginal;
 
 	private float initialDistance;
+
+	private GUIText attachmentText;
+
+	// --------------------------------------------------------------------------------
+	// Attachment Controller
+	// TODO - handle case where limbs are destroyed while being attached
+	// TODO - check for objects in range on update, not on initialize
+	// --------------------------------------------------------------------------------
+
+	void Start ()
+	{
+		GameObject textObject = Instantiate(textPrefab, new Vector3(0.5f, 0.5f, 0), Quaternion.identity)
+			as GameObject;
+		attachmentText = textObject.GetComponent<GUIText>();
+		attachmentText.enabled = false;
+	}
 
 	void OnEnable ()
 	{
@@ -109,6 +130,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
 
 		attachmentShadowVisual.enabled = true;
+
 	}
 
 	void OnDisable()
@@ -132,6 +154,8 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		attachmentRangeVisual.enabled = false;
 		attachmentShadowVisual.enabled = false;
+
+		attachmentText.enabled = false;
 	}
 
 	void Abort()
@@ -152,6 +176,8 @@ public class PlayerAttachmentController : MonoBehaviour
 			selectedChildJoint.selected = false;
 			selectedChildJoint = null;
 		}
+
+		player.SetController(movementController);
 	}
 
 	// Update is called once per frame
@@ -183,7 +209,6 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			// Abort to regular mode
 			Abort();
-			player.SetController(movementController);
 			return;
 		}
 
@@ -255,7 +280,6 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			// Abort to regular mode
 			Abort();
-			player.SetController(movementController);
 			return;
 		}
 
@@ -280,11 +304,20 @@ public class PlayerAttachmentController : MonoBehaviour
 			}
 		}
 
+		attachmentText.enabled = false;
+
 		if (closestJoint)
 		{
 			selectedChildJoint = closestJoint;
 			selectedChildJoint.selected = true;
 			selectedParentJoint.childTransform = selectedChildJoint.transform;
+
+			if (!CheckRoomToAttach())
+			{
+				attachmentText.enabled = true;
+				attachmentText.color = Color.red;
+				attachmentText.text = "NO ROOM";
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))
@@ -299,9 +332,72 @@ public class PlayerAttachmentController : MonoBehaviour
 				// Nothing selected, abort
 				Abort();
 				state = AttachmentState.AttachingPart;
-				player.SetController(movementController);
 			}
 		}
+	}
+
+	// Gets player target position at end of attachment
+	Vector3 FindParentTargetPosition()
+	{
+		Vector3 startPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+		Vector3 targetPosition = new Vector3(startPosition.x, startPosition.y, 0);
+
+		int ground = 1 << LayerMask.NameToLayer("Ground");
+		float partLength = selectedChildJoint.owner.partLength;
+
+		Vector2[] directions = new Vector2[] {
+			Vector2.up * -1,
+				Vector2.right,
+				Vector2.right * -1
+		};
+
+		foreach (var direction in directions)
+		{
+			var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+			if (hit)
+			{
+				float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
+				targetPosition -= (direction * (partLength - distance)).XY0();
+			}
+		}
+
+		return targetPosition;
+	}
+
+	// Returns true if able to attach without level stuff getting in the way
+	bool CheckRoomToAttach()
+	{
+		Rect bounds = new Rect();
+
+		Vector3 targetPosition = FindParentTargetPosition();
+
+		// Determine target configuration
+		if (selectedParentJoint.slot == AttachmentSlot.Spine)
+		{
+			// head + torso
+			bounds = headBodyBounds;
+		}
+		else if (selectedParentJoint.slot == AttachmentSlot.LeftHip
+				|| selectedParentJoint.slot == AttachmentSlot.RightHip)
+		{
+			// head + torso + leg
+			bounds = headBodyLegBounds;
+		}
+
+		//	Check if any interfering colliders within bounds offset from targetPosition
+		Vector2 pointA = new Vector2(bounds.xMin + targetPosition.x,
+				bounds.yMax + targetPosition.y);
+		Vector2 pointB = new Vector2(bounds.xMax + targetPosition.x,
+				bounds.yMin + targetPosition.y);
+
+		// TODO configurable
+		int layerMask = 1 << LayerMask.NameToLayer("Ground");
+		if (Physics2D.OverlapArea(pointA, pointB, layerMask))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	//
@@ -311,31 +407,16 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		if (selectedChildJoint.attachmentType != AttachmentType.LevelAttachment)
 		{
-			parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
 			parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
-
-			parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y, 0);
 			parentTargetRotation = Quaternion.identity;
 
-			int ground = 1 << LayerMask.NameToLayer("Ground");
-			float partLength = selectedChildJoint.owner.partLength;
+			parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+			parentTargetPosition = FindParentTargetPosition();
 
-			Vector2[] directions = new Vector2[] {
-				Vector2.up * -1,
-				Vector2.right,
-				Vector2.right * -1
-			};
-		
-			foreach (var direction in directions)
+			if (!CheckRoomToAttach())
 			{
-				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
-				if (hit)
-				{
-					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
-					parentTargetPosition -= (direction * (partLength - distance)).XY0();
-				}
-
-			// TODO might need to abort under certain circumstances if too cramped
+				Abort();
+				return;
 			}
 
 			childStartPosition = selectedChildJoint.owner.transform.position;

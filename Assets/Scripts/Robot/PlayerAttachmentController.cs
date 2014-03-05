@@ -233,8 +233,34 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (closestJoint)
 		{
+			attachmentText.enabled = true;
+			attachmentText.color = Color.white;
+
 			selectedParentJoint = closestJoint;
 			selectedParentJoint.selected = true;
+
+			if (selectedParentJoint.AttachedToLevelObject)
+			{
+				attachmentText.text = "DISCONNECT FROM ";
+				attachmentText.text += selectedParentJoint.child.name;
+			}
+			else if (selectedParentJoint.child != null )
+			{
+				attachmentText.text = "DETACH ";
+				attachmentText.text += selectedParentJoint.child.owner.name;
+				attachmentText.text += " FROM ";
+				attachmentText.text += selectedParentJoint.slot.ToString();
+			}
+			else
+			{
+				attachmentText.text = "ATTACH TO ";
+				attachmentText.text += selectedParentJoint.slot.ToString();
+				attachmentText.text += "...";
+			}
+		}
+		else
+		{
+			attachmentText.enabled = false;
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))
@@ -312,11 +338,16 @@ public class PlayerAttachmentController : MonoBehaviour
 			selectedChildJoint.selected = true;
 			selectedParentJoint.childTransform = selectedChildJoint.transform;
 
+			attachmentText.enabled = true;
 			if (!CheckRoomToAttach())
 			{
-				attachmentText.enabled = true;
 				attachmentText.color = Color.red;
 				attachmentText.text = "NO ROOM";
+			}
+			else
+			{
+				attachmentText.color = Color.white;
+				attachmentText.text = selectedChildJoint.owner.name;
 			}
 		}
 

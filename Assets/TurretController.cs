@@ -22,6 +22,8 @@ public class TurretController : MonoBehaviour
 
 	public bool activated = true;
 
+	public AudioClip firingSound;
+
 	public GameObject explosionPrefab;
 
 	public enum FiringState
@@ -130,6 +132,11 @@ public class TurretController : MonoBehaviour
 				// Fire!
 				firingState = FiringState.Firing;
 				firingTimer = fireTime;
+
+				if (firingSound)
+				{
+					AudioSource.PlayClipAtPoint(firingSound, transform.position);
+				}
 
 				// TODO calculate hit position with raycast
 

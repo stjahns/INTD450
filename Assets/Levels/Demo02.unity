@@ -10308,6 +10308,7 @@ Transform:
   - {fileID: 681176979}
   - {fileID: 248078033}
   - {fileID: 1077172052}
+  - {fileID: 1495763161}
   - {fileID: 946008046}
   - {fileID: 709781448}
   - {fileID: 106099919}
@@ -10418,7 +10419,6 @@ Transform:
   - {fileID: 122423270}
   - {fileID: 519072239}
   - {fileID: 1841367648}
-  - {fileID: 1495763161}
   - {fileID: 2022383843}
   - {fileID: 601211133}
   - {fileID: 1147715245}
@@ -15262,91 +15262,6 @@ Prefab:
   m_RootGameObject: {fileID: 1015933707}
   m_IsPrefabParent: 0
   m_IsExploded: 1
---- !u!1 &727099499
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 727099501}
-  - 82: {fileID: 727099500}
-  m_Layer: 0
-  m_Name: One shot audio
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &727099500
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 727099499}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: f9a71053d4fa849bdacc4bb0b9cbc5c1, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    - time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
---- !u!4 &727099501
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 727099499}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.4249537, y: -7.31025267, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
 --- !u!1 &728035047
 GameObject:
   m_ObjectHideFlags: 0
@@ -42150,6 +42065,7 @@ MonoBehaviour:
   - Ground
   laserRenderer: {fileID: 1973255564}
   activated: 1
+  firingSound: {fileID: 8300000, guid: 34554afed97b9f341b05eb4d610c185e, type: 3}
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
 --- !u!120 &1973255564
 LineRenderer:

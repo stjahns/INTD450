@@ -8,6 +8,9 @@ public class TurretController : MonoBehaviour
 	public Transform gunPivot; // use for aiming gun
 	public Transform laserOrigin;
 
+	public Transform leftLimit;
+	public Transform rightLimit;
+
 	public float fireTime = 0.1f;
 	public float reloadTime = 1.0f;
 
@@ -15,6 +18,8 @@ public class TurretController : MonoBehaviour
 	public List<string> blockingLayers;
 
 	public LineRenderer laserRenderer;
+
+	public bool activated = true;
 
 	public enum FiringState
 	{
@@ -38,7 +43,7 @@ public class TurretController : MonoBehaviour
 	{
 		PlayerBehavior player = PlayerBehavior.Player;
 
-		if (shouldTrackPlayer())
+		if (activated && shouldTrackPlayer())
 		{
 			gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position);
 
@@ -89,6 +94,22 @@ public class TurretController : MonoBehaviour
 
 		if (Vector2.Distance(gunPivot.position, player.transform.position) < range)
 		{
+			// Check if within angle limits
+			float leftAngle = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position).eulerAngles.z;
+			float rightAngle = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position).eulerAngles.z;
+			float targetAngle = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position).eulerAngles.z;
+
+			float leftDelta = Mathf.Abs(Mathf.DeltaAngle(leftAngle, targetAngle));
+			float rightDelta = Mathf.Abs(Mathf.DeltaAngle(rightAngle, targetAngle));
+			float rangeDelta = Mathf.Abs(Mathf.DeltaAngle(leftAngle, rightAngle));
+
+			Debug.Log(string.Format("{0} {1} {2}", leftDelta, rightDelta, rangeDelta));
+
+			if (!Mathf.Approximately(leftDelta + rightDelta, rangeDelta))
+			{
+				return false;
+			}
+
 			// Check if line of sight (nothing blocking)
 			int layerMask = 0;
 			blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
@@ -100,5 +121,17 @@ public class TurretController : MonoBehaviour
 		}
 
 		return false;
+	}
+
+	[InputSocket]
+	public void Activate()
+	{
+		activated = true;
+	}
+
+	[InputSocket]
+	public void Deactivate()
+	{
+		activated = false;
 	}
 }

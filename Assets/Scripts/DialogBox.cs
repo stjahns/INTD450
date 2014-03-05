@@ -20,6 +20,7 @@ public class DialogBox : TriggerBase
 	public float wrapMargin;
 	
 	public bool showOnStart = false;
+	public bool skipWithEnter = true;
 	public float showDelay = 1.0f;
 
 	public float fontToScreenWidthRatio = 20.0f;
@@ -191,7 +192,8 @@ public class DialogBox : TriggerBase
 			textObject.text = GetWrappedText(currentText);
 
 			// Hide if enter hit or if nonzero showtime expires
-			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)
+			if (skipWithEnter && 
+					Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)
 					|| (showTime > 0 && delayTimer > showTime))
 			{
 				Hide();

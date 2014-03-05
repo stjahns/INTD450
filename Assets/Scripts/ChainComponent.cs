@@ -6,18 +6,11 @@ public class ChainComponent : MonoBehaviour
 	public Rigidbody2D bodyA;
 	public Rigidbody2D bodyB;
 
-	public float chainWidth;
-	public Material chainMaterial;
-
-	public bool liveEdit = false;
-
 	public Vector2 offsetA;
 	public Vector2 offsetB;
 
-	public string spriteLayer;
-	public int layerOrder;
+	public ChainRenderer chainRenderer;
 
-	private LineRenderer chainLine;
 	private HingeJoint2D jointA;
 	private HingeJoint2D jointB;
 
@@ -50,25 +43,14 @@ public class ChainComponent : MonoBehaviour
 		endA = bodyA.transform.position;
 		endB = bodyB.transform.position;
 
-		// Create line renderer
-		chainLine = gameObject.AddComponent<LineRenderer>();
-		chainLine.material = chainMaterial;
-		chainLine.SetWidth(chainWidth, chainWidth);
-		chainLine.SetPosition(0, endA);
-		chainLine.SetPosition(1, endB);
-
-		chainLine.sortingLayerName = spriteLayer;
-		chainLine.sortingOrder = layerOrder;
+		if (chainRenderer == null)
+		{
+			chainRenderer = GetComponent<ChainRenderer>();
+		}
 	}
 
 	public void Update()
 	{
-		if (liveEdit)
-		{
-			chainLine.SetWidth(chainWidth, chainWidth);
-			chainLine.material = chainMaterial;
-		}
-
 		if (!severed)
 		{
 			endA = bodyA.transform.position;
@@ -87,6 +69,11 @@ public class ChainComponent : MonoBehaviour
 				Destroy(jointA);
 				Destroy(jointB);
 				severed = true;
+
+				if (chainRenderer)
+				{
+					chainRenderer.Sever();
+				}
 			}
 		}
 		else
@@ -96,8 +83,5 @@ public class ChainComponent : MonoBehaviour
 			endB = rigidbody2D.transform.position + (aToB / 2.0f);
 			endA = rigidbody2D.transform.position - (aToB / 2.0f);
 		}
-
-		chainLine.SetPosition(0, endA);
-		chainLine.SetPosition(1, endB);
 	}
 }

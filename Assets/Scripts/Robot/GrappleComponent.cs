@@ -25,9 +25,6 @@ public class GrappleComponent : LimbComponent {
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
 
-	public float ropeWidth = 0.1f;
-	public Material ropeMaterial;
-
 	public SpriteRenderer spriteRenderer;
 	public Sprite cockedSprite;
 	public Sprite firedSprite;
@@ -42,10 +39,11 @@ public class GrappleComponent : LimbComponent {
 
 	public State state;
 
+	public ChainRenderer chainRenderer;
+
 	private Transform forward;
 
 	private float ropeLength;
-	private LineRenderer ropeLine;
 	private DistanceJoint2D ropeJoint;
 	private SliderJoint2D sliderJoint;
 	
@@ -65,14 +63,10 @@ public class GrappleComponent : LimbComponent {
 		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
-		
-		ropeLine = gameObject.AddComponent<LineRenderer>();
-		ropeLine.SetWidth(ropeWidth, ropeWidth);
-		ropeLine.material = ropeMaterial;
-		ropeLine.SetPosition(0, ropeStart.position);
-		ropeLine.SetPosition(1, ropeEnd.position);
 
 		projectile.GrappleHit += OnGrappleHit;
+
+		chainRenderer = GetComponent<ChainRenderer>();
 	}
 
 	void OnGrappleHit(Collision2D hit)
@@ -140,8 +134,10 @@ public class GrappleComponent : LimbComponent {
 	{
 		base.Update();
 
-		ropeLine.SetPosition(0, ropeStart.position);
-		ropeLine.SetPosition(1, ropeEnd.position);
+		if (chainRenderer != null)
+		{
+			chainRenderer.sortingLayer = spriteRenderer.sortingLayerName;
+		}
 		
 		if (sliderJoint)
 		{

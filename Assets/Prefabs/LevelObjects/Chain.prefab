@@ -10,6 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: Chain
   m_TagString: Untagged
@@ -24,7 +25,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0200920105, y: -4.12461853, z: .000732421875}
+  m_LocalPosition: {x: .0200920105, y: -2.82924032, z: .000732421875}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -56,9 +57,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bodyA: {fileID: 0}
   bodyB: {fileID: 0}
+  offsetA: {x: 0, y: 0}
+  offsetB: {x: 0, y: 0}
+  chainRenderer: {fileID: 0}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2551312b0824bd19e33c2c7ac00381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   chainWidth: .100000001
   chainMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
-  liveEdit: 1
+  start: {fileID: 0}
+  end: {fileID: 0}
+  sortingLayer: Background
+  sortingOrder: 0
+  pixelsPerUnit: 200
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -75,6 +75,8 @@ public class GrappleComponent : LimbComponent {
 
 		state = State.Attached;
 
+		shouldAim = false;
+
 		playerBody = getRootComponent().rigidbody2D;
 		if (playerBody)
 		{
@@ -216,6 +218,31 @@ public class GrappleComponent : LimbComponent {
 				state = State.Cocked;
 			}
 		}
+
+
+		if (state == State.Attached && IsArm)
+		{
+			// Orient arm in direction of clamp
+			Animator anim = getRootComponent().GetComponentInChildren<Animator>();
+			Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
+			string xVar = parentAttachmentPoint.aimX;
+			string yVar = parentAttachmentPoint.aimY;
+
+			anim.SetBool(parentAttachmentPoint.animatorAimFlag, true);
+
+			// HACK!
+			var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
+			if (!player.facingLeft)
+			{
+				direction.x *= -1;
+			}
+
+			if (anim)
+			{
+				anim.SetFloat(xVar, direction.x);
+				anim.SetFloat(yVar, direction.y);
+			}
+		}
 	}
 
 	void FixedUpdate ()
@@ -230,33 +257,6 @@ public class GrappleComponent : LimbComponent {
 				RetractGrapple(true);
 			}
 
-			if (IsArm)
-			{
-				// Orient arm in direction of clamp
-				Animator anim = getRootComponent().GetComponentInChildren<Animator>();
-				Vector3 direction = Vector3.Normalize(ropeEnd.position - ropeStart.position);
-				string xVar = parentAttachmentPoint.aimX;
-				string yVar = parentAttachmentPoint.aimY;
-
-				// HACK!
-				var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
-				if (!player.facingLeft)
-				{
-					direction.x *= -1;
-				}
-
-				if (anim)
-				{
-					anim.SetFloat(xVar, direction.x);
-					anim.SetFloat(yVar, direction.y);
-				}
-
-				// MOAR HACK
-				if (!player.facingLeft)
-				{
-					direction.x *= -1;
-				}
-			}
 		}
 	}
 

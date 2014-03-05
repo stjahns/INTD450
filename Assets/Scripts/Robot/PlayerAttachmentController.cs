@@ -68,7 +68,6 @@ public class PlayerAttachmentController : MonoBehaviour
 	// --------------------------------------------------------------------------------
 	// Attachment Controller
 	// TODO - handle case where limbs are destroyed while being attached
-	// TODO - check for objects in range on update, not on initialize
 	// --------------------------------------------------------------------------------
 
 	void Start ()
@@ -106,6 +105,18 @@ public class PlayerAttachmentController : MonoBehaviour
 			}
 		}
 
+		// Set up camera zoom
+		viewportHeightOriginal = player.followCamera.viewportHeight;
+		player.followCamera.viewportHeight = selectParentViewportHeight;
+
+		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
+
+		attachmentShadowVisual.enabled = true;
+
+	}
+
+	void GetUnattachedChildren()
+	{
 		// Get all unattached parts in range
 		int attachmentLayer = 1 << LayerMask.NameToLayer("Attachments");
 		var attachments = Physics2D.OverlapCircleAll(transform.position,
@@ -122,15 +133,6 @@ public class PlayerAttachmentController : MonoBehaviour
 				childJoints.Add(joint);
 			}
 		}
-
-		// Set up camera zoom
-		viewportHeightOriginal = player.followCamera.viewportHeight;
-		player.followCamera.viewportHeight = selectParentViewportHeight;
-
-		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
-
-		attachmentShadowVisual.enabled = true;
-
 	}
 
 	void OnDisable()
@@ -302,6 +304,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	//
 	void SelectChild()
 	{
+		GetUnattachedChildren();
+
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			// Abort to regular mode
@@ -349,6 +353,11 @@ public class PlayerAttachmentController : MonoBehaviour
 				attachmentText.color = Color.white;
 				attachmentText.text = selectedChildJoint.owner.name;
 			}
+		}
+		else
+		{
+			// remove lightning bolt thing
+			selectedParentJoint.childTransform = selectedParentJoint.transform;
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))

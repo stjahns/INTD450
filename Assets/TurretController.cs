@@ -13,6 +13,7 @@ public class TurretController : MonoBehaviour
 
 	public float fireTime = 0.1f;
 	public float reloadTime = 1.0f;
+	public float trackTime = 1.0f;
 
 	public float range = 5;
 	public List<string> blockingLayers;
@@ -28,62 +29,153 @@ public class TurretController : MonoBehaviour
 		Firing
 	};
 
+	public enum TrackingState
+	{
+		TrackingPlayer,
+		TrackingRight,
+		TrackingLeft
+	};
+
 	private FiringState firingState;
-	private float timer;
+	private TrackingState trackingState;
+
+	private float firingTimer;
+	private float trackingTimer;
 
 	public void Start()
 	{
 		firingState = FiringState.Reloading;
-		timer = reloadTime;
+		firingTimer = reloadTime;
+
+		trackingTimer = 0;
 
 		laserRenderer.enabled = false;
+
+		trackingState = TrackingState.TrackingRight;
 	}
 
 	public void Update()
 	{
-		PlayerBehavior player = PlayerBehavior.Player;
-
-		if (activated && shouldTrackPlayer())
+		if (!activated)
 		{
-			gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position);
+			return;
+		}
 
-			switch (firingState)
-			{
-				case FiringState.Ready:
-					// Fire!
-					firingState = FiringState.Firing;
-					timer = fireTime;
+		if (shouldTrackPlayer())
+		{
+			trackingState = TrackingState.TrackingPlayer;
+		}
 
-					laserRenderer.enabled = true;
+		switch (trackingState)
+		{
+			case TrackingState.TrackingPlayer:
+				TrackPlayer();
+				break;
+
+			case TrackingState.TrackingRight:
+				{
+					trackingTimer += Time.deltaTime;
+
+					Quaternion rightRotation = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position);
+					gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation, rightRotation, trackingTimer / trackTime);
+
+					if (trackingTimer > trackTime)
+					{
+						trackingState = TrackingState.TrackingLeft;
+						trackingTimer = 0f;
+					}
+
+
+				}
+				break;
+
+			case TrackingState.TrackingLeft:
+				{
+					trackingTimer += Time.deltaTime;
+
+					Quaternion leftRotation = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position);
+					gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation, leftRotation, trackingTimer / trackTime);
+
+					if (trackingTimer > trackTime)
+					{
+						trackingState = TrackingState.TrackingRight;
+						trackingTimer = 0f;
+					}
+				}
+				break;
+		}
+	}
+
+	void TrackPlayer()
+	{
+		PlayerBehavior player = PlayerBehavior.Player;
+		if (!player)
+		{
+			return;
+		}
+
+		if (!shouldTrackPlayer())
+		{
+			trackingState = TrackingState.TrackingRight;
+			trackingTimer = 0f;
+		}
+
+		gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position);
+
+		switch (firingState)
+		{
+			case FiringState.Ready:
+				// Fire!
+				firingState = FiringState.Firing;
+				firingTimer = fireTime;
+
+				// TODO calculate hit position with raycast
+
+				laserRenderer.enabled = true;
+
+				if (player)
+				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
 					laserRenderer.SetPosition(1, player.transform.position);
+				}
 
-					break;
+				break;
 
-				case FiringState.Firing:
-					// Update laser
-					timer -= Time.deltaTime;
+			case FiringState.Firing:
+				// Update laser
+				firingTimer -= Time.deltaTime;
 
+				// TODO calculate hit position with raycast
+
+				if (player)
+				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
 					laserRenderer.SetPosition(1, player.transform.position);
+				}
 
-					if (timer < 0)
-					{
-						laserRenderer.enabled = false;
-						firingState = FiringState.Reloading;
-						timer = reloadTime;
-					}
-					break;
+				if (firingTimer < 0)
+				{
+					laserRenderer.enabled = false;
+					firingState = FiringState.Reloading;
+					firingTimer = reloadTime;
 
-				case FiringState.Reloading:
-					// Wait for reload
-					timer -= Time.deltaTime;
-					if (timer < 0)
+					// TEMP -- destroy player
+					// TODO check if blocked by shield or whatever with raycast
+					if (player)
 					{
-						firingState = FiringState.Ready;
+						player.Die();
 					}
-					break;
-			}
+				}
+				break;
+
+			case FiringState.Reloading:
+				// Wait for reload
+				firingTimer -= Time.deltaTime;
+				if (firingTimer < 0)
+				{
+					firingState = FiringState.Ready;
+				}
+				break;
 		}
 	}
 
@@ -91,6 +183,11 @@ public class TurretController : MonoBehaviour
 	{
 		// Check if player is in range
 		PlayerBehavior player = PlayerBehavior.Player;
+
+		if (!player)
+		{
+			return false;
+		}
 
 		if (Vector2.Distance(gunPivot.position, player.transform.position) < range)
 		{
@@ -102,8 +199,6 @@ public class TurretController : MonoBehaviour
 			float leftDelta = Mathf.Abs(Mathf.DeltaAngle(leftAngle, targetAngle));
 			float rightDelta = Mathf.Abs(Mathf.DeltaAngle(rightAngle, targetAngle));
 			float rangeDelta = Mathf.Abs(Mathf.DeltaAngle(leftAngle, rightAngle));
-
-			Debug.Log(string.Format("{0} {1} {2}", leftDelta, rightDelta, rangeDelta));
 
 			if (!Mathf.Approximately(leftDelta + rightDelta, rangeDelta))
 			{

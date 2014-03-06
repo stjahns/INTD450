@@ -555,9 +555,13 @@ public class PlayerAttachmentController : MonoBehaviour
 				}
 			}
 
-			if (point != null && point.owner != null)
+			if (point != null)
 			{
-				point.owner.OnDestroy += OnParentDestroyed;
+				point.selected = true;
+				if (point.owner != null)
+				{
+					point.owner.OnDestroy += OnParentDestroyed;
+				}
 			}
 		}
 
@@ -590,9 +594,13 @@ public class PlayerAttachmentController : MonoBehaviour
 				}
 			}
 
-			if (point != null && point.owner != null)
+			if (point != null)
 			{
-				point.owner.OnDestroy += OnChildDestroyed;
+				point.selected = true;
+				if (point.owner != null)
+				{
+					point.owner.OnDestroy += OnChildDestroyed;
+				}
 			}
 		}
 

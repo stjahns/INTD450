@@ -37,16 +37,10 @@ public class FollowCamera : MonoBehaviour
 					currentTarget.transform.position.y, 
 					transform.position.z);
 
-			if (inTransition)
+			targetTransitionTimer += Time.deltaTime;
+
+			if (inTransition && targetTransitionTimer < targetTransitionTime)
 			{
-				targetTransitionTimer += Time.deltaTime;
-
-				if (targetTransitionTimer > targetTransitionTime)
-				{
-					inTransition = false;
-					targetTransitionTimer = targetTransitionTime;
-				}
-
 				transform.position = Vector3.Lerp(transform.position, targetPosition,
 						targetTransitionTimer / targetTransitionTime);
 			}

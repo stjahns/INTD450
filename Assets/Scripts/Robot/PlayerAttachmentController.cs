@@ -66,11 +66,6 @@ public class PlayerAttachmentController : MonoBehaviour
 
 	private GUIText attachmentText;
 
-	// --------------------------------------------------------------------------------
-	// Attachment Controller
-	// TODO - handle case where limbs are destroyed while being attached
-	// --------------------------------------------------------------------------------
-
 	void Start ()
 	{
 		GameObject textObject = Instantiate(textPrefab, new Vector3(0.5f, 0.5f, 0), Quaternion.identity)

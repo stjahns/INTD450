@@ -71,7 +71,6 @@ public class ConveyorEditor : Editor
 	void GenerateAxles()
 	{
 		ConveyorBehavior conveyorBehavior = target as ConveyorBehavior;
-		GameObject conveyorObject = conveyorBehavior.gameObject;
 
 		float length = Vector3.Distance(conveyorBehavior.start.position,
 				conveyorBehavior.end.position);
@@ -101,7 +100,6 @@ public class ConveyorEditor : Editor
 	void GenerateBelt()
 	{
 		ConveyorBehavior conveyorBehavior = target as ConveyorBehavior;
-		GameObject conveyorObject = conveyorBehavior.gameObject;
 
 		Rigidbody2D startLink = null;
 		Rigidbody2D endLink = null;
@@ -152,7 +150,6 @@ public class ConveyorEditor : Editor
 			ref Rigidbody2D endLink)
 	{
 		ConveyorBehavior conveyorBehavior = target as ConveyorBehavior;
-		GameObject conveyorObject = conveyorBehavior.gameObject;
 
 		Vector3 startToEnd = end - start;
 		Vector3 up = Quaternion.FromToRotation(Vector3.right, Vector3.up) * startToEnd;
@@ -210,7 +207,6 @@ public class ConveyorEditor : Editor
 			ref Rigidbody2D endLink)
 	{
 		ConveyorBehavior conveyorBehavior = target as ConveyorBehavior;
-		GameObject conveyorObject = conveyorBehavior.gameObject;
 
 		DistanceJoint2D joint;
 
@@ -242,7 +238,6 @@ public class ConveyorEditor : Editor
 	void GenerateGuides()
 	{
 		ConveyorBehavior conveyorBehavior = target as ConveyorBehavior;
-		GameObject conveyorObject = conveyorBehavior.gameObject;
 
 
 		Vector3 start = conveyorBehavior.start.position;

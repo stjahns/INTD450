@@ -11,8 +11,9 @@ public class PlayerAttachmentController : MonoBehaviour
 	public PlayerMovementController movementController;
 	public float attachmentRange;
 	public float attachmentEndTime = 1.0f;
-	public float selectParentViewportHeight;
-	public float selectChildViewportHeight;
+
+	public CameraTarget selectParentCamera;
+	public CameraTarget selectChildCamera;
 
 	public AudioClip onEnableClip;
 	public AudioClip onDisableClip;
@@ -21,6 +22,11 @@ public class PlayerAttachmentController : MonoBehaviour
 	public MeshRenderer attachmentRangeVisual;
 	public MeshRenderer attachmentShadowVisual;
 
+	public Rect headBounds;
+	public Rect headBodyBounds;
+	public Rect headBodyLegBounds;
+
+	public GameObject textPrefab;
 
 	// Private fields
 
@@ -38,8 +44,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	private List<AttachmentPoint> parentJoints;
 	private List<AttachmentPoint> childJoints;
 
-	private AttachmentPoint selectedParentJoint;
-	private AttachmentPoint selectedChildJoint;
+	private AttachmentPoint selectedParentJoint = null;
+	private AttachmentPoint selectedChildJoint = null;
 
 	private Vector3 parentStartPosition;
 	private Quaternion parentStartRotation;
@@ -57,6 +63,16 @@ public class PlayerAttachmentController : MonoBehaviour
 	private float viewportHeightOriginal;
 
 	private float initialDistance;
+
+	private GUIText attachmentText;
+
+	void Start ()
+	{
+		GameObject textObject = Instantiate(textPrefab, new Vector3(0.5f, 0.5f, 0), Quaternion.identity)
+			as GameObject;
+		attachmentText = textObject.GetComponent<GUIText>();
+		attachmentText.enabled = false;
+	}
 
 	void OnEnable ()
 	{
@@ -85,6 +101,17 @@ public class PlayerAttachmentController : MonoBehaviour
 			}
 		}
 
+		// Transition camera to zoom on player
+		selectParentCamera.AcquireCamera();
+
+		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
+
+		attachmentShadowVisual.enabled = true;
+
+	}
+
+	void GetUnattachedChildren()
+	{
 		// Get all unattached parts in range
 		int attachmentLayer = 1 << LayerMask.NameToLayer("Attachments");
 		var attachments = Physics2D.OverlapCircleAll(transform.position,
@@ -101,57 +128,36 @@ public class PlayerAttachmentController : MonoBehaviour
 				childJoints.Add(joint);
 			}
 		}
-
-		// Set up camera zoom
-		viewportHeightOriginal = player.followCamera.viewportHeight;
-		player.followCamera.viewportHeight = selectParentViewportHeight;
-
-		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
-
-		attachmentShadowVisual.enabled = true;
 	}
 
 	void OnDisable()
 	{
-		if (selectedParentJoint)
-		{
-			selectedParentJoint.selected = false;
-			selectedParentJoint = null;
-		}
+		SetSelectedParent(null);
+		SetSelectedChild(null);
 
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
-			selectedChildJoint = null;
-		}
-
-		// Restore original zoom
-		player.followCamera.viewportHeight = viewportHeightOriginal;
+		// Restore camera
+		selectChildCamera.ReleaseCamera();
+		selectParentCamera.ReleaseCamera();
 
 		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
 
 		attachmentRangeVisual.enabled = false;
 		attachmentShadowVisual.enabled = false;
+
+		attachmentText.enabled = false;
 	}
 
 	void Abort()
 	{
 		if (selectedParentJoint)
 		{
-			if (selectedParentJoint.child == null)
-			{
-				selectedParentJoint.childTransform = selectedParentJoint.transform;
-			}
-
-			selectedParentJoint.selected = false;
-			selectedParentJoint = null;
+			selectedParentJoint.childTransform = selectedParentJoint.transform;
 		}
 
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
-			selectedChildJoint = null;
-		}
+		SetSelectedParent(null);
+		SetSelectedChild(null);
+
+		player.SetController(movementController);
 	}
 
 	// Update is called once per frame
@@ -183,13 +189,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			// Abort to regular mode
 			Abort();
-			player.SetController(movementController);
 			return;
-		}
-
-		if (selectedParentJoint)
-		{
-			selectedParentJoint.selected = false;
 		}
 
 		// Select the joint closest to the mouse pointer / direction
@@ -208,8 +208,33 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		if (closestJoint)
 		{
-			selectedParentJoint = closestJoint;
-			selectedParentJoint.selected = true;
+			attachmentText.enabled = true;
+			attachmentText.color = Color.white;
+
+			SetSelectedParent(closestJoint);
+
+			if (selectedParentJoint.AttachedToLevelObject)
+			{
+				attachmentText.text = "DISCONNECT FROM ";
+				attachmentText.text += selectedParentJoint.child.AttachmentName;
+			}
+			else if (selectedParentJoint.child != null )
+			{
+				attachmentText.text = "DETACH ";
+				attachmentText.text += selectedParentJoint.child.AttachmentName;
+				attachmentText.text += " FROM ";
+				attachmentText.text += selectedParentJoint.slot.ToString();
+			}
+			else
+			{
+				attachmentText.text = "ATTACH TO ";
+				attachmentText.text += selectedParentJoint.slot.ToString();
+				attachmentText.text += "...";
+			}
+		}
+		else
+		{
+			attachmentText.enabled = false;
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))
@@ -234,7 +259,9 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				// Select a child to attach now
 				state = AttachmentState.SelectChild;
-				player.followCamera.viewportHeight = selectChildViewportHeight;
+
+				// Transition camera ...
+				selectChildCamera.AcquireCamera();
 
 				attachmentShadowVisual.enabled = false;
 				attachmentRangeVisual.enabled = true;
@@ -251,17 +278,13 @@ public class PlayerAttachmentController : MonoBehaviour
 	//
 	void SelectChild()
 	{
+		GetUnattachedChildren();
+
 		if (Input.GetKeyDown(KeyCode.Escape))
 		{
 			// Abort to regular mode
 			Abort();
-			player.SetController(movementController);
 			return;
-		}
-
-		if (selectedChildJoint)
-		{
-			selectedChildJoint.selected = false;
 		}
 
 		// Select the joint closest to the mouse pointer / direction
@@ -280,11 +303,29 @@ public class PlayerAttachmentController : MonoBehaviour
 			}
 		}
 
+		attachmentText.enabled = false;
+
 		if (closestJoint)
 		{
-			selectedChildJoint = closestJoint;
-			selectedChildJoint.selected = true;
+			SetSelectedChild(closestJoint);
 			selectedParentJoint.childTransform = selectedChildJoint.transform;
+
+			attachmentText.enabled = true;
+			if (!CheckRoomToAttach())
+			{
+				attachmentText.color = Color.red;
+				attachmentText.text = "NO ROOM";
+			}
+			else
+			{
+				attachmentText.color = Color.white;
+				attachmentText.text = selectedChildJoint.AttachmentName;
+			}
+		}
+		else
+		{
+			// remove lightning bolt thing
+			selectedParentJoint.childTransform = selectedParentJoint.transform;
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))
@@ -299,9 +340,80 @@ public class PlayerAttachmentController : MonoBehaviour
 				// Nothing selected, abort
 				Abort();
 				state = AttachmentState.AttachingPart;
-				player.SetController(movementController);
 			}
 		}
+	}
+
+	// Gets player target position at end of attachment
+	Vector3 FindParentTargetPosition()
+	{
+		Vector3 startPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+		Vector3 targetPosition = new Vector3(startPosition.x, startPosition.y, 0);
+
+		int ground = 1 << LayerMask.NameToLayer("Ground");
+		
+		if (selectedChildJoint.owner != null)
+		{
+			float partLength = selectedChildJoint.owner.partLength;
+
+			Vector2[] directions = new Vector2[] {
+				Vector2.up * -1,
+					Vector2.right,
+					Vector2.right * -1
+			};
+
+			foreach (var direction in directions)
+			{
+				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+				if (hit)
+				{
+					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
+					targetPosition -= (direction * (partLength - distance)).XY0();
+				}
+			}
+		}
+
+		return targetPosition;
+	}
+
+	// Returns true if able to attach without level stuff getting in the way
+	bool CheckRoomToAttach()
+	{
+		Rect bounds = new Rect();
+
+		Vector3 targetPosition = FindParentTargetPosition();
+
+		// Determine target configuration
+		if (selectedChildJoint.attachmentType == AttachmentType.LevelAttachment)
+		{
+			// don't worry about bounds?
+		}
+		else if (selectedParentJoint.slot == AttachmentSlot.Spine)
+		{
+			// head + torso
+			bounds = headBodyBounds;
+		}
+		else if (selectedParentJoint.slot == AttachmentSlot.LeftHip
+				|| selectedParentJoint.slot == AttachmentSlot.RightHip)
+		{
+			// head + torso + leg
+			bounds = headBodyLegBounds;
+		}
+
+		//	Check if any interfering colliders within bounds offset from targetPosition
+		Vector2 pointA = new Vector2(bounds.xMin + targetPosition.x,
+				bounds.yMax + targetPosition.y);
+		Vector2 pointB = new Vector2(bounds.xMax + targetPosition.x,
+				bounds.yMin + targetPosition.y);
+
+		// TODO configurable
+		int layerMask = 1 << LayerMask.NameToLayer("Ground");
+		if (Physics2D.OverlapArea(pointA, pointB, layerMask))
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	//
@@ -311,31 +423,16 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		if (selectedChildJoint.attachmentType != AttachmentType.LevelAttachment)
 		{
-			parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
 			parentStartRotation = selectedParentJoint.owner.getRootComponent().transform.rotation;
-
-			parentTargetPosition = new Vector3(parentStartPosition.x, parentStartPosition.y, 0);
 			parentTargetRotation = Quaternion.identity;
 
-			int ground = 1 << LayerMask.NameToLayer("Ground");
-			float partLength = selectedChildJoint.owner.partLength;
+			parentStartPosition = selectedParentJoint.owner.getRootComponent().transform.position;
+			parentTargetPosition = FindParentTargetPosition();
 
-			Vector2[] directions = new Vector2[] {
-				Vector2.up * -1,
-				Vector2.right,
-				Vector2.right * -1
-			};
-		
-			foreach (var direction in directions)
+			if (!CheckRoomToAttach())
 			{
-				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
-				if (hit)
-				{
-					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
-					parentTargetPosition -= (direction * (partLength - distance)).XY0();
-				}
-
-			// TODO might need to abort under certain circumstances if too cramped
+				Abort();
+				return;
 			}
 
 			childStartPosition = selectedChildJoint.owner.transform.position;
@@ -437,6 +534,75 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			selectedChildJoint.OnAttach();
 			player.SetController(movementController);
+		}
+	}
+
+	void SetSelectedParent(AttachmentPoint point)
+	{
+		if (selectedParentJoint != point)
+		{
+			if (selectedParentJoint != null)
+			{
+				selectedParentJoint.selected = false;
+
+				if (selectedParentJoint.owner != null)
+				{
+					selectedParentJoint.owner.OnDestroy -= OnParentDestroyed;
+				}
+			}
+
+			if (point != null && point.owner != null)
+			{
+				point.owner.OnDestroy += OnParentDestroyed;
+			}
+		}
+
+		selectedParentJoint = point;
+	}
+
+	void OnParentDestroyed(RobotComponent component)
+	{
+		SetSelectedParent(null);
+
+		if (state == AttachmentState.SelectChild 
+			|| state == AttachmentState.AttachingPart 
+			|| state == AttachmentState.AttachingToLevelObject)
+		{
+			Abort();
+		}
+	}
+
+	void SetSelectedChild(AttachmentPoint point)
+	{
+		if (selectedChildJoint != point)
+		{
+			if (selectedChildJoint != null)
+			{
+				selectedChildJoint.selected = false;
+
+				if (selectedChildJoint.owner != null)
+				{
+					selectedChildJoint.owner.OnDestroy -= OnChildDestroyed;
+				}
+			}
+
+			if (point != null && point.owner != null)
+			{
+				point.owner.OnDestroy += OnChildDestroyed;
+			}
+		}
+
+		selectedChildJoint = point;
+	}
+
+	void OnChildDestroyed(RobotComponent component)
+	{
+		SetSelectedChild(null);
+
+		if (state == AttachmentState.AttachingPart 
+			|| state == AttachmentState.AttachingToLevelObject)
+		{
+			Abort();
 		}
 	}
 }

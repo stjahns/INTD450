@@ -4,7 +4,6 @@ using System.Collections;
 public class Level : MonoBehaviour 
 {
 
-	public FollowCamera playerCamera;
 	public LevelStart levelStart;
 
 	//
@@ -14,16 +13,20 @@ public class Level : MonoBehaviour
 	{
 		levelStart.PlayerSpawned += (spawner, spawnedPlayer) => {
 			// When player is spawned, set follow camera to target player
-			playerCamera.target = spawnedPlayer.transform;
 
-			var player = spawnedPlayer.GetComponent<PlayerBehavior>();
-			player.followCamera = playerCamera;
-			player.OnDestroy += destroyedPlayer => {
+			FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
+			if (camera)
+			{
+				var player = spawnedPlayer.GetComponent<PlayerBehavior>();
 
-				// Stop following player when it is destroyed
-				playerCamera.target = playerCamera.transform;
-				Debug.Log("CAMERA FREED");
-			};
+				camera.PushTarget(player.cameraTarget);
+
+				player.OnDestroy += destroyedPlayer => {
+
+					camera.PopTarget(player.cameraTarget);
+					Debug.Log("CAMERA FREED");
+				};
+			}
 		};
 	}
 

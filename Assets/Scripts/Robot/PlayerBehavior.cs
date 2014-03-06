@@ -9,9 +9,6 @@ public class PlayerBehavior : MonoBehaviour {
 	
 	public HeadComponent head;
 
-	[HideInInspector]
-	public FollowCamera followCamera;
-
 	public PlayerSkeleton skeleton;
 
 	public RobotComponent activeArm = null;
@@ -27,6 +24,8 @@ public class PlayerBehavior : MonoBehaviour {
 	public AudioClip deathSound;
 	public AudioClip limbAttachSound;
 	public AudioClip limbRemoveSound;
+
+	public CameraTarget cameraTarget;
 
 	[HideInInspector]
 	public static PlayerBehavior Player;

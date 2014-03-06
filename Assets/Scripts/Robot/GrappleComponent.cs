@@ -300,6 +300,8 @@ public class GrappleComponent : LimbComponent {
 	{
 		if (immediate || IsArm)
 		{
+			state = State.Cocked;
+
 			if (grappleHinge)
 			{
 				Destroy(grappleHinge);

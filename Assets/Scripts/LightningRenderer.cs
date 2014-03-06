@@ -65,6 +65,11 @@ public class LightningRenderer : MonoBehaviour
 	
 	void Update ()
 	{
+		if (start == null || end == null)
+		{
+			return;
+		}
+
 		lineRenderer.SetVertexCount(segmentCount);
 
 		lineRenderer.SetPosition(0, start.position);

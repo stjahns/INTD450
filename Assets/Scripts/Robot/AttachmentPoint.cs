@@ -39,6 +39,21 @@ public class AttachmentPoint : TriggerBase
 
 	public Bone bone;
 
+	public string AttachmentName
+	{
+		get
+		{
+			if (owner != null)
+			{
+				return owner.name;
+			}
+			else
+			{
+				return name;
+			}
+		}
+	}
+
 	public Transform childTransform
 	{
 		set

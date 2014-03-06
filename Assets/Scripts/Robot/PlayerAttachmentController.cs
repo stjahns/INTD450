@@ -12,6 +12,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	public float attachmentRange;
 	public float attachmentEndTime = 1.0f;
 
+	public List<string> blockingLayers;
+
 	public CameraTarget selectParentCamera;
 	public CameraTarget selectChildCamera;
 
@@ -22,11 +24,12 @@ public class PlayerAttachmentController : MonoBehaviour
 	public MeshRenderer attachmentRangeVisual;
 	public MeshRenderer attachmentShadowVisual;
 
+	public GameObject textPrefab;
+
 	public Rect headBounds;
 	public Rect headBodyBounds;
 	public Rect headBodyLegBounds;
 
-	public GameObject textPrefab;
 
 	// Private fields
 
@@ -350,7 +353,8 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector3 startPosition = selectedParentJoint.owner.getRootComponent().transform.position;
 		Vector3 targetPosition = new Vector3(startPosition.x, startPosition.y, 0);
 
-		int ground = 1 << LayerMask.NameToLayer("Ground");
+		int layerMask = 0;
+		blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 		
 		if (selectedChildJoint.owner != null)
 		{
@@ -364,7 +368,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 			foreach (var direction in directions)
 			{
-				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, ground);
+				var hit = Physics2D.Raycast(selectedParentJoint.transform.position, direction, partLength, layerMask);
 				if (hit)
 				{
 					float distance = Vector2.Distance(hit.point, selectedParentJoint.transform.position);
@@ -406,8 +410,8 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector2 pointB = new Vector2(bounds.xMax + targetPosition.x,
 				bounds.yMin + targetPosition.y);
 
-		// TODO configurable
-		int layerMask = 1 << LayerMask.NameToLayer("Ground");
+		int layerMask = 0;
+		blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 		if (Physics2D.OverlapArea(pointA, pointB, layerMask))
 		{
 			return false;
@@ -551,9 +555,13 @@ public class PlayerAttachmentController : MonoBehaviour
 				}
 			}
 
-			if (point != null && point.owner != null)
+			if (point != null)
 			{
-				point.owner.OnDestroy += OnParentDestroyed;
+				point.selected = true;
+				if (point.owner != null)
+				{
+					point.owner.OnDestroy += OnParentDestroyed;
+				}
 			}
 		}
 
@@ -586,9 +594,13 @@ public class PlayerAttachmentController : MonoBehaviour
 				}
 			}
 
-			if (point != null && point.owner != null)
+			if (point != null)
 			{
-				point.owner.OnDestroy += OnChildDestroyed;
+				point.selected = true;
+				if (point.owner != null)
+				{
+					point.owner.OnDestroy += OnChildDestroyed;
+				}
 			}
 		}
 

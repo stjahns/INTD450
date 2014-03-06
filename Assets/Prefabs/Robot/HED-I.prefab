@@ -1164,6 +1164,10 @@ MonoBehaviour:
   movementController: {fileID: 11400038}
   attachmentRange: 2.5
   attachmentEndTime: 1
+  blockingLayers:
+  - Ground
+  - ConveyorBelt
+  - LevelObjects
   selectParentCamera: {fileID: 11400046}
   selectChildCamera: {fileID: 11400042}
   onEnableClip: {fileID: 8300000, guid: e7486248ba547c843ad53492fb854f4a, type: 3}
@@ -1171,6 +1175,7 @@ MonoBehaviour:
   jointSelectedClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   attachmentRangeVisual: {fileID: 2300002}
   attachmentShadowVisual: {fileID: 2300000}
+  textPrefab: {fileID: 100000, guid: 26e0b71190d214e259a04881fe767438, type: 2}
   headBounds:
     serializedVersion: 2
     x: 0
@@ -1189,7 +1194,6 @@ MonoBehaviour:
     y: -1
     width: 1
     height: 2
-  textPrefab: {fileID: 100000, guid: 26e0b71190d214e259a04881fe767438, type: 2}
 --- !u!114 &11400038
 MonoBehaviour:
   m_ObjectHideFlags: 1

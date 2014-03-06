@@ -3,7 +3,10 @@ using System.Collections;
 
 public class CameraTarget : MonoBehaviour
 {
-	public Transform oldTarget = null;
+	public float targetViewportHeight;
+	public bool allowZoom;
+
+	private float pushCount = 0;
 
 	[InputSocket]
 	public void AcquireCamera()
@@ -11,18 +14,22 @@ public class CameraTarget : MonoBehaviour
 		FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
 		if (camera)
 		{
-			oldTarget = camera.target;
-			camera.target = this.transform;
+			camera.PushTarget(this, 0.5f);
+			pushCount++;
 		}
 	}
 
 	[InputSocket]
 	public void ReleaseCamera()
 	{
-		FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
-		if (camera && oldTarget)
+		if (pushCount > 0)
 		{
-			camera.target = oldTarget;
+			FollowCamera camera = Camera.main.GetComponent<FollowCamera>();
+			if (camera)
+			{
+				camera.PopTarget(this, 0.5f);
+				pushCount--;
+			}
 		}
 	}
 

@@ -11,8 +11,9 @@ public class PlayerAttachmentController : MonoBehaviour
 	public PlayerMovementController movementController;
 	public float attachmentRange;
 	public float attachmentEndTime = 1.0f;
-	public float selectParentViewportHeight;
-	public float selectChildViewportHeight;
+
+	public CameraTarget selectParentCamera;
+	public CameraTarget selectChildCamera;
 
 	public AudioClip onEnableClip;
 	public AudioClip onDisableClip;
@@ -105,9 +106,8 @@ public class PlayerAttachmentController : MonoBehaviour
 			}
 		}
 
-		// Set up camera zoom
-		viewportHeightOriginal = player.followCamera.viewportHeight;
-		player.followCamera.viewportHeight = selectParentViewportHeight;
+		// Transition camera to zoom on player
+		selectParentCamera.AcquireCamera();
 
 		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
 
@@ -140,8 +140,9 @@ public class PlayerAttachmentController : MonoBehaviour
 		SetSelectedParent(null);
 		SetSelectedChild(null);
 
-		// Restore original zoom
-		player.followCamera.viewportHeight = viewportHeightOriginal;
+		// Restore camera
+		selectChildCamera.ReleaseCamera();
+		selectParentCamera.ReleaseCamera();
 
 		AudioSource.PlayClipAtPoint(onDisableClip, transform.position);
 
@@ -263,7 +264,9 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				// Select a child to attach now
 				state = AttachmentState.SelectChild;
-				player.followCamera.viewportHeight = selectChildViewportHeight;
+
+				// Transition camera ...
+				selectChildCamera.AcquireCamera();
 
 				attachmentShadowVisual.enabled = false;
 				attachmentRangeVisual.enabled = true;

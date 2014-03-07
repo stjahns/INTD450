@@ -18,7 +18,6 @@ public class ButtonTrigger : TriggerBase
 	public List<SignalConnection> onHold = new List<SignalConnection>();
 
 	public bool debug = false;
-	public bool triggerOnce = false;
 
 	public Transform buttonContact;
 	public Transform triggerContact;

@@ -21,7 +21,6 @@ public class AreaTrigger : TriggerBase
 	public List<SignalConnection> onStay = new List<SignalConnection>();
 
 	public bool debug = false;
-	public bool triggerOnce = false;
 
 	public Color color;
 

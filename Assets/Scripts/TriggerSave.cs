@@ -5,6 +5,7 @@ public class TriggerSave : MonoBehaviour {
 
 	// Use this for initialization
 	void OnTriggerEnter2D (Collider2D other){
+		Debug.Log ("Here");
 	///	other.attachedRigidbody
 		int level = Application.loadedLevel;
 		Save_Load save = new Save_Load ();

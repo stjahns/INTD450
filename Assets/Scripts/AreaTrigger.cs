@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-//using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +25,9 @@ public class AreaTrigger : TriggerBase
 
 	public List<string> tags = new List<string>();
 
+	public Dictionary<int, List<Collider2D>> enteredBodies = 
+		new Dictionary<int, List<Collider2D>>();
+
 	override public void OnDrawGizmos()
 	{
 		base.OnDrawGizmos();
@@ -43,31 +45,81 @@ public class AreaTrigger : TriggerBase
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		// TODO check tags
-		if (debug)
-		{
-			Debug.Log("On Enter", this);
-		}
 
-		onEnter.ForEach(s => s.Fire());
+		Rigidbody2D body = other.rigidbody2D;
+		if (body)
+		{
+			int bodyId = body.gameObject.GetInstanceID();
+		
+			if (enteredBodies.ContainsKey(bodyId))
+			{
+				// body already entered, but add new collider, if it doesn't already exist
+				if (!enteredBodies[bodyId].Contains(other))
+				{
+					enteredBodies[bodyId].Add(other);
+				}
+			}
+			else
+			{
+				// track new  body
+				enteredBodies.Add(bodyId, new List<Collider2D>());
+				enteredBodies[bodyId].Add(other);
+
+				if (debug)
+				{
+					Debug.Log("On Enter", this);
+				}
+
+				onEnter.ForEach(s => s.Fire());
+			}
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D other)
 	{
-		if (debug)
-		{
-			Debug.Log("On Exit", this);
-		}
 
-		onExit.ForEach(s => s.Fire());
+		Rigidbody2D body = other.rigidbody2D;
+		if (body)
+		{
+			int bodyId = body.gameObject.GetInstanceID();
+			if (enteredBodies.ContainsKey(bodyId))
+			{
+				// remove collider
+				enteredBodies[bodyId].Remove(other);
+			}
+
+			// Multiple colliders on same body could enter/exit area,
+			// wait till next physics update to actually fire on exit
+		}
 	}
 
-	void OnTriggerStay2D(Collider2D other)
+	void FixedUpdate()
 	{
-		if (debug)
+		foreach (int bodyId in enteredBodies.Keys.ToList())
 		{
-			Debug.Log("On Stay", this);
+			if (enteredBodies[bodyId].Count < 1)
+			{
+				// This body has fully left the area
+				if (debug)
+				{
+					Debug.Log("On Exit", this);
+				}
+
+				onExit.ForEach(s => s.Fire());
+
+				enteredBodies.Remove(bodyId);
+			}
+			else
+			{
+				// This body is sticking around
+				if (debug)
+				{
+					Debug.Log("On Stay", this);
+				}
+
+				onStay.ForEach(s => s.Fire());
+			}
 		}
 
-		onStay.ForEach(s => s.Fire());
 	}
 }

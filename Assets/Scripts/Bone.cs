@@ -13,12 +13,25 @@ public class Bone : MonoBehaviour
 
 	private Transform forward;
 
+	private List<Transform> childTransforms;
+
 	void Start()
 	{
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = transform;
 		forwardObject.transform.localPosition = new Vector3(0, 1, 0);
 		forward = forwardObject.transform;
+
+		childTransforms = new List<Transform>();
+	}
+
+	void LateUpdate()
+	{
+		foreach (var childTransform in childTransforms)
+		{
+			childTransform.position = transform.position;
+			childTransform.rotation = GetBoneRotation();
+		}
 	}
 
 	public void OnDrawGizmos()
@@ -35,5 +48,16 @@ public class Bone : MonoBehaviour
 		Vector3 direction = forward.position - transform.position;
 		direction.Normalize();
 		return Quaternion.FromToRotation(Vector3.up, direction);
+	}
+
+	public void Attach(Transform childTransform)
+	{
+		childTransforms.Add(childTransform);
+
+	}
+
+	public void Detach(Transform childTransform)
+	{
+		childTransforms.Remove(childTransform);
 	}
 }

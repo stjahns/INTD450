@@ -68,11 +68,13 @@ public class PlayerMovementController : MonoBehaviour {
 		{
 			// face right
 			anim.SetBool("facingLeft", false);
+			player.skeleton.direction = PlayerSkeleton.Direction.Right;
 		}
 		else
 		{
 			// face left
 			anim.SetBool("facingLeft", true);
+			player.skeleton.direction = PlayerSkeleton.Direction.Left;
 		}
 
 		if (player.GetActiveArm() && player.GetActiveArm().shouldAim)

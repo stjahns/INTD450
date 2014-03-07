@@ -77,7 +77,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 212: {fileID: 21200000}
-  - 60: {fileID: 6000000}
   m_Layer: 10
   m_Name: TorsoSprite
   m_TagString: Untagged
@@ -110,8 +109,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400012}
+  - 60: {fileID: 6000000}
   m_Layer: 10
-  m_Name: GroundCheck
+  m_Name: DetachedCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -221,6 +221,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &100026
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400026}
+  m_Layer: 10
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &400000
 Transform:
   m_ObjectHideFlags: 1
@@ -276,7 +291,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.00865125656, y: -.432577848, z: 0}
+  m_LocalPosition: {x: .0109424591, y: -.318287373, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
@@ -299,7 +314,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.040399313, y: -1.06169081, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400014}
@@ -310,15 +325,16 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.2504616, y: -6.05532742, z: 0}
+  m_LocalPosition: {x: -5.75915289, y: -4.34249687, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 400012}
   - {fileID: 400004}
   - {fileID: 400006}
   - {fileID: 400000}
   - {fileID: 400010}
   - {fileID: 400002}
-  - {fileID: 400012}
+  - {fileID: 400026}
   - {fileID: 400008}
   m_Father: {fileID: 0}
 --- !u!4 &400016
@@ -376,6 +392,17 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
+--- !u!4 &400026
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100026}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.040399313, y: -1.06169081, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 400014}
 --- !u!50 &5000000
 Rigidbody2D:
   m_ObjectHideFlags: 1
@@ -462,29 +489,21 @@ PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
+  m_GameObject: {fileID: 100012}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
-    - - {x: .299999982, y: .199999988}
-      - {x: .25, y: .379999995}
-      - {x: .140000001, y: .459999979}
-      - {x: .0700000003, y: .469999999}
-      - {x: -.0700000003, y: .469999999}
-      - {x: -.269999981, y: .329999983}
-      - {x: -.280000001, y: .25999999}
-      - {x: -.280000001, y: 0}
-      - {x: -.239999995, y: -.149999991}
-      - {x: -.25, y: -.239999995}
-      - {x: -.239999995, y: -.289999992}
-      - {x: -.0700000003, y: -.469999999}
-      - {x: -.0199999996, y: -.469999999}
-      - {x: .209999993, y: -.370000005}
-      - {x: .189999998, y: -.229999989}
-      - {x: .189999998, y: -.0899999961}
-      - {x: .299999982, y: .099999994}
+    - - {x: -.00951910019, y: .0290322304}
+      - {x: .227590084, y: -.0669951439}
+      - {x: .264129162, y: -.294975281}
+      - {x: .127474308, y: -.629003048}
+      - {x: .188036919, y: -.76142025}
+      - {x: -.0638861656, y: -.887274265}
+      - {x: -.226426601, y: -.687353134}
+      - {x: -.278792381, y: -.23338747}
+      - {x: -.24186945, y: -.0955529213}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -512,7 +531,7 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   partLength: 1
-  groundCheck: {fileID: 400012}
+  groundCheck: {fileID: 400026}
   wallCheck: {fileID: 0}
   unattachedColliders:
   - {fileID: 6000000}
@@ -545,6 +564,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -555,6 +576,7 @@ MonoBehaviour:
   attachmentType: 0
   slot: 0
   lightningEffect: {fileID: 11400016}
+  bone: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -566,6 +588,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: aimRight
@@ -576,6 +600,7 @@ MonoBehaviour:
   attachmentType: 1
   slot: 3
   lightningEffect: {fileID: 11400014}
+  bone: {fileID: 0}
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -587,6 +612,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: aimLeft
@@ -597,6 +624,7 @@ MonoBehaviour:
   attachmentType: 1
   slot: 4
   lightningEffect: {fileID: 11400018}
+  bone: {fileID: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -608,6 +636,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -618,6 +648,7 @@ MonoBehaviour:
   attachmentType: 2
   slot: 6
   lightningEffect: {fileID: 11400020}
+  bone: {fileID: 0}
 --- !u!114 &11400010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -629,6 +660,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -639,6 +672,7 @@ MonoBehaviour:
   attachmentType: 2
   slot: 5
   lightningEffect: {fileID: 11400012}
+  bone: {fileID: 0}
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1

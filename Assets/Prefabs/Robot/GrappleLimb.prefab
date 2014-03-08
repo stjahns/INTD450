@@ -207,7 +207,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.34043503, y: -5.8376708, z: 0}
+  m_LocalPosition: {x: -4.36095285, y: -4.77075624, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -484,8 +484,10 @@ MonoBehaviour:
   minRopeLength: 1
   minLegLength: .200000003
   maxRopeLength: 8
-  ropePullSpeed: 200
+  ropePullSpeed: 5
+  legPushSpeed: 200
   legRetractSpeed: 400
+  ropePullForce: 50
   grappleableLayers:
   - Grappleable
   fireClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}

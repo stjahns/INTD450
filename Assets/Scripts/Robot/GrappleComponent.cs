@@ -119,12 +119,12 @@ public class GrappleComponent : LimbComponent {
 		{
 			JointMotor2D motor = sliderJoint.motor;
 
-			if (Input.GetKey(KeyCode.W) && ropeLength < maxRopeLength)
+			if (isActive && Input.GetKey(KeyCode.W) && ropeLength < maxRopeLength)
 			{
 				// Extend
 				motor.motorSpeed = legPushSpeed;
 			}
-			else if (Input.GetKey(KeyCode.S) && ropeLength > minLegLength)
+			else if (isActive && Input.GetKey(KeyCode.S) && ropeLength > minLegLength)
 			{
 				// Retract 
 				motor.motorSpeed = -legPushSpeed;
@@ -201,7 +201,7 @@ public class GrappleComponent : LimbComponent {
 	{
 		if (distanceJoint)
 		{
-			if (Input.GetKey(KeyCode.W) && ropeLength > minRopeLength)
+			if (isActive && Input.GetKey(KeyCode.W) && ropeLength > minRopeLength)
 			{
 				var ropeToProjectile = (projectile.transform.position - ropeStart.position).normalized;
 				float speedToGrapple = Vector3.Project(playerBody.velocity, ropeToProjectile).magnitude;
@@ -212,7 +212,7 @@ public class GrappleComponent : LimbComponent {
 				}
 			}
 
-			if (Input.GetKey(KeyCode.S) && ropeLength < maxRopeLength)
+			if (isActive && Input.GetKey(KeyCode.S) && ropeLength < maxRopeLength)
 			{
 				// Let rope extend
 				distanceJoint.enabled = false;

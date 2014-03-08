@@ -54,7 +54,7 @@ public class RobotComponent : MonoBehaviour {
 	private bool resettingPhysics = false;
 
 	// Events
-	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentType type);
+	public delegate void LimbChangedHandler(RobotComponent arm, AttachmentSlot slot, AttachmentType type);
 	public delegate void PhysicsResetHandler(RobotComponent component);
 	public delegate void OnDestroyHandler(RobotComponent component);
 
@@ -252,7 +252,7 @@ public class RobotComponent : MonoBehaviour {
 				LevelMusic.Instance.AttachLimb(limb.limbType, limb.Slot);
 			}
 
-			OnLimbAdded(limb, type);
+			OnLimbAdded(limb, slot, type);
 		}
 
 		child.OnAttach();
@@ -321,7 +321,7 @@ public class RobotComponent : MonoBehaviour {
 
 		childJoint.owner.OnRemove();
 		
-		OnLimbRemoved(childJoint.owner, attachmentType);
+		OnLimbRemoved(childJoint.owner, slot, attachmentType);
 
 		// stop listening to childs' add/removeArm event
 		childJoint.owner.LimbAdded -= OnLimbAdded;
@@ -332,19 +332,19 @@ public class RobotComponent : MonoBehaviour {
 	}
 
 
-	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
+	public void OnLimbAdded(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
 	{
 		if (LimbAdded != null)
 		{
-			LimbAdded(limb, type);
+			LimbAdded(limb, slot, type);
 		}
 	}
 
-	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
+	public void OnLimbRemoved(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
 	{
 		if (LimbRemoved != null)
 		{
-			LimbRemoved(limb, type);
+			LimbRemoved(limb, slot, type);
 		}
 	}
 

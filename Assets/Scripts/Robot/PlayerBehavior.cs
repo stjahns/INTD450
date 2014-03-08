@@ -121,7 +121,7 @@ public class PlayerBehavior : MonoBehaviour {
 		Application.LoadLevel(Application.loadedLevel);
 	}
 	
-	public void OnLimbAdded(RobotComponent limb, AttachmentType type)
+	public void OnLimbAdded(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
 	{
 		if (type == AttachmentType.Arm)
 		{
@@ -147,10 +147,29 @@ public class PlayerBehavior : MonoBehaviour {
 
 		AudioSource.PlayClipAtPoint(limbRemoveSound, transform.position);
 
-		anim.SetBool("hasTorso", allComponents.Count > 0);
+		switch (slot)
+		{
+			case AttachmentSlot.LeftHip:
+				anim.SetBool("hasLeftLeg", true);
+				break;
+			case AttachmentSlot.RightHip:
+				anim.SetBool("hasRightLeg", true);
+				break;
+			case AttachmentSlot.Spine:
+				if (limb is TorsoComponent)
+				{
+					anim.SetBool("hasTorso", true);
+				}
+				else
+				{
+					anim.SetBool("hasLimbAsTorso", true);
+
+				}
+				break;
+		}
 	}
 
-	public void OnLimbRemoved(RobotComponent limb, AttachmentType type)
+	public void OnLimbRemoved(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
 	{
 		if (type == AttachmentType.Arm)
 		{
@@ -178,7 +197,26 @@ public class PlayerBehavior : MonoBehaviour {
 
 		AudioSource.PlayClipAtPoint(limbAttachSound, transform.position);
 
-		anim.SetBool("hasTorso", allComponents.Count > 0);
+		switch (slot)
+		{
+			case AttachmentSlot.LeftHip:
+				anim.SetBool("hasLeftLeg", false);
+				break;
+			case AttachmentSlot.RightHip:
+				anim.SetBool("hasRightLeg", false);
+				break;
+			case AttachmentSlot.Spine:
+				if (limb is TorsoComponent)
+				{
+					anim.SetBool("hasTorso", false);
+				}
+				else
+				{
+					anim.SetBool("hasLimbAsTorso", false);
+
+				}
+				break;
+		}
 	}
 
 	void Update ()

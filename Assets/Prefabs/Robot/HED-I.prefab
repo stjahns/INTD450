@@ -16,6 +16,7 @@ GameObject:
   - 114: {fileID: 11400038}
   - 114: {fileID: 11400036}
   - 120: {fileID: 12000000}
+  - 58: {fileID: 5800000}
   m_Layer: 12
   m_Name: HED-I
   m_TagString: Player
@@ -48,7 +49,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 400004}
   - 212: {fileID: 21200000}
-  - 58: {fileID: 5800000}
   m_Layer: 12
   m_Name: Head
   m_TagString: Player
@@ -388,7 +388,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.68600678, y: .554786563, z: -3.18021584}
+  m_LocalPosition: {x: -4.89048052, y: -6.39051294, z: -3.18021584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400036}
@@ -732,7 +732,7 @@ CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
+  m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -880,8 +880,7 @@ MonoBehaviour:
   shouldAim: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
-  sprites:
-  - {fileID: 21200000}
+  sprites: []
   spriteOrders: 01000000
   Skeleton: {fileID: 11400016}
   currentBone: {fileID: 11400010}
@@ -1005,6 +1004,7 @@ MonoBehaviour:
   RightShoulder: {fileID: 11400006}
   LeftHip: {fileID: 11400014}
   RightHip: {fileID: 11400008}
+  direction: 0
 --- !u!114 &11400018
 MonoBehaviour:
   m_ObjectHideFlags: 1

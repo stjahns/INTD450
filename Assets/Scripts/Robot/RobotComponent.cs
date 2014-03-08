@@ -134,6 +134,16 @@ public class RobotComponent : MonoBehaviour {
 		for (int i = 0; i < sprites.Count; ++i)
 		{
 			sprites[i].sortingOrder = (int)currentBone.spriteOrder + spriteOrders[i];
+
+			if (Skeleton.direction == PlayerSkeleton.Direction.Left)
+			{
+				sprites[i].transform.localScale = PlayerSkeleton.leftScale;
+			}
+			else
+			{
+				sprites[i].transform.localScale = PlayerSkeleton.rightScale;
+			}
+
 		}
 
 		foreach (AttachmentPoint joint in allJoints)
@@ -187,11 +197,12 @@ public class RobotComponent : MonoBehaviour {
 		child.currentBone = bone;
 		child.Skeleton = Skeleton;
 
-		// parent child to bone
-		child.transform.parent = bone.gameObject.transform;
-		child.transform.localScale = Vector3.one;
-		child.transform.localPosition = Vector3.zero;
-		child.transform.localEulerAngles = Vector3.zero;
+		// parent child to player object
+		child.transform.parent = PlayerBehavior.Player.transform;
+		// attach child to bone
+		bone.Attach(child.transform);
+
+		Debug.Log(child);
 
 		if (childJoint.rigidbody2D)
 		{
@@ -210,9 +221,8 @@ public class RobotComponent : MonoBehaviour {
 		{
 			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
 			joint.bone = jointBone;
-			joint.transform.parent = jointBone.transform;
-			joint.transform.localPosition = Vector3.zero;
-			joint.transform.localRotation = Quaternion.identity;
+			joint.transform.parent = PlayerBehavior.Player.transform;
+			jointBone.Attach(joint.transform);
 		}
 
 		parentJoint.child = childJoint;
@@ -246,12 +256,28 @@ public class RobotComponent : MonoBehaviour {
 
 		child.ResetColliders();
 
+		getRootComponent().ResetSpriteOrders();
 		getRootComponent().ResetPhysics();
 
 	}
 
 	public void Unattach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
 	{
+		// First remove all children of limb from skeleton...
+		foreach (RobotComponent limb in childJoint.owner.getDirectChildren())
+		{
+			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
+		}
+
+		AttachmentSlot slot = parentJoint.slot;
+		Bone bone = Skeleton.GetBoneForSlot(slot);
+
+		// Unparent from lower joint bone if it exists (for limbs)
+		if (bone && bone.LowerJoint)
+		{
+			bone = bone.LowerJoint;
+		}
+
 		AttachmentType attachmentType = childJoint.owner.parentAttachmentPoint.attachmentType;
 
 		RobotComponent child = childJoint.owner;
@@ -275,6 +301,7 @@ public class RobotComponent : MonoBehaviour {
 		parentJoint.childTransform = parentJoint.transform;
 
 		// parent child to null
+		bone.Detach(child.transform);
 		child.transform.parent = null;
 		child.parentComponent = null;
 		child.Skeleton = null;
@@ -282,16 +309,12 @@ public class RobotComponent : MonoBehaviour {
 		// Unparent all child joints from bones
 		foreach (AttachmentPoint joint in childJoint.owner.allJoints)
 		{
+			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
+			jointBone.Detach(joint.transform);
 			joint.transform.parent = joint.owner.transform;
 		}
 
 		child.transform.localScale = Vector3.one;
-
-		// Also remove all children of limb from skeleton...
-		foreach (RobotComponent limb in childJoint.owner.getDirectChildren())
-		{
-			childJoint.owner.Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
-		}
 
 		childJoint.owner.OnRemove();
 		

@@ -25,7 +25,7 @@ public class AreaTrigger : TriggerBase
 
 	public List<string> tags = new List<string>();
 
-	public Dictionary<int, List<Collider2D>> enteredBodies = 
+	private Dictionary<int, List<Collider2D>> enteredBodies = 
 		new Dictionary<int, List<Collider2D>>();
 
 	override public void OnDrawGizmos()
@@ -46,7 +46,7 @@ public class AreaTrigger : TriggerBase
 	{
 		// TODO check tags
 
-		Rigidbody2D body = other.rigidbody2D;
+		Rigidbody2D body = other.attachedRigidbody;
 		if (body)
 		{
 			int bodyId = body.gameObject.GetInstanceID();
@@ -78,7 +78,7 @@ public class AreaTrigger : TriggerBase
 	void OnTriggerExit2D(Collider2D other)
 	{
 
-		Rigidbody2D body = other.rigidbody2D;
+		Rigidbody2D body = other.attachedRigidbody;
 		if (body)
 		{
 			int bodyId = body.gameObject.GetInstanceID();

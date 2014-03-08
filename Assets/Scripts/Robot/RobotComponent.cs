@@ -35,6 +35,9 @@ public class RobotComponent : MonoBehaviour {
 	[HideInInspector]
 	public bool shouldAim = true;
 
+	[HideInInspector]
+	public bool isActive = false;
+
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
 

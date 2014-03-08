@@ -236,7 +236,12 @@ public class PlayerBehavior : MonoBehaviour {
 
 		if (currentArms.Count > 0)
 		{
+			if (activeArm)
+			{
+				activeArm.isActive = false;
+			}
 			activeArm = currentArms[activeIndex];
+			activeArm.isActive = true;
 			if (anim) 
 			{
 				anim.SetBool(activeArm.parentAttachmentPoint.animatorAimFlag, true);
@@ -244,6 +249,10 @@ public class PlayerBehavior : MonoBehaviour {
 		}
 		else
 		{
+			if (activeArm)
+			{
+				activeArm.isActive = false;
+			}
 			activeArm = null;
 		}
 	}
@@ -263,10 +272,19 @@ public class PlayerBehavior : MonoBehaviour {
 
 		if (currentLegs.Count > 0)
 		{
+			if (activeLeg)
+			{
+				activeLeg.isActive = false;
+			}
 			activeLeg = currentLegs[activeIndex];
+			activeLeg.isActive = true;
 		}
 		else
 		{
+			if (activeLeg)
+			{
+				activeLeg.isActive = false;
+			}
 			activeLeg = null;
 		}
 	}

@@ -20,25 +20,29 @@ public class SpringComponent : LimbComponent
 		// BOING
 		animator.SetTrigger("Fire");
 
+		Vector2 forceDirection = Vector2.up;
+
+		if (IsArm)
+		{
+			// Use direction of arm
+			forceDirection = transform.position - springRange.position;
+			forceDirection.Normalize();
+		}
+
 		// Do a linetrace, if ground within range, push!
 		int layerMask = 0;
 		layers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 
 		if (Physics2D.Linecast(transform.position, springRange.position, layerMask))
 		{
-			Vector2 force = transform.position - springRange.position;
-			force.Normalize();
-
-			PlayerBehavior.Player.rigidbody2D.AddForce(force * springForce);
+			PlayerBehavior.Player.rigidbody2D.AddForce(forceDirection * springForce);
 		}
 
 		// Push level objects...
 		RaycastHit2D hit = Physics2D.Linecast(transform.position, springRange.position, layerMask);
 		if (hit && hit.rigidbody)
 		{
-			Vector2 force = springRange.position - transform.position;
-			force.Normalize();
-			hit.rigidbody.AddForce(force * pushForce);
+			hit.rigidbody.AddForce(-forceDirection * pushForce);
 		}
 
 		SFXSource.PlayOneShot(fireClip);

@@ -7,6 +7,13 @@ public class ObjectDestroyer : MonoBehaviour
 {
 	public List<string> objectTags;
 
+	//
+	// lets us set an icon...
+	//
+	void OnDrawGizmos()
+	{
+	}
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (objectTags.Count == 0 || 

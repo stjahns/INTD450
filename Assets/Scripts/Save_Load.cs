@@ -49,7 +49,7 @@ public class Save_Load
 		return Data;
 	}
 
-    public void add_checkpoint(int level, Vector3 v, Dictionary<string, string> game_object_components)
+    public void add_checkpoint(int level, Vector3 v)
 	{
 		var data = file_load ();
 		data ["array"] [1] ["Level"] = level.ToString ();

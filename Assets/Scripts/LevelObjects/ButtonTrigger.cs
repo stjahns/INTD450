@@ -22,8 +22,6 @@ public class ButtonTrigger : TriggerBase
 	public Transform buttonContact;
 	public Transform triggerContact;
 
-	public bool onCeiling = false;
-
 	private bool pressed;
 
 	public AudioClip pressClip;
@@ -32,7 +30,6 @@ public class ButtonTrigger : TriggerBase
 	public SpriteRenderer spriteRenderer;
 	public Sprite buttonUp;
 	public Sprite buttonDown;
-
 
 	void Start()
 	{
@@ -45,12 +42,15 @@ public class ButtonTrigger : TriggerBase
 
 	void FixedUpdate()
 	{
+		float buttonY = transform.InverseTransformPoint(buttonContact.position).y;
+		float triggerY = transform.InverseTransformPoint(triggerContact.position).y;
+
 		if (!pressed)
 		{
 			// If buttonContact below trigger contact, pressed!
-			if ((onCeiling && buttonContact.position.y > triggerContact.position.y)
-					|| (!onCeiling && buttonContact.position.y < triggerContact.position.y))
+			if (buttonY < triggerY)
 			{
+				Debug.Log("PRESSED!");
 				onPressed.ForEach(s => s.Fire());
 				AudioSource.PlayClipAtPoint(pressClip, transform.position);
 				pressed = true;
@@ -60,9 +60,9 @@ public class ButtonTrigger : TriggerBase
 		else // held down
 		{
 			// If buttonContact above trigger contact, unpressed!
-			if ((onCeiling && buttonContact.position.y < triggerContact.position.y)
-					|| (!onCeiling && buttonContact.position.y > triggerContact.position.y))
+			if (buttonY > triggerY)
 			{
+				Debug.Log("RELEASED");
 				onReleased.ForEach(s => s.Fire());
 				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
 				pressed = false;

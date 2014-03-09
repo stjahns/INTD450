@@ -50,7 +50,10 @@ public class ButtonTrigger : TriggerBase
 			// If buttonContact below trigger contact, pressed!
 			if (buttonY < triggerY)
 			{
-				Debug.Log("PRESSED!");
+				if (debug)
+				{
+					Debug.Log("PRESSED!");
+				}
 				onPressed.ForEach(s => s.Fire());
 				AudioSource.PlayClipAtPoint(pressClip, transform.position);
 				pressed = true;
@@ -62,7 +65,10 @@ public class ButtonTrigger : TriggerBase
 			// If buttonContact above trigger contact, unpressed!
 			if (buttonY > triggerY)
 			{
-				Debug.Log("RELEASED");
+				if (debug)
+				{
+					Debug.Log("RELEASED");
+				}
 				onReleased.ForEach(s => s.Fire());
 				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
 				pressed = false;

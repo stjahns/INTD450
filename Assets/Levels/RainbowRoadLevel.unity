@@ -3265,6 +3265,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -10075,7 +10077,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: 04229fe3061a24c22a76efec29c99f46, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &787785675
 GameObject:
@@ -13908,6 +13910,7 @@ GameObject:
   - 114: {fileID: 998477341}
   - 61: {fileID: 998477340}
   - 82: {fileID: 998477339}
+  - 114: {fileID: 998477344}
   m_Layer: 10
   m_Name: GrappleLimb
   m_TagString: Untagged
@@ -14015,6 +14018,7 @@ MonoBehaviour:
   allJoints: []
   SFXSource: {fileID: 998477339}
   shouldAim: 1
+  isActive: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -14032,18 +14036,19 @@ MonoBehaviour:
   minRopeLength: 1
   minLegLength: .200000003
   maxRopeLength: 8
-  ropePullSpeed: 200
+  ropePullSpeed: 5
+  legPushSpeed: 200
   legRetractSpeed: 400
+  ropePullForce: 50
   grappleableLayers:
   - Grappleable
   fireClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   releaseClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
-  ropeWidth: .0500000007
-  ropeMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
   spriteRenderer: {fileID: 1801970324}
   cockedSprite: {fileID: 21300000, guid: 0cf7b10aaf4d14b8ba8ff3d1b549ca92, type: 3}
   firedSprite: {fileID: 21300000, guid: 92c138ae474f44691b26876c34fabab6, type: 3}
   state: 0
+  chainRenderer: {fileID: 0}
 --- !u!50 &998477342
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -14078,6 +14083,25 @@ Transform:
   - {fileID: 2089597265}
   - {fileID: 687564282}
   m_Father: {fileID: 0}
+--- !u!114 &998477344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400008, guid: 968a52493ed6d47ea94b160c0669fa54,
+    type: 2}
+  m_PrefabInternal: {fileID: 508694825}
+  m_GameObject: {fileID: 998477338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae2551312b0824bd19e33c2c7ac00381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chainWidth: .0500000007
+  chainMaterial: {fileID: 2100000, guid: 730c2c01148174b4fbd0beb816d1d0cf, type: 2}
+  start: {fileID: 387188461}
+  end: {fileID: 594353409}
+  sortingLayer: LevelObjects
+  sortingOrder: -5
+  pixelsPerUnit: 400
 --- !u!1 &998758059
 GameObject:
   m_ObjectHideFlags: 0
@@ -14793,7 +14817,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1053684481}
   - 212: {fileID: 1053684482}
-  - 60: {fileID: 1053684483}
   m_Layer: 10
   m_Name: TorsoSprite
   m_TagString: Untagged
@@ -14808,7 +14831,7 @@ Transform:
   m_PrefabInternal: {fileID: 793613192}
   m_GameObject: {fileID: 1053684480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.00865125656, y: -.432577848, z: 0}
+  m_LocalPosition: {x: .0109424591, y: -.318287373, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1838186908}
@@ -14842,29 +14865,21 @@ PolygonCollider2D:
   m_PrefabParentObject: {fileID: 6000000, guid: f819e4df57ceb4e6181e170f47634c8e,
     type: 2}
   m_PrefabInternal: {fileID: 793613192}
-  m_GameObject: {fileID: 1053684480}
+  m_GameObject: {fileID: 2054912450}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
-    - - {x: .299999982, y: .199999988}
-      - {x: .25, y: .379999995}
-      - {x: .140000001, y: .459999979}
-      - {x: .0700000003, y: .469999999}
-      - {x: -.0700000003, y: .469999999}
-      - {x: -.269999981, y: .329999983}
-      - {x: -.280000001, y: .25999999}
-      - {x: -.280000001, y: 0}
-      - {x: -.239999995, y: -.149999991}
-      - {x: -.25, y: -.239999995}
-      - {x: -.239999995, y: -.289999992}
-      - {x: -.0700000003, y: -.469999999}
-      - {x: -.0199999996, y: -.469999999}
-      - {x: .209999993, y: -.370000005}
-      - {x: .189999998, y: -.229999989}
-      - {x: .189999998, y: -.0899999961}
-      - {x: .299999982, y: .099999994}
+    - - {x: -.00951910019, y: .0290322304}
+      - {x: .227590084, y: -.0669951439}
+      - {x: .264129162, y: -.294975281}
+      - {x: .127474308, y: -.629003048}
+      - {x: .188036919, y: -.76142025}
+      - {x: -.0638861656, y: -.887274265}
+      - {x: -.226426601, y: -.687353134}
+      - {x: -.278792381, y: -.23338747}
+      - {x: -.24186945, y: -.0955529213}
 --- !u!1 &1062448773
 GameObject:
   m_ObjectHideFlags: 0
@@ -17222,6 +17237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -18013,6 +18030,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -20953,6 +20972,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: aimLeft
@@ -21149,7 +21170,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89e947b959bf58e4aa33d9ec349d6cdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   viewportHeight: 5
   zoomStepSize: 5
   zoomSmoothing: 5
@@ -21311,6 +21331,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: aimRight
@@ -23631,7 +23653,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: 04229fe3061a24c22a76efec29c99f46, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1678380689
 GameObject:
@@ -23823,7 +23845,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c8b426e373434f0487e10b1c839ced4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1506062117}
   levelStart: {fileID: 707745933}
 --- !u!4 &1681599633
 Transform:
@@ -25633,12 +25654,13 @@ Transform:
   m_LocalPosition: {x: 4.13492203, y: 1.93770695, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 2054912451}
   - {fileID: 1302642558}
   - {fileID: 1499099816}
   - {fileID: 227358855}
   - {fileID: 1511233782}
   - {fileID: 1252360817}
-  - {fileID: 2054912451}
+  - {fileID: 2115373805}
   - {fileID: 1053684481}
   m_Father: {fileID: 0}
 --- !u!114 &1838186909
@@ -25658,7 +25680,7 @@ MonoBehaviour:
   parentComponent: {fileID: 0}
   parentAttachmentPoint: {fileID: 0}
   partLength: 1
-  groundCheck: {fileID: 2054912451}
+  groundCheck: {fileID: 2115373805}
   wallCheck: {fileID: 0}
   unattachedColliders:
   - {fileID: 1053684483}
@@ -25673,6 +25695,7 @@ MonoBehaviour:
   - {fileID: 1252360818}
   SFXSource: {fileID: 0}
   shouldAim: 1
+  isActive: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -28642,7 +28665,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: 04229fe3061a24c22a76efec29c99f46, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2026864838
 GameObject:
@@ -29060,8 +29083,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2054912451}
+  - 60: {fileID: 1053684483}
   m_Layer: 10
-  m_Name: GroundCheck
+  m_Name: DetachedCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29074,7 +29098,7 @@ Transform:
   m_PrefabInternal: {fileID: 793613192}
   m_GameObject: {fileID: 2054912450}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.040399313, y: -1.06169081, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1838186908}
@@ -29924,6 +29948,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85fc7369cecf541ecaac0707aae59e24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttach: []
+  onDetach: []
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -30488,6 +30514,32 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: 04229fe3061a24c22a76efec29c99f46, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
+--- !u!1 &2115373804
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100026, guid: f819e4df57ceb4e6181e170f47634c8e, type: 2}
+  m_PrefabInternal: {fileID: 793613192}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 2115373805}
+  m_Layer: 10
+  m_Name: GroundCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2115373805
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400026, guid: f819e4df57ceb4e6181e170f47634c8e, type: 2}
+  m_PrefabInternal: {fileID: 793613192}
+  m_GameObject: {fileID: 2115373804}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.040399313, y: -1.06169081, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1838186908}
 --- !u!1 &2115901082
 GameObject:
   m_ObjectHideFlags: 0

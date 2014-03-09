@@ -93,6 +93,13 @@ public class PlayerBehavior : MonoBehaviour {
 		};
 	}
 
+	[InputSocket]
+	public void TakeDamage(int damage)
+	{
+		// TODO maybe track health or blow off a random limb or something
+		Die();
+	}
+
 	public void Die()
 	{
 		if (!dying)

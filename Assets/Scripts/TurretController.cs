@@ -17,6 +17,7 @@ public class TurretController : MonoBehaviour
 
 	public float range = 5;
 	public List<string> blockingLayers;
+	public List<string> targetableTags;
 
 	public LineRenderer laserRenderer;
 
@@ -35,10 +36,13 @@ public class TurretController : MonoBehaviour
 
 	public enum TrackingState
 	{
-		TrackingPlayer,
+		TrackingTarget,
 		TrackingRight,
 		TrackingLeft
 	};
+
+	private GameObject currentTarget;
+	private List<GameObject> targets;
 
 	private FiringState firingState;
 	private TrackingState trackingState;
@@ -56,6 +60,9 @@ public class TurretController : MonoBehaviour
 		laserRenderer.enabled = false;
 
 		trackingState = TrackingState.TrackingRight;
+
+		targets = new List<GameObject>();
+		currentTarget = null;
 	}
 
 	public void Update()
@@ -65,15 +72,32 @@ public class TurretController : MonoBehaviour
 			return;
 		}
 
-		if (shouldTrackPlayer())
+		if (currentTarget)
 		{
-			trackingState = TrackingState.TrackingPlayer;
+			// Check if lost target / new target
+			currentTarget = GetTarget();
+			if (!currentTarget) 
+			{
+				trackingState = TrackingState.TrackingRight;
+				trackingTimer = 0f;
+			}
+		}
+		else
+		{
+			// Check if acquired target
+			currentTarget = GetTarget();
+
+			if (currentTarget) 
+			{
+				trackingState = TrackingState.TrackingTarget;
+			}
+
 		}
 
 		switch (trackingState)
 		{
-			case TrackingState.TrackingPlayer:
-				TrackPlayer();
+			case TrackingState.TrackingTarget:
+				TrackTarget();
 				break;
 
 			case TrackingState.TrackingRight:
@@ -110,21 +134,14 @@ public class TurretController : MonoBehaviour
 		}
 	}
 
-	void TrackPlayer()
+	void TrackTarget()
 	{
-		PlayerBehavior player = PlayerBehavior.Player;
-		if (!player)
+		if (!currentTarget)
 		{
 			return;
 		}
 
-		if (!shouldTrackPlayer())
-		{
-			trackingState = TrackingState.TrackingRight;
-			trackingTimer = 0f;
-		}
-
-		gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position);
+		gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, currentTarget.transform.position - gunPivot.position);
 
 		switch (firingState)
 		{
@@ -142,10 +159,10 @@ public class TurretController : MonoBehaviour
 
 				laserRenderer.enabled = true;
 
-				if (player)
+				if (currentTarget)
 				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
-					laserRenderer.SetPosition(1, player.transform.position);
+					laserRenderer.SetPosition(1, currentTarget.transform.position);
 				}
 
 				break;
@@ -156,10 +173,10 @@ public class TurretController : MonoBehaviour
 
 				// TODO calculate hit position with raycast
 
-				if (player)
+				if (currentTarget)
 				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
-					laserRenderer.SetPosition(1, player.transform.position);
+					laserRenderer.SetPosition(1, currentTarget.transform.position);
 				}
 
 				if (firingTimer < 0)
@@ -168,12 +185,8 @@ public class TurretController : MonoBehaviour
 					firingState = FiringState.Reloading;
 					firingTimer = reloadTime;
 
-					// TEMP -- destroy player
 					// TODO check if blocked by shield or whatever with raycast
-					if (player)
-					{
-						player.Die();
-					}
+					currentTarget.SendMessage("TakeDamage", 1, SendMessageOptions.DontRequireReceiver);
 				}
 				break;
 
@@ -188,22 +201,30 @@ public class TurretController : MonoBehaviour
 		}
 	}
 
-	bool shouldTrackPlayer()
+	// Find a valid target within range, if any
+	// FIXME really inefficient if lots of targets...
+	GameObject GetTarget()
 	{
-		// Check if player is in range
-		PlayerBehavior player = PlayerBehavior.Player;
-
-		if (!player)
+		// Get all targetable objects in range
+		targets.Clear();
+		foreach (string tag in targetableTags)
 		{
-			return false;
+			targets.AddRange(
+					GameObject.FindGameObjectsWithTag(tag).Where(t =>
+						Vector2.Distance(gunPivot.position, t.transform.position) < range));
 		}
 
-		if (Vector2.Distance(gunPivot.position, player.transform.position) < range)
+		// Sort targets by distance
+		targets.Sort((t1, t2) => 
+				Vector2.Distance(gunPivot.position, t1.transform.position).CompareTo(
+				Vector2.Distance(gunPivot.position, t2.transform.position)));
+
+		foreach (GameObject target in targets)
 		{
 			// Check if within angle limits
 			float leftAngle = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position).eulerAngles.z;
 			float rightAngle = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position).eulerAngles.z;
-			float targetAngle = Quaternion.FromToRotation(Vector3.up, player.transform.position - gunPivot.position).eulerAngles.z;
+			float targetAngle = Quaternion.FromToRotation(Vector3.up, target.transform.position - gunPivot.position).eulerAngles.z;
 
 			float leftDelta = Mathf.Abs(Mathf.DeltaAngle(leftAngle, targetAngle));
 			float rightDelta = Mathf.Abs(Mathf.DeltaAngle(rightAngle, targetAngle));
@@ -211,20 +232,22 @@ public class TurretController : MonoBehaviour
 
 			if (!Mathf.Approximately(leftDelta + rightDelta, rangeDelta))
 			{
-				return false;
+				// nope
+				continue;
 			}
 
 			// Check if line of sight (nothing blocking)
 			int layerMask = 0;
 			blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
-			RaycastHit2D hit = Physics2D.Linecast(gunPivot.position, player.transform.position, layerMask);
+			RaycastHit2D hit = Physics2D.Linecast(gunPivot.position, target.transform.position, layerMask);
 			if (!hit)
 			{
-				return true;
+				return target;
 			}
 		}
 
-		return false;
+		// No target :(
+		return null;
 	}
 
 	[InputSocket]

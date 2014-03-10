@@ -5,7 +5,7 @@ public class Explosion : MonoBehaviour {
 
 	public AudioClip explosionClip;
 
-	public float time = 0.1f;
+	public float time = 1f;
 
 	void Start ()
 	{
@@ -14,7 +14,7 @@ public class Explosion : MonoBehaviour {
 			AudioSource.PlayClipAtPoint(explosionClip, transform.position);
 		}
 
-		Destroy(gameObject, 0.1f);
+		Destroy(gameObject, 1f);
 	}
 }
 

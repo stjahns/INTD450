@@ -55,7 +55,7 @@ public class ZapController : MonoBehaviour
 			laserRenderer.SetPosition(1, zapHit.transform.position);
 
 			// Try and damage the thing you zapped
-			hit.rigidbody.gameObject.SendMessage("TakeDamage",
+			hit.collider.gameObject.SendMessage("TakeDamage",
 					zapDamage,
 					SendMessageOptions.DontRequireReceiver);
 

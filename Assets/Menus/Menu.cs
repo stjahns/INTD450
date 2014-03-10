@@ -61,7 +61,7 @@ public class Menu : MonoBehaviour {
 						Debug.Log(data);
 						int level=System.Convert.ToInt32(data["array"][1]["Level"]);
 						if (level==0){
-							level+=2;
+							level=1;
 						}
 						Application.LoadLevel(level);
 					}

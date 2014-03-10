@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 61: {fileID: 6100000}
   m_Layer: 10
-  m_Name: Box
+  m_Name: ExplosiveBox
   m_TagString: box of metal
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,12 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
+  explosionPrefab: {fileID: 100000, guid: 0609ac0c7aa0b413ebb994c5cbdc1643, type: 2}
   explosionTime: .100000001
   health: 1
-  randomHealth: 1
+  randomHealth: 0
   minRandomHealth: 1
-  maxRandomHealth: 3
+  maxRandomHealth: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -95,7 +95,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
-  m_Color: {r: .397058845, g: .397058845, b: .397058845, a: 1}
+  m_Color: {r: .963235319, g: .13456966, b: .13456966, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

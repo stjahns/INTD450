@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using SimpleJSON;
+using System.Collections.Generic;
 using System.IO;
 
 
@@ -48,7 +49,7 @@ public class Save_Load
 		return Data;
 	}
 
-	public void add_checkpoint(int level,Vector3 v)
+    public void add_checkpoint(int level, Vector3 v)
 	{
 		var data = file_load ();
 		data ["array"] [1] ["Level"] = level.ToString ();

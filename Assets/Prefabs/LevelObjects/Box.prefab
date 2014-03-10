@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 61: {fileID: 6100000}
   m_Layer: 10
   m_Name: Box
   m_TagString: box of metal
@@ -26,7 +26,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.8044176, y: 1.5071789, z: 0}
+  m_LocalPosition: {x: -8.78316975, y: -7.00448847, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -54,7 +54,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .639999986, y: .639999986}
+  m_Size: {x: .533333361, y: .533333361}
   m_Center: {x: 0, y: 0}
 --- !u!114 &11400000
 MonoBehaviour:
@@ -70,9 +70,9 @@ MonoBehaviour:
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   health: 1
-  randomHealth: 0
+  randomHealth: 1
   minRandomHealth: 1
-  maxRandomHealth: 2
+  maxRandomHealth: 3
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -94,8 +94,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: 1a9a003f3f2f943f9b600e0b4c1585f4, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 131ac6077bf91476786e60653679c3c4, type: 3}
+  m_Color: {r: .397058845, g: .397058845, b: .397058845, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

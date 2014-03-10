@@ -4,7 +4,6 @@ using System.Collections;
 public class DestructableBehaviour : MonoBehaviour
 {
 	public GameObject explosionPrefab;
-	public float explosionTime = 0.1f;
 
 	public int health = 1;
 
@@ -30,8 +29,6 @@ public class DestructableBehaviour : MonoBehaviour
 				GameObject explosion = Instantiate(explosionPrefab, 
 						transform.position, 
 						Quaternion.identity) as GameObject;
-
-				Destroy(explosion, explosionTime);
 			}
 
 			Destroy(gameObject);

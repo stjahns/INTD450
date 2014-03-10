@@ -19,6 +19,8 @@ public class AreaTrigger : TriggerBase
 	[HideInInspector]
 	public List<SignalConnection> onStay = new List<SignalConnection>();
 
+	public bool triggerEnabled = true;
+
 	public bool debug = false;
 
 	public Color color;
@@ -70,7 +72,10 @@ public class AreaTrigger : TriggerBase
 					Debug.Log("On Enter", this);
 				}
 
-				onEnter.ForEach(s => s.Fire());
+				if (triggerEnabled)
+				{
+					onEnter.ForEach(s => s.Fire());
+				}
 			}
 		}
 	}
@@ -105,7 +110,10 @@ public class AreaTrigger : TriggerBase
 					Debug.Log("On Exit", this);
 				}
 
-				onExit.ForEach(s => s.Fire());
+				if (triggerEnabled)
+				{
+					onExit.ForEach(s => s.Fire());
+				}
 
 				enteredBodies.Remove(bodyId);
 			}
@@ -117,9 +125,23 @@ public class AreaTrigger : TriggerBase
 					Debug.Log("On Stay", this);
 				}
 
-				onStay.ForEach(s => s.Fire());
+				if (triggerEnabled)
+				{
+					onStay.ForEach(s => s.Fire());
+				}
 			}
 		}
+	}
 
+	[InputSocket]
+	public void EnableTrigger()
+	{
+		triggerEnabled = true;
+	}
+
+	[InputSocket]
+	public void DisableTrigger()
+	{
+		triggerEnabled = false;
 	}
 }

@@ -7,6 +7,9 @@ public class ObjectSpawner : MonoBehaviour
 	public GameObject objectPrefab;
 	public Transform spawnPoint;
 
+	public float initialSpeed;
+	public Transform spawnDirection;
+
 	public List<GameObject> spawnedObjects = new List<GameObject>();
 
 	public int spawnLimit = 1;
@@ -55,11 +58,19 @@ public class ObjectSpawner : MonoBehaviour
 				spawnedObjects.Clear();
 			}
 
-			if (spawnedObjects.Count < spawnLimit)
+			if (spawnedObjects.Count < spawnLimit || spawnLimit == 0)
 			{
 				var obj = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity)
 					as GameObject;
 				spawnedObjects.Add(obj);
+
+				Rigidbody2D body = obj.GetComponent<Rigidbody2D>();
+				if (body && spawnDirection)
+				{
+					Vector2 velocity = (spawnDirection.position - transform.position).normalized
+						* initialSpeed;
+					body.velocity = velocity;
+				}
 
 				timer = cooloffTime;
 			}

@@ -63,6 +63,9 @@ public class ConveyorEditor : Editor
 
 		serializedObject.ApplyModifiedProperties();
 
+
+		conveyorBehavior.conveyorMotors.Clear();
+
 		GenerateAxles();
 		GenerateBelt();
 		GenerateGuides();
@@ -83,8 +86,21 @@ public class ConveyorEditor : Editor
 		axle = Instantiate(conveyorBehavior.axlePrefab, conveyorBehavior.start.position, Quaternion.identity) as GameObject;
 		axle.transform.parent = conveyorBehavior.axleContainer.transform;
 
+		// add axle motor to list
+		HingeJoint2D axleMotor = axle.GetComponentInChildren<HingeJoint2D>();
+		if (axleMotor)
+		{
+			conveyorBehavior.conveyorMotors.Add(axleMotor);
+		}
+
 		axle = Instantiate(conveyorBehavior.axlePrefab, conveyorBehavior.end.position, Quaternion.identity) as GameObject;
 		axle.transform.parent = conveyorBehavior.axleContainer.transform;
+
+		axleMotor = axle.GetComponentInChildren<HingeJoint2D>();
+		if (axleMotor)
+		{
+			conveyorBehavior.conveyorMotors.Add(axleMotor);
+		}
 
 		for (int i = 1; i < numAxles - 1; ++i)
 		{
@@ -94,6 +110,13 @@ public class ConveyorEditor : Editor
 
 			axle = Instantiate(conveyorBehavior.axlePrefab, position, Quaternion.identity) as GameObject;
 			axle.transform.parent = conveyorBehavior.axleContainer.transform;
+
+			// add axle motor to list
+			axleMotor = axle.GetComponentInChildren<HingeJoint2D>();
+			if (axleMotor)
+			{
+				conveyorBehavior.conveyorMotors.Add(axleMotor);
+			}
 		}
 	}
 

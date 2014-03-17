@@ -1,13 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class CannonComponent : LimbComponent 
 {
-
 	public Animator animator;
-
-	public GameObject cannonballPrefab;
-	public float shotVelocity = 10.0f;
 
 	public Transform shotOrigin;
 
@@ -16,10 +13,22 @@ public class CannonComponent : LimbComponent
 
 	public AudioClip fireClip;
 
+	public List<string> beamCollisionLayers;
+	public float beamTime = 0.1f;
+	public LineRenderer beamRenderer;
+	public GameObject hitEffectPrefab;
+
+	public Renderer boostEffect;
+	public float boostForce;
+	public float boostEffectTime;
+	private float boostEffectTimer;
+
 	private Transform forward;
 
 	private float chargeTimer;
 	private int charges;
+
+	private float beamTimer;
 
 	override public void Start ()
 	{
@@ -30,7 +39,7 @@ public class CannonComponent : LimbComponent
 		forwardObject.transform.localPosition = new Vector3(0, -1, 0);
 		forward = forwardObject.transform;
 
-		chargeCount = charges;
+		charges = chargeCount;
 	}
 
 	override public void Update()
@@ -46,25 +55,96 @@ public class CannonComponent : LimbComponent
 				chargeTimer = 0f;
 			}
 		}
+
+		if (beamTimer > 0)
+		{
+			beamTimer -= Time.deltaTime;
+
+			// don't think this is necessary
+			Vector3 direction = forward.position - transform.position;
+			direction.Normalize();
+
+			int layerMask = 0;
+			beamCollisionLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+			RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, layerMask);
+			if (hit)
+			{
+				beamRenderer.SetPosition(0, shotOrigin.position);
+				beamRenderer.SetPosition(1, hit.point);
+			}
+
+			if (beamTimer < 0)
+			{
+				beamRenderer.enabled = false;
+			}
+		}
+
+		if (boostEffectTimer > 0)
+		{
+			boostEffectTimer -= Time.deltaTime;
+
+			if (boostEffectTimer < 0)
+			{
+				boostEffect.enabled = false;
+			}
+		}
+	}
+
+	public void FixedUpdate()
+	{
+		if (boostEffectTimer > 0)
+		{
+			// apply force
+			PlayerBehavior.Player.rigidbody2D.AddForce(Vector3.up * boostForce);
+		}
 	}
 
 	override public void FireAbility()
 	{
 		if (charges > 0)
 		{
-			animator.SetTrigger("Fire");
-			SFXSource.PlayOneShot(fireClip);
+			if (IsArm)
+			{
+				// fire beamy explosiony thing
 
-			// fire cannonball
-			Vector3 direction = forward.position - transform.position;
-			direction.Normalize();
+				animator.SetTrigger("Fire");
+				SFXSource.PlayOneShot(fireClip);
 
-			GameObject cannonBall = Instantiate(cannonballPrefab, shotOrigin.position, Quaternion.identity) as GameObject;
+				// don't think this is necessary
+				Vector3 direction = forward.position - transform.position;
+				direction.Normalize();
 
-			cannonBall.rigidbody2D.velocity = direction * shotVelocity;
+				// fire raycast in limbs direction
+				int layerMask = 0;
+				beamCollisionLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+				RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, Mathf.Infinity,
+						layerMask);
+				if (hit)
+				{
+					beamRenderer.enabled = true;
+					beamRenderer.SetPosition(0, shotOrigin.position);
+					beamRenderer.SetPosition(1, hit.point);
+					beamTimer = beamTime;
 
-			charges -= 1;
-			chargeTimer = 0f;
+					// spawn hit effect
+					Instantiate(hitEffectPrefab, hit.point , Quaternion.identity);
+				}
+				charges -= 1;
+				chargeTimer = 0f;
+			}
+			else
+			{
+				// jump jet boost
+				animator.SetTrigger("Fire");
+				SFXSource.PlayOneShot(fireClip);
+				Vector3 direction = Vector3.down;
+
+				boostEffect.enabled = true;
+				boostEffectTimer = boostEffectTime;
+
+				charges -= 1;
+				chargeTimer = 0f;
+			}
 		}
 	}
 }

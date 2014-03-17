@@ -17,6 +17,7 @@ public class TurretController : MonoBehaviour
 
 	public float range = 5;
 	public List<string> blockingLayers;
+	public List<string> beamBlockingLayers;
 	public List<string> targetableTags;
 
 	public LineRenderer laserRenderer;
@@ -143,6 +144,7 @@ public class TurretController : MonoBehaviour
 
 		gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, currentTarget.transform.position - gunPivot.position);
 
+
 		switch (firingState)
 		{
 			case FiringState.Ready:
@@ -155,14 +157,20 @@ public class TurretController : MonoBehaviour
 					AudioSource.PlayClipAtPoint(firingSound, transform.position);
 				}
 
-				// TODO calculate hit position with raycast
-
 				laserRenderer.enabled = true;
 
 				if (currentTarget)
 				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
-					laserRenderer.SetPosition(1, currentTarget.transform.position);
+
+					int layerMask = 0;
+					beamBlockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+					Vector3 direction = currentTarget.transform.position - laserOrigin.position;
+					RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, direction, layerMask);
+					if (hit)
+					{
+						laserRenderer.SetPosition(1, hit.point);
+					}
 				}
 
 				break;
@@ -171,12 +179,29 @@ public class TurretController : MonoBehaviour
 				// Update laser
 				firingTimer -= Time.deltaTime;
 
-				// TODO calculate hit position with raycast
-
 				if (currentTarget)
 				{
 					laserRenderer.SetPosition(0, laserOrigin.position);
-					laserRenderer.SetPosition(1, currentTarget.transform.position);
+
+					int layerMask = 0;
+					beamBlockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+					Vector3 direction = currentTarget.transform.position - laserOrigin.position;
+					RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, direction, layerMask);
+					if (hit)
+					{
+						laserRenderer.SetPosition(1, hit.point);
+					}
+
+					if (firingTimer < 0)
+					{
+						if (hit)
+						{
+							if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Shield"))
+							{
+								currentTarget.SendMessage("TakeDamage", 1, SendMessageOptions.DontRequireReceiver);
+							}
+						}
+					}
 				}
 
 				if (firingTimer < 0)
@@ -184,9 +209,6 @@ public class TurretController : MonoBehaviour
 					laserRenderer.enabled = false;
 					firingState = FiringState.Reloading;
 					firingTimer = reloadTime;
-
-					// TODO check if blocked by shield or whatever with raycast
-					currentTarget.SendMessage("TakeDamage", 1, SendMessageOptions.DontRequireReceiver);
 				}
 				break;
 

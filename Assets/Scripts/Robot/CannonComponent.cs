@@ -13,6 +13,8 @@ public class CannonComponent : LimbComponent
 
 	public AudioClip fireClip;
 
+	public List<Renderer> chargeRenderers;
+
 	public List<string> beamCollisionLayers;
 	public float beamTime = 0.1f;
 	public LineRenderer beamRenderer;
@@ -30,6 +32,7 @@ public class CannonComponent : LimbComponent
 
 	private float beamTimer;
 
+
 	override public void Start ()
 	{
 		base.Start();
@@ -40,6 +43,8 @@ public class CannonComponent : LimbComponent
 		forward = forwardObject.transform;
 
 		charges = chargeCount;
+
+		ResetChargeRenderers();
 	}
 
 	override public void Update()
@@ -53,6 +58,7 @@ public class CannonComponent : LimbComponent
 			{
 				++charges;
 				chargeTimer = 0f;
+				ResetChargeRenderers();
 			}
 		}
 
@@ -145,6 +151,18 @@ public class CannonComponent : LimbComponent
 				charges -= 1;
 				chargeTimer = 0f;
 			}
+
+			ResetChargeRenderers();
+		}
+	}
+
+	void ResetChargeRenderers()
+	{
+		chargeRenderers.ForEach(r => r.enabled = false);
+
+		for (int i = 0; i < charges; ++i)
+		{
+			chargeRenderers[i].enabled = true;
 		}
 	}
 }

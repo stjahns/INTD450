@@ -151,7 +151,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -15.6144667, y: 4.45391846, z: .510253906}
+  m_LocalPosition: {x: -2.92323351, y: -11.1677265, z: .510253906}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400010}
@@ -178,7 +178,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.10163307, y: .374176979, z: .0349121094}
+  m_LocalPosition: {x: -2.59430027, y: -.498936653, z: .0349121094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -189,7 +189,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0828847885, y: -2.0349412, z: .0349121094}
+  m_LocalPosition: {x: -.720021725, y: 2.09464931, z: .0349121094}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400008}
@@ -225,6 +225,11 @@ MonoBehaviour:
   range: 10
   blockingLayers:
   - Ground
+  beamBlockingLayers:
+  - Ground
+  - Shield
+  - LevelObjects
+  - Player
   targetableTags:
   - Player
   - box of metal

@@ -12,6 +12,8 @@ public class CannonComponent : LimbComponent
 	public float chargeTime = 2.0f;
 
 	public AudioClip fireClip;
+	public AudioClip emptyClip;
+	public AudioClip rechargeClip;
 
 	public List<Renderer> chargeRenderers;
 
@@ -59,6 +61,7 @@ public class CannonComponent : LimbComponent
 				++charges;
 				chargeTimer = 0f;
 				ResetChargeRenderers();
+				SFXSource.PlayOneShot(rechargeClip);
 			}
 		}
 
@@ -153,6 +156,10 @@ public class CannonComponent : LimbComponent
 			}
 
 			ResetChargeRenderers();
+		}
+		else
+		{
+			SFXSource.PlayOneShot(emptyClip);
 		}
 	}
 

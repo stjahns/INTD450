@@ -84,6 +84,10 @@ public class FollowCamera : MonoBehaviour
 		targetStack.Insert(0, newTarget);
 		viewportHeight = newTarget.targetViewportHeight;
 
+		maxViewportHeight = newTarget.maxViewportHeight;
+		minViewportHeight = newTarget.minViewportHeight;
+		zoomStepSize = newTarget.zoomStepSize;
+
 		targetTransitionTime = transitionTime;
 		targetTransitionTimer = 0;
 		inTransition = true;
@@ -93,6 +97,8 @@ public class FollowCamera : MonoBehaviour
 	// or remove top target of stack
 	public void PopTarget(CameraTarget oldTarget = null, float transitionTime = 0)
 	{
+		CameraTarget currentTarget = targetStack[0];
+
 		if (targetStack.Count > 0)
 		{
 			if (oldTarget != null)
@@ -105,13 +111,17 @@ public class FollowCamera : MonoBehaviour
 			}
 		}
 
-		if (targetStack.Count > 0)
+		if (targetStack.Count > 0 && currentTarget != targetStack[0])
 		{
-			viewportHeight = targetStack[0].targetViewportHeight;
-		}
+			// camera's changed. Transition to it.
+			inTransition = true;
+			targetTransitionTime = transitionTime;
+			targetTransitionTimer = 0;
 
-		inTransition = true;
-		targetTransitionTime = transitionTime;
-		targetTransitionTimer = 0;
+			viewportHeight = targetStack[0].targetViewportHeight;
+			maxViewportHeight = targetStack[0].maxViewportHeight;
+			minViewportHeight = targetStack[0].minViewportHeight;
+			zoomStepSize = targetStack[0].zoomStepSize;
+		}
 	}
 } 

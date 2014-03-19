@@ -27,6 +27,18 @@ public class Water : MonoBehaviour {
 
 	public float waterDrag;
 
+	public SpriteRenderer endBack;
+	public SpriteRenderer endFront;
+	public SpriteRenderer front;
+	public SpriteRenderer topBack;
+	public SpriteRenderer topFront;
+
+	public Transform bottomBound;
+	public Transform leftBound;
+
+	public float slopeWidth;
+	public float slopeHeight;
+
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.attachedRigidbody)

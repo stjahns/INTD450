@@ -56,8 +56,8 @@ public class WaterEditor : Editor
 		// ADJUST COLLIDER
 
 		BoxCollider2D boxCollider = water.GetComponent<BoxCollider2D>();
-		boxCollider.size = new Vector2(width, height);
-		boxCollider.center = new Vector2(-width / 2f, -height / 2f);
+		boxCollider.size = new Vector2(width, height + water.slopeHeight);
+		boxCollider.center = new Vector2(-width / 2f, (-height + water.slopeHeight) / 2f);
 
 	}
 }

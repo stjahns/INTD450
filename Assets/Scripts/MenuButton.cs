@@ -5,32 +5,43 @@ using System.Linq;
 
 public class MenuButton : TriggerBase
 {
-	public Sprite click;
-	public Sprite original;
 	public AudioClip onclick;
+	public AudioClip mouseEnter;
+	public AudioClip mouseExit;
 
 	[OutputEventConnections]
 	[HideInInspector]
 	public List<SignalConnection> onClick = new List<SignalConnection>();
 
-	void  OnMouseDown()
-	{
-		SpriteRenderer render = gameObject.GetComponent <SpriteRenderer>();
-		AudioSource.PlayClipAtPoint (onclick, transform.position);
+	private Vector3 originalScale;
 
-		double b = -20;
-		Vector3 v = new Vector3((float)b,0,0);
-		transform.Translate(v * 1 * Time.deltaTime); 
+	virtual public void Start()
+	{
+		originalScale = transform.localScale;
 	}
 
-	void  OnMouseUp()
+	virtual public void OnMouseEnter()
 	{
-		SpriteRenderer render = gameObject.GetComponent <SpriteRenderer>();
-		render.sprite = original;
-		double b = 20;
-		Vector3 v = new Vector3((float)b,0,0);
-		transform.Translate(v * 1 * Time.deltaTime);
+		AudioSource.PlayClipAtPoint (mouseEnter, transform.position);
+		transform.localScale = originalScale * 1.1f;
+	}
 
+	virtual public void OnMouseExit()
+	{
+		AudioSource.PlayClipAtPoint (mouseExit, transform.position);
+		transform.localScale = originalScale;
+	}
+
+	virtual public void OnMouseDown()
+	{
+		AudioSource.PlayClipAtPoint (onclick, transform.position);
+		transform.localScale = originalScale * 0.9f;
+
+	}
+
+	virtual public void OnMouseUp()
+	{
+		transform.localScale = originalScale;
 		onClick.ForEach(s => s.Fire());
 	}
 }

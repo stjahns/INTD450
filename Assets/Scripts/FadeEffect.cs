@@ -18,12 +18,15 @@ public class FadeEffect : MonoBehaviour
 		FadedIn,
 	}
 
-	private State state;
+	public State state;
+
+	public void OnDrawGizmos()
+	{
+	}
 
 	void Start ()
 	{
 		alpha = 1;
-		state = fadeInOnStart ? State.FadingIn : State.FadedOut;
 		fadeTimer = 0;
 	}
 	
@@ -59,6 +62,7 @@ public class FadeEffect : MonoBehaviour
 	public void FadeIn()
 	{
 		fadeTimer = 0;
+		alpha = 1;
 		state = State.FadingIn;
 	}
 
@@ -66,6 +70,7 @@ public class FadeEffect : MonoBehaviour
 	public void FadeOut()
 	{
 		fadeTimer = 0;
+		alpha = 0;
 		state = State.FadingOut;
 	}
 }

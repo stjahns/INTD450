@@ -75,7 +75,7 @@ public class CannonComponent : LimbComponent
 
 			int layerMask = 0;
 			beamCollisionLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
-			RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, layerMask);
+			RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, Mathf.Infinity, layerMask);
 			if (hit)
 			{
 				beamRenderer.SetPosition(0, shotOrigin.position);

@@ -43,9 +43,19 @@ public class StateMachineBase : MonoBehaviour
 		}
 	}
 
-	void Update()
+	virtual protected void Update()
 	{
 		DoUpdate();
+	}
+
+	virtual protected void FixedUpdate()
+	{
+		DoFixedUpdate();
+	}
+
+	virtual protected void LateUpdate()
+	{
+		DoLateUpdate();
 	}
 
 	void ConfigureCurrentState()
@@ -56,29 +66,29 @@ public class StateMachineBase : MonoBehaviour
 		}
 
 		DoUpdate = ConfigureDelegate<Action>("Update", DoNothing);
-		DoOnGUI = ConfigureDelegate<Action>("DoOnGUI", DoNothing);
-		DoLateUpdate = ConfigureDelegate<Action>("DoLateUpdate", DoNothing);
-		DoFixedUpdate = ConfigureDelegate<Action>("DoFixedUpdate", DoNothing);
+		DoOnGUI = ConfigureDelegate<Action>("OnGUI", DoNothing);
+		DoLateUpdate = ConfigureDelegate<Action>("LateUpdate", DoNothing);
+		DoFixedUpdate = ConfigureDelegate<Action>("FixedUpdate", DoNothing);
 
-		DoOnMouseUp = ConfigureDelegate<Action>("DoOnMouseUp", DoNothing);
-		DoOnMouseDown = ConfigureDelegate<Action>("DoOnMouseDown", DoNothing);
-		DoOnMouseExit = ConfigureDelegate<Action>("DoOnMouseExit", DoNothing);
-		DoOnMouseEnter = ConfigureDelegate<Action>("DoOnMouseEnter", DoNothing);
-		DoOnMouseDrag = ConfigureDelegate<Action>("DoOnMouseDrag", DoNothing);
+		DoOnMouseUp = ConfigureDelegate<Action>("OnMouseUp", DoNothing);
+		DoOnMouseDown = ConfigureDelegate<Action>("OnMouseDown", DoNothing);
+		DoOnMouseExit = ConfigureDelegate<Action>("OnMouseExit", DoNothing);
+		DoOnMouseEnter = ConfigureDelegate<Action>("OnMouseEnter", DoNothing);
+		DoOnMouseDrag = ConfigureDelegate<Action>("OnMouseDrag", DoNothing);
 
 		DoOnTriggerEnter = ConfigureDelegate<Action<Collider2D>>
-			("DoOnTriggerEnter", DoNothingCollider);
+			("OnTriggerEnter", DoNothingCollider);
 		DoOnTriggerExit = ConfigureDelegate<Action<Collider2D>>
-			("DoOnTriggerExit", DoNothingCollider);
+			("OnTriggerExit", DoNothingCollider);
 		DoOnTriggerStay = ConfigureDelegate<Action<Collider2D>>
-			("DoOnTriggerStay", DoNothingCollider);
+			("OnTriggerStay", DoNothingCollider);
 
 		DoOnCollisionEnter = ConfigureDelegate<Action<Collision2D>>
-			("DoOnCollisionEnter", DoNothingCollision);
+			("OnCollisionEnter", DoNothingCollision);
 		DoOnCollisionExit = ConfigureDelegate<Action<Collision2D>>
-			("DoOnCollisionExit", DoNothingCollision);
+			("OnCollisionExit", DoNothingCollision);
 		DoOnCollisionStay = ConfigureDelegate<Action<Collision2D>>
-			("DoOnCollisionStay", DoNothingCollision);
+			("OnCollisionStay", DoNothingCollision);
 
 		Func<IEnumerator> enterState = ConfigureDelegate<Func<IEnumerator>>
 			("EnterState", DoNothingCoroutine);

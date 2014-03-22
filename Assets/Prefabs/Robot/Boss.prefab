@@ -993,7 +993,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.6899519, y: 2.70518303, z: -3.18021584}
+  m_LocalPosition: {x: 5.73513412, y: .956342936, z: -3.18021584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400036}
@@ -2200,8 +2200,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialState: 0
   animator: {fileID: 9500000}
+  cannonArm: {fileID: 0}
   thrustDelta: 1
   hoverBounceHeight: .25
+  waitTime: 3
+  behaviours: 0100000002000000
+  stopForceGain: 2
+  paceTime: 10
+  paceSpeed: 1
+  paceForce: 1
+  waypoints:
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

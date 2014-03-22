@@ -7,13 +7,15 @@ public class BossController : StateMachineBase {
 	public enum State
 	{
 		Waiting,
-		Pacing
+		Pacing,
+		AimingCannon
 	}
 
 	public State initialState;
 
 	// Public configuration variables
 	public Animator animator;
+	public BossCannon cannonArm;
 
 	public float thrustDelta;
 	public float hoverBounceHeight;
@@ -99,14 +101,20 @@ public class BossController : StateMachineBase {
 	//--------------------------------------------------------------------------------
 	// Waiting
 	//--------------------------------------------------------------------------------
+
+	public float waitTime = 3;
+	public List<State> behaviours;
+	private int behaviourIndex = -1;
 	
 	IEnumerator Waiting_EnterState()
 	{
 		Debug.Log("Entered Waiting");
-		yield return new WaitForSeconds(3);
+		yield return new WaitForSeconds(waitTime);
 
-		// TODO pick a random state, or cycle through a list of states
-		currentState = State.Pacing;
+		// pick next behaviour state from list of states
+		behaviourIndex += 1;
+		behaviourIndex %= behaviours.Count;
+		currentState = behaviours[behaviourIndex];
 	}
 
 	void Waiting_Update()
@@ -189,8 +197,60 @@ public class BossController : StateMachineBase {
 
 	IEnumerator Pacing_ExitState()
 	{
-		Debug.Log("Exited Pacing - stopped");
+		Debug.Log("Exited Pacing");
 		yield return 0;
 	}
 
+	//--------------------------------------------------------------------------------
+	// AimingCannon
+	//--------------------------------------------------------------------------------
+
+	public float cannonAimTime = 3f;
+	public float initialAimError = 3f;
+	public GameObject targetPipPrefab;
+
+	private TargetPip _pipInstance;
+
+	IEnumerator AimingCannon_EnterState()
+	{
+		animator.SetBool("aimLeft", true);
+
+		Transform target = PlayerBehavior.Player.transform;
+
+		// Instantiate the target pip randomly somewhere within initialAimError
+		Vector2 pipPosition = target.position.XY() + Random.insideUnitCircle * initialAimError;
+		GameObject pip = Instantiate(targetPipPrefab, pipPosition, Quaternion.identity)
+			as GameObject;
+		_pipInstance = pip.GetComponent<TargetPip>();
+		_pipInstance.target = target;
+
+		cannonArm.pip = _pipInstance;
+
+		// shoot 
+		yield return new WaitForSeconds(cannonAimTime);
+		cannonArm.FireAbility();
+		currentState = State.Waiting;
+	}
+
+	void AimingCannon_Update()
+	{
+		// Aim cannon arm in direction of pip
+		Vector2 toPip = _pipInstance.transform.position - cannonArm.transform.position;
+		toPip.Normalize();
+
+		animator.SetFloat("leftArmX", toPip.x);
+		animator.SetFloat("leftArmY", toPip.y);
+	}
+
+	IEnumerator AimingCannon_ExitState()
+	{
+		animator.SetBool("aimLeft", false);
+
+		// disable aim pip
+		_pipInstance.RemovePip();
+		cannonArm.pip = null;
+
+		Debug.Log("Exited AimingCannon");
+		yield return 0;
+	}
 }

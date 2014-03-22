@@ -25,15 +25,15 @@ public class CannonComponent : LimbComponent
 	public Renderer boostEffect;
 	public float boostForce;
 	public float boostEffectTime;
+
 	private float boostEffectTimer;
 
-	private Transform forward;
+	protected Transform forward;
 
-	private float chargeTimer;
-	private int charges;
+	protected float chargeTimer;
+	protected int charges;
 
-	private float beamTimer;
-
+	protected float beamTimer;
 
 	override public void Start ()
 	{

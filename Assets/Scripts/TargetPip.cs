@@ -56,12 +56,19 @@ public class TargetPip : MonoBehaviour
 
 	public void RemovePip()
 	{
-		StartCoroutine(RemovePipRoutine());
+		if (PipRemoved != null)
+		{
+			PipRemoved();
+		}
+
+		// Destroy itself
+		Destroy(gameObject);
 	}
 
+	/*
 	private IEnumerator RemovePipRoutine()
 	{
-		// fade out pip;
+		// fade out pip?
 		float fadeTimer = 0;
 		Color color = _renderer.material.GetColor("_TintColor");
 		color.a = 0;
@@ -84,5 +91,6 @@ public class TargetPip : MonoBehaviour
 		// Destroy itself
 		Destroy(gameObject);
 	}
+	*/
 
 }

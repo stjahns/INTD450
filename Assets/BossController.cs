@@ -8,14 +8,20 @@ public class BossController : StateMachineBase {
 	{
 		Waiting,
 		Pacing,
-		AimingCannon
+		UsingCannon,
+		UsingGrapple
 	}
 
 	public State initialState;
 
 	// Public configuration variables
 	public Animator animator;
+	public PlayerSkeleton skeleton;
+
+	public HeadComponent head;
+	public TorsoComponent torso;
 	public BossCannon cannonArm;
+	public GrappleComponent grappleArm;
 
 	public float thrustDelta;
 	public float hoverBounceHeight;
@@ -32,23 +38,53 @@ public class BossController : StateMachineBase {
 		{
 			targetAltitude = Vector2.Distance(transform.position, hit.point) + hoverBounceHeight;
 		}
+
+		// manually attach all robot components together...
+		head.Attach(head.GetJointForSlot(AttachmentSlot.Spine), torso.rootJoint);
+		torso.Attach(torso.GetJointForSlot(AttachmentSlot.RightShoulder), cannonArm.rootJoint);
+		torso.Attach(torso.GetJointForSlot(AttachmentSlot.LeftShoulder), grappleArm.rootJoint);
+
+		// Also consider alternative of spawning the prefabs and attaching them..?
 	}
+
+	private bool facingLeft = true;
 
 	override protected void Update ()
 	{
 		base.Update();
 
 		// State-independant update
-		if (animator)
+		if (animator && rigidbody2D)
 		{
 			if (rigidbody2D.velocity.x > 0.1f)
 			{
 				animator.SetBool("facingLeft", false);
+				skeleton.direction = PlayerSkeleton.Direction.Right;
 			}
 			else if (rigidbody2D.velocity.x < -0.1f)
 			{
 				animator.SetBool("facingLeft", true);
+				skeleton.direction = PlayerSkeleton.Direction.Left;
 			}
+
+			if (animator.GetCurrentAnimatorStateInfo(3).nameHash
+					== Animator.StringToHash("Facing.FaceRight"))
+			{
+				if (facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = false;
+				}
+			}
+			else
+			{
+				if (!facingLeft)
+				{
+					head.ResetSpriteOrders();
+					facingLeft = true;
+				}
+			}
+
 		}
 	}
 
@@ -59,7 +95,7 @@ public class BossController : StateMachineBase {
 		// Maintain altitude 
 		int layerMask = 1 << LayerMask.NameToLayer("Ground");
 		RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector3.down, Mathf.Infinity, layerMask);
-		if (hit)
+		if (hit && rigidbody2D)
 		{
 			float altitude = Vector2.Distance(transform.position, hit.point);
 
@@ -126,11 +162,14 @@ public class BossController : StateMachineBase {
 	void Waiting_FixedUpdate()
 	{
 		// Make sure we aren't moving laterally..
-		float targetSpeed = 0;
-		float currentSpeed = rigidbody2D.velocity.x;
-		float error = targetSpeed - currentSpeed;
-		float force = stopForceGain * error;
-		rigidbody2D.AddForce(Vector2.right * force);
+		if (rigidbody2D)
+		{
+			float targetSpeed = 0;
+			float currentSpeed = rigidbody2D.velocity.x;
+			float error = targetSpeed - currentSpeed;
+			float force = stopForceGain * error;
+			rigidbody2D.AddForce(Vector2.right * force);
+		}
 	}
 
 	IEnumerator Waiting_ExitState()
@@ -202,7 +241,7 @@ public class BossController : StateMachineBase {
 	}
 
 	//--------------------------------------------------------------------------------
-	// AimingCannon
+	// UsingCannon
 	//--------------------------------------------------------------------------------
 
 	public float cannonAimTime = 3f;
@@ -211,7 +250,7 @@ public class BossController : StateMachineBase {
 
 	private TargetPip _pipInstance;
 
-	IEnumerator AimingCannon_EnterState()
+	IEnumerator UsingCannon_EnterState()
 	{
 		animator.SetBool("aimLeft", true);
 
@@ -232,17 +271,22 @@ public class BossController : StateMachineBase {
 		currentState = State.Waiting;
 	}
 
-	void AimingCannon_Update()
+	void UsingCannon_Update()
 	{
 		// Aim cannon arm in direction of pip
 		Vector2 toPip = _pipInstance.transform.position - cannonArm.transform.position;
 		toPip.Normalize();
 
+		if (skeleton.direction == PlayerSkeleton.Direction.Right)
+		{
+			toPip.x *= -1;
+		}
+
 		animator.SetFloat("leftArmX", toPip.x);
 		animator.SetFloat("leftArmY", toPip.y);
 	}
 
-	IEnumerator AimingCannon_ExitState()
+	IEnumerator UsingCannon_ExitState()
 	{
 		animator.SetBool("aimLeft", false);
 
@@ -250,7 +294,55 @@ public class BossController : StateMachineBase {
 		_pipInstance.RemovePip();
 		cannonArm.pip = null;
 
-		Debug.Log("Exited AimingCannon");
+		Debug.Log("Exited UsingCannon");
+		yield return 0;
+	}
+
+	//--------------------------------------------------------------------------------
+	// UsingGrapple
+	//--------------------------------------------------------------------------------
+
+	public Transform grappleTarget;
+	public GameObject obstaclePrefab;
+
+	IEnumerator UsingGrapple_EnterState()
+	{
+		Debug.Log("Entered UsingGrapple");
+		animator.SetBool("aimRight", true);
+
+		Transform target = PlayerBehavior.Player.transform;
+
+		yield return new WaitForSeconds(1);
+
+		grappleArm.FireAbility();
+		
+		yield return new WaitForSeconds(1);
+
+		grappleArm.FireAbility();
+		Instantiate(obstaclePrefab, grappleTarget.position, Quaternion.identity);
+
+		currentState = State.Waiting;
+	}
+
+	void UsingGrapple_Update()
+	{
+		Vector2 toTarget = grappleTarget.position - grappleArm.transform.position;
+		toTarget.Normalize();
+
+		if (skeleton.direction == PlayerSkeleton.Direction.Right)
+		{
+			toTarget.x *= -1;
+		}
+
+		animator.SetFloat("rightArmX", toTarget.x);
+		animator.SetFloat("rightArmY", toTarget.y);
+	}
+
+	IEnumerator UsingGrapple_ExitState()
+	{
+		animator.SetBool("aimRight", false);
+
+		Debug.Log("Exited UsingGrapple");
 		yield return 0;
 	}
 }

@@ -12,4 +12,16 @@ public static class VectorExtensions
 	{
 		return new Vector3(v.x, v.y, 0);
 	}
+
+	public static Transform rootParent(this Transform t)
+	{
+		if (t.parent == null)
+		{
+			return t;
+		}
+		else
+		{
+			return t.parent.rootParent();
+		}
+	}
 }

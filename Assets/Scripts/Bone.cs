@@ -15,7 +15,7 @@ public class Bone : MonoBehaviour
 
 	private List<Transform> childTransforms;
 
-	void Start()
+	void Awake()
 	{
 		GameObject forwardObject = new GameObject("Forward");
 		forwardObject.transform.parent = transform;

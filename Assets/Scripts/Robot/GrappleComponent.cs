@@ -183,7 +183,7 @@ public class GrappleComponent : LimbComponent {
 
 				// HACK!
 				var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
-				if (!player.facingLeft)
+				if (player && !player.facingLeft)
 				{
 					direction.x *= -1;
 				}

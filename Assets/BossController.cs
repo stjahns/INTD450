@@ -22,6 +22,8 @@ public class BossController : StateMachineBase {
 	public TorsoComponent torso;
 	public BossCannon cannonArm;
 	public GrappleComponent grappleArm;
+	public ShieldComponent shieldArm;
+	public SpringComponent springArm;
 
 	public float thrustDelta;
 	public float hoverBounceHeight;
@@ -43,11 +45,14 @@ public class BossController : StateMachineBase {
 		head.Attach(head.GetJointForSlot(AttachmentSlot.Spine), torso.rootJoint);
 		torso.Attach(torso.GetJointForSlot(AttachmentSlot.RightShoulder), cannonArm.rootJoint);
 		torso.Attach(torso.GetJointForSlot(AttachmentSlot.LeftShoulder), grappleArm.rootJoint);
+		torso.Attach(torso.GetJointForSlot(AttachmentSlot.LeftHip), shieldArm.rootJoint);
+		torso.Attach(torso.GetJointForSlot(AttachmentSlot.RightHip), springArm.rootJoint);
 
 		// Also consider alternative of spawning the prefabs and attaching them..?
 	}
 
 	private bool facingLeft = true;
+	private bool usingShield = false;
 
 	override protected void Update ()
 	{
@@ -84,7 +89,43 @@ public class BossController : StateMachineBase {
 					facingLeft = true;
 				}
 			}
+		}
 
+		// Check if we got a gun pointed at us (potentially)
+		// TODO only if player has line of sight?
+		var player = PlayerBehavior.Player;
+		if (player.activeArm is CannonComponent)
+		{
+			if (!usingShield)
+			{
+				shieldArm.FireAbility();
+				animator.SetBool("aimLowerRight", true);
+				usingShield = true;
+			}
+
+			// Also consider gameplay benefits of making it its own state...
+			// boss is frozen when you point a gun at him.. what a wuss!
+
+			// Aim the shield
+			Transform target = PlayerBehavior.Player.transform;
+			Vector2 toTarget = target.position - shieldArm.transform.position;
+			toTarget.Normalize();
+
+			if (skeleton.direction == PlayerSkeleton.Direction.Right)
+			{
+				toTarget.x *= -1;
+			}
+			animator.SetFloat("lowerRightArmX", toTarget.x);
+			animator.SetFloat("lowerRightArmY", toTarget.y);
+		}
+		else
+		{
+			if (usingShield)
+			{
+				shieldArm.FireAbility();
+				animator.SetBool("aimLowerRight", false);
+				usingShield = false;
+			}
 		}
 	}
 
@@ -302,45 +343,55 @@ public class BossController : StateMachineBase {
 	// UsingGrapple
 	//--------------------------------------------------------------------------------
 
-	public Transform grappleTarget;
-	public GameObject obstaclePrefab;
+	//public GameObject obstaclePrefab;
+	private Transform grappleTarget;
 
 	IEnumerator UsingGrapple_EnterState()
 	{
 		Debug.Log("Entered UsingGrapple");
 		animator.SetBool("aimRight", true);
 
-		Transform target = PlayerBehavior.Player.transform;
+		// Find a grapple target
+		GameObject targetObject = GameObject.FindGameObjectWithTag("BossGrappleTarget");
+		if (targetObject)
+		{
+			grappleTarget = targetObject.transform;
+			yield return new WaitForSeconds(1);
 
-		yield return new WaitForSeconds(1);
+			grappleArm.FireAbility();
+			
+			yield return new WaitForSeconds(1);
 
-		grappleArm.FireAbility();
-		
-		yield return new WaitForSeconds(1);
+			grappleArm.FireAbility();
+		}
+		else
+		{
+			currentState = State.Waiting;
+		}
 
-		grappleArm.FireAbility();
-		Instantiate(obstaclePrefab, grappleTarget.position, Quaternion.identity);
-
-		currentState = State.Waiting;
 	}
 
 	void UsingGrapple_Update()
 	{
-		Vector2 toTarget = grappleTarget.position - grappleArm.transform.position;
-		toTarget.Normalize();
-
-		if (skeleton.direction == PlayerSkeleton.Direction.Right)
+		if (grappleTarget)
 		{
-			toTarget.x *= -1;
-		}
+			Vector2 toTarget = grappleTarget.position - grappleArm.transform.position;
+			toTarget.Normalize();
 
-		animator.SetFloat("rightArmX", toTarget.x);
-		animator.SetFloat("rightArmY", toTarget.y);
+			if (skeleton.direction == PlayerSkeleton.Direction.Right)
+			{
+				toTarget.x *= -1;
+			}
+
+			animator.SetFloat("rightArmX", toTarget.x);
+			animator.SetFloat("rightArmY", toTarget.y);
+		}
 	}
 
 	IEnumerator UsingGrapple_ExitState()
 	{
 		animator.SetBool("aimRight", false);
+		grappleTarget = null;
 
 		Debug.Log("Exited UsingGrapple");
 		yield return 0;

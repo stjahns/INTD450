@@ -67,7 +67,7 @@ public class GrappleComponent : LimbComponent {
 		chainRenderer = GetComponent<ChainRenderer>();
 	}
 
-	void OnGrappleHit(Collision2D hit)
+	virtual protected void OnGrappleHit(Collision2D hit)
 	{
 		ropeLength = Vector2.Distance(ropeStart.position, ropeEnd.position);
 
@@ -181,9 +181,7 @@ public class GrappleComponent : LimbComponent {
 
 				anim.SetBool(parentAttachmentPoint.animatorAimFlag, true);
 
-				// HACK!
-				var player = getRootComponent().gameObject.GetComponentInChildren<PlayerBehavior>();
-				if (player && !player.facingLeft)
+				if (Skeleton.direction == PlayerSkeleton.Direction.Right)
 				{
 					direction.x *= -1;
 				}

@@ -51,6 +51,7 @@ public class GrappleProjectile : MonoBehaviour
 		if (body == null)
 		{
 			body = gameObject.AddComponent<Rigidbody2D>();
+			body.mass = 0.01f;
 			body.velocity = velocity;
 		}
 

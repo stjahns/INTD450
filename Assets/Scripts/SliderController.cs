@@ -11,6 +11,7 @@ public class SliderController : MonoBehaviour
 
 	public Vector2 bodyAnchor;
 
+	public float initialSpeed = 0f;
 	public float motorForce = 10f;
 	public bool useMotor;
 
@@ -19,8 +20,8 @@ public class SliderController : MonoBehaviour
 
 	void Start()
 	{
-		// Unparent from any parent group
-		transform.parent = null;
+		// Reparent to root container
+		transform.parent = transform.rootParent();
 
 		// Create a slider joint from startLimit to endLimit
 
@@ -48,6 +49,7 @@ public class SliderController : MonoBehaviour
 		sliderJoint.useMotor = useMotor;
 
 		JointMotor2D motor = sliderJoint.motor;
+		motor.motorSpeed = initialSpeed;
 		motor.maxMotorTorque = motorForce;
 		sliderJoint.motor = motor;
 

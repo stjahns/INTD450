@@ -3,17 +3,58 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public class MenuButton : TriggerBase
+public class InGameMenuButton : TriggerBase
 {
 	public AudioClip onclick;
 	public AudioClip mouseEnter;
 	public AudioClip mouseExit;
+
+	public GUIText guiText;
+
+	public float fontToScreenWidthRatio = 20;
 
 	[OutputEventConnections]
 	[HideInInspector]
 	public List<SignalConnection> onClick = new List<SignalConnection>();
 
 	private Vector3 originalScale;
+
+	private bool mouseEntered = false;
+	private bool mouseDown = false;
+
+	void OnGUI()
+	{
+		GUITexture button = GetComponent<GUITexture>();
+
+		if (button.HitTest(Input.mousePosition))
+		{
+			if (!mouseEntered)
+			{
+				OnMouseEnter();
+				mouseEntered = true;
+			}
+
+			if (Input.GetMouseButtonDown(0))
+			{
+				OnMouseDown();
+				mouseDown = true;
+			}
+		}
+		else
+		{
+			if (mouseEntered)
+			{
+				OnMouseExit();
+				mouseEntered = false;
+			}
+		}
+
+		if (mouseDown && Input.GetMouseButtonUp(0))
+		{
+			OnMouseUp();
+			mouseDown = false;
+		}
+	}
 
 	virtual public void Start()
 	{
@@ -24,6 +65,13 @@ public class MenuButton : TriggerBase
 			renderer.sortingLayerName = "UI";
 			renderer.sortingOrder = 1;
 		}
+
+		guiText.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
+	}
+
+	virtual public void Update()
+	{
+		guiText.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
 	}
 
 	virtual public void OnMouseEnter()

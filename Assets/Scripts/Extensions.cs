@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public static class VectorExtensions
 {
@@ -12,7 +13,10 @@ public static class VectorExtensions
 	{
 		return new Vector3(v.x, v.y, 0);
 	}
+}
 
+public static class TransformExtensions
+{
 	public static Transform rootParent(this Transform t)
 	{
 		if (t.parent == null)
@@ -22,6 +26,18 @@ public static class VectorExtensions
 		else
 		{
 			return t.parent.rootParent();
+		}
+	}
+}
+
+public static class CoroutineExtensions
+{
+	public static IEnumerator WaitForRealSeconds(float time)
+	{
+		float start = Time.realtimeSinceStartup;
+		while (Time.realtimeSinceStartup < start + time)
+		{
+			yield return null;
 		}
 	}
 }

@@ -41,6 +41,18 @@ public class LightningRenderer : MonoBehaviour
 
 	private LineRenderer lineRenderer;
 
+	[InputSocket]
+	public void SetEnabled()
+	{
+		EffectEnabled = true;
+	}
+
+	[InputSocket]
+	public void SetDisabled()
+	{
+		EffectEnabled = false;
+	}
+
 	public bool EffectEnabled
 	{
 		set 

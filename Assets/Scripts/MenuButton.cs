@@ -18,6 +18,12 @@ public class MenuButton : TriggerBase
 	virtual public void Start()
 	{
 		originalScale = transform.localScale;
+
+		foreach (var renderer in GetComponentsInChildren<MeshRenderer>())
+		{
+			renderer.sortingLayerName = "UI";
+			renderer.sortingOrder = 1;
+		}
 	}
 
 	virtual public void OnMouseEnter()

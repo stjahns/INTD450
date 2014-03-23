@@ -16,7 +16,7 @@ public class Save_loadV2 : MonoBehaviour {
         {
             //Instance ID is the Key
             //The Postion 
-            Data +="/"+test.GetInstanceID()+":"+ test.transform.rotation.ToString() + ":" + test.transform.position.ToString()+"/";
+            Data += "/" + test.name+ "/" + test.GetInstanceID() + ":" + test.transform.rotation.ToString() + ":" + test.transform.position.ToString() + "/";
     
            /// Debug.Log(test.GetInstanceID());
            //// Debug.Log(Data);
@@ -25,10 +25,10 @@ public class Save_loadV2 : MonoBehaviour {
         
         Debug.Log(Data);
         string[] spli = Data.Split('/');
-        foreach(string s in spli)
+       /* foreach(string s in spli)
         {
             Debug.Log(s);
-        }
+        }*/
 	}
 	
 	// Update is called once per frame

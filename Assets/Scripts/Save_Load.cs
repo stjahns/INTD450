@@ -23,6 +23,7 @@ public class Save_Load
 		data ["array"] [1] ["Score"] = score.ToString();
 		data ["array"] [1] ["Level"] = level.ToString();
 		data ["array"] [1] ["checkpoint"] = "Null";
+        data ["array"]  [1]["player_pos"] = "Null";
 		data = data.SaveToBase64();	
 		file_save (data);
 	}
@@ -49,11 +50,12 @@ public class Save_Load
 		return Data;
 	}
 
-    public void add_checkpoint(int level, string game_object)
+    public void add_checkpoint(int level, string game_object,Vector3 player_pos)
 	{
 		var data = file_load ();
 		data ["array"] [1] ["Level"] = level.ToString ();
         data["array"][1]["checkpoint"] = game_object;
+        data["array"][1]["player_pos"] = player_pos.ToString();
 		data = data.SaveToBase64();
 		file_save (data);	
 	}

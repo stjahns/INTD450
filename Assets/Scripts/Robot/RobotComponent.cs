@@ -50,6 +50,8 @@ public class RobotComponent : MonoBehaviour {
 	[HideInInspector]
 	public Bone currentBone = null;
 
+	public AttachmentPoint rootJoint;
+
 	// Private Vars
 	private bool resettingPhysics = false;
 
@@ -184,6 +186,11 @@ public class RobotComponent : MonoBehaviour {
 	{
 	}
 
+	public AttachmentPoint GetJointForSlot(AttachmentSlot slot)
+	{
+		return allJoints.FirstOrDefault(j => j.slot == slot);
+	}
+
 	public void Attach(AttachmentPoint parentJoint, AttachmentPoint childJoint)
 	{
 		AttachmentSlot slot = parentJoint.slot;
@@ -201,11 +208,9 @@ public class RobotComponent : MonoBehaviour {
 		child.Skeleton = Skeleton;
 
 		// parent child to player object
-		child.transform.parent = PlayerBehavior.Player.transform;
+		child.transform.parent = transform.rootParent();
 		// attach child to bone
 		bone.Attach(child.transform);
-
-		Debug.Log(child);
 
 		if (childJoint.rigidbody2D)
 		{
@@ -224,7 +229,7 @@ public class RobotComponent : MonoBehaviour {
 		{
 			Bone jointBone = Skeleton.GetBoneForSlot(joint.slot);
 			joint.bone = jointBone;
-			joint.transform.parent = PlayerBehavior.Player.transform;
+			joint.transform.parent = transform.rootParent();
 			jointBone.Attach(joint.transform);
 		}
 
@@ -254,6 +259,8 @@ public class RobotComponent : MonoBehaviour {
 
 			OnLimbAdded(limb, slot, type);
 		}
+
+		parentJoint.childTransform = childJoint.transform;
 
 		child.OnAttach();
 
@@ -460,21 +467,23 @@ public class RobotComponent : MonoBehaviour {
 	{
 		if (resettingPhysics)
 		{
-
-			// Recursively reset local transforms for all child joints.
-			ResetJointTransforms();
-
-			resettingPhysics = false;
-			var body = gameObject.AddComponent<Rigidbody2D>();
-
-			body.fixedAngle = attachedToPlayer();
-
-			// TODO restore any other properties..?
-
-			if (PhysicsReset != null)
+			if (rigidbody2D == null)
 			{
-				// Let things know (eg PlayerBehaviour) that rigid body was just reinitialized
-				PhysicsReset(this);
+				// Recursively reset local transforms for all child joints.
+				ResetJointTransforms();
+
+				resettingPhysics = false;
+				gameObject.AddComponent<Rigidbody2D>();
+
+				rigidbody2D.fixedAngle = getRootComponent() is HeadComponent;
+
+				// TODO restore any other properties..?
+
+				if (PhysicsReset != null)
+				{
+					// Let things know (eg PlayerBehaviour) that rigid body was just reinitialized
+					PhysicsReset(this);
+				}
 			}
 		}
 	}
@@ -523,6 +532,8 @@ public class RobotComponent : MonoBehaviour {
 			c.gameObject.layer = attachedToPlayer() ?
 				LayerMask.NameToLayer("Player") :
 				LayerMask.NameToLayer("LevelObjects");
+
+			c.gameObject.layer = getRootComponent().gameObject.layer;
 		}
 
 	}

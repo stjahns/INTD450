@@ -25,15 +25,15 @@ public class CannonComponent : LimbComponent
 	public Renderer boostEffect;
 	public float boostForce;
 	public float boostEffectTime;
+
 	private float boostEffectTimer;
 
-	private Transform forward;
+	protected Transform forward;
 
-	private float chargeTimer;
-	private int charges;
+	protected float chargeTimer;
+	protected int charges;
 
-	private float beamTimer;
-
+	protected float beamTimer;
 
 	override public void Start ()
 	{
@@ -75,7 +75,7 @@ public class CannonComponent : LimbComponent
 
 			int layerMask = 0;
 			beamCollisionLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
-			RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, layerMask);
+			RaycastHit2D hit = Physics2D.Raycast(shotOrigin.position, direction, Mathf.Infinity, layerMask);
 			if (hit)
 			{
 				beamRenderer.SetPosition(0, shotOrigin.position);

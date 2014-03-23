@@ -15,6 +15,8 @@ public class SpringComponent : LimbComponent
 
 	public AudioClip fireClip;
 
+	public bool alwaysAimPush = false;
+
 	override public void FireAbility()
 	{
 		// BOING
@@ -22,7 +24,7 @@ public class SpringComponent : LimbComponent
 
 		Vector2 forceDirection = Vector2.up;
 
-		if (IsArm)
+		if (IsArm || alwaysAimPush)
 		{
 			// Use direction of arm
 			forceDirection = transform.position - springRange.position;
@@ -35,7 +37,7 @@ public class SpringComponent : LimbComponent
 
 		if (Physics2D.Linecast(transform.position, springRange.position, layerMask))
 		{
-			PlayerBehavior.Player.rigidbody2D.AddForce(forceDirection * springForce);
+			getRootComponent().rigidbody2D.AddForce(forceDirection * springForce);
 		}
 
 		// Push level objects...

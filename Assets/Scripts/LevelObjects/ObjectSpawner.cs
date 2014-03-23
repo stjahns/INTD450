@@ -47,15 +47,19 @@ public class ObjectSpawner : MonoBehaviour
 	{
 		if (timer <= 0.0f)
 		{
-			if (destroyExistingOnRespawn)
+			if (destroyExistingOnRespawn && spawnedObjects.Count == spawnLimit)
 			{
-				foreach (GameObject spawnedObject in spawnedObjects)
+				// Destroy oldest object
+				if (spawnedObjects[0] is RobotComponent)
 				{
-					// TODO more general..
-					spawnedObject.SendMessage("DestroyRobotComponent", SendMessageOptions.DontRequireReceiver);
+					spawnedObjects[0].SendMessage("DestroyRobotComponent", 
+							SendMessageOptions.DontRequireReceiver);
 				}
-
-				spawnedObjects.Clear();
+				else
+				{
+					Destroy(spawnedObjects[0]);
+					spawnedObjects.RemoveAt(0);
+				}
 			}
 
 			if (spawnedObjects.Count < spawnLimit || spawnLimit == 0)

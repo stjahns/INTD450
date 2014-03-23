@@ -30,17 +30,7 @@ public class Level : MonoBehaviour
 		};
 	}
 
-	//
-	// Reset level when reset button hit
-	//
-	void Update ()
-	{
-		if (Input.GetKeyDown(KeyCode.R))
-		{
-			ResetLevel();
-		}
-	}
-
+	[InputSocket]
 	public void ResetLevel ()
 	{
 		// In the future, may want only reset key objects to not interrupt level 
@@ -50,6 +40,5 @@ public class Level : MonoBehaviour
 		// For now, simply reload the level
 		Application.LoadLevel(Application.loadedLevel);
 	}
-
 	
 }

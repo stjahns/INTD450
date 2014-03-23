@@ -5,12 +5,33 @@ public class LevelLoader : MonoBehaviour
 {
 	public float fadeOutTime = 1.0f;
 
+	public string menuLevel;
 	public GameObject fadeEffectPrefab;
 
 	private int levelIndex;
 
 	public void OnDrawGizmos()
 	{
+	}
+
+	[InputSocket]
+	public void ResetLevel()
+	{
+		LoadLevel(Application.loadedLevel);
+	}
+
+	[InputSocket]
+	public void LoadMenu()
+	{
+		startFadeOut();
+		StartCoroutine(DoLoadMenu());
+	}
+
+	private IEnumerator DoLoadMenu()
+	{
+		yield return StartCoroutine(CoroutineExtensions.WaitForRealSeconds(fadeOutTime));
+		Time.timeScale = 1;
+		Application.LoadLevel(menuLevel);
 	}
 
 	[InputSocket]
@@ -47,6 +68,13 @@ public class LevelLoader : MonoBehaviour
 
 	public void LoadLevel(int index)
 	{
+		startFadeOut();
+		levelIndex = index;
+		StartCoroutine(DoLoad());
+	}
+
+	private void startFadeOut()
+	{
 		GameObject fadeEffectObject = Instantiate(fadeEffectPrefab,
 				Vector3.zero,
 				Quaternion.identity) as GameObject;
@@ -55,14 +83,12 @@ public class LevelLoader : MonoBehaviour
 		fadeEffect.fadeInOnStart = false;
 		fadeEffect.fadeTime = fadeOutTime;
 		fadeEffect.FadeOut();
-
-		levelIndex = index;
-		StartCoroutine(DoLoad());
 	}
 
 	private IEnumerator DoLoad()
 	{
-		yield return new WaitForSeconds(fadeOutTime);
+		Debug.Log(string.Format("Loading Level {0}..", levelIndex));
+		yield return StartCoroutine(CoroutineExtensions.WaitForRealSeconds(fadeOutTime));
 		Application.LoadLevel(levelIndex);
 	}
 

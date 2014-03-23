@@ -14,10 +14,8 @@ public class OneTimeGate : TriggerBase
 	[InputSocket]
 	public void FireOutput()
 	{
-		Debug.Log("...");
 		if (fireCount > 0)
 		{
-			Debug.Log("wtf?");
 			outputs.ForEach(s => s.Fire());
 			--fireCount;
 		}

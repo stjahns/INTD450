@@ -9,6 +9,7 @@ public class FadeEffect : MonoBehaviour
 
 	private float alpha;
 	private float fadeTimer;
+	private float fadeTimerStart;
 
 	public enum State
 	{
@@ -28,6 +29,7 @@ public class FadeEffect : MonoBehaviour
 	{
 		alpha = 1;
 		fadeTimer = 0;
+		fadeTimerStart = Time.realtimeSinceStartup;
 	}
 	
 	void OnGUI ()
@@ -36,7 +38,7 @@ public class FadeEffect : MonoBehaviour
 		switch (state)
 		{
 			case State.FadingIn:
-				fadeTimer += Time.deltaTime;
+				fadeTimer = Time.realtimeSinceStartup - fadeTimerStart;
 				alpha = Mathf.Lerp(1, 0, fadeTimer / fadeTime);
 				if (fadeTimer > fadeTime)
 				{
@@ -44,7 +46,7 @@ public class FadeEffect : MonoBehaviour
 				}
 				break;
 			case State.FadingOut:
-				fadeTimer += Time.deltaTime;
+				fadeTimer = Time.realtimeSinceStartup - fadeTimerStart;
 				alpha = Mathf.Lerp(0, 1, fadeTimer / fadeTime);
 				if (fadeTimer > fadeTime)
 				{

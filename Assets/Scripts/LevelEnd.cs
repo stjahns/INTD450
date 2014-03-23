@@ -5,6 +5,9 @@ public class LevelEnd : MonoBehaviour
 {
 	public string nextLevel;
 
+	public float fadeOutTime = 1.0f;
+	public GameObject fadeEffectPrefab;
+
 	//
 	// Lets us pick an editor icon..
 	//
@@ -17,15 +20,36 @@ public class LevelEnd : MonoBehaviour
 	//
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		if (other.gameObject.tag == "Player")
+		{
+			StartCoroutine(DoLevelEnd());
+		}
+	}
+
+	private void startFadeOut()
+	{
+		GameObject fadeEffectObject = Instantiate(fadeEffectPrefab,
+				Vector3.zero,
+				Quaternion.identity) as GameObject;
+
+		FadeEffect fadeEffect = fadeEffectObject.GetComponent<FadeEffect>();
+		fadeEffect.fadeInOnStart = false;
+		fadeEffect.fadeTime = fadeOutTime;
+		fadeEffect.FadeOut();
+	}
+
+	private IEnumerator DoLevelEnd()
+	{
+		startFadeOut();
+
 		int nextlevel = Application.loadedLevel + 1;
 		Save_Load save = new Save_Load ();
 		save.score = 200;
 		save.level = nextlevel;
 		save.player_name = "player";
-		if (other.gameObject.tag == "Player")
-		{
-			save.create_new();
-			Application.LoadLevel(nextlevel);
-		}
+		save.create_new();
+
+		yield return StartCoroutine(CoroutineExtensions.WaitForRealSeconds(fadeOutTime));
+		Application.LoadLevel(nextlevel);
 	}
 }

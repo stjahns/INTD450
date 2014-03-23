@@ -30,6 +30,7 @@ public class FadeEffect : MonoBehaviour
 		alpha = 1;
 		fadeTimer = 0;
 		fadeTimerStart = Time.realtimeSinceStartup;
+		AudioListener.volume = 0;
 	}
 	
 	void OnGUI ()
@@ -40,6 +41,7 @@ public class FadeEffect : MonoBehaviour
 			case State.FadingIn:
 				fadeTimer = Time.realtimeSinceStartup - fadeTimerStart;
 				alpha = Mathf.Lerp(1, 0, fadeTimer / fadeTime);
+				AudioListener.volume = Mathf.Lerp(0, 1, fadeTimer / fadeTime);
 				if (fadeTimer > fadeTime)
 				{
 					state = State.FadedIn;
@@ -48,6 +50,7 @@ public class FadeEffect : MonoBehaviour
 			case State.FadingOut:
 				fadeTimer = Time.realtimeSinceStartup - fadeTimerStart;
 				alpha = Mathf.Lerp(0, 1, fadeTimer / fadeTime);
+				AudioListener.volume = Mathf.Lerp(1, 0, fadeTimer / fadeTime);
 				if (fadeTimer > fadeTime)
 				{
 					state = State.FadedOut;
@@ -66,6 +69,7 @@ public class FadeEffect : MonoBehaviour
 		fadeTimer = 0;
 		alpha = 1;
 		state = State.FadingIn;
+		AudioListener.volume = 0;
 	}
 
 	[InputSocket]
@@ -74,5 +78,6 @@ public class FadeEffect : MonoBehaviour
 		fadeTimer = 0;
 		alpha = 0;
 		state = State.FadingOut;
+		AudioListener.volume = 1;
 	}
 }

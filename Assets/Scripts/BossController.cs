@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BossController : StateMachineBase {
 
@@ -9,7 +10,8 @@ public class BossController : StateMachineBase {
 		Waiting,
 		Pacing,
 		UsingCannon,
-		UsingGrapple
+		UsingGrapple,
+		KickObstacle
 	}
 
 	public State initialState;
@@ -21,7 +23,7 @@ public class BossController : StateMachineBase {
 	public HeadComponent head;
 	public TorsoComponent torso;
 	public BossCannon cannonArm;
-	public GrappleComponent grappleArm;
+	public BossGrapple grappleArm;
 	public ShieldComponent shieldArm;
 	public SpringComponent springArm;
 
@@ -129,6 +131,8 @@ public class BossController : StateMachineBase {
 		}
 	}
 
+	private bool maintainAltitude = true;
+
 	override protected void FixedUpdate ()
 	{
 		base.FixedUpdate();
@@ -145,25 +149,28 @@ public class BossController : StateMachineBase {
 
 			Vector2 thrust = -gravity;
 
-			if (altitude < targetAltitude)
+			if (maintainAltitude)
 			{
-				thrust += Vector2.up * thrustDelta;
-			}
-			else
-			{
-				thrust -= Vector2.up * thrustDelta;
-			}
+				if (altitude < targetAltitude)
+				{
+					thrust += Vector2.up * thrustDelta;
+				}
+				else
+				{
+					thrust -= Vector2.up * thrustDelta;
+				}
 
-			// if get bounced up or down, need to return to target height
-			// without increasing the bounce height
-			if (altitude > targetAltitude + hoverBounceHeight ||
-				altitude < targetAltitude - hoverBounceHeight)
-			{
-				rigidbody2D.drag = 0.5f;
-			}
-			else
-			{
-				rigidbody2D.drag = 0;
+				// if get bounced up or down, need to return to target height
+				// without increasing the bounce height
+				if (altitude > targetAltitude + hoverBounceHeight ||
+					altitude < targetAltitude - hoverBounceHeight)
+				{
+					rigidbody2D.drag = 0.5f;
+				}
+				else
+				{
+					rigidbody2D.drag = 0;
+				}
 			}
 
 			rigidbody2D.AddForce(thrust);
@@ -343,19 +350,36 @@ public class BossController : StateMachineBase {
 	// UsingGrapple
 	//--------------------------------------------------------------------------------
 
-	//public GameObject obstaclePrefab;
 	private Transform grappleTarget;
+	private GameObject obstacle;
 
 	IEnumerator UsingGrapple_EnterState()
 	{
 		Debug.Log("Entered UsingGrapple");
 		animator.SetBool("aimRight", true);
 
-		// Find a grapple target
-		GameObject targetObject = GameObject.FindGameObjectWithTag("BossGrappleTarget");
-		if (targetObject)
+		grappleArm.GrabbedObstacle += OnGrabObstacle;
+
+		obstacle = null;
+		grappleTarget = null;
+
+		// Find a grapple target, (right most?)
+		var obstacles = GameObject.FindGameObjectsWithTag("BossGrappleTarget");
+		foreach (var obst in obstacles)
 		{
-			grappleTarget = targetObject.transform;
+			if (obstacle == null)
+			{
+				obstacle = obst;
+			}
+			else if (obstacle.transform.position.x < obst.transform.position.x)
+			{
+				obstacle = obst;
+			}
+		}
+
+		if (obstacle)
+		{
+			grappleTarget = obstacle.transform;
 			yield return new WaitForSeconds(1);
 
 			grappleArm.FireAbility();
@@ -363,10 +387,13 @@ public class BossController : StateMachineBase {
 			yield return new WaitForSeconds(1);
 
 			grappleArm.FireAbility();
+
+			currentState = State.KickObstacle;
 		}
 		else
 		{
 			currentState = State.Waiting;
+			yield return 0;
 		}
 
 	}
@@ -388,12 +415,115 @@ public class BossController : StateMachineBase {
 		}
 	}
 
+	void OnGrabObstacle(GameObject o)
+	{
+		obstacle = o;
+	}
+
 	IEnumerator UsingGrapple_ExitState()
 	{
 		animator.SetBool("aimRight", false);
 		grappleTarget = null;
 
+		grappleArm.GrabbedObstacle -= OnGrabObstacle;
+
 		Debug.Log("Exited UsingGrapple");
 		yield return 0;
+	}
+
+	//--------------------------------------------------------------------------------
+	// KickObstacle
+	//--------------------------------------------------------------------------------
+
+	IEnumerator KickObstacle_EnterState()
+	{
+		Debug.Log("Entered KickObstacle");
+
+		animator.SetBool("aimLowerLeft", true);
+
+		maintainAltitude = false;
+
+		yield return 0;
+	}
+
+	public float moveSpeedModifier = 1;
+	public float maxMoveSpeed = 1;
+	public float moveAccelGain = 1;
+	public float maxMoveForce = 1;
+	public float kickDistance = 1.5f;
+
+	public PhysicsMaterial2D bouncyMaterial;
+
+	void KickObstacle_Update()
+	{
+		if (obstacle)
+		{
+			// Aim spring leg at it
+			Vector2 toTarget = obstacle.transform.position - springArm.transform.position;
+			toTarget.Normalize();
+
+			if (skeleton.direction == PlayerSkeleton.Direction.Right)
+			{
+				toTarget.x *= -1;
+			}
+
+			animator.SetFloat("lowerLeftArmX", toTarget.x);
+			animator.SetFloat("lowerLeftArmY", toTarget.y);
+
+			// if close enough, kick it!
+			if (Vector2.Distance(springArm.transform.position, obstacle.transform.position) < kickDistance + 0.1
+					&& Mathf.Abs(springArm.transform.position.y - obstacle.transform.position.y) < 0.5f)
+			{
+				springArm.FireAbility();
+				currentState = State.Waiting;
+				foreach (var c in obstacle.GetComponents<Collider2D>())
+				{
+					c.enabled = false;
+					c.sharedMaterial = bouncyMaterial;
+					c.enabled = true;
+				}
+			}
+		}
+	}
+
+
+	void KickObstacle_FixedUpdate()
+	{
+		if (obstacle)
+		{
+			// Move so that spring leg is in line with obstacle, N units to left or right
+
+			Vector3 moveTarget = obstacle.transform.position;
+			if (obstacle.transform.position.x > transform.position.x)
+			{
+				moveTarget += new Vector3(-kickDistance, 0, 0);
+			}
+			else
+			{
+				moveTarget += new Vector3(kickDistance, 0, 0);
+			}
+
+			Vector2 toMoveTarget = moveTarget - springArm.transform.position;
+
+			// Calculate target velocity, proportional to distance, but capped at max speed
+			Vector2 targetVelocity = Vector2.ClampMagnitude(moveSpeedModifier * toMoveTarget, maxMoveSpeed);
+			Vector2 velocityError = targetVelocity - rigidbody2D.velocity;
+
+			// Force proportional to gain and velocity error, capped at max force
+			Vector2 force = Vector2.ClampMagnitude(moveAccelGain * velocityError, maxMoveForce);
+
+			// Apply the force
+			rigidbody2D.AddForce(force);
+		}
+	}
+
+	IEnumerator KickObstacle_ExitState()
+	{
+		maintainAltitude = true;
+
+		yield return new WaitForSeconds(0.5f);
+		animator.SetBool("aimLowerLeft", false);
+
+		Debug.Log("Exited KickObstacle");
 	}
 }

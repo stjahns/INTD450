@@ -136,10 +136,8 @@ public class RobotComponent : MonoBehaviour {
 			part.ResetSpriteOrders();
 		}
 
-		Debug.Log(this);
 		for (int i = 0; i < sprites.Count; ++i)
 		{
-			Debug.Log((int)currentBone.spriteOrder);
 			sprites[i].sortingOrder = (int)currentBone.spriteOrder + spriteOrders[i];
 
 			if (Skeleton.direction == PlayerSkeleton.Direction.Left)
@@ -534,6 +532,8 @@ public class RobotComponent : MonoBehaviour {
 			c.gameObject.layer = attachedToPlayer() ?
 				LayerMask.NameToLayer("Player") :
 				LayerMask.NameToLayer("LevelObjects");
+
+			c.gameObject.layer = getRootComponent().gameObject.layer;
 		}
 
 	}

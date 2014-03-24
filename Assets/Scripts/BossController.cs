@@ -20,12 +20,18 @@ public class BossController : StateMachineBase {
 	public Animator animator;
 	public PlayerSkeleton skeleton;
 
-	public HeadComponent head;
-	public TorsoComponent torso;
-	public BossCannon cannonArm;
-	public BossGrapple grappleArm;
-	public ShieldComponent shieldArm;
-	public SpringComponent springArm;
+	[System.Serializable]
+	public class BossComponents
+	{
+		public HeadComponent head;
+		public TorsoComponent torso;
+		public BossCannon cannonArm;
+		public BossGrapple grappleArm;
+		public ShieldComponent shieldArm;
+		public SpringComponent springArm;
+	}
+
+	public BossComponents components;
 
 	public float thrustDelta;
 	public float hoverBounceHeight;
@@ -44,11 +50,11 @@ public class BossController : StateMachineBase {
 		}
 
 		// manually attach all robot components together...
-		head.Attach(head.GetJointForSlot(AttachmentSlot.Spine), torso.rootJoint);
-		torso.Attach(torso.GetJointForSlot(AttachmentSlot.RightShoulder), cannonArm.rootJoint);
-		torso.Attach(torso.GetJointForSlot(AttachmentSlot.LeftShoulder), grappleArm.rootJoint);
-		torso.Attach(torso.GetJointForSlot(AttachmentSlot.LeftHip), shieldArm.rootJoint);
-		torso.Attach(torso.GetJointForSlot(AttachmentSlot.RightHip), springArm.rootJoint);
+		components.head.Attach(components.head.GetJointForSlot(AttachmentSlot.Spine), components.torso.rootJoint);
+		components.torso.Attach(components.torso.GetJointForSlot(AttachmentSlot.RightShoulder), components.cannonArm.rootJoint);
+		components.torso.Attach(components.torso.GetJointForSlot(AttachmentSlot.LeftShoulder), components.grappleArm.rootJoint);
+		components.torso.Attach(components.torso.GetJointForSlot(AttachmentSlot.LeftHip), components.shieldArm.rootJoint);
+		components.torso.Attach(components.torso.GetJointForSlot(AttachmentSlot.RightHip), components.springArm.rootJoint);
 
 		// Also consider alternative of spawning the prefabs and attaching them..?
 	}
@@ -79,7 +85,7 @@ public class BossController : StateMachineBase {
 			{
 				if (facingLeft)
 				{
-					head.ResetSpriteOrders();
+					components.head.ResetSpriteOrders();
 					facingLeft = false;
 				}
 			}
@@ -87,7 +93,7 @@ public class BossController : StateMachineBase {
 			{
 				if (!facingLeft)
 				{
-					head.ResetSpriteOrders();
+					components.head.ResetSpriteOrders();
 					facingLeft = true;
 				}
 			}
@@ -100,7 +106,7 @@ public class BossController : StateMachineBase {
 		{
 			if (!usingShield)
 			{
-				shieldArm.FireAbility();
+				components.shieldArm.FireAbility();
 				animator.SetBool("aimLowerRight", true);
 				usingShield = true;
 			}
@@ -110,7 +116,7 @@ public class BossController : StateMachineBase {
 
 			// Aim the shield
 			Transform target = PlayerBehavior.Player.transform;
-			Vector2 toTarget = target.position - shieldArm.transform.position;
+			Vector2 toTarget = target.position - components.shieldArm.transform.position;
 			toTarget.Normalize();
 
 			if (skeleton.direction == PlayerSkeleton.Direction.Right)
@@ -124,7 +130,7 @@ public class BossController : StateMachineBase {
 		{
 			if (usingShield)
 			{
-				shieldArm.FireAbility();
+				components.shieldArm.FireAbility();
 				animator.SetBool("aimLowerRight", false);
 				usingShield = false;
 			}
@@ -311,18 +317,18 @@ public class BossController : StateMachineBase {
 		_pipInstance = pip.GetComponent<TargetPip>();
 		_pipInstance.target = target;
 
-		cannonArm.pip = _pipInstance;
+		components.cannonArm.pip = _pipInstance;
 
 		// shoot 
 		yield return new WaitForSeconds(cannonAimTime);
-		cannonArm.FireAbility();
+		components.cannonArm.FireAbility();
 		currentState = State.Waiting;
 	}
 
 	void UsingCannon_Update()
 	{
 		// Aim cannon arm in direction of pip
-		Vector2 toPip = _pipInstance.transform.position - cannonArm.transform.position;
+		Vector2 toPip = _pipInstance.transform.position - components.cannonArm.transform.position;
 		toPip.Normalize();
 
 		if (skeleton.direction == PlayerSkeleton.Direction.Right)
@@ -340,7 +346,7 @@ public class BossController : StateMachineBase {
 
 		// disable aim pip
 		_pipInstance.RemovePip();
-		cannonArm.pip = null;
+		components.cannonArm.pip = null;
 
 		Debug.Log("Exited UsingCannon");
 		yield return 0;
@@ -358,7 +364,7 @@ public class BossController : StateMachineBase {
 		Debug.Log("Entered UsingGrapple");
 		animator.SetBool("aimRight", true);
 
-		grappleArm.GrabbedObstacle += OnGrabObstacle;
+		components.grappleArm.GrabbedObstacle += OnGrabObstacle;
 
 		obstacle = null;
 		grappleTarget = null;
@@ -382,11 +388,11 @@ public class BossController : StateMachineBase {
 			grappleTarget = obstacle.transform;
 			yield return new WaitForSeconds(1);
 
-			grappleArm.FireAbility();
+			components.grappleArm.FireAbility();
 			
 			yield return new WaitForSeconds(1);
 
-			grappleArm.FireAbility();
+			components.grappleArm.FireAbility();
 
 			currentState = State.KickObstacle;
 		}
@@ -402,7 +408,7 @@ public class BossController : StateMachineBase {
 	{
 		if (grappleTarget)
 		{
-			Vector2 toTarget = grappleTarget.position - grappleArm.transform.position;
+			Vector2 toTarget = grappleTarget.position - components.grappleArm.transform.position;
 			toTarget.Normalize();
 
 			if (skeleton.direction == PlayerSkeleton.Direction.Right)
@@ -425,7 +431,7 @@ public class BossController : StateMachineBase {
 		animator.SetBool("aimRight", false);
 		grappleTarget = null;
 
-		grappleArm.GrabbedObstacle -= OnGrabObstacle;
+		components.grappleArm.GrabbedObstacle -= OnGrabObstacle;
 
 		Debug.Log("Exited UsingGrapple");
 		yield return 0;
@@ -459,7 +465,7 @@ public class BossController : StateMachineBase {
 		if (obstacle)
 		{
 			// Aim spring leg at it
-			Vector2 toTarget = obstacle.transform.position - springArm.transform.position;
+			Vector2 toTarget = obstacle.transform.position - components.shieldArm.transform.position;
 			toTarget.Normalize();
 
 			if (skeleton.direction == PlayerSkeleton.Direction.Right)
@@ -471,10 +477,10 @@ public class BossController : StateMachineBase {
 			animator.SetFloat("lowerLeftArmY", toTarget.y);
 
 			// if close enough, kick it!
-			if (Vector2.Distance(springArm.transform.position, obstacle.transform.position) < kickDistance + 0.1
-					&& Mathf.Abs(springArm.transform.position.y - obstacle.transform.position.y) < 0.5f)
+			if (Vector2.Distance(components.shieldArm.transform.position, obstacle.transform.position) < kickDistance + 0.1
+					&& Mathf.Abs(components.shieldArm.transform.position.y - obstacle.transform.position.y) < 0.5f)
 			{
-				springArm.FireAbility();
+				components.shieldArm.FireAbility();
 				currentState = State.Waiting;
 				foreach (var c in obstacle.GetComponents<Collider2D>())
 				{
@@ -503,7 +509,7 @@ public class BossController : StateMachineBase {
 				moveTarget += new Vector3(kickDistance, 0, 0);
 			}
 
-			Vector2 toMoveTarget = moveTarget - springArm.transform.position;
+			Vector2 toMoveTarget = moveTarget - components.shieldArm.transform.position;
 
 			// Calculate target velocity, proportional to distance, but capped at max speed
 			Vector2 targetVelocity = Vector2.ClampMagnitude(moveSpeedModifier * toMoveTarget, maxMoveSpeed);

@@ -76,7 +76,7 @@ public class LevelStart : MonoBehaviour
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
        //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
-        if (checkpoint != "Null" && level == Application.loadedLevel)
+        if (checkpoint != null && level == Application.loadedLevel)
         {
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
@@ -133,7 +133,7 @@ public class LevelStart : MonoBehaviour
                     }
                 }
             }
-            if (boxes != "Null")
+            if (boxes != null)
             {
                 BoxComponent[] boxes_Data = FindObjectsOfType(typeof(BoxComponent)) as BoxComponent[];
                 foreach (BoxComponent comp in boxes_Data)

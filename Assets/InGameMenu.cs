@@ -24,18 +24,29 @@ public class InGameMenu : MonoBehaviour
 		{
 			if (!active)
 			{
-				active = true;
-				elements.ForEach(e => e.enabled = true);
-				buttons.ForEach(e => e.enabled = true);
-				Time.timeScale = 0;
+				Show();
 			}
 			else
 			{
-				active = false;
-				elements.ForEach(e => e.enabled = false);
-				buttons.ForEach(e => e.enabled = false);
-				Time.timeScale = 1;
+				Hide();
 			}
 		}
+	}
+
+	public void Show()
+	{
+		active = true;
+		elements.ForEach(e => e.enabled = true);
+		buttons.ForEach(e => e.enabled = true);
+		Time.timeScale = 0;
+	}
+
+
+	public void Hide()
+	{
+		active = false;
+		elements.ForEach(e => e.enabled = false);
+		buttons.ForEach(e => e.enabled = false);
+		Time.timeScale = 1;
 	}
 }

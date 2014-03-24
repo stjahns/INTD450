@@ -5,6 +5,7 @@ public class Level : MonoBehaviour
 {
 
 	public LevelStart levelStart;
+	public InGameMenu menu;
 
 	//
 	// Register events
@@ -24,7 +25,8 @@ public class Level : MonoBehaviour
 				player.OnDestroy += destroyedPlayer => {
 
 					camera.PopTarget(player.cameraTarget);
-					Debug.Log("CAMERA FREED");
+					StartCoroutine(ShowMenu());
+
 				};
 			}
 		};
@@ -39,6 +41,12 @@ public class Level : MonoBehaviour
 		
 		// For now, simply reload the level
 		Application.LoadLevel(Application.loadedLevel);
+	}
+
+	IEnumerator ShowMenu()
+	{
+		yield return new WaitForSeconds(1.0f);
+		menu.Show();
 	}
 	
 }

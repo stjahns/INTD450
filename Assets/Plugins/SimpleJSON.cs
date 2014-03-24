@@ -507,7 +507,7 @@ namespace SimpleJSON
  
         public static JSONNode LoadFromStream(System.IO.Stream aData)
         {
-			var z = new System.IO.BinaryReader (aData);
+		///	var z = new System.IO.BinaryReader (aData);
 
             using(var R = new System.IO.BinaryReader(aData))
             {

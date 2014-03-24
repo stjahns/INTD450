@@ -121,7 +121,7 @@ public class FanBehaviour : MonoBehaviour
 
 				float distance = Vector2.Distance(body.transform.position, transform.position);
 
-				var boxCollider = collider2D as BoxCollider2D;
+
 
 				scalingDistance = Mathf.Max(scalingDistance, 0.001f);
 				float scale = 1 - (distance / scalingDistance);

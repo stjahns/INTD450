@@ -146,7 +146,7 @@ public class CannonComponent : LimbComponent
 				// jump jet boost
 				animator.SetTrigger("Fire");
 				SFXSource.PlayOneShot(fireClip);
-				Vector3 direction = Vector3.down;
+
 
 				boostEffect.enabled = true;
 				boostEffectTimer = boostEffectTime;

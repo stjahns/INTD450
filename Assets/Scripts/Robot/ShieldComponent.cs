@@ -43,7 +43,7 @@ public class ShieldComponent : LimbComponent
 		}
 	}
 
-	void Update()
+	public override void  Update()
 	{
 		if (shieldEffect)
 		{

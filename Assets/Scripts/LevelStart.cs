@@ -68,14 +68,15 @@ public class LevelStart : MonoBehaviour
       ////  Debug.Log(data);
         string checkpoint = null;
         string player_pos = "";
+        string boxes = "";
         int level = 0;
 
         checkpoint = data["array"][1]["checkpoint"];
-      ////  Debug.Log("FLAGGGG" + checkpoint);
+        boxes = data["array"][1]["boxes"];
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
        //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
-        if (checkpoint != null && level == Application.loadedLevel)
+        if (checkpoint != "Null" && level == Application.loadedLevel)
         {
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
@@ -105,23 +106,8 @@ public class LevelStart : MonoBehaviour
                             spawner_tag = "(" + spawner_name + ")";
                             
                         }
-                        checkpoint = pos[2].Replace('(', ' ');
-                        checkpoint = checkpoint.Replace(')', ' ');
-                        string[] postion = checkpoint.Split(',');
-                        float x = (float)System.Convert.ToSingle(postion[0]);
-                        float y = (float)System.Convert.ToSingle(postion[1]) + 2;
-                        float z = (float)System.Convert.ToSingle(postion[2]);
-                        Vector3 postion_data = new Vector3(x, y, z);
-
-                        checkpoint = pos[1].Replace('(', ' ');
-                        checkpoint = checkpoint.Replace(')', ' ');
-
-                        string[] rotation = checkpoint.Split(',');
-                        float x1 = (float)System.Convert.ToSingle(rotation[0]);
-                        float y1 = (float)System.Convert.ToSingle(rotation[1]);
-                        float z1 = (float)System.Convert.ToSingle(rotation[2]);
-                        float f = (float)System.Convert.ToSingle(rotation[3]);
-                        Quaternion rotation_data = new Quaternion(x1, y1, z1, f);
+                        Vector3 postion_data = create_vector3(pos[2], false);
+                        Quaternion rotation_data = create_Quaternion(pos[1]);
                         GameObject vv = load_object(object_name, spawner_tag, postion_data, rotation_data);
                         if (spawner_name != null )
                         {
@@ -141,15 +127,27 @@ public class LevelStart : MonoBehaviour
                     if (player_pos != null && pos[0] == "HED-I(Clone)")
                     {
                         ///Debug.Log(player_pos);
-                        player_pos = player_pos.Replace('(', ' ');
-                        player_pos = player_pos.Replace(')', ' ');
-                        string[] vector_player = player_pos.Split(',');
-                        float player_x = (float)System.Convert.ToSingle(vector_player[0]) - 2;
-                        float player_y = (float)System.Convert.ToSingle(vector_player[1]);
-                        float player_z = (float)System.Convert.ToSingle(vector_player[2]);
-                        Vector3 player_postion = new Vector3(player_x, player_y, player_z);
+
+                        Vector3 player_postion = create_vector3(player_pos, true);
                         spawnPoint.position = player_postion;
                     }
+                }
+            }
+            if (boxes != "Null")
+            {
+                BoxComponent[] boxes_Data = FindObjectsOfType(typeof(BoxComponent)) as BoxComponent[];
+                foreach (BoxComponent comp in boxes_Data)
+                {
+                    Destroy(comp.gameObject);
+                }
+                string[] box_data = boxes.Split('/');
+                foreach (string component_data in box_data)
+                {
+                    string[] pos = component_data.Split(':');
+                    Vector3 postion_data = create_vector3(pos[2], false);
+                    Quaternion rotation_data = create_Quaternion(pos[1]);
+                    GameObject vv = load_object("Boxes",null, postion_data, rotation_data);
+
                 }
             }
         }
@@ -163,6 +161,47 @@ public class LevelStart : MonoBehaviour
         }
     }
 
+    private Vector3 create_vector3(string data,bool player)
+    {
+        Vector3 return_data;
+        data = data.Replace('(', ' ');
+        data = data.Replace(')', ' ');
+        string[] postion = data.Split(',');
+        float x;
+        float y;
+        float z;
+        if (player)
+        {
+            x = (float)System.Convert.ToSingle(postion[0]) - 2;
+            y = (float)System.Convert.ToSingle(postion[1]);
+        }
+        else
+        {
+            x = (float)System.Convert.ToSingle(postion[0]);
+            y = (float)System.Convert.ToSingle(postion[1]) + 2;
+        }
+
+        z = (float)System.Convert.ToSingle(postion[2]);
+
+        return_data = new Vector3(x, y, z);
+
+        return return_data;
+
+    }
+
+    private Quaternion create_Quaternion(string data)
+    {
+        Quaternion return_data;
+        data = data.Replace('(', ' ');
+        data = data.Replace(')', ' ');
+        string[] rotation = data.Split(',');
+        float x1 = (float)System.Convert.ToSingle(rotation[0]);
+        float y1 = (float)System.Convert.ToSingle(rotation[1]);
+        float z1 = (float)System.Convert.ToSingle(rotation[2]);
+        float f = (float)System.Convert.ToSingle(rotation[3]);
+        return_data = new Quaternion(x1, y1, z1, f);
+        return return_data;
+    }
     //
     // Destroy previously spawned player and respawn
     //

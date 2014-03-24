@@ -26,9 +26,9 @@ public class DestructableBehaviour : MonoBehaviour
 		{
 			if (explosionPrefab)
 			{
-				GameObject explosion = Instantiate(explosionPrefab, 
+				 Instantiate(explosionPrefab, 
 						transform.position, 
-						Quaternion.identity) as GameObject;
+						Quaternion.identity) ;
 			}
 
 			Destroy(gameObject);

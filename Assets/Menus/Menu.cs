@@ -12,10 +12,9 @@ public class Menu : MonoBehaviour {
 
 	void  OnMouseDown() {
 		Debug.Log (gameObject.name);
-		SpriteRenderer render = gameObject.GetComponent <SpriteRenderer>();
+
 		AudioSource.PlayClipAtPoint (onclick, transform.position);
 		double b = -20;
-		GameObject Camera;
 		Vector3 v = new Vector3((float)b,0,0);
 		transform.Translate(v * 1 * Time.deltaTime); 
 

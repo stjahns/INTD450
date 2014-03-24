@@ -9,7 +9,7 @@ public class ObjectSpawner : MonoBehaviour
 
 	public float initialSpeed;
 	public Transform spawnDirection;
-
+    
 	public List<GameObject> spawnedObjects = new List<GameObject>();
 
 	public int spawnLimit = 1;
@@ -45,8 +45,10 @@ public class ObjectSpawner : MonoBehaviour
 	[InputSocket]
 	public void Spawn()
 	{
-		if (timer <= 0.0f)
+        
+        if (timer <= 0.0f)
 		{
+           //// Debug.Log(spawnedObjects.Count);
 			if (destroyExistingOnRespawn)
 			{
 				foreach (GameObject spawnedObject in spawnedObjects)
@@ -63,6 +65,8 @@ public class ObjectSpawner : MonoBehaviour
 				var obj = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity)
 					as GameObject;
 				spawnedObjects.Add(obj);
+                obj.gameObject.name = obj.gameObject.name.Split('(')[0]+"("+gameObject.name+")";
+
 
 				Rigidbody2D body = obj.GetComponent<Rigidbody2D>();
 				if (body && spawnDirection)

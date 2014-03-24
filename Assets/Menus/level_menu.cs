@@ -13,7 +13,7 @@ public class level_menu : MonoBehaviour {
     private string[] current_object_name;
 
 	void Start () {
-		SpriteRenderer render = gameObject.GetComponent <SpriteRenderer>();
+
 		load = new Save_Load ();
 		load.player_name = player_name;
 		var data =load.file_load ();

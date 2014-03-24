@@ -9,14 +9,14 @@ public class Save_loadV2 : MonoBehaviour {
     
 	void Start () {
         RobotComponent[] obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
-        Dictionary<string, string> game_object_components= new Dictionary<string, string>();
+       /// Dictionary<string, string> game_object_components= new Dictionary<string, string>();
         ////Dictionary<string, string> game_object_components = new Dictionary<string, string>();
         string Data="";
         foreach (RobotComponent test in obj)
         {
             //Instance ID is the Key
             //The Postion 
-            Data += "/" + test.name+ "/" + test.GetInstanceID() + ":" + test.transform.rotation.ToString() + ":" + test.transform.position.ToString() + "/";
+            Data += "/" + test.name + "/" + test.gameObject.GetInstanceID() + ":" + test.transform.rotation.ToString() + ":" + test.transform.position.ToString() + "/";
     
            /// Debug.Log(test.GetInstanceID());
            //// Debug.Log(Data);
@@ -24,7 +24,7 @@ public class Save_loadV2 : MonoBehaviour {
 
         
         Debug.Log(Data);
-        string[] spli = Data.Split('/');
+      ///  string[] spli = Data.Split('/');
        /* foreach(string s in spli)
         {
             Debug.Log(s);

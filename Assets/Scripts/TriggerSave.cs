@@ -13,21 +13,22 @@ public class TriggerSave : MonoBehaviour {
         {
             PlayerBehavior player = PlayerBehavior.Player;
             RobotComponent[] obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
-            Debug.Log("Length"+obj.Length);
+         ///   Debug.Log("Length"+obj.Length);
 		    int level = Application.loadedLevel;
 		    Save_Load save = new Save_Load ();
 		    save.player_name="player";
-		    Vector3 playerPos = other.attachedRigidbody.transform.position;
+		  ///  Vector3 playerPos = other.attachedRigidbody.transform.position;
             foreach (RobotComponent gam in obj)
             {
               ////  Data += "/" + test.name + "/" + test.GetInstanceID() + ":" + test.transform.rotation.ToString() + ":" + test.transform.position.ToString() + "/";
-                checkpoint += gam.GetInstanceID() + ":" + gam.transform.rotation.ToString() + ":" + gam.transform.position.ToString() + ":" + gam.name+"/";
+                checkpoint += gam.name + ":" + gam.transform.rotation.ToString() + ":" + gam.transform.position.ToString() + "/";
             }
-            Debug.Log(checkpoint);
+           /// Debug.Log(checkpoint);
             if (player != null)
             {
+           ///     Debug.Log(level);
                 save.add_checkpoint(level, checkpoint, player.transform.position);
-                Debug.Log("Save Now" + checkpoint);
+             ///   Debug.Log("Save Now" + checkpoint);
             }
         }
 	}

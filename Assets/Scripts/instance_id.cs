@@ -5,7 +5,8 @@ public class instance_id : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        Debug.Log(GetInstanceID());
+
+        Debug.Log(gameObject.GetInstanceID());
 	}
 	
 	// Update is called once per frame

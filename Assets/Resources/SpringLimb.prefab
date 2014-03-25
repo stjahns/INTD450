@@ -25,7 +25,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400002}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - 95: {fileID: 9500000}
   - 82: {fileID: 8200002}
   - 61: {fileID: 6100000}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: SpringLimb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400020}
   - 212: {fileID: 21200002}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: SpringBase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.77549791, y: -4.91257381, z: 0}
+  m_LocalPosition: {x: 1.98248923, y: -6.82813692, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -450,6 +450,7 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
+  rootJoint: {fileID: 11400000}
   animator: {fileID: 9500000}
   springRange: {fileID: 400012}
   springForce: 700
@@ -458,6 +459,7 @@ MonoBehaviour:
   - Ground
   - LevelObjects
   fireClip: {fileID: 8300000, guid: 03b4736ad8787b847a1089de2a8325c1, type: 3}
+  alwaysAimPush: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

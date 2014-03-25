@@ -48,11 +48,18 @@ public class DialogBox : TriggerBase
 
 	private float delayTimer;
 
-	private string currentText;
+	private string prefix;
+	private string wrappedText;
 
 	void Start ()
 	{
-		textObject.text = GetWrappedText(dialogText);
+
+		prefix = "";
+		if (speaker.Length > 0)
+		{
+			prefix = speaker + ": ";
+		}
+
 		textObject.enabled = false;
 		backgroundObject.enabled = false;
 
@@ -80,6 +87,8 @@ public class DialogBox : TriggerBase
 
 	public void Show(bool suppressEvents)
 	{
+		textObject.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
+
 		if (currentDialog)
 		{
 			currentDialog.Hide(true);
@@ -92,12 +101,12 @@ public class DialogBox : TriggerBase
 			onShow.ForEach(s => s.Fire());
 		}
 
-		currentText = speaker + ": ";
-		textObject.text = GetWrappedText(currentText);
-
+		wrappedText = GetWrappedText(prefix + dialogText);
+		textObject.text = wrappedText.Substring(0, prefix.Length);
+		
 		delayTimer = 0.0f;
 		letterTimer = 0.0f;
-		letterIndex = 0;
+		letterIndex = prefix.Length;
 
 		state = DialogState.Unhiding;
 	}
@@ -157,7 +166,6 @@ public class DialogBox : TriggerBase
 
 				state = DialogState.Showing;
 				delayTimer = 0.0f;
-				currentText = speaker + ": " + dialogText;
 			}
 			else
 			{
@@ -165,9 +173,8 @@ public class DialogBox : TriggerBase
 				letterTimer += Time.deltaTime;
 				if (letterTimer > letterTime)
 				{
-					if (letterIndex < dialogText.Length)
+					if (letterIndex < wrappedText.Length)
 					{
-						currentText += dialogText[letterIndex];
 						if (typeSound)
 						{
 							AudioSource.PlayClipAtPoint(typeSound, transform.position);
@@ -177,6 +184,7 @@ public class DialogBox : TriggerBase
 					{
 						// Fully revealed, go to Showing state
 						state = DialogState.Showing;
+						letterIndex--;
 						delayTimer = 0.0f;
 					}
 
@@ -185,11 +193,11 @@ public class DialogBox : TriggerBase
 				}
 			}
 
-			textObject.text = GetWrappedText(currentText);
+			textObject.text = wrappedText.Substring(0, letterIndex);
 		}
 		else if (state == DialogState.Showing)
 		{
-			textObject.text = GetWrappedText(currentText);
+			textObject.text = wrappedText;
 
 			// Hide if enter hit or if nonzero showtime expires
 			if (skipWithEnter && 
@@ -217,6 +225,9 @@ public class DialogBox : TriggerBase
 		style.fontSize = textObject.guiText.fontSize;
 		style.fontStyle = textObject.guiText.fontStyle;
 
+		float minWidth;
+		float maxWidth;
+
 		int i = 0;
 		for (int j = 0; j < words.Length; ++j)
 		{
@@ -229,23 +240,20 @@ public class DialogBox : TriggerBase
 				line += words[word] + " ";
 			}
 
-			float minWidth;
-			float maxWidth;
-
 			style.CalcMinMaxWidth(new GUIContent(line), out minWidth, out maxWidth);
 
 			// TODO what if single word too wide for box?
 
 			if (maxWidth > textWidth)
 			{
-				for (int word = i; word <= j; word++)
+				for (int word = i; word < j; word++)
 				{
 					finalText += words[word] + " ";
 				}
 
 				finalText += "\n";
 
-				i = j + 1;
+				i = j;
 			}
 		}
 

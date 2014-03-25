@@ -35,8 +35,24 @@ public class RobotComponent : MonoBehaviour {
 	[HideInInspector]
 	public bool shouldAim = true;
 
-	[HideInInspector]
-	public bool isActive = false;
+	private bool _isActive = false;
+	private Color inactiveColor;
+	public bool isActive
+	{
+		get
+		{
+			return _isActive;
+		}
+		set
+		{
+			_isActive = value;
+			foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+			{
+				renderer.color = value? new Color(1f,0.5f,0.5f) : Color.white;
+			}
+		}
+	}
+
 
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
@@ -184,6 +200,7 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void OnRemove()
 	{
+		isActive = false;
 	}
 
 	public AttachmentPoint GetJointForSlot(AttachmentSlot slot)
@@ -390,10 +407,9 @@ public class RobotComponent : MonoBehaviour {
 		
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
-
-		gameObject.GetComponent<SpriteRenderer>();
-
-		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
+		return Physics2D.OverlapArea(new Vector2(checkPosition.x - 0.25f, checkPosition.y + 0.05f),
+				new Vector2(checkPosition.x + 0.25f, checkPosition.y),
+				layerMask );
 	}
 
 	public List<RobotComponent> getAllChildren()
@@ -531,9 +547,12 @@ public class RobotComponent : MonoBehaviour {
 		{
 			c.gameObject.layer = attachedToPlayer() ?
 				LayerMask.NameToLayer("Player") :
-				LayerMask.NameToLayer("LevelObjects");
+				LayerMask.NameToLayer("UnattachedLimb");
 
-			c.gameObject.layer = getRootComponent().gameObject.layer;
+			if (getRootComponent().gameObject.layer == LayerMask.NameToLayer("Boss"))
+			{
+				c.gameObject.layer = getRootComponent().gameObject.layer;
+			}
 		}
 
 	}

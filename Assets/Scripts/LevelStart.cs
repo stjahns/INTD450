@@ -76,7 +76,7 @@ public class LevelStart : MonoBehaviour
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
        //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
-        if (checkpoint != null && level == Application.loadedLevel)
+        if (checkpoint != null && checkpoint != "Null" && level == Application.loadedLevel)
         {
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
@@ -93,7 +93,6 @@ public class LevelStart : MonoBehaviour
                     ///Debug.Log("S" +s);
                     string[] pos = component_data.Split(':');
                     ///int id = 0;
-                    ///Debug.Log(pos);
 
                     if (pos[0] != "" && pos[0] != "HED-I(Clone)")
                     {
@@ -124,7 +123,7 @@ public class LevelStart : MonoBehaviour
 
                     }
 
-                    if (player_pos != null && pos[0] == "HED-I(Clone)")
+                    if (player_pos != null && player_pos != "Null" && pos[0] == "HED-I(Clone)")
                     {
                         ///Debug.Log(player_pos);
 

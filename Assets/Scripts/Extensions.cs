@@ -41,3 +41,16 @@ public static class CoroutineExtensions
 		}
 	}
 }
+
+public static class Log
+{
+	public static void Format(string msg, params object[] args)
+	{
+		Debug.Log(string.Format(msg, args));
+	}
+
+	public static void Format(Object context, string msg, params object[] args)
+	{
+		Debug.Log(string.Format(msg, args), context);
+	}
+}

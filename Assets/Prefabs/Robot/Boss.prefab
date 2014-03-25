@@ -3361,16 +3361,17 @@ MonoBehaviour:
   initialState: 0
   animator: {fileID: 9500000}
   skeleton: {fileID: 11400038}
-  head: {fileID: 11400018}
-  torso: {fileID: 11400074}
-  cannonArm: {fileID: 11400060}
-  grappleArm: {fileID: 11400070}
-  shieldArm: {fileID: 11400084}
-  springArm: {fileID: 11400076}
+  components:
+    head: {fileID: 11400018}
+    torso: {fileID: 11400074}
+    cannonArm: {fileID: 11400060}
+    grappleArm: {fileID: 11400070}
+    shieldArm: {fileID: 11400084}
+    springArm: {fileID: 11400076}
   thrustDelta: 1
   hoverBounceHeight: .25
   waitTime: 1
-  behaviours: 03000000030000000300000003000000
+  behaviours: 01000000030000000100000002000000
   stopForceGain: 2
   paceTime: 5
   paceSpeed: 1

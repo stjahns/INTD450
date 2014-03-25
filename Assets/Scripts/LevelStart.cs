@@ -25,6 +25,7 @@ public class LevelStart : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
+        Debug.Log("Again");
     }
 
     //
@@ -68,7 +69,7 @@ public class LevelStart : MonoBehaviour
       ////  Debug.Log(data);
         string checkpoint = null;
         string player_pos = "";
-        string boxes = "";
+        string boxes = null;
         int level = 0;
 
         checkpoint = data["array"][1]["checkpoint"];
@@ -76,7 +77,7 @@ public class LevelStart : MonoBehaviour
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
        //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
-        if (checkpoint != null && checkpoint != "Null" && level == Application.loadedLevel)
+        if (checkpoint != null &&  checkpoint !="Null" && level == Application.loadedLevel)
         {
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
@@ -93,6 +94,7 @@ public class LevelStart : MonoBehaviour
                     ///Debug.Log("S" +s);
                     string[] pos = component_data.Split(':');
                     ///int id = 0;
+                    ///Debug.Log(pos);
 
                     if (pos[0] != "" && pos[0] != "HED-I(Clone)")
                     {
@@ -123,7 +125,7 @@ public class LevelStart : MonoBehaviour
 
                     }
 
-                    if (player_pos != null && player_pos != "Null" && pos[0] == "HED-I(Clone)")
+                    if (player_pos != null && pos[0] == "HED-I(Clone)")
                     {
                         ///Debug.Log(player_pos);
 
@@ -132,7 +134,7 @@ public class LevelStart : MonoBehaviour
                     }
                 }
             }
-            if (boxes != null)
+            if (boxes != null && boxes !="Null")
             {
                 BoxComponent[] boxes_Data = FindObjectsOfType(typeof(BoxComponent)) as BoxComponent[];
                 foreach (BoxComponent comp in boxes_Data)
@@ -143,9 +145,15 @@ public class LevelStart : MonoBehaviour
                 foreach (string component_data in box_data)
                 {
                     string[] pos = component_data.Split(':');
-                    Vector3 postion_data = create_vector3(pos[2], false);
-                    Quaternion rotation_data = create_Quaternion(pos[1]);
-                    GameObject vv = load_object("Boxes",null, postion_data, rotation_data);
+                    if (component_data != "")
+                    {
+                        Debug.Log(component_data);
+                       /// Debug.Log(pos[0]);
+
+                        Vector3 postion_data = create_vector3(pos[2], false);
+                        Quaternion rotation_data = create_Quaternion(pos[1]);
+                        GameObject vv = load_object("Box", null, postion_data, rotation_data);
+                    }
 
                 }
             }

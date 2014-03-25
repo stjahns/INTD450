@@ -530,9 +530,12 @@ public class RobotComponent : MonoBehaviour {
 		{
 			c.gameObject.layer = attachedToPlayer() ?
 				LayerMask.NameToLayer("Player") :
-				LayerMask.NameToLayer("LevelObjects");
+				LayerMask.NameToLayer("UnattachedLimb");
 
-			c.gameObject.layer = getRootComponent().gameObject.layer;
+			if (getRootComponent().gameObject.layer == LayerMask.NameToLayer("Boss"))
+			{
+				c.gameObject.layer = getRootComponent().gameObject.layer;
+			}
 		}
 
 	}

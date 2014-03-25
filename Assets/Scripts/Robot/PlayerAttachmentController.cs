@@ -123,8 +123,20 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		childJoints = new List<AttachmentPoint>();
 
+		int layerMask = 0;
+		blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
+
 		foreach (var collider in attachments)
 		{
+			// Check for line-of-sight between parent joint and attachment point
+			var hit = Physics2D.Linecast(selectedParentJoint.transform.position, collider.transform.position, layerMask);
+			if (hit)
+			{
+				Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer), hit.collider.gameObject);
+				continue;
+			}
+
+
 			AttachmentPoint joint = collider.gameObject.GetComponent<AttachmentPoint>();
 			if (joint && joint.slot == AttachmentSlot.None && joint.parent == null)
 			{

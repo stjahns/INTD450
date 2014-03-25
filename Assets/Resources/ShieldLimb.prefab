@@ -72,13 +72,12 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   - 50: {fileID: 5000000}
-  - 95: {fileID: 9500000}
   - 114: {fileID: 11400002}
   - 58: {fileID: 5800000}
   - 58: {fileID: 5800002}
   - 82: {fileID: 8200000}
   - 61: {fileID: 6100000}
-  m_Layer: 10
+  m_Layer: 14
   m_Name: ShieldLimb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -185,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.22508049, y: -6.58461905, z: 0}
+  m_LocalPosition: {x: 1.87750459, y: -4.73088646, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -344,20 +343,6 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
---- !u!95 &9500000
-Animator:
-  serializedVersion: 2
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100008}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: b17e3f9af60ca4dc8bb3a17a08515be7, type: 2}
-  m_CullingMode: 0
-  m_ApplyRootMotion: 0
-  m_AnimatePhysics: 0
-  m_HasTransformHierarchy: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -411,6 +396,7 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
+  rootJoint: {fileID: 0}
   enableClip: {fileID: 8300000, guid: 2a68cf24bd17d4654bf3b88664c552f0, type: 3}
   disableClip: {fileID: 8300000, guid: 34554afed97b9f341b05eb4d610c185e, type: 3}
   floatForce: 25

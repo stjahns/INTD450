@@ -1720,9 +1720,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1779,7 +1779,18 @@ MonoBehaviour:
   - {fileID: 23300000}
   ConveyorSpeed: 100
   running: 0
-  audio: {fileID: 8200000}
+  start: {fileID: 0}
+  end: {fileID: 0}
+  axlesPerUnit: 0
+  linksPerUnit: 0
+  linkDistance: 0
+  axleRadius: 0
+  axlePrefab: {fileID: 0}
+  beltLinkPrefab: {fileID: 0}
+  axleContainer: {fileID: 0}
+  beltContainer: {fileID: 0}
+  guideContainer: {fileID: 0}
+  guideLayer: 
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

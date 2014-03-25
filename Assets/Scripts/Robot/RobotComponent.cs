@@ -390,10 +390,9 @@ public class RobotComponent : MonoBehaviour {
 		
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
-
-		gameObject.GetComponent<SpriteRenderer>();
-
-		return Physics2D.Linecast(transform.position, checkPosition, layerMask);
+		return Physics2D.OverlapArea(new Vector2(checkPosition.x - 0.25f, checkPosition.y + 0.05f),
+				new Vector2(checkPosition.x + 0.25f, checkPosition.y),
+				layerMask );
 	}
 
 	public List<RobotComponent> getAllChildren()

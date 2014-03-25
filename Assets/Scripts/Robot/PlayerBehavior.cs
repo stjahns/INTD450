@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class PlayerBehavior : MonoBehaviour {
 
@@ -304,24 +305,26 @@ public class PlayerBehavior : MonoBehaviour {
 
 	public void NextLegAbility()
 	{
+		List<RobotComponent> legAbilities = currentLegs.Where(l => l is LimbComponent).ToList();
+
 		int activeIndex = 0;
 		if (activeLeg != null)
 		{
-			activeIndex = currentLegs.FindIndex(leg => leg == activeLeg);
+			activeIndex = legAbilities.FindIndex(leg => leg == activeLeg);
 			activeIndex += 1;
-			if (currentLegs.Count > 0)
+			if (legAbilities.Count > 0)
 			{
-				activeIndex %= currentLegs.Count;
+				activeIndex %= legAbilities.Count;
 			}
 		}
 
-		if (currentLegs.Count > 0)
+		if (legAbilities.Count > 0)
 		{
 			if (activeLeg)
 			{
 				activeLeg.isActive = false;
 			}
-			activeLeg = currentLegs[activeIndex];
+			activeLeg = legAbilities[activeIndex];
 			activeLeg.isActive = true;
 		}
 		else

@@ -3,7 +3,16 @@ using System.Collections;
 
 
 public class TriggerSave : MonoBehaviour {
-    ///public static PlayerBehavior player;
+
+	public MeshRenderer savedTextRenderer;
+	public TextMesh savedTextMesh;
+	public float savedTextShowTime;
+
+	void Start()
+	{
+		savedTextRenderer.enabled = false;
+		savedTextRenderer.sortingLayerName = "UI";
+	}
 
 	// Use this for initialization
 	void OnTriggerEnter2D (Collider2D other){
@@ -15,6 +24,9 @@ public class TriggerSave : MonoBehaviour {
             PlayerBehavior player = PlayerBehavior.Player;
             RobotComponent[] obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             BoxComponent[] level_boxes = FindObjectsOfType(typeof(BoxComponent)) as BoxComponent[];        
+
+			// Show "Checkpoint Saved" text above checkpoint briefly
+			StartCoroutine(ShowSavedText());
             
             ///   Debug.Log("Length"+obj.Length);
 		    int level = Application.loadedLevel;
@@ -43,6 +55,7 @@ public class TriggerSave : MonoBehaviour {
             }
         }
 	}
+
 	void OnTriggerExit2D (Collider2D other){
 		
 		Save_Load save = new Save_Load ();
@@ -50,5 +63,35 @@ public class TriggerSave : MonoBehaviour {
 		Debug.Log(save.file_load ());
 		Debug.Log("Save Now");
 		
+	}
+
+	IEnumerator ShowSavedText()
+	{
+		savedTextRenderer.enabled = true;
+
+		Color color = new Color(1, 1, 1, 0);
+		savedTextMesh.color = color;
+
+		// fade in
+		float startTime = Time.time;
+		while (Time.time < startTime + savedTextShowTime / 2)
+		{
+			color.a = Mathf.Lerp(0, 1, (Time.time - startTime) / (savedTextShowTime / 2));
+			savedTextMesh.color = color;
+			yield return 0;
+		}
+
+		yield return new WaitForSeconds(savedTextShowTime);
+
+		// fade out
+		startTime = Time.time;
+		while (Time.time < startTime + savedTextShowTime)
+		{
+			color.a = Mathf.Lerp(1, 0, (Time.time - startTime) / (savedTextShowTime / 2));
+			savedTextMesh.color = color;
+			yield return 0;
+		}
+
+		savedTextRenderer.enabled = false;
 	}
 }

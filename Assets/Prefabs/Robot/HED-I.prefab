@@ -360,7 +360,7 @@ GameObject:
   - 4: {fileID: 400042}
   - 114: {fileID: 11400046}
   m_Layer: 0
-  m_Name: SelectParentCamera
+  m_Name: ParentSelectCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -388,7 +388,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -10.0821829, y: 3.56151628, z: -3.18021584}
+  m_LocalPosition: {x: -7.37609673, y: -4.81320953, z: -3.18021584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400036}
@@ -406,7 +406,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00903511047, y: -.187020361, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -630,7 +630,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -641,7 +641,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100042}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .019307375, y: -.269197881, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -880,7 +880,6 @@ MonoBehaviour:
   - {fileID: 11400004}
   SFXSource: {fileID: 8200002}
   shouldAim: 1
-  isActive: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites: []
@@ -1277,7 +1276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f529f3055fa74edb936a3d8469e6d0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetViewportHeight: 3
+  targetViewportHeight: 2
   allowZoom: 1
   transitionTime: .5
   maxViewportHeight: 15

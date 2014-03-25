@@ -508,26 +508,27 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		attachmentTime += Time.deltaTime;
 
+		float parameter = Mathfx.Hermite(0, 1, attachmentTime / attachmentEndTime);
 
 		selectedChildJoint.owner.transform.position = 
 			Vector3.Lerp(childStartPosition,
 					childTargetPosition,
-					attachmentTime / attachmentEndTime);
+					parameter);
 
 		selectedChildJoint.owner.transform.rotation = 
 			Quaternion.Slerp(childStartRotation,
 					childTargetRotation,
-					attachmentTime / attachmentEndTime);
+					parameter);
 
 		selectedParentJoint.owner.getRootComponent().transform.position = 
 			Vector3.Lerp(parentStartPosition,
 					parentTargetPosition,
-					attachmentTime / attachmentEndTime);
+					parameter);
 
 		selectedParentJoint.owner.getRootComponent().transform.rotation = 
 			Quaternion.Lerp(parentStartRotation,
 					parentTargetRotation,
-					attachmentTime / attachmentEndTime);
+					parameter);
 
 		if (attachmentTime > attachmentEndTime)
 		{
@@ -541,7 +542,9 @@ public class PlayerAttachmentController : MonoBehaviour
 	void AttachingToLevelObject()
 	{
 		attachmentTime += Time.deltaTime;
-		float distance = Mathf.Lerp(initialDistance, 0.0f, attachmentTime / attachmentEndTime);
+
+		float parameter = Mathfx.Hermite(0, 1, attachmentTime / attachmentEndTime);
+		float distance = Mathf.Lerp(initialDistance, 0.0f, parameter);
 		selectedParentJoint.SetAttachmentDistance(distance);
 
 		if (attachmentTime > attachmentEndTime)

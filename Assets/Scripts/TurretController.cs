@@ -106,7 +106,9 @@ public class TurretController : MonoBehaviour
 					trackingTimer += Time.deltaTime;
 
 					Quaternion rightRotation = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position);
-					gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation, rightRotation, trackingTimer / trackTime);
+					Quaternion leftRotation = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position);
+					float parameter = Mathfx.Hermite(0, 1, trackingTimer / trackTime);
+					gunPivot.rotation = Quaternion.Lerp(leftRotation, rightRotation, parameter);
 
 					if (trackingTimer > trackTime)
 					{
@@ -122,8 +124,10 @@ public class TurretController : MonoBehaviour
 				{
 					trackingTimer += Time.deltaTime;
 
+					Quaternion rightRotation = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position);
 					Quaternion leftRotation = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position);
-					gunPivot.rotation = Quaternion.Lerp(gunPivot.rotation, leftRotation, trackingTimer / trackTime);
+					float parameter = Mathfx.Hermite(0, 1, trackingTimer / trackTime);
+					gunPivot.rotation = Quaternion.Lerp(rightRotation, leftRotation, parameter);
 
 					if (trackingTimer > trackTime)
 					{

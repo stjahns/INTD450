@@ -35,8 +35,24 @@ public class RobotComponent : MonoBehaviour {
 	[HideInInspector]
 	public bool shouldAim = true;
 
-	[HideInInspector]
-	public bool isActive = false;
+	private bool _isActive = false;
+	private Color inactiveColor;
+	public bool isActive
+	{
+		get
+		{
+			return _isActive;
+		}
+		set
+		{
+			_isActive = value;
+			foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+			{
+				renderer.color = value? new Color(1f,0.5f,0.5f) : Color.white;
+			}
+		}
+	}
+
 
 	public GameObject explosionPrefab;
 	public float explosionTime = 0.1f;
@@ -184,6 +200,7 @@ public class RobotComponent : MonoBehaviour {
 
 	virtual public void OnRemove()
 	{
+		isActive = false;
 	}
 
 	public AttachmentPoint GetJointForSlot(AttachmentSlot slot)

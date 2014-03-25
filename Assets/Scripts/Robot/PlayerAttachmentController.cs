@@ -132,10 +132,8 @@ public class PlayerAttachmentController : MonoBehaviour
 			var hit = Physics2D.Linecast(selectedParentJoint.transform.position, collider.transform.position, layerMask);
 			if (hit)
 			{
-				Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer), hit.collider.gameObject);
 				continue;
 			}
-
 
 			AttachmentPoint joint = collider.gameObject.GetComponent<AttachmentPoint>();
 			if (joint && joint.slot == AttachmentSlot.None && joint.parent == null)

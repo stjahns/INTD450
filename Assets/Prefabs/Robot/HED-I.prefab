@@ -847,6 +847,7 @@ MonoBehaviour:
   - LimbGate
   - ConveyorBelt
   - Button
+  - UnattachedLimb
   deathSound: {fileID: 8300000, guid: ef62b84dae4ec4a3a846ba8fc26ff4cb, type: 3}
   limbAttachSound: {fileID: 8300000, guid: ebd1efe94aefe964d9813bf64e2cfc89, type: 3}
   limbRemoveSound: {fileID: 8300000, guid: 46b19c4ad6380d94c8ec9ec761ef9f98, type: 3}
@@ -886,6 +887,7 @@ MonoBehaviour:
   spriteOrders: 01000000
   Skeleton: {fileID: 11400016}
   currentBone: {fileID: 11400010}
+  rootJoint: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1243,6 +1245,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetViewportHeight: 5
   allowZoom: 1
+  transitionTime: .5
+  maxViewportHeight: 15
+  minViewportHeight: 1
+  zoomStepSize: 5
 --- !u!114 &11400044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1256,6 +1262,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetViewportHeight: 5
   allowZoom: 1
+  transitionTime: .5
+  maxViewportHeight: 15
+  minViewportHeight: 1
+  zoomStepSize: 5
 --- !u!114 &11400046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1269,6 +1279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetViewportHeight: 3
   allowZoom: 1
+  transitionTime: .5
+  maxViewportHeight: 15
+  minViewportHeight: 1
+  zoomStepSize: 5
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

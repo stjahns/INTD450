@@ -185,6 +185,7 @@ public class ConveyorEditor : Editor
 
 		link = Instantiate(conveyorBehavior.beltLinkPrefab, start, 
 				Quaternion.FromToRotation(Vector3.up, up)) as GameObject;
+		link.transform.eulerAngles = new Vector3(0, 0, link.transform.eulerAngles.z);
 		link.transform.parent = conveyorBehavior.beltContainer.transform;
 
 		if (startLink == null && endLink == null)
@@ -205,6 +206,7 @@ public class ConveyorEditor : Editor
 			Vector3 position = Vector3.Lerp(start, end, (float) i / (float) (numLinks - 1));
 			link = Instantiate(conveyorBehavior.beltLinkPrefab, position, 
 					Quaternion.FromToRotation(Vector3.up, up)) as GameObject;
+			link.transform.eulerAngles = new Vector3(0, 0, link.transform.eulerAngles.z);
 			link.transform.parent = conveyorBehavior.beltContainer.transform;
 
 			joint = endLink.GetComponent<DistanceJoint2D>();
@@ -215,6 +217,7 @@ public class ConveyorEditor : Editor
 
 		link = Instantiate(conveyorBehavior.beltLinkPrefab, end, 
 				Quaternion.FromToRotation(Vector3.up, up)) as GameObject;
+		link.transform.eulerAngles = new Vector3(0, 0, link.transform.eulerAngles.z);
 		link.transform.parent = conveyorBehavior.beltContainer.transform;
 
 		joint = endLink.GetComponent<DistanceJoint2D>();

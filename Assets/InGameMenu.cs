@@ -20,7 +20,7 @@ public class InGameMenu : MonoBehaviour
 
 	void Update()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.Tab))
 		{
 			if (!active)
 			{

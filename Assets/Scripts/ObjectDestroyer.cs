@@ -21,7 +21,16 @@ public class ObjectDestroyer : MonoBehaviour
 		{
 			GameObject obj = other.attachedRigidbody.gameObject;
 			obj.SendMessage("OnDestroy", SendMessageOptions.DontRequireReceiver);
-			Destroy(obj);
+
+			DestructableBehaviour destructable = obj.GetComponent<DestructableBehaviour>();
+			if (destructable)
+			{
+				destructable.Destroy();
+			}
+			else
+			{
+				Destroy(obj);
+			}
 		}
 	}
 
@@ -32,7 +41,16 @@ public class ObjectDestroyer : MonoBehaviour
 		{
 			GameObject obj = other.rigidbody.gameObject;
 			obj.SendMessage("OnDestroy", SendMessageOptions.DontRequireReceiver);
-			Destroy(obj);
+
+			DestructableBehaviour destructable = obj.GetComponent<DestructableBehaviour>();
+			if (destructable)
+			{
+				destructable.Destroy();
+			}
+			else
+			{
+				Destroy(obj);
+			}
 		}
 	}
 }

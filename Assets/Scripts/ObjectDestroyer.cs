@@ -6,6 +6,7 @@ using System.Collections.Generic;
 public class ObjectDestroyer : MonoBehaviour
 {
 	public List<string> objectTags;
+	public bool isEnabled = true;
 
 	//
 	// lets us set an icon...
@@ -16,7 +17,7 @@ public class ObjectDestroyer : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (objectTags.Count == 0 || 
+		if (isEnabled && objectTags.Count == 0 || 
 				objectTags.Contains(other.attachedRigidbody.gameObject.tag))
 		{
 			GameObject obj = other.attachedRigidbody.gameObject;
@@ -36,7 +37,7 @@ public class ObjectDestroyer : MonoBehaviour
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (objectTags.Count == 0 || 
+		if (isEnabled && objectTags.Count == 0 || 
 				objectTags.Contains(other.rigidbody.gameObject.tag))
 		{
 			GameObject obj = other.rigidbody.gameObject;
@@ -52,5 +53,16 @@ public class ObjectDestroyer : MonoBehaviour
 				Destroy(obj);
 			}
 		}
+	}
+
+	[InputSocket]
+	public void setEnabled()
+	{
+		isEnabled = true;
+	}
+	[InputSocket]
+	public void setDisabled()
+	{
+		isEnabled = false;
 	}
 }

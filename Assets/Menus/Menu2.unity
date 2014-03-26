@@ -47363,70 +47363,6 @@ Prefab:
   m_RootGameObject: {fileID: 810096607}
   m_IsPrefabParent: 0
   m_IsExploded: 1
---- !u!1 &1008410016
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 100000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-  m_PrefabInternal: {fileID: 1337270159}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1008410017}
-  - 212: {fileID: 1008410019}
-  - 61: {fileID: 1008410018}
-  m_Layer: 8
-  m_Name: wall-h
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1008410017
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-  m_PrefabInternal: {fileID: 1337270159}
-  m_GameObject: {fileID: 1008410016}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.5200005, y: 2.18442726, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1881810244}
---- !u!61 &1008410018
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 6100000, guid: 354b20982e73d4b04b1e44edb6daa18c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1337270159}
-  m_GameObject: {fileID: 1008410016}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Size: {x: 1.27999997, y: .25}
-  m_Center: {x: 0, y: 0}
---- !u!212 &1008410019
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 21200000, guid: 354b20982e73d4b04b1e44edb6daa18c,
-    type: 2}
-  m_PrefabInternal: {fileID: 1337270159}
-  m_GameObject: {fileID: 1008410016}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: -1
-  m_SortingOrder: -1000
-  m_SortingLayerID: 867771081
-  m_Sprite: {fileID: 21300010, guid: a4b8b8648188bb948b466afc63d19081, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1009846620
 GameObject:
   m_ObjectHideFlags: 0
@@ -62445,46 +62381,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!1001 &1337270159
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1881810244}
-    m_Modifications:
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -11.5200005
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2.18442726
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
-  m_RootGameObject: {fileID: 1008410016}
-  m_IsPrefabParent: 0
-  m_IsExploded: 1
 --- !u!1 &1340427412
 GameObject:
   m_ObjectHideFlags: 0
@@ -85969,7 +85865,6 @@ Transform:
   - {fileID: 1096523334}
   - {fileID: 1901438879}
   - {fileID: 48608055}
-  - {fileID: 743357059}
   - {fileID: 130645865}
   - {fileID: 770145291}
   - {fileID: 740891449}
@@ -86024,14 +85919,14 @@ Transform:
   - {fileID: 387469157}
   - {fileID: 1405238877}
   - {fileID: 251598156}
-  - {fileID: 1585362427}
   - {fileID: 1069123694}
   - {fileID: 943672621}
   - {fileID: 1841425929}
   - {fileID: 1497230621}
   - {fileID: 1365651379}
   - {fileID: 1493225614}
-  - {fileID: 1008410017}
+  - {fileID: 743357059}
+  - {fileID: 1585362427}
   - {fileID: 1286840368}
   - {fileID: 1286631754}
   - {fileID: 1458999379}

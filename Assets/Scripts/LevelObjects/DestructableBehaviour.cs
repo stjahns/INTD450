@@ -40,6 +40,11 @@ public class DestructableBehaviour : MonoBehaviour
 	[InputSocket]
 	public void Destroy()
 	{
+		if (Destroyed != null)
+		{
+			Destroyed(gameObject);
+		}
+
 		Destroy(gameObject);
 	}
 
@@ -51,14 +56,6 @@ public class DestructableBehaviour : MonoBehaviour
 		if (health < 1)
 		{
 			Explode();
-		}
-	}
-
-	void OnDestroy()
-	{
-		if (Destroyed != null)
-		{
-			Destroyed(gameObject);
 		}
 	}
 }

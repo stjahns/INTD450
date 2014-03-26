@@ -129,6 +129,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 58: {fileID: 5800010}
   - 61: {fileID: 6100000}
+  - 114: {fileID: 11400022}
   m_Layer: 14
   m_Name: Torso
   m_TagString: Untagged
@@ -749,6 +750,22 @@ MonoBehaviour:
   end: {fileID: 400004}
   segmentCount: 4
   spread: .100000001
+--- !u!114 &11400022
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

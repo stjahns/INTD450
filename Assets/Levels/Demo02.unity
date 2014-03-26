@@ -245,6 +245,7 @@ GameObject:
   - 82: {fileID: 17008147}
   - 120: {fileID: 17008146}
   - 61: {fileID: 17008145}
+  - 114: {fileID: 17008154}
   m_Layer: 14
   m_Name: CannonLimb
   m_TagString: Untagged
@@ -490,6 +491,23 @@ Transform:
   - {fileID: 1013503433}
   - {fileID: 566682855}
   m_Father: {fileID: 0}
+--- !u!114 &17008154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400006, guid: b1535fe3dfa724d59b78b514c368d97f,
+    type: 2}
+  m_PrefabInternal: {fileID: 1859151609}
+  m_GameObject: {fileID: 17008144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!1001 &19955535
 Prefab:
   m_ObjectHideFlags: 0
@@ -1660,7 +1678,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5712dbee493d46a8be363a471e3ffac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectPrefab: {fileID: 100000, guid: 969ce976e7cf74a5ebaadd1cc254a035, type: 2}
+  objectPrefab: {fileID: 100012, guid: b1535fe3dfa724d59b78b514c368d97f, type: 2}
   spawnPoint: {fileID: 1658389232}
   initialSpeed: 0
   spawnDirection: {fileID: 0}
@@ -10540,6 +10558,7 @@ GameObject:
   - 114: {fileID: 492145004}
   - 58: {fileID: 492145006}
   - 61: {fileID: 492145005}
+  - 114: {fileID: 492145009}
   m_Layer: 14
   m_Name: Torso
   m_TagString: Untagged
@@ -10646,6 +10665,23 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!114 &492145009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: f819e4df57ceb4e6181e170f47634c8e,
+    type: 2}
+  m_PrefabInternal: {fileID: 2118838925}
+  m_GameObject: {fileID: 492145003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!1001 &499833466
 Prefab:
   m_ObjectHideFlags: 0
@@ -32114,6 +32150,7 @@ GameObject:
   - 114: {fileID: 1333053648}
   - 58: {fileID: 1333053650}
   - 61: {fileID: 1333053649}
+  - 114: {fileID: 1333053652}
   m_Layer: 14
   m_Name: Torso
   m_TagString: Untagged
@@ -32220,6 +32257,23 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!114 &1333053652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400022, guid: f819e4df57ceb4e6181e170f47634c8e,
+    type: 2}
+  m_PrefabInternal: {fileID: 438390700}
+  m_GameObject: {fileID: 1333053646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!1 &1333931172
 GameObject:
   m_ObjectHideFlags: 0
@@ -33623,7 +33677,7 @@ Prefab:
     - target: {fileID: 11400000, guid: 15b39f8214a92427b9f122fbb0e64bb4, type: 2}
       propertyPath: objectPrefab
       value: 
-      objectReference: {fileID: 100000, guid: 969ce976e7cf74a5ebaadd1cc254a035, type: 2}
+      objectReference: {fileID: 100012, guid: b1535fe3dfa724d59b78b514c368d97f, type: 2}
     - target: {fileID: 100010, guid: 15b39f8214a92427b9f122fbb0e64bb4, type: 2}
       propertyPath: m_Name
       value: springspawn
@@ -37652,7 +37706,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 7.26349831
+      value: 7.17359447
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 354b20982e73d4b04b1e44edb6daa18c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -38397,7 +38451,7 @@ Transform:
   m_PrefabInternal: {fileID: 1540626116}
   m_GameObject: {fileID: 1573573725}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.26349831, y: -7.7074542, z: .665408015}
+  m_LocalPosition: {x: 7.17359447, y: -7.7074542, z: .665408015}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 543428102}
@@ -49712,6 +49766,7 @@ GameObject:
   - 61: {fileID: 2044818749}
   - 82: {fileID: 2044818748}
   - 114: {fileID: 2044818752}
+  - 114: {fileID: 2044818753}
   m_Layer: 14
   m_Name: GrappleLimb
   m_TagString: Untagged
@@ -49903,6 +49958,23 @@ MonoBehaviour:
   sortingLayer: LevelObjects
   sortingOrder: -5
   pixelsPerUnit: 400
+--- !u!114 &2044818753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400010, guid: 968a52493ed6d47ea94b160c0669fa54,
+    type: 2}
+  m_PrefabInternal: {fileID: 2081764724}
+  m_GameObject: {fileID: 2044818746}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!1001 &2045461616
 Prefab:
   m_ObjectHideFlags: 0

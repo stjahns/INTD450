@@ -143,6 +143,12 @@ public class RobotComponent : MonoBehaviour {
 				LevelMusic.Instance.AttachLimb(limbType, Slot);
 			}
 		}
+
+		var destructable = GetComponent<DestructableBehaviour>();
+		if (destructable)
+		{
+			destructable.Destroyed += OnDestructableDestroyed;
+		}
 	}
 
 	virtual public void ResetSpriteOrders()
@@ -557,8 +563,14 @@ public class RobotComponent : MonoBehaviour {
 
 	}
 
+	public void OnDestructableDestroyed(GameObject obj)
+	{
+		DestroyRobotComponent();
+	}
+
 	public void DestroyRobotComponent()
 	{
+		//
 		// Detatch from parent...
 		if (parentComponent && parentAttachmentPoint && parentAttachmentPoint.child)
 		{

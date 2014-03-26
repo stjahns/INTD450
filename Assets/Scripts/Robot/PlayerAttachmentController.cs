@@ -236,12 +236,12 @@ public class PlayerAttachmentController : MonoBehaviour
 				attachmentText.text = "DETACH ";
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
 				attachmentText.text += " FROM ";
-				attachmentText.text += selectedParentJoint.slot.ToString();
+				attachmentText.text += selectedParentJoint.AttachmentName;
 			}
 			else
 			{
 				attachmentText.text = "ATTACH TO ";
-				attachmentText.text += selectedParentJoint.slot.ToString();
+				attachmentText.text += selectedParentJoint.AttachmentName;
 				attachmentText.text += "...";
 			}
 		}

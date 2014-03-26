@@ -11,16 +11,6 @@ public class Save_Load
 	public int level = 0;
 	public string player_name = "";
 	 
-	public void reset_checkpoint()
-	{
-        var data = file_load();
-        data["array"][1]["checkpoint"] = "Null";
-        data["array"][1]["boxes"] = "Null";
-        data["array"][1]["player_pos"] = "Null";
-        data = data.SaveToBase64();
-        file_save(data);
-	}
-
 	public void create_new()
 	{
 		var data = JSONNode.Parse("{\"Player name\":\""+player_name+"\", \"array\":[1,{\"data\":\"value\"}]}");

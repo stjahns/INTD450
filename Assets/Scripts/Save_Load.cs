@@ -11,9 +11,14 @@ public class Save_Load
 	public int level = 0;
 	public string player_name = "";
 	 
-	public Save_Load()
+	public void reset_checkpoint()
 	{
-		//Empty for Now
+        var data = file_load();
+        data["array"][1]["checkpoint"] = "Null";
+        data["array"][1]["boxes"] = "Null";
+        data["array"][1]["player_pos"] = "Null";
+        data = data.SaveToBase64();
+        file_save(data);
 	}
 
 	public void create_new()

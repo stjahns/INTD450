@@ -179,13 +179,13 @@ public class LevelStart : MonoBehaviour
         float z;
         if (player)
         {
-            x = (float)System.Convert.ToSingle(postion[0]) - 2;
-            y = (float)System.Convert.ToSingle(postion[1]);
+            x = (float)System.Convert.ToSingle(postion[0]) - 1f;
+            y = (float)System.Convert.ToSingle(postion[1]) + 0.1f;
         }
         else
         {
             x = (float)System.Convert.ToSingle(postion[0]);
-            y = (float)System.Convert.ToSingle(postion[1]) + 2;
+            y = (float)System.Convert.ToSingle(postion[1]) + 0.1f;
         }
 
         z = (float)System.Convert.ToSingle(postion[2]);

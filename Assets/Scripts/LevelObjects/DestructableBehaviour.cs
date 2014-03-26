@@ -11,6 +11,8 @@ public class DestructableBehaviour : MonoBehaviour
 	public int minRandomHealth = 1;
 	public int maxRandomHealth = 2;
 
+	public event System.Action<GameObject> Destroyed;
+
 	public void Start()
 	{
 		if (randomHealth)
@@ -33,6 +35,17 @@ public class DestructableBehaviour : MonoBehaviour
 
 			Destroy(gameObject);
 		}
+	}
+
+	[InputSocket]
+	public void Destroy()
+	{
+		if (Destroyed != null)
+		{
+			Destroyed(gameObject);
+		}
+
+		Destroy(gameObject);
 	}
 
 	[InputSocket]

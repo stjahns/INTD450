@@ -46,6 +46,7 @@ GameObject:
   - 61: {fileID: 6100002}
   - 82: {fileID: 8200002}
   - 114: {fileID: 11400008}
+  - 114: {fileID: 11400010}
   m_Layer: 14
   m_Name: GrappleLimb
   m_TagString: Untagged
@@ -207,7 +208,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.74173379, y: -5.00242805, z: 0}
+  m_LocalPosition: {x: -4.36095285, y: -4.77075624, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -439,6 +440,7 @@ MonoBehaviour:
   slot: 0
   lightningEffect: {fileID: 11400006}
   bone: {fileID: 0}
+  AttachmentName: Grapple
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -467,7 +469,6 @@ MonoBehaviour:
   allJoints: []
   SFXSource: {fileID: 8200002}
   shouldAim: 1
-  isActive: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -549,6 +550,22 @@ MonoBehaviour:
   sortingLayer: LevelObjects
   sortingOrder: -5
   pixelsPerUnit: 400
+--- !u!114 &11400010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -17,11 +17,17 @@ public class SelectLevelButton : MenuButton
 		base.Start();
 		text.text = level.ToString();
 
-		Save_Load load = new Save_Load ();
-		load.player_name = "player";
-		var data =load.file_load ();
-
-		savedLevel = Mathf.Max(1, System.Convert.ToInt32(data["array"][1]["Level"]));
+        try
+        {
+            Save_Load load = new Save_Load();
+            load.player_name = "player";
+            var data = load.file_load();
+            savedLevel = Mathf.Max(1, System.Convert.ToInt32(data["array"][1]["Level"]));
+        }
+        catch 
+        {
+            savedLevel = 0; 
+        }
 
         if (savedLevel >= level)
 		{

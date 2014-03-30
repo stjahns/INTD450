@@ -24,8 +24,20 @@ public class Save_Load
 		file_save (data);
 	}
 	 void file_save(string data){
-		string file = Directory.GetCurrentDirectory () + "\\Saved Data\\"+player_name;
-		StreamWriter sw = new StreamWriter (file);
+         string folder = Directory.GetCurrentDirectory() + "\\Saved Data\\";
+         string file = Directory.GetCurrentDirectory () + "\\Saved Data\\"+player_name;
+         
+         if (!Directory.Exists(folder))
+         {
+             Directory.CreateDirectory(folder);
+         }
+         StreamWriter sw = new StreamWriter(file);
+         if (!System.IO.File.Exists(file))
+         {
+             sw = new StreamWriter(file);
+         }
+		
+		
 		FileInfo Filesystem = new FileInfo(file);
 		Filesystem.IsReadOnly = false;
 		Filesystem.Refresh ();
@@ -36,7 +48,16 @@ public class Save_Load
 	public JSONNode file_load(){
 
 		string file = Directory.GetCurrentDirectory () + "\\Saved Data\\"+player_name;
-		StreamReader sr = new StreamReader(file);
+        StreamReader sr;
+        try
+        {
+           sr = new StreamReader(file);
+        }
+        catch
+        {
+            create_new();
+        }
+        sr = new StreamReader(file);
 		FileInfo myFileInfo = new FileInfo(file);
 		myFileInfo.IsReadOnly = false;
 		myFileInfo.Refresh ();

@@ -42,16 +42,26 @@ public class LevelLoader : MonoBehaviour
 	[InputSocket]
 	public void ResumeLevel()
 	{
-		Save_Load load = new Save_Load();
-		load.player_name="player";
-		var data=load.file_load();
-		int level=System.Convert.ToInt32(data["array"][1]["Level"]);
-		if (level==0)
-		{
-			level=1;
-		}
+        int level = 0;
+        try
+        {
+            Save_Load load = new Save_Load();
+            load.player_name = "player";
+            var data = load.file_load();
+            level = System.Convert.ToInt32(data["array"][1]["Level"]);
+            if (level == 0)
+            {
+                level = 1;
+            }
+            LoadLevel(level);
+        }
+        catch
+        {
+            level = 0;
+        }
+        
 
-		LoadLevel(level);
+		
 	}
 
 	[InputSocket]

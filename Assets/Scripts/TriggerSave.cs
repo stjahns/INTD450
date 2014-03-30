@@ -20,7 +20,7 @@ public class TriggerSave : MonoBehaviour {
         string boxes_checkpoint = "";
         ///Debug.Log(other.gameObject.name);
 
-        if (other.gameObject.GetType() == typeof(RobotComponent) || other.gameObject.name == "HED-I(Clone)")
+        if (other.gameObject.GetComponent<RobotComponent>() != null && other.gameObject.GetComponent<RobotComponent>().attachedToPlayer())
         {
             PlayerBehavior player = PlayerBehavior.Player;
             RobotComponent[] obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];

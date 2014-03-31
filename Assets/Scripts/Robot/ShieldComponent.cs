@@ -67,6 +67,8 @@ public class ShieldComponent : LimbComponent
 
 	override public void OnRemove()
 	{
+		base.OnRemove();
+
 		if (shieldActive)
 		{
 			shieldActive = false;

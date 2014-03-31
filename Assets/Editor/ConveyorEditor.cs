@@ -145,6 +145,7 @@ public class ConveyorEditor : Editor
 		GenerateBeltEnd(
 				end,
 				startToEnd.normalized,
+				false,
 				ref startLink,
 				ref endLink);
 
@@ -157,6 +158,7 @@ public class ConveyorEditor : Editor
 		GenerateBeltEnd(
 				start,
 				-startToEnd.normalized,
+				true,
 				ref startLink,
 				ref endLink);
 
@@ -229,6 +231,7 @@ public class ConveyorEditor : Editor
 	void GenerateBeltEnd(
 			Vector3 center,
 			Vector3 direction,
+			bool leftEnd,
 			ref Rigidbody2D startLink,
 			ref Rigidbody2D endLink)
 	{
@@ -251,6 +254,12 @@ public class ConveyorEditor : Editor
 
 			Quaternion rotation = Quaternion.AngleAxis(Mathf.Rad2Deg * arcFraction, Vector3.forward);
 			Vector3 position = center + rotation * (up * axleRadius);
+
+			if (leftEnd)
+			{
+				rotation *= Quaternion.AngleAxis(180, Vector3.forward);
+			}
+
 			GameObject link = Instantiate(conveyorBehavior.beltLinkPrefab, position, rotation) as GameObject;
 			link.transform.parent = conveyorBehavior.beltContainer.transform;
 

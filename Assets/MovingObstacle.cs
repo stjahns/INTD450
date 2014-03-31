@@ -16,6 +16,9 @@ public class MovingObstacle : MonoBehaviour
 	[SerializeField]
 	private float _speedThreshold;
 
+	[SerializeField]
+	private float _bumpForce;
+
 	void OnCollisionEnter2D(Collision2D collision)
 	{
 		MovingObstacle otherObstacle = collision.gameObject.GetComponent<MovingObstacle>();
@@ -50,6 +53,10 @@ public class MovingObstacle : MonoBehaviour
 						}
 					}
 				}
+				StartCoroutine(fallRoutine(gameObject, _destroyDelay));
+
+				// give player a bump proportional to velocity
+				rootComponent.rigidbody2D.AddForce(rigidbody2D.velocity * _bumpForce);
 			}
 		}
 	}

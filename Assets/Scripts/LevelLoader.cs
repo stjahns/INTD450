@@ -26,6 +26,12 @@ public class LevelLoader : MonoBehaviour
 	}
 
 	[InputSocket]
+	public void ReloadCheckpoint()
+	{
+        LoadLevel(Application.loadedLevel);
+	}
+
+	[InputSocket]
 	public void LoadMenu()
 	{
 		startFadeOut();

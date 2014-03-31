@@ -56,7 +56,7 @@ public class InGameMenuButton : TriggerBase
 		}
 	}
 
-	virtual public void Start()
+	virtual public void Awake()
 	{
 		originalScale = transform.localScale;
 

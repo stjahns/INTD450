@@ -568,6 +568,14 @@ public class RobotComponent : MonoBehaviour {
 		DestroyRobotComponent();
 	}
 
+	public void DetachChildren()
+	{
+		foreach (RobotComponent limb in getDirectChildren())
+		{
+			Unattach(limb.parentAttachmentPoint, limb.parentAttachmentPoint.child);
+		}
+	}
+
 	public void DestroyRobotComponent()
 	{
 		//

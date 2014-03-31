@@ -190,7 +190,7 @@ public class TurretController : MonoBehaviour
 					int layerMask = 0;
 					beamBlockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 					Vector3 direction = currentTarget.transform.position - laserOrigin.position;
-					RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, direction, layerMask);
+					RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, direction, Mathf.Infinity, layerMask);
 					if (hit)
 					{
 						laserRenderer.SetPosition(1, hit.point);

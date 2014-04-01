@@ -14,7 +14,7 @@ public class StateMachineBase : MonoBehaviour
 	public Action<Collider2D> DoOnTriggerStay = DoNothingCollider;
 	public Action<Collider2D> DoOnTriggerExit = DoNothingCollider;
 
-	public Action<Collision2D> DoOnCollisionEnter = DoNothingCollision;
+	public Action<Collision2D> DoOnCollisionEnter2D = DoNothingCollision;
 	public Action<Collision2D> DoOnCollisionStay = DoNothingCollision;
 	public Action<Collision2D> DoOnCollisionExit = DoNothingCollision;
 	
@@ -58,6 +58,11 @@ public class StateMachineBase : MonoBehaviour
 		DoLateUpdate();
 	}
 
+	virtual protected void OnCollisionEnter2D(Collision2D collision)
+	{
+		DoOnCollisionEnter2D(collision);
+	}
+
 	void ConfigureCurrentState()
 	{
 		if (ExitState != null)
@@ -83,8 +88,8 @@ public class StateMachineBase : MonoBehaviour
 		DoOnTriggerStay = ConfigureDelegate<Action<Collider2D>>
 			("OnTriggerStay", DoNothingCollider);
 
-		DoOnCollisionEnter = ConfigureDelegate<Action<Collision2D>>
-			("OnCollisionEnter", DoNothingCollision);
+		DoOnCollisionEnter2D = ConfigureDelegate<Action<Collision2D>>
+			("OnCollisionEnter2D", DoNothingCollision);
 		DoOnCollisionExit = ConfigureDelegate<Action<Collision2D>>
 			("OnCollisionExit", DoNothingCollision);
 		DoOnCollisionStay = ConfigureDelegate<Action<Collision2D>>

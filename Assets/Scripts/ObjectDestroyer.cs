@@ -7,6 +7,7 @@ public class ObjectDestroyer : MonoBehaviour
 {
 	public List<string> objectTags;
 	public bool isEnabled = true;
+	public bool explode = false;
 
 	//
 	// lets us set an icon...
@@ -17,40 +18,36 @@ public class ObjectDestroyer : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (isEnabled && objectTags.Count == 0 || 
-				objectTags.Contains(other.attachedRigidbody.gameObject.tag))
-		{
-			GameObject obj = other.attachedRigidbody.gameObject;
-			obj.SendMessage("OnDestroy", SendMessageOptions.DontRequireReceiver);
-
-			DestructableBehaviour destructable = obj.GetComponent<DestructableBehaviour>();
-			if (destructable)
-			{
-				destructable.Destroy();
-			}
-			else
-			{
-				Destroy(obj);
-			}
-		}
+		DestroyObject(other.attachedRigidbody.gameObject);
 	}
 
 	void OnCollisionEnter2D(Collision2D other)
 	{
-		if (isEnabled && objectTags.Count == 0 || 
-				objectTags.Contains(other.rigidbody.gameObject.tag))
-		{
-			GameObject obj = other.rigidbody.gameObject;
-			obj.SendMessage("OnDestroy", SendMessageOptions.DontRequireReceiver);
+		DestroyObject(other.collider.attachedRigidbody.gameObject);
+	}
 
-			DestructableBehaviour destructable = obj.GetComponent<DestructableBehaviour>();
+	void DestroyObject(GameObject other)
+	{
+		if (isEnabled && objectTags.Count == 0 || 
+				objectTags.Contains(other.tag))
+		{
+			other.SendMessage("OnDestroy", SendMessageOptions.DontRequireReceiver);
+
+			DestructableBehaviour destructable = other.GetComponent<DestructableBehaviour>();
 			if (destructable)
 			{
-				destructable.Destroy();
+				if (explode)
+				{
+					destructable.Explode();
+				}
+				else
+				{
+					destructable.Destroy();
+				}
 			}
 			else
 			{
-				Destroy(obj);
+				Destroy(other);
 			}
 		}
 	}

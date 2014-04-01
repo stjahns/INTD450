@@ -24,6 +24,7 @@ public class GrappleComponent : LimbComponent {
 	public float ropePullForce = 50.0f;
 
 	public List<string> grappleableLayers = new List<string>();
+	public List<string> legClampLayers = new List<string>();
 
 	public AudioClip fireClip;
 	public AudioClip releaseClip;
@@ -253,7 +254,7 @@ public class GrappleComponent : LimbComponent {
 		}
 		else // leg
 		{
-			layerMask = 1 << LayerMask.NameToLayer("Ground");
+			legClampLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 		}
 
 		if (!fired)
@@ -302,8 +303,15 @@ public class GrappleComponent : LimbComponent {
 		}
 		else
 		{
-			// slide down to retract first...
-			state = State.Retracting;
+			// if stuck in ground, slide down to retract first...
+			if (projectile.AttachedToPoint)
+			{
+				state = State.Retracting;
+			}
+			else
+			{
+				RetractGrapple(true);
+			}
 		}
 	}
 

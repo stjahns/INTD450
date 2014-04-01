@@ -6,6 +6,7 @@ public class Explosion : MonoBehaviour {
 	public AudioClip explosionClip;
 
 	public float time = 0.1f;
+	public bool hurtPlayer = false;
 	
 	public float explosionRadius = 1.0f;
 	public float explosionForce = 1.0f;
@@ -52,6 +53,12 @@ public class Explosion : MonoBehaviour {
 
 		foreach (Collider2D collider in inExplosion)
 		{
+			RobotComponent component = collider.GetComponent<RobotComponent>();
+			if (component && component.attachedToPlayer() && !hurtPlayer)
+			{
+				continue;
+			}
+
 			GameObject obj = collider.gameObject;
 			obj.SendMessage("TakeDamage",
 					explosionDamage,

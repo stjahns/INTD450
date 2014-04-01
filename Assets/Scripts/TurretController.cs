@@ -107,8 +107,12 @@ public class TurretController : MonoBehaviour
 
 					Quaternion rightRotation = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position);
 					Quaternion leftRotation = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position);
+
+					float leftAngle = leftRotation.eulerAngles.z;
+					float rightAngle = rightRotation.eulerAngles.z;
+
 					float parameter = Mathfx.Hermite(0, 1, trackingTimer / trackTime);
-					gunPivot.rotation = Quaternion.Lerp(leftRotation, rightRotation, parameter);
+					gunPivot.eulerAngles = new Vector3(0, 0, Mathf.LerpAngle(leftAngle, rightAngle, parameter));
 
 					if (trackingTimer > trackTime)
 					{
@@ -126,8 +130,12 @@ public class TurretController : MonoBehaviour
 
 					Quaternion rightRotation = Quaternion.FromToRotation(Vector3.up, rightLimit.position - gunPivot.position);
 					Quaternion leftRotation = Quaternion.FromToRotation(Vector3.up, leftLimit.position - gunPivot.position);
+
+					float leftAngle = leftRotation.eulerAngles.z;
+					float rightAngle = rightRotation.eulerAngles.z;
+
 					float parameter = Mathfx.Hermite(0, 1, trackingTimer / trackTime);
-					gunPivot.rotation = Quaternion.Lerp(rightRotation, leftRotation, parameter);
+					gunPivot.eulerAngles = new Vector3(0, 0, Mathf.LerpAngle(rightAngle, leftAngle, parameter));
 
 					if (trackingTimer > trackTime)
 					{
@@ -146,8 +154,7 @@ public class TurretController : MonoBehaviour
 			return;
 		}
 
-		gunPivot.rotation = Quaternion.FromToRotation(Vector3.up, currentTarget.transform.position - gunPivot.position);
-
+		gunPivot.eulerAngles = new Vector3(0, 0, Vector2.Angle(Vector2.up, currentTarget.transform.position - gunPivot.position));
 
 		switch (firingState)
 		{

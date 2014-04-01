@@ -24,17 +24,14 @@ public class DestructableBehaviour : MonoBehaviour
 	[InputSocket]
 	public void Explode()
 	{
-		if (enabled)
+		if (explosionPrefab)
 		{
-			if (explosionPrefab)
-			{
-				 Instantiate(explosionPrefab, 
-						transform.position, 
-						Quaternion.identity) ;
-			}
-
-			Destroy(gameObject);
+			 Instantiate(explosionPrefab, 
+					transform.position, 
+					Quaternion.identity);
 		}
+
+		Destroy();
 	}
 
 	[InputSocket]

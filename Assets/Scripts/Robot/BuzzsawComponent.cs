@@ -8,6 +8,7 @@ public class BuzzsawComponent : LimbComponent
 	public float bladeTopSpeed;
 	public float bladeAcceleration;
 	public float bladeForce;
+	public float groundAngleTolerance = 45;
 	public Transform forceDirection;
 
 	public Collider2D bladeTrigger;
@@ -62,6 +63,12 @@ public class BuzzsawComponent : LimbComponent
 		if (bladeSpeed > 0)
 		{
 			float rotation = bladeSpeed * Time.deltaTime;
+
+			if (Skeleton.direction == PlayerSkeleton.Direction.Right)
+			{
+				rotation *= -1;
+			}
+
 			sawblade.transform.Rotate(0, 0, rotation);
 		}
 	}
@@ -74,17 +81,25 @@ public class BuzzsawComponent : LimbComponent
 		if (running)
 		{
 			int layerMask = 1 << LayerMask.NameToLayer("Ground");
+			layerMask |= 1 << LayerMask.NameToLayer("HookWall");
 
 			RaycastHit2D hit = Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
 			if (hit)
 			{
-				Vector3 direction = forceDirection.position - sawblade.transform.position;
-				direction.Normalize();
-				getRootComponent().rigidbody2D.AddForce(bladeForce * direction);
+				Debug.Log(LayerMask.LayerToName(hit.collider.gameObject.layer));
 
-				if (!sawHitting.isPlaying)
+				// Unless angle within ground tolerance, only bite in if it's a hookwall
+				if (Vector2.Angle(Vector2.up, hit.normal) < groundAngleTolerance
+						|| hit.collider.gameObject.layer == LayerMask.NameToLayer("HookWall"))
 				{
-					sawHitting.Play();
+					Vector3 direction = forceDirection.position - sawblade.transform.position;
+					direction.Normalize();
+					getRootComponent().rigidbody2D.AddForce(bladeForce * direction);
+
+					if (!sawHitting.isPlaying)
+					{
+						sawHitting.Play();
+					}
 				}
 			}
 			else
@@ -137,5 +152,22 @@ public class BuzzsawComponent : LimbComponent
 			sawRunning.Stop();
 			bladeTrigger.enabled = false;
 		}
+	}
+
+	override public void OnRemove()
+	{
+		base.OnRemove();
+
+		// stop rotating sawblade
+		running = false;
+
+		SawbladeController blade = GetComponentInChildren<SawbladeController>();
+		if (blade)
+		{
+			blade.Running = false;
+		}
+
+		sawRunning.Stop();
+		bladeTrigger.enabled = false;
 	}
 }

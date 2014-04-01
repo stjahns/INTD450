@@ -76,7 +76,6 @@ GameObject:
   - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400002}
-  - 58: {fileID: 5800002}
   - 82: {fileID: 8200002}
   - 82: {fileID: 8200000}
   - 114: {fileID: 11400008}
@@ -202,7 +201,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100012}
   m_LocalRotation: {x: 0, y: 0, z: .724321604, w: .689462364}
-  m_LocalPosition: {x: .978023112, y: -5.78311062, z: 0}
+  m_LocalPosition: {x: 10.3170185, y: -6.67319012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400018}
@@ -284,17 +283,6 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_Radius: .159999996
   m_Center: {x: 0, y: 0}
---- !u!58 &5800002
-CircleCollider2D:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100012}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Radius: .159999996
-  m_Center: {x: 0, y: .0199999996}
 --- !u!58 &5800004
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -326,8 +314,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .319999993, y: .660000026}
-  m_Center: {x: 0, y: -.419999987}
+  m_Size: {x: .319999993, y: .63755554}
+  m_Center: {x: 1.63093209e-05, y: -.283390015}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -488,11 +476,9 @@ MonoBehaviour:
   groundCheck: {fileID: 400020}
   wallCheck: {fileID: 400010}
   unattachedColliders:
-  - {fileID: 5800002}
   - {fileID: 6100000}
   - {fileID: 5800006}
   attachedColliders:
-  - {fileID: 5800002}
   - {fileID: 6100000}
   - {fileID: 5800006}
   groundConnections: []
@@ -503,7 +489,6 @@ MonoBehaviour:
   explosionTime: .100000001
   sprites:
   - {fileID: 21200006}
-  - {fileID: 21200004}
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
@@ -512,6 +497,7 @@ MonoBehaviour:
   bladeTopSpeed: 1000
   bladeAcceleration: 1000
   bladeForce: 25
+  groundAngleTolerance: 45
   forceDirection: {fileID: 400018}
   bladeTrigger: {fileID: 5800004}
   sawRunning: {fileID: 8200002}

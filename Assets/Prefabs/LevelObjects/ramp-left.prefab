@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 61: {fileID: 6100000}
-  m_Layer: 12
-  m_Name: lightbridge
+  - 60: {fileID: 6000000}
+  m_Layer: 0
+  m_Name: ramp-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -24,12 +24,12 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.67999744, y: 1.27999985, z: 1}
+  m_LocalPosition: {x: -1.58122432, y: -9.66988754, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!61 &6100000
-BoxCollider2D:
+--- !u!60 &6000000
+PolygonCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
@@ -37,8 +37,14 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 1.27999997, y: .324999988}
-  m_Center: {x: 0, y: -.131999999}
+  m_Poly:
+    m_Paths:
+    - - {x: .79256475, y: -.454414368}
+      - {x: -.382750392, y: .399741173}
+      - {x: -.510101914, y: .422607422}
+      - {x: -.583970189, y: .42093277}
+      - {x: -.310622334, y: .167225838}
+      - {x: .566833019, y: -.458305359}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -57,11 +63,11 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: -1
-  m_SortingOrder: -1000
-  m_SortingLayerID: 867771081
-  m_Sprite: {fileID: 21300010, guid: c36a3304ebf99416b8c5b289e812c3d3, type: 3}
-  m_Color: {r: .525490224, g: 1, b: 1, a: .858823538}
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_Sprite: {fileID: 21300000, guid: aa3bcfe0bbe34464bb1f48361d35bae1, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

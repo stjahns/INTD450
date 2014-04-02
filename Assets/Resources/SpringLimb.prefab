@@ -46,6 +46,7 @@ GameObject:
   - 82: {fileID: 8200002}
   - 61: {fileID: 6100000}
   - 114: {fileID: 11400006}
+  - 58: {fileID: 5800002}
   m_Layer: 14
   m_Name: SpringLimb
   m_TagString: Untagged
@@ -192,7 +193,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.98248923, y: -6.82813692, z: 0}
+  m_LocalPosition: {x: 3.49824667, y: 9.43915558, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -211,8 +212,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00527000427, y: -.210833788, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: .00527000427, y: -.23527813, z: 0}
+  m_LocalScale: {x: 1, y: 1.1119796, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
 --- !u!4 &400008
@@ -222,7 +223,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .00617313385, y: -.358115196, z: 0}
+  m_LocalPosition: {x: .00617313385, y: -.467033386, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -308,6 +309,17 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_Radius: .159999996
   m_Center: {x: 0, y: 0}
+--- !u!58 &5800002
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Radius: .117050409
+  m_Center: {x: 0, y: -.430000007}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -317,8 +329,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .209999993, y: .479999989}
-  m_Center: {x: 0, y: -.180000007}
+  m_Size: {x: .209999993, y: .522001147}
+  m_Center: {x: 0, y: -.201000214}
 --- !u!82 &8200002
 AudioSource:
   m_ObjectHideFlags: 1

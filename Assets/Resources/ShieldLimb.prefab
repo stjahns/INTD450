@@ -139,7 +139,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: .0622968674, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -152,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.306658268, z: 0}
+  m_LocalPosition: {x: 0, y: -.248431325, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -163,7 +163,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -.692436218, z: 0}
+  m_LocalPosition: {x: 0, y: -.529762983, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -185,7 +185,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.87750459, y: -4.73088646, z: 0}
+  m_LocalPosition: {x: 3.17750931, y: -1.02969778, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400000}
@@ -251,7 +251,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .161411047
+  m_Radius: .122937441
   m_Center: {x: 0, y: -.0500000007}
 --- !u!58 &5800002
 CircleCollider2D:
@@ -262,8 +262,8 @@ CircleCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Radius: .161411047
-  m_Center: {x: 0, y: -.529999971}
+  m_Radius: .130709648
+  m_Center: {x: 0, y: -.419999987}
 --- !u!58 &5800004
 CircleCollider2D:
   m_ObjectHideFlags: 1
@@ -284,8 +284,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .313793063, y: .484945416}
-  m_Center: {x: .00307178497, y: -.277469158}
+  m_Size: {x: .244020432, y: .376451612}
+  m_Center: {x: .000579833984, y: -.223221779}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -399,6 +399,7 @@ MonoBehaviour:
   rootJoint: {fileID: 0}
   enableClip: {fileID: 8300000, guid: 2a68cf24bd17d4654bf3b88664c552f0, type: 3}
   disableClip: {fileID: 8300000, guid: 34554afed97b9f341b05eb4d610c185e, type: 3}
+  disabledScale: {x: .150000006, y: .5, z: 0}
   floatForce: 25
   shieldEffectPrefab: {fileID: 100002, guid: cee011b34620d40968fdb7c7e9f8740c, type: 2}
   shieldEffectOrigin: {fileID: 400004}

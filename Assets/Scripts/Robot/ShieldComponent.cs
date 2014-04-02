@@ -7,6 +7,7 @@ public class ShieldComponent : LimbComponent
 	public AudioClip enableClip;
 	public AudioClip disableClip;
 
+	public Vector3 disabledScale;
 	public float floatForce;
 
 	public GameObject shieldEffectPrefab;
@@ -20,7 +21,14 @@ public class ShieldComponent : LimbComponent
 	override public void Start ()
 	{
 		base.Start();
+
 		shieldActive = false;
+
+		shieldEffect = Instantiate(shieldEffectPrefab, shieldEffectOrigin.position, transform.rotation)
+			as GameObject;
+		shieldEffect.transform.parent = transform;
+		renderer = shieldEffect.GetComponent<Renderer>();
+		shieldEffect.transform.localScale = disabledScale;
 	}
 
 	override public void FireAbility()
@@ -28,18 +36,18 @@ public class ShieldComponent : LimbComponent
 		if (shieldActive)
 		{
 			shieldActive = false;
-			Destroy(shieldEffect);
-			shieldEffect = null;
 			SFXSource.PlayOneShot(disableClip);
+
+			// shrink shield
+			shieldEffect.transform.localScale = disabledScale;
 		}
 		else
 		{
 			shieldActive = true;
-			shieldEffect = Instantiate(shieldEffectPrefab, shieldEffectOrigin.position, transform.rotation)
-				as GameObject;
-			shieldEffect.transform.parent = transform;
 			SFXSource.PlayOneShot(enableClip);
-			renderer = shieldEffect.GetComponent<Renderer>();
+
+			// strech shield
+			shieldEffect.transform.localScale = Vector3.one;
 		}
 	}
 
@@ -72,9 +80,11 @@ public class ShieldComponent : LimbComponent
 		if (shieldActive)
 		{
 			shieldActive = false;
-			Destroy(shieldEffect);
-			shieldEffect = null;
+
 			SFXSource.PlayOneShot(disableClip);
+
+			// shrink shield
+			shieldEffect.transform.localScale = disabledScale;
 		}
 	}
 }

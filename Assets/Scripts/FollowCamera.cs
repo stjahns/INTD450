@@ -52,23 +52,8 @@ public class FollowCamera : MonoBehaviour
 			if (currentTarget.allowZoom)
 			{
 				// Zoom in
-				if (Input.GetKeyDown(KeyCode.M))
-				{
-					if (viewportHeight + zoomStepSize <= maxViewportHeight)
-					{
-						viewportHeight += zoomStepSize;
-					}
-
-				} 
-
-				// Zoom out
-				if (Input.GetKeyDown(KeyCode.N))
-				{
-					if (viewportHeight - zoomStepSize >= minViewportHeight)
-					{
-						viewportHeight -= zoomStepSize;
-					}
-				}
+				viewportHeight += Input.GetAxis("Mouse ScrollWheel");
+				viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
 			}
 
 			camera.orthographicSize= Mathf.Lerp(

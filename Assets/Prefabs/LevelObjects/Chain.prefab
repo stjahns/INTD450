@@ -35,7 +35,7 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 1
+  m_Mass: .00999999978
   m_LinearDrag: 0
   m_AngularDrag: .0500000007
   m_GravityScale: 1
@@ -60,6 +60,10 @@ MonoBehaviour:
   offsetA: {x: 0, y: 0}
   offsetB: {x: 0, y: 0}
   chainRenderer: {fileID: 0}
+  jointA: {fileID: 0}
+  jointB: {fileID: 0}
+  severed: 0
+  isDuplicate: 0
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

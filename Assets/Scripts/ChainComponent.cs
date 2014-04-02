@@ -11,10 +11,13 @@ public class ChainComponent : MonoBehaviour
 
 	public ChainRenderer chainRenderer;
 
-	private HingeJoint2D jointA;
-	private HingeJoint2D jointB;
+	[HideInInspector]
+	public HingeJoint2D jointA;
 
-	private bool severed = false;
+	[HideInInspector]
+	public HingeJoint2D jointB;
+
+	public bool severed = false;
 
 	private Vector3 endA;
 	private Vector3 endB;
@@ -23,22 +26,27 @@ public class ChainComponent : MonoBehaviour
 	{
 	}
 
+	public bool isDuplicate = false;
+
 	public void Start()
 	{
 		// Center chain between the connected bodies
 		transform.position = (bodyA.transform.position + bodyB.transform.position) / 2.0f;
-		
-		// Attach to body A
-		jointA = gameObject.AddComponent<HingeJoint2D>();
-		jointA.connectedBody = bodyA;
-		jointA.anchor = bodyA.transform.position - transform.position;
-		jointA.connectedAnchor = offsetA;
 
-		// Attach to body B
-		jointB = gameObject.AddComponent<HingeJoint2D>();
-		jointB.connectedBody = bodyB;
-		jointB.anchor = bodyB.transform.position - transform.position;
-		jointB.connectedAnchor = offsetB;
+		if (!isDuplicate)
+		{
+			// Attach to body A
+			jointA = gameObject.AddComponent<HingeJoint2D>();
+			jointA.connectedBody = bodyA;
+			jointA.anchor = bodyA.transform.position - transform.position;
+			jointA.connectedAnchor = offsetA;
+
+			// Attach to body B
+			jointB = gameObject.AddComponent<HingeJoint2D>();
+			jointB.connectedBody = bodyB;
+			jointB.anchor = bodyB.transform.position - transform.position;
+			jointB.connectedAnchor = offsetB;
+		}
 
 		endA = bodyA.transform.position;
 		endB = bodyB.transform.position;
@@ -65,23 +73,43 @@ public class ChainComponent : MonoBehaviour
 					layerMask);
 			if (hit)
 			{
-				// sever connection
-				Destroy(jointA);
-				Destroy(jointB);
+				// sever connection...
 				severed = true;
 
-				if (chainRenderer)
-				{
-					chainRenderer.Sever();
-				}
+				// Duplicate this chain...
+				GameObject chainDuplicate = Instantiate(gameObject) as GameObject;
+
+				// create 2 new rigid bodies at point of severence
+
+				// Top half
+				GameObject severedEndA = new GameObject("SeveredEnd");
+				severedEndA.transform.position = hit.point;
+				severedEndA.AddComponent<Rigidbody2D>();
+
+				bodyB = severedEndA.rigidbody2D;
+				bodyB.mass = 0.01f;
+				jointB.connectedBody = bodyB;
+				jointB.anchor = bodyB.transform.position - transform.position;
+
+				chainRenderer.end = bodyB.transform;
+
+				// Bottom half... 
+				GameObject severedEndB = new GameObject("SeveredEnd");
+				severedEndB.transform.position = hit.point;
+				severedEndB.AddComponent<Rigidbody2D>();
+				severedEndB.rigidbody2D.mass = 0.01f;
+
+				ChainComponent bottomChain = chainDuplicate.GetComponent<ChainComponent>();
+				bottomChain.isDuplicate = true;
+				ChainRenderer bottomRenderer = chainDuplicate.GetComponent<ChainRenderer>();
+
+				bottomChain.bodyA = severedEndB.rigidbody2D;
+				bottomChain.jointA.connectedBody = severedEndB.rigidbody2D;
+				bottomChain.jointA.anchor = severedEndB.rigidbody2D.transform.position 
+					- transform.position;
+
+				bottomRenderer.start = severedEndB.rigidbody2D.transform;
 			}
-		}
-		else
-		{
-			// Chain falls with rigid body
-			Vector3 aToB = endB - endA;
-			endB = rigidbody2D.transform.position + (aToB / 2.0f);
-			endA = rigidbody2D.transform.position - (aToB / 2.0f);
 		}
 	}
 }

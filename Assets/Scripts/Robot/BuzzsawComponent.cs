@@ -24,6 +24,7 @@ public class BuzzsawComponent : LimbComponent
 		base.Start();
 		running = false;
 		bladeSpeed = 0;
+		bladeTrigger.enabled = false;
 	}
 
 	//

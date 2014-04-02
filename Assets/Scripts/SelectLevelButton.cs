@@ -8,7 +8,8 @@ public class SelectLevelButton : MenuButton
 	public int level;
 	public TextMesh text;
 	public LevelLoader loader;
-	public SpriteRenderer levelBlockedSprite;
+
+	public SpriteRenderer levelScreen;
 
 	private int savedLevel;
 
@@ -16,6 +17,8 @@ public class SelectLevelButton : MenuButton
 	{
 		base.Start();
 		text.text = level.ToString();
+		text.renderer.sortingLayerName = "UI";
+		text.renderer.sortingOrder = 10;
 
         try
         {
@@ -29,15 +32,23 @@ public class SelectLevelButton : MenuButton
             savedLevel = 0; 
         }
 
-        if (savedLevel >= level)
+        if (savedLevel < level)
 		{
-			// hide the red x thing, we've reached this level
-			levelBlockedSprite.enabled = false;
-		}
-		else
-		{
+			if (levelScreen)
+			{
+				levelScreen.enabled = false;
+			}
+
 			// disable button function, level is blocked
 			collider.enabled = false;
+
+			// make everything translucent
+			foreach (SpriteRenderer renderer in GetComponentsInChildren<SpriteRenderer>())
+			{
+				Color color = renderer.color;
+				color.a = 0.7f;
+				renderer.color = color;
+			}
 		}
 	}
 

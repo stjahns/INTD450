@@ -3,13 +3,13 @@ using System.Collections;
 
 public class ShieldEffectBehvaviour : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+	public AudioClip deflectClip;
+
+	[InputSocket]
+	public void TakeDamage(int damage)
+	{
+		AudioSource3D.PlayClipAtPoint(deflectClip, transform.position);
+
+		// TODO take hit position as a param, show an effect?
 	}
 }

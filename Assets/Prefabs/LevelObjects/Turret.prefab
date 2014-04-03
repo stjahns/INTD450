@@ -235,7 +235,8 @@ MonoBehaviour:
   - box of metal
   laserRenderer: {fileID: 12000000}
   activated: 1
-  firingSound: {fileID: 8300000, guid: 34554afed97b9f341b05eb4d610c185e, type: 3}
+  firingSound: {fileID: 8300000, guid: cf22af91c4b373040a774d0750a6027a, type: 3}
+  targetAcquiredSound: {fileID: 8300000, guid: d310e97d5050c7f4185de6302d3ac207, type: 3}
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
 --- !u!120 &12000000
 LineRenderer:
@@ -249,7 +250,7 @@ LineRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: b1662e89ab95d46b2a1f39e0a8be04f8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -266,10 +267,10 @@ LineRenderer:
     endWidth: .0500000007
     m_StartColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 2214592767
     m_EndColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 2113929471
   m_UseWorldSpace: 1
 --- !u!212 &21200000
 SpriteRenderer:

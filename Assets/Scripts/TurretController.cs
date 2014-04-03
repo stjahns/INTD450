@@ -25,6 +25,7 @@ public class TurretController : MonoBehaviour
 	public bool activated = true;
 
 	public AudioClip firingSound;
+	public AudioClip targetAcquiredSound;
 
 	public GameObject explosionPrefab;
 
@@ -91,6 +92,7 @@ public class TurretController : MonoBehaviour
 			if (currentTarget) 
 			{
 				trackingState = TrackingState.TrackingTarget;
+				AudioSource3D.PlayClipAtPoint(targetAcquiredSound, transform.position);
 			}
 
 		}
@@ -165,7 +167,7 @@ public class TurretController : MonoBehaviour
 
 				if (firingSound)
 				{
-					AudioSource.PlayClipAtPoint(firingSound, transform.position);
+					AudioSource3D.PlayClipAtPoint(firingSound, transform.position);
 				}
 
 				laserRenderer.enabled = true;
@@ -207,10 +209,7 @@ public class TurretController : MonoBehaviour
 					{
 						if (hit)
 						{
-							if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Shield"))
-							{
-								currentTarget.SendMessage("TakeDamage", 1, SendMessageOptions.DontRequireReceiver);
-							}
+							hit.collider.gameObject.SendMessage("TakeDamage", 1, SendMessageOptions.DontRequireReceiver);
 						}
 					}
 				}

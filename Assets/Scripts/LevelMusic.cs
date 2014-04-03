@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public enum LimbType
 {
@@ -21,6 +22,10 @@ public class LevelMusic : MonoBehaviour
 
 	public static LevelMusic Instance;
 
+
+	[Range(0,1)]
+	public float volume = 1;
+
 	//
 	// Set static instance to this, mute all limb tracks
 	// Limb tracks will be umnuted in their limb's Start() if they are attached,
@@ -37,6 +42,11 @@ public class LevelMusic : MonoBehaviour
 	void Start ()
 	{
 		slotTracks.ForEach(s => s.PlayTracks());
+
+		foreach (var source in GetComponentsInChildren<AudioSource>())
+		{
+			source.volume = volume;
+		}
 	}
 
 	//

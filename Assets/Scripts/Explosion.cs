@@ -16,7 +16,7 @@ public class Explosion : MonoBehaviour {
 	{
 		if (explosionClip)
 		{
-			AudioSource.PlayClipAtPoint(explosionClip, transform.position);
+			AudioSource3D.PlayClipAtPoint(explosionClip, transform.position);
 		}
 
 		// get everything in explosion radius and apply force

@@ -292,7 +292,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100014}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .0135221481, y: .0717701912, z: 0}
+  m_LocalPosition: {x: .0135221481, y: -.476844788, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400004}
@@ -433,9 +433,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 20
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -557,8 +557,8 @@ MonoBehaviour:
   layers:
   - Ground
   - LevelObjects
-  - UnattachedLimbs
-  fireClip: {fileID: 8300000, guid: 03b4736ad8787b847a1089de2a8325c1, type: 3}
+  - UnattachedLimb
+  fireClip: {fileID: 8300000, guid: 298811a3f6b29fa44a56a78199f10d28, type: 3}
   alwaysAimPush: 0
 --- !u!114 &11400004
 MonoBehaviour:

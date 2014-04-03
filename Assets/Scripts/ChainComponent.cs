@@ -19,6 +19,10 @@ public class ChainComponent : MonoBehaviour
 
 	public bool severed = false;
 
+	public AudioClip chopSound;
+	[Range(0,1)]
+	public float chopVolume;
+
 	private Vector3 endA;
 	private Vector3 endB;
 
@@ -73,6 +77,8 @@ public class ChainComponent : MonoBehaviour
 					layerMask);
 			if (hit)
 			{
+				AudioSource.PlayClipAtPoint(chopSound, transform.position, chopVolume);
+
 				// sever connection...
 				severed = true;
 

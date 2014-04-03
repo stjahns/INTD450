@@ -19,7 +19,11 @@ public class ObjectSpawner : MonoBehaviour
 	public bool destroyExistingOnRespawn = false;
 
 	private float timer = 0.0f;
-	
+
+	public bool playSpawnClip = false;
+	[Range(0,1)]
+	public float spawnVolume = 1;
+	public AudioClip spawnClip;
 
 	//
 	// lets us set an icon...
@@ -66,6 +70,11 @@ public class ObjectSpawner : MonoBehaviour
 
 			if (spawnedObjects.Count < spawnLimit || spawnLimit == 0)
 			{
+				if (playSpawnClip)
+				{
+					AudioSource3D.PlayClipAtPoint(spawnClip, transform.position, spawnVolume);
+				}
+
 				var obj = Instantiate(objectPrefab, spawnPoint.position, Quaternion.identity)
 					as GameObject;
 				spawnedObjects.Add(obj);

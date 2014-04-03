@@ -52,6 +52,7 @@ public class GrappleProjectile : MonoBehaviour
 		{
 			body = gameObject.AddComponent<Rigidbody2D>();
 			body.mass = 0.01f;
+			body.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
 			body.velocity = velocity;
 		}
 
@@ -92,11 +93,17 @@ public class GrappleProjectile : MonoBehaviour
 		if (AttachedToPoint)
 			return;
 
+		Debug.Log("HIT");
+
+		Debug.Log(LayerMask.LayerToName(collision.collider.gameObject.layer));
+
 		if (body && (1 << collision.collider.gameObject.layer & layerMask) != 0)
 		{
 			// Hit something!
 			if (collision.rigidbody)
 			{
+				Debug.Log("HIT RIGID BODY");
+
 				// Create a distance joint to the body
 				body.fixedAngle = true;
 				grappleJoint = gameObject.AddComponent<HingeJoint2D>();
@@ -113,6 +120,7 @@ public class GrappleProjectile : MonoBehaviour
 			}
 			else
 			{
+				Debug.Log("HIT KINEMATIC BODY");
 				body.isKinematic = true;
 				transform.parent = collision.transform;
 			}
@@ -137,6 +145,7 @@ public class GrappleProjectile : MonoBehaviour
 
 		if (body && (1 << other.gameObject.layer & layerMask) != 0)
 		{
+			Debug.Log(other.transform.position);
 			// Near a grapple point, suck to it!
 			body.AddForce((other.transform.position - transform.position) * pointAttraction);
 			body.drag = projectileDrag;

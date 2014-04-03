@@ -22,4 +22,35 @@ public class CustomCommands : MonoBehaviour {
 		}
 	}
 
+	[MenuItem("Level/Snap Objects _s")]
+	static void SnapObjects()
+	{
+		foreach (GameObject obj in Selection.gameObjects)
+		{
+			Vector3 position = obj.transform.position;
+
+			if (position.x % 1.28f < 0.64f)
+			{
+				position.x -= position.x % 1.28f;
+			}
+			else
+			{
+				position.x += 1.28f - position.x % 1.28f;
+			}
+
+			if (position.y % 1.28f < 0.64f)
+			{
+				position.y -= position.y % 1.28f;
+			}
+			else
+			{
+				position.y += 1.28f - position.y % 1.28f;
+			}
+
+			position.z = 0;
+
+			obj.transform.position = position;
+		}
+	}
+
 }

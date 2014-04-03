@@ -156,7 +156,8 @@ public class TurretController : MonoBehaviour
 			return;
 		}
 
-		gunPivot.eulerAngles = new Vector3(0, 0, Vector2.Angle(Vector2.up, currentTarget.transform.position - gunPivot.position));
+		float angle = Quaternion.FromToRotation(Vector3.up, currentTarget.transform.position - gunPivot.position).eulerAngles.z;
+		gunPivot.eulerAngles = new Vector3(0, 0, angle);
 
 		switch (firingState)
 		{

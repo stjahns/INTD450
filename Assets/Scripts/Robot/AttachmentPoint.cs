@@ -41,6 +41,8 @@ public class AttachmentPoint : TriggerBase
 
 	public string AttachmentName;
 
+	public SpriteRenderer selectSprite;
+
 	public Transform childTransform
 	{
 		set
@@ -65,10 +67,28 @@ public class AttachmentPoint : TriggerBase
 			if (value)
 			{
 				lightningEffect.color = Color.white; 
+
+				if (GetComponentInChildren<MeshRenderer>())
+					GetComponentInChildren<MeshRenderer>().enabled = true;
+
+				var selectPoint = transform.FindChild("SelectPoint");
+				if (selectPoint)
+				{
+					transform.FindChild("SelectPoint").GetComponent<SpriteRenderer>().enabled = true;
+				}
 			}
 			else
 			{
 				lightningEffect.color = Color.blue; 
+
+				if (GetComponentInChildren<MeshRenderer>())
+					GetComponentInChildren<MeshRenderer>().enabled = false;
+
+				var selectPoint = transform.FindChild("SelectPoint");
+				if (selectPoint)
+				{
+					selectPoint.GetComponent<SpriteRenderer>().enabled = false;
+				}
 			}
 			m_selected = value;
 		}

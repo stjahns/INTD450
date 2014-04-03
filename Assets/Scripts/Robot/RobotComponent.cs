@@ -144,6 +144,10 @@ public class RobotComponent : MonoBehaviour {
 			}
 		}
 
+		PulsingSprite pulser = gameObject.AddComponent<PulsingSprite>();
+		pulser.pulseFrequency = 25;
+		pulser.minAlpha = 0.5f;
+
 		var destructable = GetComponent<DestructableBehaviour>();
 		if (destructable)
 		{

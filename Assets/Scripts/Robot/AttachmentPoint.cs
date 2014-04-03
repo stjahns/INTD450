@@ -74,7 +74,17 @@ public class AttachmentPoint : TriggerBase
 				var selectPoint = transform.FindChild("SelectPoint");
 				if (selectPoint)
 				{
-					transform.FindChild("SelectPoint").GetComponent<SpriteRenderer>().enabled = true;
+					SpriteRenderer selectRenderer = selectPoint.GetComponent<SpriteRenderer>();
+					float alpha = selectRenderer.color.a;
+					selectRenderer.enabled = true;
+					if (child == null)
+					{
+						selectRenderer.color = new Color(1, 1, 1, alpha);
+					}
+					else
+					{
+						selectRenderer.color = new Color(1f, 0.5f, 0.5f, alpha);
+					}
 				}
 			}
 			else

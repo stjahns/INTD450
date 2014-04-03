@@ -134,10 +134,18 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				continue;
 			}
+			
+			bool isHead = parentJoints.Count == 1;
 
 			AttachmentPoint joint = collider.gameObject.GetComponent<AttachmentPoint>();
 			if (joint && joint.slot == AttachmentSlot.None && joint.parent == null)
 			{
+				if (!isHead && joint.attachmentType == AttachmentType.LevelAttachment)
+				{
+					// Can only attach to sockets, etc. when just a head
+					continue;
+				}
+
 				childJoints.Add(joint);
 			}
 		}
@@ -604,6 +612,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				if (selectedChildJoint.owner != null)
 				{
 					selectedChildJoint.owner.OnDestroy -= OnChildDestroyed;
+					selectedChildJoint.owner.GetComponent<PulsingSprite>().Disable();
 				}
 			}
 
@@ -613,6 +622,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				if (point.owner != null)
 				{
 					point.owner.OnDestroy += OnChildDestroyed;
+					point.owner.GetComponent<PulsingSprite>().Enable();
 				}
 			}
 		}

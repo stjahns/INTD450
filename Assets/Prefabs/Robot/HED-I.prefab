@@ -933,9 +933,9 @@ MonoBehaviour:
   - ConveyorBelt
   - Button
   - UnattachedLimb
-  deathSound: {fileID: 8300000, guid: ef62b84dae4ec4a3a846ba8fc26ff4cb, type: 3}
-  limbAttachSound: {fileID: 8300000, guid: ebd1efe94aefe964d9813bf64e2cfc89, type: 3}
-  limbRemoveSound: {fileID: 8300000, guid: 46b19c4ad6380d94c8ec9ec761ef9f98, type: 3}
+  deathSound: {fileID: 8300000, guid: 771b4a463899f6f44a869b163e5fb23d, type: 3}
+  limbAttachSound: {fileID: 8300000, guid: 67442baa448e8e8459e29713e69b3a54, type: 3}
+  limbRemoveSound: {fileID: 8300000, guid: 047a55c4de451054cbd2559253dbe138, type: 3}
   cameraTarget: {fileID: 11400044}
   facingLeft: 1
 --- !u!114 &11400002
@@ -1263,6 +1263,7 @@ MonoBehaviour:
   onEnableClip: {fileID: 8300000, guid: e7486248ba547c843ad53492fb854f4a, type: 3}
   onDisableClip: {fileID: 8300000, guid: f9a71053d4fa849bdacc4bb0b9cbc5c1, type: 3}
   jointSelectedClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
+  jointHoverClip: {fileID: 8300000, guid: 58046718cd7920349b944675dec9a8b6, type: 3}
   attachmentRangeVisual: {fileID: 2300002}
   attachmentShadowVisual: {fileID: 2300000}
   textPrefab: {fileID: 100000, guid: 26e0b71190d214e259a04881fe767438, type: 2}
@@ -1300,9 +1301,11 @@ MonoBehaviour:
   maxGroundSpeed: 3
   groundMoveForce: 20
   airMoveForce: 5
-  jumpClip: {fileID: 8300000, guid: cbe99584e12500a438b3063ab9d0c012, type: 3}
+  headJumpClip: {fileID: 8300000, guid: 4da0efa152b3c7c4aac37043095b54dd, type: 3}
+  jumpClip: {fileID: 8300000, guid: 00309d58f2633724089f02755268a38f, type: 3}
   jumpForce: 300
   jumpCooloff: .25
+  switchAbilityClip: {fileID: 8300000, guid: 57ef1f1e37efa7341b5e55ad4518988d, type: 3}
 --- !u!114 &11400040
 MonoBehaviour:
   m_ObjectHideFlags: 1

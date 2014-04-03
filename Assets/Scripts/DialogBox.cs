@@ -34,6 +34,10 @@ public class DialogBox : TriggerBase
 	public static DialogBox currentDialog = null;
 
 	public AudioClip typeSound;
+	public AudioClip skipSound;
+
+	[Range(0, 1)]
+	public float typeVolume;
 
 	[OutputEventConnections]
 	[HideInInspector]
@@ -159,9 +163,10 @@ public class DialogBox : TriggerBase
 			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
 			{
 				// Skip typing, fully reveal
-				if (typeSound)
+				if (skipSound)
 				{
-					AudioSource.PlayClipAtPoint(typeSound, transform.position);
+					//audio.PlayOneShot(skipSound, typeVolume);
+					AudioSource3D.PlayClipOmnipresent(typeSound, typeVolume);
 				}
 
 				state = DialogState.Showing;
@@ -177,7 +182,8 @@ public class DialogBox : TriggerBase
 					{
 						if (typeSound)
 						{
-							AudioSource.PlayClipAtPoint(typeSound, transform.position);
+							//audio.PlayOneShot(typeSound, typeVolume);
+							AudioSource3D.PlayClipOmnipresent(typeSound, typeVolume);
 						}
 					}
 					else
@@ -204,6 +210,7 @@ public class DialogBox : TriggerBase
 					Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)
 					|| (showTime > 0 && delayTimer > showTime))
 			{
+				audio.PlayOneShot(skipSound, typeVolume);
 				Hide();
 			}
 		}

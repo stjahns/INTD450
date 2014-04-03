@@ -12,9 +12,12 @@ public class PlayerMovementController : MonoBehaviour {
 	
 	public float airMoveForce = 1.0f;
 	
+	public AudioClip headJumpClip;
 	public AudioClip jumpClip;
 	public float jumpForce = 1.0f;
 	public float jumpCooloff = 0.25f;
+
+	public AudioClip switchAbilityClip;
 
 	private float jumpTimer = 0.0f;
 	
@@ -32,11 +35,13 @@ public class PlayerMovementController : MonoBehaviour {
 		// Swtich arm abilities
 		if (Input.GetKeyDown(KeyCode.Q))
 		{
+			AudioSource3D.PlayClipAtPoint(switchAbilityClip, transform.position);
 			player.NextArmAbility();
 		}
 
 		if (Input.GetKeyDown(KeyCode.E))
 		{
+			AudioSource3D.PlayClipAtPoint(switchAbilityClip, transform.position);
 			player.NextLegAbility();
 		}
 
@@ -48,7 +53,16 @@ public class PlayerMovementController : MonoBehaviour {
 		if (player.OnGround && jumpTimer <= 0.0f && Input.GetKeyDown(KeyCode.Space)) {
 			// jump
 			jumpTimer = jumpCooloff;
-			AudioSource.PlayClipAtPoint(jumpClip, transform.position);
+
+			if (player.HasLimbs)
+			{
+				AudioSource3D.PlayClipAtPoint(jumpClip, transform.position);
+			}
+			else
+			{
+				AudioSource3D.PlayClipAtPoint(headJumpClip, transform.position);
+			}
+
 			rigidbody2D.AddForce(Vector2.up * jumpForce);
 			anim.SetTrigger("jump");
 		}

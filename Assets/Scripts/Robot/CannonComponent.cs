@@ -159,6 +159,7 @@ public class CannonComponent : LimbComponent
 		}
 		else
 		{
+			animator.SetTrigger("Fire");
 			SFXSource.PlayOneShot(emptyClip);
 		}
 	}

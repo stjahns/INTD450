@@ -270,7 +270,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.0062494278, y: -.0642414093, z: 0}
+  m_LocalPosition: {x: -.0062494278, y: -.502697468, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 400010}
@@ -474,8 +474,8 @@ AudioSource:
   Mute: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 5
+  MaxDistance: 30
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -574,9 +574,9 @@ MonoBehaviour:
   shotOrigin: {fileID: 400006}
   chargeCount: 2
   chargeTime: 2
-  fireClip: {fileID: 8300000, guid: 25d33bbb1e85e8c468846274af8677eb, type: 3}
-  emptyClip: {fileID: 8300000, guid: 893b759d33b33467681ed719c8c64c0d, type: 3}
-  rechargeClip: {fileID: 8300000, guid: 2a68cf24bd17d4654bf3b88664c552f0, type: 3}
+  fireClip: {fileID: 8300000, guid: 789a8c2155b2e31499b1716249ecdfb4, type: 3}
+  emptyClip: {fileID: 8300000, guid: 58046718cd7920349b944675dec9a8b6, type: 3}
+  rechargeClip: {fileID: 8300000, guid: 1d3c993b1ef81104cb9b7972f5ec003e, type: 3}
   chargeRenderers:
   - {fileID: 21200002}
   - {fileID: 21200006}
@@ -694,7 +694,7 @@ LineRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: b1662e89ab95d46b2a1f39e0a8be04f8, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -711,10 +711,10 @@ LineRenderer:
     endWidth: .200000003
     m_StartColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 1409286143
     m_EndColor:
       serializedVersion: 2
-      rgba: 4294967295
+      rgba: 1375731711
   m_UseWorldSpace: 1
 --- !u!212 &21200000
 SpriteRenderer:

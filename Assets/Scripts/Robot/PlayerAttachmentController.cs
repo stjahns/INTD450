@@ -21,6 +21,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	public AudioClip onDisableClip;
 	public AudioClip jointSelectedClip;
 
+	public AudioClip jointHoverClip;
+
 	public MeshRenderer attachmentRangeVisual;
 	public MeshRenderer attachmentShadowVisual;
 
@@ -583,6 +585,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				{
 					point.owner.OnDestroy += OnParentDestroyed;
 				}
+				AudioSource.PlayClipAtPoint(jointHoverClip, transform.position);
 			}
 		}
 
@@ -624,6 +627,7 @@ public class PlayerAttachmentController : MonoBehaviour
 					point.owner.OnDestroy += OnChildDestroyed;
 					point.owner.GetComponent<PulsingSprite>().Enable();
 				}
+				AudioSource.PlayClipAtPoint(jointHoverClip, transform.position);
 			}
 		}
 

@@ -196,8 +196,10 @@ public class GrappleComponent : LimbComponent {
 		}
 	}
 
-	void FixedUpdate ()
+	override public void FixedUpdate ()
 	{
+		base.FixedUpdate();
+
 		if (distanceJoint)
 		{
 			if (isActive && Input.GetKey(KeyCode.W) && ropeLength > minRopeLength)

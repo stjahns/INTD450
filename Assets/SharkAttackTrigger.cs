@@ -19,6 +19,13 @@ public class SharkAttackTrigger : MonoBehaviour
 				_currentTarget = destructable.transform;
 			}
 		}
+
+		// If it's a steak, overrides everything!
+		if (collider.tag == "robo-steak")
+		{
+			_shark.SetTarget(collider.transform, true);
+			_currentTarget = collider.transform;
+		}
 	}
 
 	void OnTriggerStay2D(Collider2D collider)
@@ -31,6 +38,13 @@ public class SharkAttackTrigger : MonoBehaviour
 				_shark.SetTarget(destructable.transform);
 				_currentTarget = destructable.transform;
 			}
+		}
+
+		// If it's a steak, overrides everything!
+		if (collider.tag == "robo-steak")
+		{
+			_shark.SetTarget(collider.transform, true);
+			_currentTarget = collider.transform;
 		}
 	}
 

@@ -90,9 +90,9 @@ public class SharkController : StateMachineBase
 		transform.localScale = scale;
 	}
 
-	public void SetTarget(Transform newTarget)
+	public void SetTarget(Transform newTarget, bool force = false)
 	{
-		if ((State)currentState != State.Attack)
+		if ((State)currentState != State.Attack || force)
 		{
 			target = newTarget;
 			currentState = State.Attack;
@@ -236,12 +236,16 @@ public class SharkController : StateMachineBase
 			// when reach target, destroy it, return to pacing
 			if (Vector2.Distance(target.position, transform.position) < attackDistance)
 			{
-				var destructable = target.GetComponent<DestructableBehaviour>();
-				if (destructable)
+				if (target.tag != "robo-steak")
 				{
-					destructable.Explode();
+					var destructable = target.GetComponent<DestructableBehaviour>();
+					if (destructable)
+					{
+						destructable.Explode();
+					}
+					currentState = State.Pacing;
 				}
-				currentState = State.Pacing;
+				// keep gnawing on that robo steak
 			}
 		}
 		else

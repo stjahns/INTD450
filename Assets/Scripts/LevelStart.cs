@@ -25,7 +25,6 @@ public class LevelStart : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
-        Debug.Log("Again");
     }
 
     //
@@ -41,7 +40,6 @@ public class LevelStart : MonoBehaviour
             GameObject pPrefab = Resources.Load(prefab_name) as GameObject;
             if (spawner_tag != null)
             {
-               //// Debug.Log("Found");
                 prefab_name += spawner_tag;
             }
             
@@ -66,7 +64,6 @@ public class LevelStart : MonoBehaviour
         Save_Load load = new Save_Load();
         load.player_name = "player";
         var data = load.file_load();
-      ////  Debug.Log(data);
         string checkpoint = null;
         string player_pos = "";
         string boxes = null;
@@ -76,9 +73,16 @@ public class LevelStart : MonoBehaviour
         boxes = data["array"][1]["boxes"];
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
-       //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
         if (checkpoint != null &&  checkpoint !="Null" && level == Application.loadedLevel)
         {
+
+			// Load SaveableComponents...
+			load.LoadComponents<ChainComponent>(data["array"][1]);
+			load.LoadComponents<SteakComponent>(data["array"][1]);
+
+
+			// Load other stuff
+
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
             {
@@ -91,10 +95,7 @@ public class LevelStart : MonoBehaviour
                 string spawner_tag = null;
                 if (component_data != "")
                 {
-                    ///Debug.Log("S" +s);
                     string[] pos = component_data.Split(':');
-                    ///int id = 0;
-                    ///Debug.Log(pos);
 
                     if (pos[0] != "" && pos[0] != "HED-I(Clone)")
                     {
@@ -113,7 +114,6 @@ public class LevelStart : MonoBehaviour
                         if (spawner_name != null )
                         {
                             ObjectSpawner objectspawner_script;
-                            ////Debug.Log(spawner_name);
                             GameObject spawner = GameObject.Find(spawner_name);
                             if (spawner != null)
                             {
@@ -147,9 +147,6 @@ public class LevelStart : MonoBehaviour
                     string[] pos = component_data.Split(':');
                     if (component_data != "")
                     {
-                        Debug.Log(component_data);
-                       /// Debug.Log(pos[0]);
-
                         Vector3 postion_data = create_vector3(pos[2], false);
                         Quaternion rotation_data = create_Quaternion(pos[1]);
                         GameObject vv = load_object("Box", null, postion_data, rotation_data);

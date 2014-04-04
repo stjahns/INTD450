@@ -65,15 +65,61 @@ public class Save_Load
 		return Data;
 	}
 
-	public void add_checkpoint(int level, string game_object, string boxes_checkpoint, Vector3 player_pos)
+	public void add_checkpoint(int level, string game_object, string boxes_checkpoint, Vector3 player_pos, bool resetComponents = false)
 	{
 		var data = file_load ();
 		data ["array"] [1] ["Level"] = level.ToString ();
 		data["array"][1]["checkpoint"] = game_object;
 		data["array"][1]["boxes"] = boxes_checkpoint;
 		data["array"][1]["player_pos"] = player_pos.ToString();
+
+		// Additional state saving...
+		if (resetComponents)
+		{
+			ResetComponents<ChainComponent>(data["array"][1]);
+			ResetComponents<SteakComponent>(data["array"][1]);
+		}
+		else
+		{
+			SaveComponents<ChainComponent>(data["array"][1]);
+			SaveComponents<SteakComponent>(data["array"][1]);
+		}
+
 		data = data.SaveToBase64();
 		file_save (data);	
 	}
 
+	void ResetComponents<T>(JSONNode data) where T : Object, SaveableComponent
+	{
+		// clear existing data
+		data[typeof(T).Name] = new JSONClass();
+	}
+
+	void SaveComponents<T>(JSONNode data) where T : Object, SaveableComponent
+	{
+		T[] components = Object.FindObjectsOfType<T>() as T[];
+
+		// clear existing data
+		data[typeof(T).Name] = new JSONClass();
+
+		foreach (T component in components)
+		{
+			component.SaveState(data[typeof(T).Name]);
+		}
+
+		if (data[typeof(T).Name].Count == 0)
+		{
+			data.Remove(typeof(T).Name);
+		}
+	}
+
+	public void LoadComponents<T>(JSONNode data) where T : Object, SaveableComponent
+	{
+		T[] components = Object.FindObjectsOfType<T>() as T[];
+
+		foreach (T component in components)
+		{
+			component.LoadState(data[typeof(T).Name]);
+		}
+	}
 }

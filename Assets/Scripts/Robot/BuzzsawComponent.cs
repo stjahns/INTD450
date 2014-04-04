@@ -77,8 +77,10 @@ public class BuzzsawComponent : LimbComponent
 	//
 	// If running, and in contact with ground, apply force on rigid body
 	// 
-	void FixedUpdate ()
+	override public void FixedUpdate ()
 	{
+		base.FixedUpdate();
+
 		if (running)
 		{
 			int layerMask = 1 << LayerMask.NameToLayer("Ground");

@@ -99,8 +99,10 @@ public class CannonComponent : LimbComponent
 		}
 	}
 
-	public void FixedUpdate()
+	override public void FixedUpdate()
 	{
+		base.FixedUpdate();
+
 		if (boostEffectTimer > 0)
 		{
 			// apply force

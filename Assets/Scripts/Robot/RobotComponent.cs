@@ -32,6 +32,9 @@ public class RobotComponent : MonoBehaviour {
 
 	public AudioSource SFXSource;
 
+	public AudioClip splashClip;
+	public float splashVolume = 1.0f;
+
 	[HideInInspector]
 	public bool shouldAim = true;
 
@@ -485,6 +488,48 @@ public class RobotComponent : MonoBehaviour {
 				// TODO handle edge case where bumping off right wall causes opposite limb to enter
 				// left wall (eg spreading arms in cramped space) -- better to just leave arm in
 				// wall, but try to avoid this situation in level design
+			}
+		}
+	}
+
+	private bool _inWater = false;
+	public bool InWater
+	{
+		get
+		{
+			return _inWater;
+		}
+		set
+		{
+			if (value != _inWater)
+			{
+				// play splash sound
+				if (splashClip)
+					AudioSource3D.PlayClipAtPoint(splashClip, transform.position, splashVolume);
+			}
+
+			_inWater = value;
+		}
+	}
+
+	virtual public void FixedUpdate()
+	{
+		int waterMask = 1 << LayerMask.NameToLayer("Water");
+		if (Physics2D.OverlapPoint(transform.position, waterMask))
+		{
+			// in water!
+			InWater = true;
+			if (rigidbody2D && !attachedToPlayer())
+			{
+				rigidbody2D.drag = 5;
+			}
+		}
+		else
+		{
+			InWater = false;
+			if (rigidbody2D && !attachedToPlayer())
+			{
+				rigidbody2D.drag = 0;
 			}
 		}
 	}

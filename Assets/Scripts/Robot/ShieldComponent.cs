@@ -61,8 +61,10 @@ public class ShieldComponent : LimbComponent
 		}
 	}
 
-	void FixedUpdate()
+	override public void FixedUpdate()
 	{
+		base.FixedUpdate();
+
 		int layerMask = 1 << LayerMask.NameToLayer("Water");
 		bool inWater = Physics2D.Linecast(transform.position, groundCheck.position, layerMask);
 

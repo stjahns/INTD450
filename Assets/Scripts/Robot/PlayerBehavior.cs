@@ -233,6 +233,19 @@ public class PlayerBehavior : MonoBehaviour {
 
 	void FixedUpdate () {
 
+		// Check if in water...
+		if (rigidbody2D)
+		{
+			if (allComponents.Any(c => c.InWater))
+			{
+				rigidbody2D.drag = 5;
+			}
+			else
+			{
+				rigidbody2D.drag = 0;
+			}
+		}
+				
 		anim = GetComponentInChildren<Animator>();
 		if (anim)
 		{

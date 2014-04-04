@@ -26,6 +26,8 @@ public class TurretController : MonoBehaviour
 
 	public AudioClip firingSound;
 	public AudioClip targetAcquiredSound;
+	public AudioClip activateSound;
+	public AudioClip deactivateSound;
 
 	public GameObject explosionPrefab;
 
@@ -86,6 +88,11 @@ public class TurretController : MonoBehaviour
 		}
 		else
 		{
+			if (trackingState == TrackingState.TrackingTarget)
+			{
+				trackingState = TrackingState.TrackingRight;
+			}
+
 			// Check if acquired target
 			currentTarget = GetTarget();
 
@@ -287,12 +294,14 @@ public class TurretController : MonoBehaviour
 	public void Activate()
 	{
 		activated = true;
+		AudioSource3D.PlayClipAtPoint(activateSound, transform.position);
 	}
 
 	[InputSocket]
 	public void Deactivate()
 	{
 		activated = false;
+		AudioSource3D.PlayClipAtPoint(deactivateSound, transform.position);
 	}
 
 	[InputSocket]

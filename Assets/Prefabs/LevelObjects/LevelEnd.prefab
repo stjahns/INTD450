@@ -74,6 +74,7 @@ GameObject:
   - 4: {fileID: 400008}
   - 114: {fileID: 11400000}
   - 61: {fileID: 6100004}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: LevelEnd
   m_TagString: Untagged
@@ -147,8 +148,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 229.727066, y: -7.86043978, z: -.000198896974}
+  m_LocalRotation: {x: 0, y: 0, z: -.707106292, w: .707107365}
+  m_LocalPosition: {x: -17.9200001, y: 1.27999997, z: 1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -215,6 +216,21 @@ MonoBehaviour:
   nextLevel: 
   fadeOutTime: 1
   fadeEffectPrefab: {fileID: 100000, guid: 2bc41150aa41f425db44f0f47c74dd2a, type: 2}
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 30
+  force: 30
+  content: {fileID: 0}
+  direction: {x: 0, y: 0}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

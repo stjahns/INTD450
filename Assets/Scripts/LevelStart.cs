@@ -66,19 +66,27 @@ public class LevelStart : MonoBehaviour
         Save_Load load = new Save_Load();
         load.player_name = "player";
         var data = load.file_load();
-      ////  Debug.Log(data);
         string checkpoint = null;
         string player_pos = "";
         string boxes = null;
+        string steaks = null;
         int level = 0;
 
         checkpoint = data["array"][1]["checkpoint"];
         boxes = data["array"][1]["boxes"];
+        steaks = data["array"][1]["steaks"];
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
-       //// Debug.Log("Level" + Application.loadedLevel + ":" + level);
         if (checkpoint != null &&  checkpoint !="Null" && level == Application.loadedLevel)
         {
+
+			// Load SaveableComponents...
+			load.LoadComponents<ChainComponent>(data["array"][1]);
+			load.LoadComponents<SteakComponent>(data["array"][1]);
+
+
+			// Load other stuff
+
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
             {
@@ -157,6 +165,35 @@ public class LevelStart : MonoBehaviour
 
                 }
             }
+
+            if (steaks != null && steaks !="Null")
+            {
+                SteakComponent[] steaks_data = FindObjectsOfType(typeof(SteakComponent)) as SteakComponent[];
+                foreach (SteakComponent comp in steaks_data)
+                {
+                    Destroy(comp.gameObject);
+                }
+                string[] steak_data = boxes.Split('/');
+                foreach (string component_data in steak_data)
+                {
+                    string[] pos = component_data.Split(':');
+                    if (component_data != "")
+                    {
+                        Debug.Log(component_data);
+                       /// Debug.Log(pos[0]);
+
+                        Vector3 postion_data = create_vector3(pos[2], false);
+                        Quaternion rotation_data = create_Quaternion(pos[1]);
+                        GameObject vv = load_object("RoboSteak", null, postion_data, rotation_data);
+                    }
+
+                }
+            }
+
+
+			// load more stuff...
+
+
         }
 
         var spawnedPlayer = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);

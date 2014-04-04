@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 
 
-
 public class Save_Load 
 {
 	public int score = 0;
@@ -78,11 +77,13 @@ public class Save_Load
 		{
 			ResetComponents<ChainComponent>(data["array"][1]);
 			ResetComponents<SteakComponent>(data["array"][1]);
+            ResetComponents<DoorBehaviour>(data["array"][1]);
 		}
 		else
 		{
 			SaveComponents<ChainComponent>(data["array"][1]);
 			SaveComponents<SteakComponent>(data["array"][1]);
+            SaveComponents<DoorBehaviour>(data["array"][1]);
 		}
 
 		data = data.SaveToBase64();

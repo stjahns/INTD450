@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
-public class DoorBehaviour : MonoBehaviour
+public class DoorBehaviour : MonoBehaviour, SaveableComponent
 {
 	public Transform closedPosition;
 	public Transform openPosition;
@@ -16,6 +17,7 @@ public class DoorBehaviour : MonoBehaviour
 	public float doorForce = 10000f;
 
 	private SliderJoint2D doorSlider;
+   
 
 	public enum State
 	{
@@ -24,6 +26,21 @@ public class DoorBehaviour : MonoBehaviour
 		Opened,
 		Closed,
 	};
+    
+
+    public void SaveState(JSONNode data)
+    {
+        
+            data[gameObject.name]["state"] = state.ToString();
+        
+    }
+    public void LoadState(JSONNode data)
+    {
+            if (data[gameObject.name] != null )
+            {
+                state = (State)State.Parse(typeof(State), data[gameObject.name]["state"]);
+            }
+    }
 
 	public State state;
 

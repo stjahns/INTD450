@@ -17,10 +17,8 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
 	public float doorForce = 10000f;
 
 	private SliderJoint2D doorSlider;
-    public bool saveState = false;
-    public bool severed = false;
+   
 
-    private Vector2 severPoint = Vector2.zero;
 	public enum State
 	{
 		Opening,
@@ -32,25 +30,16 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
 
     public void SaveState(JSONNode data)
     {
-        if (saveState)
-        {
-            data[gameObject.name]["Severed"].AsBool = severed;
-            data[gameObject.name]["Opening"] = State.Opening.ToString();
-            data[gameObject.name]["Closing"] = State.Closing.ToString();
-            data[gameObject.name]["Opened"] = State.Opened.ToString();
-            data[gameObject.name]["Closed"] = State.Closed.ToString();
-        }
+        
+            data[gameObject.name]["state"] = state.ToString();
+        
     }
     public void LoadState(JSONNode data)
     {
-        if (saveState)
-        {
-            if (data[gameObject.name] != null && data[gameObject.name]["Severed"].AsBool)
+            if (data[gameObject.name] != null )
             {
-                // sever the chain!
-              
+                state = (State)State.Parse(typeof(State), data[gameObject.name]["state"]);
             }
-        }
     }
 
 	public State state;

@@ -79,7 +79,7 @@ public class LevelStart : MonoBehaviour
 			// Load SaveableComponents...
 			load.LoadComponents<ChainComponent>(data["array"][1]);
 			load.LoadComponents<SteakComponent>(data["array"][1]);
-
+            load.LoadComponents<DoorBehaviour>(data["array"][1]);
 
 			// Load other stuff
 

@@ -25,7 +25,6 @@ public class LevelStart : MonoBehaviour
     void Start()
     {
         SpawnPlayer();
-        Debug.Log("Again");
     }
 
     //
@@ -41,7 +40,6 @@ public class LevelStart : MonoBehaviour
             GameObject pPrefab = Resources.Load(prefab_name) as GameObject;
             if (spawner_tag != null)
             {
-               //// Debug.Log("Found");
                 prefab_name += spawner_tag;
             }
             
@@ -69,12 +67,10 @@ public class LevelStart : MonoBehaviour
         string checkpoint = null;
         string player_pos = "";
         string boxes = null;
-        string steaks = null;
         int level = 0;
 
         checkpoint = data["array"][1]["checkpoint"];
         boxes = data["array"][1]["boxes"];
-        steaks = data["array"][1]["steaks"];
         player_pos = data["array"][1]["player_pos"];
         level = System.Convert.ToInt32(data["array"][1]["Level"]);
         if (checkpoint != null &&  checkpoint !="Null" && level == Application.loadedLevel)
@@ -99,10 +95,7 @@ public class LevelStart : MonoBehaviour
                 string spawner_tag = null;
                 if (component_data != "")
                 {
-                    ///Debug.Log("S" +s);
                     string[] pos = component_data.Split(':');
-                    ///int id = 0;
-                    ///Debug.Log(pos);
 
                     if (pos[0] != "" && pos[0] != "HED-I(Clone)")
                     {
@@ -121,7 +114,6 @@ public class LevelStart : MonoBehaviour
                         if (spawner_name != null )
                         {
                             ObjectSpawner objectspawner_script;
-                            ////Debug.Log(spawner_name);
                             GameObject spawner = GameObject.Find(spawner_name);
                             if (spawner != null)
                             {
@@ -155,9 +147,6 @@ public class LevelStart : MonoBehaviour
                     string[] pos = component_data.Split(':');
                     if (component_data != "")
                     {
-                        Debug.Log(component_data);
-                       /// Debug.Log(pos[0]);
-
                         Vector3 postion_data = create_vector3(pos[2], false);
                         Quaternion rotation_data = create_Quaternion(pos[1]);
                         GameObject vv = load_object("Box", null, postion_data, rotation_data);
@@ -165,35 +154,6 @@ public class LevelStart : MonoBehaviour
 
                 }
             }
-
-            if (steaks != null && steaks !="Null")
-            {
-                SteakComponent[] steaks_data = FindObjectsOfType(typeof(SteakComponent)) as SteakComponent[];
-                foreach (SteakComponent comp in steaks_data)
-                {
-                    Destroy(comp.gameObject);
-                }
-                string[] steak_data = boxes.Split('/');
-                foreach (string component_data in steak_data)
-                {
-                    string[] pos = component_data.Split(':');
-                    if (component_data != "")
-                    {
-                        Debug.Log(component_data);
-                       /// Debug.Log(pos[0]);
-
-                        Vector3 postion_data = create_vector3(pos[2], false);
-                        Quaternion rotation_data = create_Quaternion(pos[1]);
-                        GameObject vv = load_object("RoboSteak", null, postion_data, rotation_data);
-                    }
-
-                }
-            }
-
-
-			// load more stuff...
-
-
         }
 
         var spawnedPlayer = Instantiate(playerPrefab, spawnPoint.position, Quaternion.identity);

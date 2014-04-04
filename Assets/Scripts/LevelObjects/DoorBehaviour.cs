@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
-public class DoorBehaviour : MonoBehaviour
+public class DoorBehaviour : MonoBehaviour, SaveableComponent
 {
 	public Transform closedPosition;
 	public Transform openPosition;
@@ -16,7 +17,10 @@ public class DoorBehaviour : MonoBehaviour
 	public float doorForce = 10000f;
 
 	private SliderJoint2D doorSlider;
+    public bool saveState = false;
+    public bool severed = false;
 
+    private Vector2 severPoint = Vector2.zero;
 	public enum State
 	{
 		Opening,
@@ -24,6 +28,30 @@ public class DoorBehaviour : MonoBehaviour
 		Opened,
 		Closed,
 	};
+    
+
+    public void SaveState(JSONNode data)
+    {
+        if (saveState)
+        {
+            data[gameObject.name]["Severed"].AsBool = severed;
+            data[gameObject.name]["Opening"] = State.Opening.ToString();
+            data[gameObject.name]["Closing"] = State.Closing.ToString();
+            data[gameObject.name]["Opened"] = State.Opened.ToString();
+            data[gameObject.name]["Closed"] = State.Closed.ToString();
+        }
+    }
+    public void LoadState(JSONNode data)
+    {
+        if (saveState)
+        {
+            if (data[gameObject.name] != null && data[gameObject.name]["Severed"].AsBool)
+            {
+                // sever the chain!
+              
+            }
+        }
+    }
 
 	public State state;
 

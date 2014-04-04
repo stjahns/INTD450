@@ -12,6 +12,7 @@ public class Explosion : MonoBehaviour {
 	public float explosionForce = 1.0f;
 	public int explosionDamage = 5;
 
+
 	void Start ()
 	{
 		if (explosionClip)

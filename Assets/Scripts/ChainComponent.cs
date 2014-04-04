@@ -23,6 +23,8 @@ public class ChainComponent : MonoBehaviour
 	[Range(0,1)]
 	public float chopVolume;
 
+	public bool fallFromLevel = false;
+
 	private Vector3 endA;
 	private Vector3 endB;
 
@@ -79,6 +81,16 @@ public class ChainComponent : MonoBehaviour
 			{
 				AudioSource.PlayClipAtPoint(chopSound, transform.position, chopVolume);
 
+				if (fallFromLevel)
+				{
+					foreach (var collider in bodyB.GetComponentsInChildren<Collider2D>())
+					{
+						collider.enabled = false;
+					}
+
+					Destroy(bodyB.gameObject, 5);
+				}
+
 				// sever connection...
 				severed = true;
 
@@ -115,6 +127,12 @@ public class ChainComponent : MonoBehaviour
 					- transform.position;
 
 				bottomRenderer.start = severedEndB.rigidbody2D.transform;
+
+				if (fallFromLevel)
+				{
+					Destroy(chainDuplicate, 5);
+					Destroy(severedEndB, 5);
+				}
 			}
 		}
 	}

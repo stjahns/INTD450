@@ -44,16 +44,14 @@ public class GrabController : MonoBehaviour
 		grabbableLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
 
 		// Check if any grabbleble colliders below
-		foreach (var hit in Physics2D.LinecastAll(grabOrigin.position, grabCheck.position,
-					layerMask))
+		foreach (var collider in Physics2D.OverlapCircleAll(grabCheck.position, 0.2f, layerMask))
 		{
-			if (hit.rigidbody != rigidbody2D) // if it's not ourself...
+			if (collider.rigidbody2D != rigidbody2D)
 			{
 				grabJoint = gameObject.AddComponent<DistanceJoint2D>();
-				grabJoint.connectedBody = hit.rigidbody;
-				grabJoint.connectedAnchor = hit.point - hit.rigidbody.transform.position.XY();
+				grabJoint.connectedBody = collider.rigidbody2D;
 				grabJoint.anchor = grabOrigin.position - rigidbody2D.transform.position;
-				grabJoint.distance = 0.0f;
+				grabJoint.distance = 0.1f;
 				break;
 			}
 		}

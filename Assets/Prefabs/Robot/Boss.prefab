@@ -1483,7 +1483,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -.595312119, y: 1.83905649, z: -3.18021584}
+  m_LocalPosition: {x: .533329964, y: 37.8880768, z: -3.18021584}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400036}
@@ -2904,8 +2904,10 @@ MonoBehaviour:
   allJoints:
   - {fileID: 11400032}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 0}
   explosionTime: .100000001
   sprites: []
@@ -2952,6 +2954,8 @@ MonoBehaviour:
   slot: 5
   lightningEffect: {fileID: 11400020}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400024
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3038,6 +3042,8 @@ MonoBehaviour:
   slot: 2
   lightningEffect: {fileID: 11400024}
   bone: {fileID: 11400034}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3130,6 +3136,8 @@ MonoBehaviour:
   slot: 3
   lightningEffect: {fileID: 11400040}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400044
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3169,6 +3177,8 @@ MonoBehaviour:
   slot: 2
   lightningEffect: {fileID: 11400044}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400048
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3208,6 +3218,8 @@ MonoBehaviour:
   slot: 4
   lightningEffect: {fileID: 11400048}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400052
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3247,6 +3259,8 @@ MonoBehaviour:
   slot: 6
   lightningEffect: {fileID: 11400052}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400056
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3271,6 +3285,8 @@ MonoBehaviour:
   slot: 0
   lightningEffect: {fileID: 11400058}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400058
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3315,8 +3331,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 8200002}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3371,7 +3389,7 @@ MonoBehaviour:
   thrustDelta: 1
   hoverBounceHeight: .25
   waitTime: 1
-  behaviours: 01000000030000000100000002000000
+  behaviours: 01000000020000000100000002000000
   stopForceGain: 2
   paceTime: 5
   paceSpeed: 1
@@ -3465,8 +3483,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 8200004}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3491,6 +3511,7 @@ MonoBehaviour:
   ropePullForce: 50
   grappleableLayers:
   - Grappleable
+  legClampLayers: []
   fireClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   releaseClip: {fileID: 8300000, guid: 0efaf69cb70ad7e4cb99b268df3e941c, type: 3}
   spriteRenderer: {fileID: 21200016}
@@ -3522,6 +3543,8 @@ MonoBehaviour:
   slot: 0
   lightningEffect: {fileID: 11400066}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400074
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3552,8 +3575,10 @@ MonoBehaviour:
   - {fileID: 11400042}
   - {fileID: 11400022}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3587,8 +3612,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 8200006}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3633,6 +3660,8 @@ MonoBehaviour:
   slot: 0
   lightningEffect: {fileID: 11400080}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!114 &11400080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3692,8 +3721,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 8200008}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
-  isActive: 0
+  shouldSave: 0
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3704,6 +3735,7 @@ MonoBehaviour:
   rootJoint: {fileID: 11400086}
   enableClip: {fileID: 8300000, guid: 2a68cf24bd17d4654bf3b88664c552f0, type: 3}
   disableClip: {fileID: 8300000, guid: 34554afed97b9f341b05eb4d610c185e, type: 3}
+  disabledScale: {x: 0, y: 0, z: 0}
   floatForce: 25
   shieldEffectPrefab: {fileID: 100002, guid: cee011b34620d40968fdb7c7e9f8740c, type: 2}
   shieldEffectOrigin: {fileID: 400146}
@@ -3731,6 +3763,8 @@ MonoBehaviour:
   slot: 0
   lightningEffect: {fileID: 11400082}
   bone: {fileID: 0}
+  AttachmentName: 
+  selectSprite: {fileID: 0}
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

@@ -49,6 +49,7 @@ public class ObjectSpawner : MonoBehaviour
 	[InputSocket]
 	public void Spawn()
 	{
+		spawnedObjects.RemoveAll(o => o == null);
         
         if (timer <= 0.0f)
 		{

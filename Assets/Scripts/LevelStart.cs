@@ -86,7 +86,10 @@ public class LevelStart : MonoBehaviour
             RobotComponent[] robot_obj = FindObjectsOfType(typeof(RobotComponent)) as RobotComponent[];
             foreach (RobotComponent comp in robot_obj)
             {
-                Destroy(comp.gameObject);
+				if (comp.shouldSave)
+				{
+					Destroy(comp.gameObject);
+				}
             }
 
             string[] checkpoint_data = checkpoint.Split('/');

@@ -38,6 +38,8 @@ public class RobotComponent : MonoBehaviour {
 	[HideInInspector]
 	public bool shouldAim = true;
 
+	public bool shouldSave = true;
+
 	private bool _isActive = false;
 	private Color inactiveColor;
 	public bool isActive
@@ -420,8 +422,8 @@ public class RobotComponent : MonoBehaviour {
 		
 		float checkDistance = (transform.position - groundCheck.position).magnitude;
 		Vector3 checkPosition = transform.position + checkDistance * Vector3.down;
-		return Physics2D.OverlapArea(new Vector2(checkPosition.x - 0.25f, checkPosition.y + 0.05f),
-				new Vector2(checkPosition.x + 0.25f, checkPosition.y),
+		return Physics2D.OverlapArea(new Vector2(checkPosition.x - 0.1f, checkPosition.y + 0.1f),
+				new Vector2(checkPosition.x + 0.1f, checkPosition.y),
 				layerMask );
 	}
 

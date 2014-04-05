@@ -175,6 +175,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		if (selectedParentJoint)
 		{
 			selectedParentJoint.childTransform = selectedParentJoint.transform;
+			selectedParentJoint.owner.getRootComponent().ResetPhysics();
 		}
 
 		SetSelectedParent(null);

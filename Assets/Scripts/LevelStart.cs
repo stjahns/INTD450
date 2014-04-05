@@ -166,6 +166,8 @@ public class LevelStart : MonoBehaviour
         {
             PlayerSpawned(this.gameObject, player.gameObject);
         }
+
+		load.LoadComponents<PlayerBehavior>(data["array"][1]);
     }
 
     private Vector3 create_vector3(string data,bool player)

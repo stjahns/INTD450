@@ -876,11 +876,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 23263297}
-  - 114: {fileID: 23263300}
-  - 82: {fileID: 23263299}
-  - 60: {fileID: 23263298}
   m_Layer: 0
-  m_Name: VacuumZone
+  m_Name: CornerVacuum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,10 +889,12 @@ Transform:
   m_PrefabParentObject: {fileID: 400006, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1, type: 2}
   m_PrefabInternal: {fileID: 2090120608}
   m_GameObject: {fileID: 23263296}
-  m_LocalRotation: {x: 0, y: 0, z: .382683486, w: .923879564}
-  m_LocalPosition: {x: .0350618362, y: -.143413424, z: .013133049}
+  m_LocalRotation: {x: 0, y: 0, z: .70710665, w: -.707107008}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1826310850}
+  - {fileID: 1895835536}
   m_Father: {fileID: 284520759}
 --- !u!60 &23263298
 PolygonCollider2D:
@@ -903,24 +902,24 @@ PolygonCollider2D:
   m_PrefabParentObject: {fileID: 6000002, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1,
     type: 2}
   m_PrefabInternal: {fileID: 2090120608}
-  m_GameObject: {fileID: 23263296}
+  m_GameObject: {fileID: 1895835535}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .26331234, y: .497045457}
-      - {x: .396525979, y: .146479815}
-      - {x: -.557466924, y: .122769773}
-      - {x: -.696993113, y: .260627806}
-      - {x: -.0996291041, y: .847575724}
+    - - {x: -.427153021, y: .346722394}
+      - {x: -.428590536, y: -.0977627039}
+      - {x: .483103752, y: -.0934027433}
+      - {x: .536621749, y: .0237286687}
+      - {x: -.225864828, y: .803123355}
 --- !u!82 &23263299
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200002, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1,
     type: 2}
   m_PrefabInternal: {fileID: 2090120608}
-  m_GameObject: {fileID: 23263296}
+  m_GameObject: {fileID: 1895835535}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: d064bf1208f8c4da19d53303c5e2ab15, type: 3}
@@ -979,7 +978,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 11400002, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1,
     type: 2}
   m_PrefabInternal: {fileID: 2090120608}
-  m_GameObject: {fileID: 23263296}
+  m_GameObject: {fileID: 1895835535}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
@@ -2524,7 +2523,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 65006800}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -2533,7 +2535,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 1872625981}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 2122224572}
   ropeEnd: {fileID: 1546361308}
   clampOrigin: {fileID: 1749677136}
@@ -3610,7 +3613,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 88464363}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -3621,6 +3627,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 686841782}
+  prefabName: SpringLimb
   animator: {fileID: 88464364}
   springRange: {fileID: 617323875}
   springForce: 700
@@ -4539,7 +4546,10 @@ MonoBehaviour:
   - {fileID: 497380708}
   - {fileID: 387601013}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -4547,7 +4557,8 @@ MonoBehaviour:
   spriteOrders: 00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 1024765978}
+  prefabName: Torso
 --- !u!61 &101541984
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7403,7 +7414,10 @@ MonoBehaviour:
   - {fileID: 1594004514}
   - {fileID: 1695109708}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -7411,7 +7425,8 @@ MonoBehaviour:
   spriteOrders: 00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 689158308}
+  prefabName: Torso
 --- !u!50 &181060372
 Rigidbody2D:
   m_ObjectHideFlags: 0
@@ -7829,7 +7844,7 @@ AudioSource:
   m_GameObject: {fileID: 191174956}
   m_Enabled: 1
   serializedVersion: 3
-  m_audioClip: {fileID: 8300000, guid: b6068eb552500604a87cac129f80cd33, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 8a45580289c18424b955f2af83308ff4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: .5
   m_Pitch: 1
@@ -9771,7 +9786,7 @@ PolygonCollider2D:
   m_PrefabInternal: {fileID: 1883190077}
   m_GameObject: {fileID: 245614284}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ade52e0b2c6e7413283ce78fd1ab6e08, type: 2}
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
@@ -10960,11 +10975,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1956964894}
+  - {fileID: 1879870014}
   - {fileID: 889568580}
   - {fileID: 1749284414}
   - {fileID: 1112674187}
-  - {fileID: 881468499}
-  - {fileID: 1879870014}
   m_Father: {fileID: 0}
 --- !u!82 &276154298
 AudioSource:
@@ -11381,11 +11395,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 848197930}
+  - {fileID: 23263297}
   - {fileID: 1589334239}
   - {fileID: 352077532}
   - {fileID: 1187054996}
-  - {fileID: 23263297}
-  - {fileID: 1826310850}
   m_Father: {fileID: 0}
 --- !u!82 &284520760
 AudioSource:
@@ -20172,7 +20185,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 514660404}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -20183,6 +20199,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 552694683}
+  prefabName: SpringLimb
   animator: {fileID: 514660405}
   springRange: {fileID: 459167399}
   springForce: 700
@@ -21045,7 +21062,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 536775866}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -21054,7 +21074,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 1616532541}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 684414282}
   ropeEnd: {fileID: 251322779}
   clampOrigin: {fileID: 89678590}
@@ -29625,7 +29646,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 771465445}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -29634,7 +29658,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 475068125}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 212504587}
   ropeEnd: {fileID: 1731654485}
   clampOrigin: {fileID: 1846312300}
@@ -32941,7 +32966,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 847892096}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -32952,6 +32980,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 1359968755}
+  prefabName: SpringLimb
   animator: {fileID: 847892097}
   springRange: {fileID: 551807214}
   springForce: 700
@@ -33728,7 +33757,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 875021776}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -33737,7 +33769,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 370806885}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 1060288854}
   ropeEnd: {fileID: 370568781}
   clampOrigin: {fileID: 1183240671}
@@ -34034,9 +34067,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 881468499}
-  - 114: {fileID: 881468502}
-  - 82: {fileID: 881468501}
-  - 60: {fileID: 881468500}
+  - 114: {fileID: 1879870017}
+  - 82: {fileID: 1879870016}
+  - 60: {fileID: 1879870015}
   m_Layer: 0
   m_Name: VacuumZone
   m_TagString: Untagged
@@ -34050,35 +34083,35 @@ Transform:
   m_PrefabParentObject: {fileID: 400004, guid: fc8436039ec64439f97f11651cf76303, type: 2}
   m_PrefabInternal: {fileID: 1697664878}
   m_GameObject: {fileID: 881468498}
-  m_LocalRotation: {x: 0, y: 0, z: .382683486, w: .923879564}
-  m_LocalPosition: {x: .0350618362, y: -.143413424, z: .013133049}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: .707106888, w: .707106769}
+  m_LocalPosition: {x: .472784758, y: .0343877599, z: 0}
+  m_LocalScale: {x: .999999762, y: .999999762, z: 1}
   m_Children: []
-  m_Father: {fileID: 276154297}
+  m_Father: {fileID: 1879870014}
 --- !u!60 &881468500
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 6000004, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 881468498}
+  m_GameObject: {fileID: 1559108461}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .26331234, y: .497045457}
-      - {x: .396525979, y: .146479815}
-      - {x: -.557466924, y: .122769773}
-      - {x: -.696993113, y: .260627806}
-      - {x: -.0996291041, y: .847575724}
+    - - {x: -.427153021, y: .346722394}
+      - {x: -.428590536, y: -.0977627039}
+      - {x: .483103752, y: -.0934027433}
+      - {x: .536621749, y: .0237286687}
+      - {x: -.225864828, y: .803123355}
 --- !u!82 &881468501
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200002, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 881468498}
+  m_GameObject: {fileID: 1559108461}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: d064bf1208f8c4da19d53303c5e2ab15, type: 3}
@@ -34137,7 +34170,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 11400002, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 881468498}
+  m_GameObject: {fileID: 1559108461}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
@@ -34653,7 +34686,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 891595150}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -34662,7 +34698,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 1738983825}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 142680224}
   ropeEnd: {fileID: 1741260823}
   clampOrigin: {fileID: 672895938}
@@ -35788,7 +35825,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 924193098}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -35799,6 +35839,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 1633767455}
+  prefabName: SpringLimb
   animator: {fileID: 924193099}
   springRange: {fileID: 1396048966}
   springForce: 700
@@ -36691,7 +36732,7 @@ GameObject:
   - 4: {fileID: 939916052}
   - 212: {fileID: 939916051}
   - 60: {fileID: 939916050}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ramp-left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41048,7 +41089,10 @@ MonoBehaviour:
   - {fileID: 1330019156}
   - {fileID: 438108596}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -41056,7 +41100,8 @@ MonoBehaviour:
   spriteOrders: 00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 2124627610}
+  prefabName: Torso
 --- !u!4 &1038105580
 Transform:
   m_ObjectHideFlags: 0
@@ -43465,7 +43510,7 @@ PolygonCollider2D:
   m_PrefabInternal: {fileID: 1697664878}
   m_GameObject: {fileID: 1112674186}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ade52e0b2c6e7413283ce78fd1ab6e08, type: 2}
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
@@ -44393,11 +44438,10 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 771717545}
+  - {fileID: 2139371283}
   - {fileID: 201994592}
   - {fileID: 944072030}
   - {fileID: 245614285}
-  - {fileID: 2022118602}
-  - {fileID: 2139371283}
   m_Father: {fileID: 0}
 --- !u!1 &1147760022
 GameObject:
@@ -45253,7 +45297,7 @@ PolygonCollider2D:
   m_PrefabInternal: {fileID: 2090120608}
   m_GameObject: {fileID: 1187054995}
   m_Enabled: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: ade52e0b2c6e7413283ce78fd1ab6e08, type: 2}
   m_IsTrigger: 0
   m_Poly:
     m_Paths:
@@ -52855,7 +52899,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 1380854640}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -52866,6 +52913,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 397513460}
+  prefabName: SpringLimb
   animator: {fileID: 1380854641}
   springRange: {fileID: 41996891}
   springForce: 700
@@ -53210,7 +53258,7 @@ GameObject:
   - 4: {fileID: 1386201772}
   - 212: {fileID: 1386201771}
   - 60: {fileID: 1386201770}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ramp-right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53386,6 +53434,7 @@ GameObject:
   - 114: {fileID: 1389016106}
   - 61: {fileID: 1389016105}
   - 114: {fileID: 1389016107}
+  - 82: {fileID: 1389016108}
   m_Layer: 0
   m_Name: LevelEnd
   m_TagString: Untagged
@@ -53452,6 +53501,65 @@ MonoBehaviour:
   force: 30
   content: {fileID: 0}
   direction: {x: 0, y: 0}
+--- !u!82 &1389016108
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 02da74bf6b7d64d59a19be29ea3c6114,
+    type: 2}
+  m_PrefabInternal: {fileID: 1330745109}
+  m_GameObject: {fileID: 1389016103}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: 49f87d176d1858e4faf792094dd7f81d, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1390429206
 GameObject:
   m_ObjectHideFlags: 0
@@ -59632,6 +59740,35 @@ Prefab:
   m_RootGameObject: {fileID: 1314892411}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &1559108461
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: fc8436039ec64439f97f11651cf76303, type: 2}
+  m_PrefabInternal: {fileID: 1697664878}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1559108462}
+  - 114: {fileID: 881468502}
+  - 82: {fileID: 881468501}
+  - 60: {fileID: 881468500}
+  m_Layer: 0
+  m_Name: VacuumZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1559108462
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: fc8436039ec64439f97f11651cf76303, type: 2}
+  m_PrefabInternal: {fileID: 1697664878}
+  m_GameObject: {fileID: 1559108461}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.034117464, y: -.527620018, z: 0}
+  m_LocalScale: {x: .999999881, y: .999999881, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1879870014}
 --- !u!1001 &1560415728
 Prefab:
   m_ObjectHideFlags: 0
@@ -59686,6 +59823,10 @@ Prefab:
     - target: {fileID: 100000, guid: d78f37a69b19d4cc7ad63738cca8dba5, type: 2}
       propertyPath: m_Name
       value: DiaZlateTriggerHazards
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: d78f37a69b19d4cc7ad63738cca8dba5, type: 2}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d78f37a69b19d4cc7ad63738cca8dba5, type: 2}
@@ -60050,7 +60191,10 @@ MonoBehaviour:
   - {fileID: 1657283025}
   - {fileID: 1773802548}
   SFXSource: {fileID: 0}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -60058,7 +60202,8 @@ MonoBehaviour:
   spriteOrders: 00000000
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 581302543}
+  prefabName: Torso
 --- !u!4 &1569389367
 Transform:
   m_ObjectHideFlags: 0
@@ -66063,7 +66208,7 @@ GameObject:
   - 114: {fileID: 1709979180}
   - 114: {fileID: 1709979179}
   - 114: {fileID: 1709979178}
-  m_Layer: 0
+  m_Layer: 17
   m_Name: DiaZlateTriggerHazards
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71064,11 +71209,11 @@ PolygonCollider2D:
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .350472808, y: .450901866}
-      - {x: .237585694, y: .0541925877}
-      - {x: -.13191852, y: -.313031793}
-      - {x: -.704683065, y: .258063734}
-      - {x: -.57388401, y: .42459017}
+    - - {x: .253717601, y: .739508986}
+      - {x: .410961002, y: .455195487}
+      - {x: .431321055, y: -.14083299}
+      - {x: -.477180719, y: -.150606915}
+      - {x: -.525852561, y: -.0301062409}
 --- !u!82 &1826310848
 AudioSource:
   m_ObjectHideFlags: 0
@@ -71150,11 +71295,11 @@ Transform:
   m_PrefabParentObject: {fileID: 400004, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1, type: 2}
   m_PrefabInternal: {fileID: 2090120608}
   m_GameObject: {fileID: 1826310846}
-  m_LocalRotation: {x: 0, y: 0, z: .38268292, w: .923879743}
-  m_LocalPosition: {x: .29246521, y: -.310181499, z: .013133049}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: .707106888, w: .707106769}
+  m_LocalPosition: {x: .472784758, y: .0343877599, z: 0}
+  m_LocalScale: {x: .999999762, y: .999999762, z: 1}
   m_Children: []
-  m_Father: {fileID: 284520759}
+  m_Father: {fileID: 23263297}
 --- !u!1 &1827254321
 GameObject:
   m_ObjectHideFlags: 0
@@ -71544,6 +71689,35 @@ MonoBehaviour:
   force: 30
   content: {fileID: 0}
   direction: {x: 0, y: 0}
+--- !u!1 &1836317265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 0d1488ee823d048c6b3662b16cb618c3, type: 2}
+  m_PrefabInternal: {fileID: 1883190077}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1836317266}
+  - 114: {fileID: 2022118605}
+  - 82: {fileID: 2139371285}
+  - 60: {fileID: 2139371284}
+  m_Layer: 0
+  m_Name: VacuumZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1836317266
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 0d1488ee823d048c6b3662b16cb618c3, type: 2}
+  m_PrefabInternal: {fileID: 1883190077}
+  m_GameObject: {fileID: 1836317265}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.034117464, y: -.527620018, z: 0}
+  m_LocalScale: {x: .999999881, y: .999999881, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2139371283}
 --- !u!1 &1837377710
 GameObject:
   m_ObjectHideFlags: 0
@@ -73370,11 +73544,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1879870014}
-  - 114: {fileID: 1879870017}
-  - 82: {fileID: 1879870016}
-  - 60: {fileID: 1879870015}
   m_Layer: 0
-  m_Name: VacuumZone
+  m_Name: CornerVacuum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73386,10 +73557,12 @@ Transform:
   m_PrefabParentObject: {fileID: 400002, guid: fc8436039ec64439f97f11651cf76303, type: 2}
   m_PrefabInternal: {fileID: 1697664878}
   m_GameObject: {fileID: 1879870013}
-  m_LocalRotation: {x: 0, y: 0, z: .38268292, w: .923879743}
-  m_LocalPosition: {x: .29246521, y: -.310181499, z: .013133049}
+  m_LocalRotation: {x: 0, y: 0, z: -.707202673, w: .707010925}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 881468499}
+  - {fileID: 1559108462}
   m_Father: {fileID: 276154297}
 --- !u!60 &1879870015
 PolygonCollider2D:
@@ -73397,24 +73570,24 @@ PolygonCollider2D:
   m_PrefabParentObject: {fileID: 6000002, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 1879870013}
+  m_GameObject: {fileID: 881468498}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .350472808, y: .450901866}
-      - {x: .237585694, y: .0541925877}
-      - {x: -.13191852, y: -.313031793}
-      - {x: -.704683065, y: .258063734}
-      - {x: -.57388401, y: .42459017}
+    - - {x: .253717601, y: .739508986}
+      - {x: .410961002, y: .455195487}
+      - {x: .431321055, y: -.14083299}
+      - {x: -.477180719, y: -.150606915}
+      - {x: -.525852561, y: -.0301062409}
 --- !u!82 &1879870016
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200000, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 1879870013}
+  m_GameObject: {fileID: 881468498}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: d064bf1208f8c4da19d53303c5e2ab15, type: 3}
@@ -73473,7 +73646,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 11400000, guid: fc8436039ec64439f97f11651cf76303,
     type: 2}
   m_PrefabInternal: {fileID: 1697664878}
-  m_GameObject: {fileID: 1879870013}
+  m_GameObject: {fileID: 881468498}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
@@ -74173,6 +74346,35 @@ Prefab:
   m_RootGameObject: {fileID: 1685766305}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &1895835535
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1, type: 2}
+  m_PrefabInternal: {fileID: 2090120608}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1895835536}
+  - 114: {fileID: 23263300}
+  - 82: {fileID: 23263299}
+  - 60: {fileID: 23263298}
+  m_Layer: 0
+  m_Name: VacuumZone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1895835536
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 87dbd1bb3b5d1485cb7d4c1909c565f1, type: 2}
+  m_PrefabInternal: {fileID: 2090120608}
+  m_GameObject: {fileID: 1895835535}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -.034117464, y: -.527620018, z: 0}
+  m_LocalScale: {x: .999999881, y: .999999881, z: 1}
+  m_Children: []
+  m_Father: {fileID: 23263297}
 --- !u!1 &1896003253
 GameObject:
   m_ObjectHideFlags: 0
@@ -77364,6 +77566,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1959615889}
   - 114: {fileID: 1959615890}
+  - 82: {fileID: 1959615891}
   m_Layer: 0
   m_Name: LevelStart
   m_TagString: Untagged
@@ -77402,6 +77605,65 @@ MonoBehaviour:
   playerPrefab: {fileID: 100000, guid: 1e9ef4cd1d35a4023a17de37f6201156, type: 2}
   player: {fileID: 0}
   spawnPoint: {fileID: 2025686886}
+--- !u!82 &1959615891
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 7ceb67c6dc20c4001940f502df475429,
+    type: 2}
+  m_PrefabInternal: {fileID: 1429750148}
+  m_GameObject: {fileID: 1959615888}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 8300000, guid: e3d8fcd1cf70e2c43aaa58f6fd8e8ffb, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
 --- !u!1 &1959666135
 GameObject:
   m_ObjectHideFlags: 0
@@ -78017,7 +78279,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 1971350609}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -78028,6 +78293,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 934640619}
+  prefabName: SpringLimb
   animator: {fileID: 1971350610}
   springRange: {fileID: 930397537}
   springForce: 700
@@ -78677,7 +78943,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 1984560601}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -78688,6 +78957,7 @@ MonoBehaviour:
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
   rootJoint: {fileID: 2036992841}
+  prefabName: SpringLimb
   animator: {fileID: 1984560600}
   springRange: {fileID: 1727334992}
   springForce: 700
@@ -78994,7 +79264,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 1995927771}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -79003,7 +79276,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 871275714}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 809293772}
   ropeEnd: {fileID: 2136293376}
   clampOrigin: {fileID: 153525788}
@@ -79798,7 +80072,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2022118602}
-  - 114: {fileID: 2022118605}
+  - 114: {fileID: 2022118606}
   - 82: {fileID: 2022118604}
   - 60: {fileID: 2022118603}
   m_Layer: 0
@@ -79814,11 +80088,11 @@ Transform:
   m_PrefabParentObject: {fileID: 400010, guid: 0d1488ee823d048c6b3662b16cb618c3, type: 2}
   m_PrefabInternal: {fileID: 1883190077}
   m_GameObject: {fileID: 2022118601}
-  m_LocalRotation: {x: 0, y: 0, z: .382683486, w: .923879564}
-  m_LocalPosition: {x: .0350618362, y: -.143413424, z: .013133049}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: .707106888, w: .707106769}
+  m_LocalPosition: {x: .472784758, y: .0343877599, z: 0}
+  m_LocalScale: {x: .999999762, y: .999999762, z: 1}
   m_Children: []
-  m_Father: {fileID: 1144140367}
+  m_Father: {fileID: 2139371283}
 --- !u!60 &2022118603
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -79831,11 +80105,11 @@ PolygonCollider2D:
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .26331234, y: .497045457}
-      - {x: .396525979, y: .146479815}
-      - {x: -.557466924, y: .122769773}
-      - {x: -.696993113, y: .260627806}
-      - {x: -.0996291041, y: .847575724}
+    - - {x: .253717601, y: .739508986}
+      - {x: .410961002, y: .455195487}
+      - {x: .431321055, y: -.14083299}
+      - {x: -.477180719, y: -.150606915}
+      - {x: -.525852561, y: -.0301062409}
 --- !u!82 &2022118604
 AudioSource:
   m_ObjectHideFlags: 0
@@ -79899,6 +80173,22 @@ AudioSource:
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 11400002, guid: 0d1488ee823d048c6b3662b16cb618c3,
+    type: 2}
+  m_PrefabInternal: {fileID: 1883190077}
+  m_GameObject: {fileID: 1836317265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSpeed: 30
+  force: 30
+  content: {fileID: 0}
+  direction: {x: 0, y: 0}
+--- !u!114 &2022118606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 0d1488ee823d048c6b3662b16cb618c3,
     type: 2}
   m_PrefabInternal: {fileID: 1883190077}
   m_GameObject: {fileID: 2022118601}
@@ -80974,7 +81264,10 @@ MonoBehaviour:
   groundConnections: []
   allJoints: []
   SFXSource: {fileID: 2052570193}
+  splashClip: {fileID: 0}
+  splashVolume: 1
   shouldAim: 1
+  shouldSave: 1
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
   explosionTime: .100000001
   sprites:
@@ -80983,7 +81276,8 @@ MonoBehaviour:
   spriteOrders: 00000000ffffffff
   Skeleton: {fileID: 0}
   currentBone: {fileID: 0}
-  rootJoint: {fileID: 0}
+  rootJoint: {fileID: 1604350267}
+  prefabName: GrappleLimb
   ropeStart: {fileID: 264120218}
   ropeEnd: {fileID: 1971416041}
   clampOrigin: {fileID: 2988479}
@@ -84126,11 +84420,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 2139371283}
-  - 114: {fileID: 2139371286}
-  - 82: {fileID: 2139371285}
-  - 60: {fileID: 2139371284}
   m_Layer: 0
-  m_Name: VacuumZone
+  m_Name: CornerVacuum
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84142,10 +84433,12 @@ Transform:
   m_PrefabParentObject: {fileID: 400012, guid: 0d1488ee823d048c6b3662b16cb618c3, type: 2}
   m_PrefabInternal: {fileID: 1883190077}
   m_GameObject: {fileID: 2139371282}
-  m_LocalRotation: {x: 0, y: 0, z: .38268292, w: .923879743}
-  m_LocalPosition: {x: .29246521, y: -.310181499, z: .013133049}
+  m_LocalRotation: {x: 0, y: 0, z: -.710921824, w: .703271091}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 2022118602}
+  - {fileID: 1836317266}
   m_Father: {fileID: 1144140367}
 --- !u!60 &2139371284
 PolygonCollider2D:
@@ -84153,24 +84446,24 @@ PolygonCollider2D:
   m_PrefabParentObject: {fileID: 6000004, guid: 0d1488ee823d048c6b3662b16cb618c3,
     type: 2}
   m_PrefabInternal: {fileID: 1883190077}
-  m_GameObject: {fileID: 2139371282}
+  m_GameObject: {fileID: 1836317265}
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Poly:
     m_Paths:
-    - - {x: .350472808, y: .450901866}
-      - {x: .237585694, y: .0541925877}
-      - {x: -.13191852, y: -.313031793}
-      - {x: -.704683065, y: .258063734}
-      - {x: -.57388401, y: .42459017}
+    - - {x: -.427153021, y: .346722394}
+      - {x: -.428590536, y: -.0977627039}
+      - {x: .483103752, y: -.0934027433}
+      - {x: .536621749, y: .0237286687}
+      - {x: -.225864828, y: .803123355}
 --- !u!82 &2139371285
 AudioSource:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 8200004, guid: 0d1488ee823d048c6b3662b16cb618c3,
     type: 2}
   m_PrefabInternal: {fileID: 1883190077}
-  m_GameObject: {fileID: 2139371282}
+  m_GameObject: {fileID: 1836317265}
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: d064bf1208f8c4da19d53303c5e2ab15, type: 3}
@@ -84223,22 +84516,6 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
---- !u!114 &2139371286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400004, guid: 0d1488ee823d048c6b3662b16cb618c3,
-    type: 2}
-  m_PrefabInternal: {fileID: 1883190077}
-  m_GameObject: {fileID: 2139371282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 25aff85959e7e45a6a8ce2d9912b689a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSpeed: 30
-  force: 30
-  content: {fileID: 0}
-  direction: {x: 0, y: 0}
 --- !u!1 &2140806175
 GameObject:
   m_ObjectHideFlags: 0

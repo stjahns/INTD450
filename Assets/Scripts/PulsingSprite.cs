@@ -11,17 +11,17 @@ public class PulsingSprite : MonoBehaviour
 	public bool startEnabled = false;
 
 	private List<SpriteRenderer> spriteRenderers;
-	private List<Color> fullColors;
+	private List<float> fullAlphas;
 	private bool enabled = false;
 
 	void Start()
 	{
 		spriteRenderers = GetComponentsInChildren<SpriteRenderer>().ToList();
-		fullColors = new List<Color>();
+		fullAlphas = new List<float>();
 
 		foreach (var renderer in spriteRenderers)
 		{
-			fullColors.Add(renderer.color);
+			fullAlphas.Add(renderer.color.a);
 		}
 
 		if (startEnabled)
@@ -38,8 +38,9 @@ public class PulsingSprite : MonoBehaviour
 
 			for (int i = 0; i < spriteRenderers.Count; ++i)
 			{
-				spriteRenderers[i].color = new Color(fullColors[i].r, fullColors[i].g, fullColors[i].b,
-						Mathf.Lerp(minAlpha, fullColors[i].a, interpParam));
+				Color color = spriteRenderers[i].color;
+				color.a = Mathf.Lerp(minAlpha, fullAlphas[i], interpParam);
+				spriteRenderers[i].color = color;
 			}
 		}
 	}
@@ -54,7 +55,9 @@ public class PulsingSprite : MonoBehaviour
 		enabled = false;
 		for (int i = 0; i < spriteRenderers.Count; ++i)
 		{
-			spriteRenderers[i].color = fullColors[i];
+			Color color = spriteRenderers[i].color;
+			color.a = fullAlphas[i];
+			spriteRenderers[i].color = color;
 		}
 	}
 }

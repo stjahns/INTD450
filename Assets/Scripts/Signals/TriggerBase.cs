@@ -32,22 +32,27 @@ public class TriggerBase : MonoBehaviour
 		return targetInfos;
 	}
 
+	public static bool DrawLines = true;
+
 	virtual public void OnDrawGizmos()
 	{
-		IEnumerable<FieldInfo> outputSockets = this.GetType().GetFields()
-			.Where(f => Attribute.IsDefined(f, typeof(OutputEventConnectionsAttribute)));
-
-		foreach (FieldInfo socketField in outputSockets)
+		if (DrawLines)
 		{
-			IEnumerable<SignalConnection> socket = socketField.GetValue(this)
-				as IEnumerable<SignalConnection>;
+			IEnumerable<FieldInfo> outputSockets = this.GetType().GetFields()
+				.Where(f => Attribute.IsDefined(f, typeof(OutputEventConnectionsAttribute)));
 
-			foreach (SignalConnection conn in socket)
+			foreach (FieldInfo socketField in outputSockets)
 			{
-				if (conn && conn.target != null)
+				IEnumerable<SignalConnection> socket = socketField.GetValue(this)
+					as IEnumerable<SignalConnection>;
+
+				foreach (SignalConnection conn in socket)
 				{
-					Gizmos.color = Color.red;
-					Gizmos.DrawLine(transform.position, conn.target.transform.position);
+					if (conn && conn.target != null)
+					{
+						Gizmos.color = Color.red;
+						Gizmos.DrawLine(transform.position, conn.target.transform.position);
+					}
 				}
 			}
 		}

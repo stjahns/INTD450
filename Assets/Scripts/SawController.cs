@@ -12,6 +12,8 @@ public class SawController : MonoBehaviour
 	public AudioSource sawRunning; 
 	public AudioSource sawHitting; 
 
+	public bool runOnStart;
+
 	private bool running;
 	private float bladeSpeed;
 
@@ -19,6 +21,10 @@ public class SawController : MonoBehaviour
 	{
 		running = false;
 		bladeSpeed = 0;
+		if (runOnStart)
+		{
+			SawOn();
+		}
 	}
 
 	//
@@ -68,6 +74,8 @@ public class SawController : MonoBehaviour
 		running = true;
 		sawRunning.Play();
 		bladeTrigger.enabled = true;
+
+		GetComponentInChildren<SawbladeController>().Running = true;
 	}
 
 	[InputSocket]
@@ -77,5 +85,7 @@ public class SawController : MonoBehaviour
 		running = false;
 		sawRunning.Stop();
 		bladeTrigger.enabled = false;
+
+		GetComponentInChildren<SawbladeController>().Running = false;
 	}
 }

@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Explosion : MonoBehaviour {
 
 	public AudioClip explosionClip;
 
-	public float time = 0.1f;
+	public List<AudioClip> secondarySounds;
+
+	public float damageDelay = 0.1f;
 	public bool hurtPlayer = false;
 	
 	public float explosionRadius = 1.0f;
@@ -51,7 +54,7 @@ public class Explosion : MonoBehaviour {
 
 	IEnumerator ApplyDamage()
 	{
-		yield return new WaitForSeconds(time);
+		yield return new WaitForSeconds(damageDelay);
 
 		// get everything in explosion radius and apply damage
 		Collider2D[] inExplosion = Physics2D.OverlapCircleAll(
@@ -71,7 +74,18 @@ public class Explosion : MonoBehaviour {
 					explosionDamage,
 					SendMessageOptions.DontRequireReceiver);
 		}
+	}
 
+	public void PlaySecondarySound(int index)
+	{
+		if (index < secondarySounds.Count)
+		{
+			AudioSource3D.PlayClipAtPoint(secondarySounds[index], transform.position);
+		}
+	}
+
+	public void End()
+	{
 		Destroy(gameObject);
 	}
 }

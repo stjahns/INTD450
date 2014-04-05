@@ -301,6 +301,12 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 	{
 		if (type == AttachmentType.Arm)
 		{
+			if (anim)
+			{
+				anim.SetBool("aimLeft", false);
+				anim.SetBool("aimRight", false);
+			}
+
 			currentArms.Remove(limb);
 			if (limb == activeArm)
 			{

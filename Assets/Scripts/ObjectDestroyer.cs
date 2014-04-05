@@ -47,7 +47,9 @@ public class ObjectDestroyer : MonoBehaviour
 			}
 			else
 			{
-				Destroy(other);
+				// Destroy(other);
+				// To prevent wierd bugs (eg grapple projectile being destroyed), 
+				// only allow destroying DestructableBehaviours
 			}
 		}
 	}

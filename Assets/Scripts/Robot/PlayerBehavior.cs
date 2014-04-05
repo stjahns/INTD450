@@ -495,15 +495,4 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 	{
 		return activeLeg;
 	}
-
-	public void SetController(MonoBehaviour controller)
-	{
-		if (activeController)
-		{
-			activeController.enabled = false;
-		}
-
-		activeController = controller;
-		controller.enabled = true;
-	}
 }

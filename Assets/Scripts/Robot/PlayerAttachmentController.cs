@@ -112,6 +112,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
 
 		attachmentShadowVisual.enabled = true;
+		movementController.MouseAim = false;
 
 	}
 
@@ -170,6 +171,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		attachmentText.enabled = false;
 
 		movementController.enabled = true;
+		movementController.MouseAim = true;
 	}
 
 	void Abort()
@@ -352,6 +354,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			// remove lightning bolt thing
 			selectedParentJoint.childTransform = selectedParentJoint.transform;
+			SetSelectedChild(null);
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))

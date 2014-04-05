@@ -19,6 +19,9 @@ public class PlayerMovementController : MonoBehaviour {
 
 	public AudioClip switchAbilityClip;
 
+	[HideInInspector]
+	public bool MouseAim =  true;
+
 	private float jumpTimer = 0.0f;
 	
 	// Update is called once per frame
@@ -77,40 +80,43 @@ public class PlayerMovementController : MonoBehaviour {
 			player.FireLegAbility();
 		}
 
-		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-		if ((mousePosition - transform.position).x > 0)
+		if (MouseAim)
 		{
-			// face right
-			anim.SetBool("facingLeft", false);
-			player.skeleton.direction = PlayerSkeleton.Direction.Right;
-		}
-		else
-		{
-			// face left
-			anim.SetBool("facingLeft", true);
-			player.skeleton.direction = PlayerSkeleton.Direction.Left;
-		}
-
-		if (player.GetActiveArm() && player.GetActiveArm().shouldAim)
-		{
-			Vector2 jointOrigin = player.GetActiveArm().parentAttachmentPoint.transform.position;
-			Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
-			Vector2 playerToPointer;
-
-			playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
-			playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
-			playerToPointer.Normalize();
-
-			string xVar = player.GetActiveArm().parentAttachmentPoint.aimX;
-			string yVar = player.GetActiveArm().parentAttachmentPoint.aimY;
-
-			if (!player.facingLeft)
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			if ((mousePosition - transform.position).x > 0)
 			{
-				playerToPointer.x *= -1;
+				// face right
+				anim.SetBool("facingLeft", false);
+				player.skeleton.direction = PlayerSkeleton.Direction.Right;
+			}
+			else
+			{
+				// face left
+				anim.SetBool("facingLeft", true);
+				player.skeleton.direction = PlayerSkeleton.Direction.Left;
 			}
 
-			anim.SetFloat(xVar, playerToPointer.x);
-			anim.SetFloat(yVar, playerToPointer.y);
+			if (player.GetActiveArm() && player.GetActiveArm().shouldAim)
+			{
+				Vector2 jointOrigin = player.GetActiveArm().parentAttachmentPoint.transform.position;
+				Vector2 aimOrigin = Camera.main.WorldToScreenPoint(jointOrigin);
+				Vector2 playerToPointer;
+
+				playerToPointer.x = Input.mousePosition.x - aimOrigin.x;
+				playerToPointer.y = Input.mousePosition.y - aimOrigin.y;
+				playerToPointer.Normalize();
+
+				string xVar = player.GetActiveArm().parentAttachmentPoint.aimX;
+				string yVar = player.GetActiveArm().parentAttachmentPoint.aimY;
+
+				if (!player.facingLeft)
+				{
+					playerToPointer.x *= -1;
+				}
+
+				anim.SetFloat(xVar, playerToPointer.x);
+				anim.SetFloat(yVar, playerToPointer.y);
+			}
 		}
 	}
 

@@ -169,8 +169,8 @@ MonoBehaviour:
   openPosition: {fileID: 400002}
   doorBody: {fileID: 5000000}
   debug: 0
-  openClip: {fileID: 8300000, guid: b7168a620e06cac449893ca813886a46, type: 3}
-  closeClip: {fileID: 8300000, guid: b7168a620e06cac449893ca813886a46, type: 3}
+  openClip: {fileID: 8300000, guid: d001220136d05034fb20382856c8da67, type: 3}
+  closeClip: {fileID: 8300000, guid: 42315d553b247dc47bedd6542a4033d1, type: 3}
   doorSpeed: 1000
   doorForce: 1000
   state: 3
@@ -186,7 +186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionPrefab: {fileID: 100000, guid: 0a75f2ab77f174904a2beba492b4a198, type: 2}
-  explosionTime: .100000001
+  health: 1
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

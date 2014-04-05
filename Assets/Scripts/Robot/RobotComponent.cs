@@ -73,6 +73,8 @@ public class RobotComponent : MonoBehaviour {
 
 	public AttachmentPoint rootJoint;
 
+	public string prefabName;
+
 	// Private Vars
 	private bool resettingPhysics = false;
 

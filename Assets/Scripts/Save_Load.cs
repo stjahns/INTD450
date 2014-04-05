@@ -78,12 +78,14 @@ public class Save_Load
 			ResetComponents<ChainComponent>(data["array"][1]);
 			ResetComponents<SteakComponent>(data["array"][1]);
             ResetComponents<DoorBehaviour>(data["array"][1]);
+            ResetComponents<PlayerBehavior>(data["array"][1]);
 		}
 		else
 		{
 			SaveComponents<ChainComponent>(data["array"][1]);
 			SaveComponents<SteakComponent>(data["array"][1]);
             SaveComponents<DoorBehaviour>(data["array"][1]);
+            SaveComponents<PlayerBehavior>(data["array"][1]);
 		}
 
 		data = data.SaveToBase64();

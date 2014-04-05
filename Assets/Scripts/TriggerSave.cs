@@ -33,7 +33,7 @@ public class TriggerSave : MonoBehaviour {
 
 			foreach (RobotComponent gam in obj)
 			{
-				if (gam.shouldSave)
+				if (gam.shouldSave && !gam.attachedToPlayer())
 				{
 					checkpoint += gam.name + ":" + gam.transform.rotation.ToString() + ":" + gam.transform.position.ToString() + "/";
 				}

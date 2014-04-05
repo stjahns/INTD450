@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleJSON;
+using System.Text.RegularExpressions;
 
-public class PlayerBehavior : MonoBehaviour {
-
+public class PlayerBehavior : MonoBehaviour, SaveableComponent
+{
 	// Public fields
 	public MonoBehaviour activeController;
 	
@@ -92,6 +94,126 @@ public class PlayerBehavior : MonoBehaviour {
 				OnDestroy(this);
 			}
 		};
+	}
+	
+	public void SaveState(JSONNode data)
+	{
+		data["positionX"].AsFloat = transform.position.x;
+		data["positionY"].AsFloat = transform.position.y;
+
+		AttachmentSlot[] slots = {
+			AttachmentSlot.Spine,
+			AttachmentSlot.LeftShoulder,
+			AttachmentSlot.RightShoulder,
+			AttachmentSlot.LeftHip,
+			AttachmentSlot.RightHip
+		};
+
+		foreach (var slot in slots)
+		{
+			// save attached limbs
+			RobotComponent slotComponent = allComponents.Find(c => c.Slot == slot);
+			if (slotComponent)
+			{
+				data[slot.ToString()]["prefab"] = slotComponent.prefabName;
+
+				// check if spawned by object spawner
+				string spawnerName = Regex.Match(slotComponent.name, @"\(([^)]*)\)").Groups[1].Value;
+				if (spawnerName.Length > 0)
+				{
+					data[slot.ToString()]["spawner"] = spawnerName;
+				}
+			}
+		}
+	}
+
+	public void LoadState(JSONNode data)
+	{
+		Debug.Log(data);
+		if (data["positionX"] != null  && data["positionY"] != null)
+		{
+			transform.position = new Vector3(data["positionX"].AsFloat, data["positionY"].AsFloat, 0);
+		}
+
+		StartCoroutine(LoadLimbs(data));
+	}
+
+	IEnumerator LoadLimbs(JSONNode data)
+	{
+		yield return 0;
+
+		RobotComponent torsoComponent = null;
+
+		string spineSlot = AttachmentSlot.Spine.ToString();
+		if (data[spineSlot] != null)
+		{
+            GameObject prefab = Resources.Load(data[spineSlot]["prefab"]) as GameObject;
+            
+            if (prefab != null)
+            {
+                var torsoObject = GameObject.Instantiate(prefab, 
+						transform.position, Quaternion.identity) as GameObject;
+                torsoObject.name = data[spineSlot]["prefab"];
+				torsoComponent = torsoObject.GetComponent<RobotComponent>();
+
+				head.Attach(head.GetJointForSlot(AttachmentSlot.Spine),
+						torsoComponent.rootJoint);
+
+				string spawnerName = data[spineSlot]["spawner"];
+				if (spawnerName != null)
+				{
+					torsoObject.name += string.Format("({0})", spawnerName);
+					GameObject spawnerObject = GameObject.Find(spawnerName);
+					if (spawnerObject)
+					{
+						var spawner = spawnerObject.GetComponent<ObjectSpawner>();
+						spawner.spawnedObjects.Add(torsoObject);
+					}
+				}
+            }
+		}
+
+		if (torsoComponent)
+		{
+			AttachmentSlot[] limbSlots = {
+				AttachmentSlot.LeftShoulder,
+				AttachmentSlot.RightShoulder,
+				AttachmentSlot.LeftHip,
+				AttachmentSlot.RightHip,
+			};
+
+			foreach (var slot in limbSlots)
+			{
+				if (data[slot.ToString()] != null)
+				{
+					GameObject prefab = Resources.Load(data[slot.ToString()]["prefab"]) as GameObject;
+					if (prefab != null)
+					{
+						var slotObject = GameObject.Instantiate(prefab, 
+								transform.position, Quaternion.identity) as GameObject;
+						slotObject.name = data[slot.ToString()]["prefab"];
+						var slotComponent = slotObject.GetComponent<RobotComponent>();
+
+						// TODO might need spawner name or something?
+
+						torsoComponent.Attach(torsoComponent.GetJointForSlot(slot),
+								slotComponent.rootJoint);
+
+						string spawnerName = data[slot.ToString()]["spawner"];
+						if (spawnerName != null)
+						{
+							slotObject.name += string.Format("({0})", spawnerName);
+							GameObject spawnerObject = GameObject.Find(spawnerName);
+							if (spawnerObject)
+							{
+								var spawner = spawnerObject.GetComponent<ObjectSpawner>();
+								spawner.spawnedObjects.Add(slotObject);
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 
 	[InputSocket]

@@ -22,7 +22,7 @@ public class CustomCommands : MonoBehaviour {
 		}
 	}
 
-	[MenuItem("Level/Snap Objects _s")]
+	[MenuItem("Level/Snap Objects %UP")]
 	static void SnapObjects()
 	{
 		foreach (GameObject obj in Selection.gameObjects)
@@ -53,7 +53,7 @@ public class CustomCommands : MonoBehaviour {
 		}
 	}
 
-	[MenuItem("Level/Toggle Trigger Connections _t")]
+	[MenuItem("Level/Toggle Trigger Connections %DOWN")]
 	static void ToggleShowConnections()
 	{
 		TriggerBase.DrawLines = !TriggerBase.DrawLines;

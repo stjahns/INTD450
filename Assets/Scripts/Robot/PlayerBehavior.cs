@@ -9,7 +9,7 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 {
 	// Public fields
 	public MonoBehaviour activeController;
-	
+
 	public HeadComponent head;
 
 	public PlayerSkeleton skeleton;
@@ -95,7 +95,7 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 			}
 		};
 	}
-	
+
 	public void SaveState(JSONNode data)
 	{
 		data["positionX"].AsFloat = transform.position.x;
@@ -147,13 +147,13 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 		string spineSlot = AttachmentSlot.Spine.ToString();
 		if (data[spineSlot] != null)
 		{
-            GameObject prefab = Resources.Load(data[spineSlot]["prefab"]) as GameObject;
-            
-            if (prefab != null)
-            {
-                var torsoObject = GameObject.Instantiate(prefab, 
+			GameObject prefab = Resources.Load(data[spineSlot]["prefab"]) as GameObject;
+
+			if (prefab != null)
+			{
+				var torsoObject = GameObject.Instantiate(prefab, 
 						transform.position, Quaternion.identity) as GameObject;
-                torsoObject.name = data[spineSlot]["prefab"];
+				torsoObject.name = data[spineSlot]["prefab"];
 				torsoComponent = torsoObject.GetComponent<RobotComponent>();
 
 				head.Attach(head.GetJointForSlot(AttachmentSlot.Spine),
@@ -170,7 +170,7 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 						spawner.spawnedObjects.Add(torsoObject);
 					}
 				}
-            }
+			}
 		}
 
 		if (torsoComponent)
@@ -193,8 +193,6 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 								transform.position, Quaternion.identity) as GameObject;
 						slotObject.name = data[slot.ToString()]["prefab"];
 						var slotComponent = slotObject.GetComponent<RobotComponent>();
-
-						// TODO might need spawner name or something?
 
 						torsoComponent.Attach(torsoComponent.GetJointForSlot(slot),
 								slotComponent.rootJoint);
@@ -250,7 +248,7 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 
 		Application.LoadLevel(Application.loadedLevel);
 	}
-	
+
 	public void OnLimbAdded(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
 	{
 		if (type == AttachmentType.Arm)
@@ -367,7 +365,7 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 				rigidbody2D.drag = 0;
 			}
 		}
-				
+
 		anim = GetComponentInChildren<Animator>();
 		if (anim)
 		{

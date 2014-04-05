@@ -245,6 +245,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				attachmentText.text = "DISCONNECT FROM ";
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
+				attachmentText.color = Color.red;
 			}
 			else if (selectedParentJoint.child != null )
 			{
@@ -252,6 +253,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
 				attachmentText.text += " FROM ";
 				attachmentText.text += selectedParentJoint.AttachmentName;
+				attachmentText.color = Color.red;
 			}
 			else
 			{

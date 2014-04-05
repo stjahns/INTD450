@@ -54,6 +54,7 @@ public class FollowCamera : MonoBehaviour
 				// Zoom in
 				viewportHeight += Input.GetAxis("Mouse ScrollWheel");
 				viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
+				currentTarget.targetViewportHeight = viewportHeight;
 			}
 
 			camera.orthographicSize= Mathf.Lerp(

@@ -35,6 +35,7 @@ public class MovingObstacle : MonoBehaviour
 			// If hit free limb, blow it away
 			if (!limb.attachedToPlayer())
 			{
+				limb.shouldSave = false;
 				StartCoroutine(fallRoutine(limb.gameObject, _destroyDelay));
 			}
 			else
@@ -49,6 +50,7 @@ public class MovingObstacle : MonoBehaviour
 					{
 						if (childLimb != rootComponent)
 						{
+							childLimb.shouldSave = false;
 							StartCoroutine(fallRoutine(childLimb.gameObject, _destroyDelay));
 						}
 					}

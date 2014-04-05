@@ -40,18 +40,21 @@ public class TargetPip : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		// aim pip follows player target
-		Vector3 pipToTarget = target.position - transform.position;
+		if (target)
+		{
+			// aim pip follows player target
+			Vector3 pipToTarget = target.position - transform.position;
 
-		// Calculate target velocity, proportional to distance, but capped at max speed
-		Vector2 targetVelocity = Vector2.ClampMagnitude(speedModifier * pipToTarget, maxSpeed);
-		Vector2 velocityError = targetVelocity - rigidbody2D.velocity;
+			// Calculate target velocity, proportional to distance, but capped at max speed
+			Vector2 targetVelocity = Vector2.ClampMagnitude(speedModifier * pipToTarget, maxSpeed);
+			Vector2 velocityError = targetVelocity - rigidbody2D.velocity;
 
-		// Force proportional to gain and velocity error, capped at max force
-		Vector2 force = Vector2.ClampMagnitude(accelerationGain * velocityError, maxForce);
+			// Force proportional to gain and velocity error, capped at max force
+			Vector2 force = Vector2.ClampMagnitude(accelerationGain * velocityError, maxForce);
 
-		// Apply the force
-		rigidbody2D.AddForce(force);
+			// Apply the force
+			rigidbody2D.AddForce(force);
+		}
 	}
 
 	public void RemovePip()

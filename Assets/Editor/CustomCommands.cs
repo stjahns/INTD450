@@ -53,4 +53,10 @@ public class CustomCommands : MonoBehaviour {
 		}
 	}
 
+	[MenuItem("Level/Toggle Trigger Connections _t")]
+	static void ToggleShowConnections()
+	{
+		TriggerBase.DrawLines = !TriggerBase.DrawLines;
+	}
+
 }

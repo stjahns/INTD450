@@ -40,6 +40,12 @@ public class Explosion : MonoBehaviour {
 			}
 		}
 
+		// If this thing spawns little children, unparent them
+		while (transform.GetChildCount() > 0)
+		{
+			transform.GetChild(0).parent = null;
+		}
+
 		StartCoroutine(ApplyDamage());
 	}
 

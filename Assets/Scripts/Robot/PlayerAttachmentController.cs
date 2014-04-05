@@ -101,7 +101,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				parentJoint.child.OnDetach();
 				parentJoint.DetachFromLevelObject();
 				parentJoint.childTransform = parentJoint.transform;
-				player.SetController(movementController);
+				enabled = false;
 				return;
 			}
 		}
@@ -168,6 +168,8 @@ public class PlayerAttachmentController : MonoBehaviour
 		attachmentShadowVisual.enabled = false;
 
 		attachmentText.enabled = false;
+
+		movementController.enabled = true;
 	}
 
 	void Abort()
@@ -175,12 +177,13 @@ public class PlayerAttachmentController : MonoBehaviour
 		if (selectedParentJoint)
 		{
 			selectedParentJoint.childTransform = selectedParentJoint.transform;
+			selectedParentJoint.owner.getRootComponent().ResetPhysics();
 		}
 
 		SetSelectedParent(null);
 		SetSelectedChild(null);
 
-		player.SetController(movementController);
+		enabled = false;
 	}
 
 	// Update is called once per frame
@@ -267,7 +270,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				selectedParentJoint.child.OnDetach();
 				selectedParentJoint.DetachFromLevelObject();
 				selectedParentJoint.childTransform = selectedParentJoint.transform;
-				player.SetController(movementController);
+				enabled = false;
 			}
 			else if (selectedParentJoint.child != null )
 			{
@@ -276,7 +279,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				selectedParentJoint.owner.Unattach(selectedParentJoint, selectedParentJoint.child);
 				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				state = AttachmentState.AttachingPart;
-				player.SetController(movementController);
+				enabled = false;
 			}
 			else
 			{
@@ -475,6 +478,9 @@ public class PlayerAttachmentController : MonoBehaviour
 
 			state = AttachmentState.AttachingPart;
 
+			// Disable movement during actual attachment...
+			movementController.enabled = false;
+
 			if (selectedChildJoint.owner.rigidbody2D)
 			{
 				Destroy(selectedChildJoint.owner.rigidbody2D);
@@ -544,7 +550,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			selectedChildJoint.OnAttach();
 			selectedParentJoint.owner.Attach(selectedParentJoint, selectedChildJoint);
-			player.SetController(movementController);
+			enabled = false;
 		}
 	}
 
@@ -560,7 +566,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		if (attachmentTime > attachmentEndTime)
 		{
 			selectedChildJoint.OnAttach();
-			player.SetController(movementController);
+			enabled = false;
 		}
 	}
 

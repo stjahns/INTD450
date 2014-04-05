@@ -65,7 +65,7 @@ public class BuzzsawComponent : LimbComponent
 		{
 			float rotation = bladeSpeed * Time.deltaTime;
 
-			if (Skeleton.direction == PlayerSkeleton.Direction.Right)
+			if (Skeleton && Skeleton.direction == PlayerSkeleton.Direction.Right)
 			{
 				rotation *= -1;
 			}
@@ -97,7 +97,11 @@ public class BuzzsawComponent : LimbComponent
 				{
 					Vector3 direction = forceDirection.position - sawblade.transform.position;
 					direction.Normalize();
-					getRootComponent().rigidbody2D.AddForce(bladeForce * direction);
+					
+					if (getRootComponent().rigidbody2D)
+					{
+						getRootComponent().rigidbody2D.AddForce(bladeForce * direction);
+					}
 
 					if (!sawHitting.isPlaying)
 					{

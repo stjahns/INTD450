@@ -26,10 +26,10 @@ public class PlayerMovementController : MonoBehaviour {
 	{
 		Animator anim = GetComponentInChildren<Animator>();
 
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetKeyDown(KeyCode.F) && !attachmentController.enabled)
 		{
-			// Switch to attachment mode
-			player.SetController(attachmentController);
+			// Enable  attachment mode
+			attachmentController.enabled = true;
 		}
 
 		// Swtich arm abilities

@@ -295,7 +295,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 				attachmentShadowVisual.enabled = false;
 				attachmentRangeVisual.enabled = true;
-				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange);
+				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange + 0.5f);
 
 				// Show the range...
 				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);

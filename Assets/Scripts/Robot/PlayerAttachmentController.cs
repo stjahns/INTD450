@@ -112,6 +112,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		AudioSource.PlayClipAtPoint(onEnableClip, transform.position);
 
 		attachmentShadowVisual.enabled = true;
+		movementController.MouseAim = false;
 
 	}
 
@@ -170,6 +171,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		attachmentText.enabled = false;
 
 		movementController.enabled = true;
+		movementController.MouseAim = true;
 	}
 
 	void Abort()
@@ -243,6 +245,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				attachmentText.text = "DISCONNECT FROM ";
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
+				attachmentText.color = Color.red;
 			}
 			else if (selectedParentJoint.child != null )
 			{
@@ -250,6 +253,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
 				attachmentText.text += " FROM ";
 				attachmentText.text += selectedParentJoint.AttachmentName;
+				attachmentText.color = Color.red;
 			}
 			else
 			{
@@ -291,7 +295,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 				attachmentShadowVisual.enabled = false;
 				attachmentRangeVisual.enabled = true;
-				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange);
+				attachmentRangeVisual.transform.localScale = Vector3.one * (2 * attachmentRange + 0.5f);
 
 				// Show the range...
 				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);
@@ -352,6 +356,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		{
 			// remove lightning bolt thing
 			selectedParentJoint.childTransform = selectedParentJoint.transform;
+			SetSelectedChild(null);
 		}
 
 		if (Input.GetKeyDown(KeyCode.F))

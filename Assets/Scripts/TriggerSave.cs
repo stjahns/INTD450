@@ -33,7 +33,10 @@ public class TriggerSave : MonoBehaviour {
 
 			foreach (RobotComponent gam in obj)
 			{
-				checkpoint += gam.name + ":" + gam.transform.rotation.ToString() + ":" + gam.transform.position.ToString() + "/";
+				if (gam.shouldSave)
+				{
+					checkpoint += gam.name + ":" + gam.transform.rotation.ToString() + ":" + gam.transform.position.ToString() + "/";
+				}
 			}
 
 			if (level_boxes.Length >=1)

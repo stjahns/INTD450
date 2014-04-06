@@ -23,17 +23,17 @@ public class SignalToggle : TriggerBase {
 	[InputSocket]
 	public void Toggle()
 	{
-		if (state == ToggleState.On)
+		if (state == ToggleState.Off)
 		{
 			Debug.Log("TOGGLE ON");
 			onToggleOn.ForEach(s => s.Fire());
-			state = ToggleState.Off;
+			state = ToggleState.On;
 		}
 		else
 		{
 			Debug.Log("TOGGLE OFF");
 			onToggleOff.ForEach(s => s.Fire());
-			state = ToggleState.On;
+			state = ToggleState.Off;
 		}
 	}
 }

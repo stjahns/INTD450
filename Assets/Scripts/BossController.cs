@@ -11,7 +11,8 @@ public class BossController : StateMachineBase {
 		Pacing,
 		UsingCannon,
 		UsingGrapple,
-		KickObstacle
+		KickObstacle,
+		Dead
 	}
 
 	public State initialState;
@@ -32,6 +33,8 @@ public class BossController : StateMachineBase {
 	}
 
 	public BossComponents components;
+
+	public TimerTrigger onDeathTrigger;
 
 	public float thrustDelta;
 	public float hoverBounceHeight;
@@ -183,6 +186,27 @@ public class BossController : StateMachineBase {
 		}
 	}
 
+	[InputSocket]
+	public void Electrocute()
+	{
+	}
+
+	[InputSocket]
+	public void Kill()
+	{
+		StartCoroutine(DelayedKill());
+	}
+
+	IEnumerator DelayedKill()
+	{
+		yield return new WaitForSeconds(1);
+		components.head.DestroyRobotComponent();
+
+		// fire some kind of event for that to trigger level end
+		onDeathTrigger.StartTimer();
+
+		currentState = State.Dead;
+	}
 
 	//================================================================================
 	// States

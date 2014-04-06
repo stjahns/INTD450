@@ -9,6 +9,8 @@ public class LightningRenderer : MonoBehaviour
 	public int segmentCount;
 	public float spread;
 
+	public bool EnabledOnStart = true;
+
 	public Color color
 	{
 		set
@@ -73,6 +75,8 @@ public class LightningRenderer : MonoBehaviour
 	void Awake ()
 	{
 		lineRenderer = GetComponent<LineRenderer>();
+
+		EffectEnabled = EnabledOnStart;
 	}
 	
 	void Update ()

@@ -18,6 +18,11 @@ public class SharkAttackTrigger : MonoBehaviour
 				_shark.SetTarget(destructable.transform);
 				_currentTarget = destructable.transform;
 			}
+			else if (collider.attachedRigidbody.GetComponent<DestructableBehaviour>() || collider.attachedRigidbody.GetComponent<PlayerBehavior>())
+			{
+				_shark.SetTarget(collider.attachedRigidbody.transform);
+				_currentTarget = collider.attachedRigidbody.transform;
+			}
 		}
 
 		// If it's a steak, overrides everything!

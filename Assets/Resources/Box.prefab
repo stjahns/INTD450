@@ -14,6 +14,7 @@ GameObject:
   - 61: {fileID: 6100000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   m_Layer: 10
   m_Name: Box
   m_TagString: box of metal
@@ -102,6 +103,20 @@ MonoBehaviour:
   _submergedAngularDrag: 5
   _floatTorque: 10
   _floatCheckArea: {x: .100000001, y: .100000001}
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 425b4d0d5d12b4c58a453017150660aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  impactClip: {fileID: 8300000, guid: 07cc593242d693e4f85f0143cdac5524, type: 3}
+  volume: 1
+  velocityChangeThreshold: 1
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -29,8 +29,8 @@ GameObject:
   - 212: {fileID: 21200002}
   - 50: {fileID: 5000000}
   - 61: {fileID: 6100000}
-  - 114: {fileID: 11400004}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400006}
   m_Layer: 10
   m_Name: MiniBox
   m_TagString: box of metal
@@ -49,8 +49,8 @@ GameObject:
   - 212: {fileID: 21200004}
   - 50: {fileID: 5000002}
   - 61: {fileID: 6100002}
-  - 114: {fileID: 11400010}
   - 114: {fileID: 11400012}
+  - 114: {fileID: 11400004}
   m_Layer: 10
   m_Name: MiniBox
   m_TagString: box of metal
@@ -65,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.1703949, y: 2.5889616, z: 0}
+  m_LocalPosition: {x: 8.1475668, y: 3.17979741, z: 0}
   m_LocalScale: {x: 3.7949338, y: 3.7949338, z: 2.8462007}
   m_Children:
   - {fileID: 400004}
@@ -171,7 +171,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   explosionClip: {fileID: 8300000, guid: 5caa1046d6bccc642b55090078fda53a, type: 3}
-  time: .100000001
+  secondarySounds: []
+  damageDelay: .100000001
   hurtPlayer: 0
   explosionRadius: 1
   explosionForce: 1
@@ -198,23 +199,33 @@ MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
+  m_GameObject: {fileID: 100004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c423dfe6a70444dae1d7bf7919fc66, type: 3}
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &11400010
+  explosionPrefab: {fileID: 0}
+  health: 1000
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
+--- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100004}
+  m_GameObject: {fileID: 100002}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63c423dfe6a70444dae1d7bf7919fc66, type: 3}
+  m_Script: {fileID: 11500000, guid: 21056647233d14f38bd5959c7d5ea82f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionPrefab: {fileID: 0}
+  health: 1000
+  randomHealth: 0
+  minRandomHealth: 1
+  maxRandomHealth: 2
 --- !u!114 &11400012
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -12,6 +12,9 @@ public class TrapZone : MonoBehaviour
 	public float moveAccelGain = 1;
 	public float maxMoveForce = 1;
 
+	public float explodeDelay = 1;
+	public float randomDelayRange = 1;
+
 	void OnTriggerEnter2D(Collider2D collider)
 	{
 		if (collider.attachedRigidbody && !capturedBodies.Contains(collider.attachedRigidbody))
@@ -46,6 +49,30 @@ public class TrapZone : MonoBehaviour
 					body.AddForce(-Physics2D.gravity * body.mass);
 				}
 			}
+		}
+	}
+
+	[InputSocket]
+	public void ExpodeContents()
+	{
+		for (int i = 0; i < capturedBodies.Count; ++i)
+		{
+			var body = capturedBodies[i];
+			if (body)
+			{
+				StartCoroutine(ExplodeRoutine(body));
+			}
+		}
+	}
+
+	IEnumerator ExplodeRoutine(Rigidbody2D body)
+	{
+		yield return new WaitForSeconds(Random.Range(explodeDelay - randomDelayRange,
+					explodeDelay + randomDelayRange));
+		if (body)
+		{
+			body.SendMessage("Explode", SendMessageOptions.DontRequireReceiver);
+			body.SendMessage("DestroyRobotComponent", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 

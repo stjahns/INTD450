@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using SimpleJSON;
 
-public class ChainComponent : MonoBehaviour, SaveableComponent
+public class ChainComponent : TriggerBase, SaveableComponent
 {
+	[OutputEventConnections]
+	[HideInInspector]
+	public List<SignalConnection> onSever = new List<SignalConnection>();
+
 	public Rigidbody2D bodyA;
 	public Rigidbody2D bodyB;
 
@@ -32,10 +37,6 @@ public class ChainComponent : MonoBehaviour, SaveableComponent
 	private Vector3 endB;
 
 	private Vector2 severPoint = Vector2.zero;
-
-	public void OnDrawGizmos()
-	{
-	}
 
 	public bool isDuplicate = false;
 
@@ -155,6 +156,8 @@ public class ChainComponent : MonoBehaviour, SaveableComponent
 			Destroy(chainDuplicate, 5);
 			Destroy(severedEndB, 5);
 		}
+
+		onSever.ForEach(s => s.Fire());
 	}
 
 	public void Update()

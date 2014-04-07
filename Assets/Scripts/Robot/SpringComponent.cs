@@ -11,6 +11,9 @@ public class SpringComponent : LimbComponent
 	public float springForce;
 	public float pushForce;
 
+	public float checkSpread = 0.0f;
+	public int checks = 1;
+
 	public List<string> layers;
 
 	public AudioClip fireClip;
@@ -41,10 +44,13 @@ public class SpringComponent : LimbComponent
 		}
 
 		// Push level objects...
-		RaycastHit2D hit = Physics2D.Linecast(transform.position, springRange.position, layerMask);
-		if (hit && hit.rigidbody)
+		for (int i = 0; i < checks; ++i)
 		{
-			hit.rigidbody.AddForce(-forceDirection * pushForce);
+			RaycastHit2D hit = Physics2D.Linecast(transform.position, springRange.position.XY() + Random.insideUnitCircle * checkSpread, layerMask);
+			if (hit && hit.rigidbody)
+			{
+				hit.rigidbody.AddForce(-forceDirection * pushForce);
+			}
 		}
 
 		SFXSource.PlayOneShot(fireClip);

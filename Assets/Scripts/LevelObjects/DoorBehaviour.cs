@@ -39,6 +39,7 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
             if (data[gameObject.name] != null )
             {
                 state = (State)State.Parse(typeof(State), data[gameObject.name]["state"]);
+				LoadState();
             }
     }
 
@@ -111,6 +112,11 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
 		doorSlider.motor = motor;
 		doorSlider.useMotor = true;
 
+		LoadState();
+	}
+
+	public void LoadState()
+	{
 		switch (state)
 		{
 			case State.Opened:

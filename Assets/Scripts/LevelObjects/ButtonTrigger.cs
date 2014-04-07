@@ -55,7 +55,7 @@ public class ButtonTrigger : TriggerBase
 					Debug.Log("PRESSED!");
 				}
 				onPressed.ForEach(s => s.Fire());
-				AudioSource.PlayClipAtPoint(pressClip, transform.position);
+				AudioSource3D.PlayClipAtPoint(pressClip, transform.position);
 				pressed = true;
 				spriteRenderer.sprite = buttonDown;
 			}
@@ -70,7 +70,7 @@ public class ButtonTrigger : TriggerBase
 					Debug.Log("RELEASED");
 				}
 				onReleased.ForEach(s => s.Fire());
-				AudioSource.PlayClipAtPoint(releaseClip, transform.position);
+				AudioSource3D.PlayClipAtPoint(releaseClip, transform.position);
 				pressed = false;
 				spriteRenderer.sprite = buttonUp;
 			}

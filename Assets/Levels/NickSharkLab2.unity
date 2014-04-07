@@ -16701,6 +16701,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: c7a6f6a0f26bbcd489921b40bd5133a4, type: 2}
+      propertyPath: volume
+      value: .389999986
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c7a6f6a0f26bbcd489921b40bd5133a4, type: 2}
   m_RootGameObject: {fileID: 918691472}
@@ -32379,6 +32383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6383f764b10fa4e22adca36bc77a4a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSever: []
   bodyA: {fileID: 991887818}
   bodyB: {fileID: 1965063334}
   offsetA: {x: 0, y: 0}
@@ -35941,7 +35946,7 @@ MonoBehaviour:
   - {fileID: 135715470}
   - {fileID: 1089414468}
   - {fileID: 1412481631}
-  volume: 1
+  volume: .389999986
 --- !u!1 &919096044
 GameObject:
   m_ObjectHideFlags: 0
@@ -54157,6 +54162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6383f764b10fa4e22adca36bc77a4a4e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onSever: []
   bodyA: {fileID: 1717093430}
   bodyB: {fileID: 743854884}
   offsetA: {x: 0, y: 0}
@@ -63782,6 +63788,8 @@ MonoBehaviour:
   maxMoveSpeed: 10
   moveAccelGain: 10
   maxMoveForce: 10
+  explodeDelay: 1
+  randomDelayRange: 1
 --- !u!1 &1591653878
 GameObject:
   m_ObjectHideFlags: 0
@@ -79233,7 +79241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactClip: {fileID: 8300000, guid: 07cc593242d693e4f85f0143cdac5524, type: 3}
-  volume: .189999998
+  volume: .629999995
   velocityChangeThreshold: 1
 --- !u!61 &1965063332
 BoxCollider2D:

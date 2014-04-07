@@ -53,6 +53,17 @@ public class FollowCamera : MonoBehaviour
 			{
 				// Zoom in
 				viewportHeight += Input.GetAxis("Mouse ScrollWheel");
+
+
+				if (Input.GetKeyDown(KeyCode.Equals))
+				{
+					viewportHeight -= zoomStepSize;
+				}
+				else if (Input.GetKeyDown(KeyCode.Minus))
+				{
+					viewportHeight += zoomStepSize;
+				}
+
 				viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
 				currentTarget.targetViewportHeight = viewportHeight;
 			}

@@ -233,7 +233,7 @@ public class GrappleComponent : LimbComponent {
 		{
 
 			ropeLength = Vector2.Distance(ropeStart.position, ropeEnd.position);
-			if (ropeLength > maxRopeLength + 0.5)
+			if (ropeLength > maxRopeLength + 0.5 && !projectile.AttachedToPoint)
 			{
 				RetractGrapple(true);
 			}

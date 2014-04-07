@@ -20,7 +20,7 @@ AnimationClip:
         value: {x: .146683827, y: -.159538135, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 251688815
+        tangentMode: 134248303
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: Spine/RightShoulder
@@ -31,10 +31,32 @@ AnimationClip:
         value: {x: -.174001738, y: -.0948894024, z: 0}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
-        tangentMode: 1929410924
+        tangentMode: 142614544
       m_PreInfinity: 2
       m_PostInfinity: 2
     path: Spine/LeftShoulder
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: .0952835605, y: -.81904757, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 134248303
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    path: Spine/RightHip
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: {x: -.180753782, y: -.711216688, z: 0}
+        inSlope: {x: 0, y: 0, z: 0}
+        outSlope: {x: 0, y: 0, z: 0}
+        tangentMode: 151025519
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    path: Spine/LeftHip
   m_ScaleCurves: []
   m_FloatCurves:
   - curve:
@@ -91,6 +113,48 @@ AnimationClip:
       m_PostInfinity: 2
     attribute: spriteOrder
     path: Spine/LeftShoulder/LeftElbow
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/LeftHip
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/LeftHip/LeftKnee
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/RightHip/RightKnee
     classID: 114
     script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
   m_PPtrCurves: []
@@ -255,6 +319,132 @@ AnimationClip:
       m_PostInfinity: 2
     attribute: spriteOrder
     path: Spine/LeftShoulder/LeftElbow
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: .0952835605
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.x
+    path: Spine/RightHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -.81904757
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.y
+    path: Spine/RightHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.z
+    path: Spine/RightHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -.180753782
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.x
+    path: Spine/LeftHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -.711216688
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.y
+    path: Spine/LeftHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: m_LocalPosition.z
+    path: Spine/LeftHip
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/LeftHip
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: -1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/LeftHip/LeftKnee
+    classID: 114
+    script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
+  - curve:
+      serializedVersion: 2
+      m_Curve:
+      - time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 10
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+    attribute: spriteOrder
+    path: Spine/RightHip/RightKnee
     classID: 114
     script: {fileID: 11500000, guid: e721f5eacd38b4cb9b6ccf5f19036536, type: 3}
   m_EulerEditorCurves: []

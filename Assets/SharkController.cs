@@ -8,7 +8,8 @@ public class SharkController : StateMachineBase
 	{
 		Waiting,
 		Pacing,
-		Attack
+		Attack,
+		NomSteak
 	}
 
 	public State initialState;
@@ -17,6 +18,8 @@ public class SharkController : StateMachineBase
 
 	private float _targetAltitude;
 	private bool _maintainAltitude = true;
+
+	private bool _hasSteak = false;
 
 	void Start ()
 	{
@@ -92,13 +95,23 @@ public class SharkController : StateMachineBase
 
 	public void SetTarget(Transform newTarget, bool force = false)
 	{
+		if (_hasSteak)
+		{
+			return;
+		}
+
 		if ((State)currentState != State.Attack || force)
 		{
-			target = newTarget;
-			currentState = State.Attack;
+			if (target != newTarget)
+			{
+				target = newTarget;
+				Debug.Log("NEW TARGET");
+				currentState = State.Attack;
+			}
 		}
 		else if (newTarget == null)
 		{
+			Debug.Log("NULL TARGET");
 			currentState = State.Pacing;
 		}
 	}
@@ -228,10 +241,28 @@ public class SharkController : StateMachineBase
 
 	void Attack_Update()
 	{
+		if (_hasSteak)
+		{
+			return;
+		}
+
 		if (target)
 		{
 			// face target
 			FacePoint(target.position);
+
+			if (Vector2.Distance(target.position, transform.position) < attackDistance * 2)
+			{
+				if (target.tag == "robo-steak")
+				{
+					/*
+					foreach (var collider in target.GetComponentsInChildren<Collider2D>())
+					{
+						Destroy(collider);
+					}
+					*/
+				}
+			}
 			
 			// when reach target, destroy it, return to pacing
 			if (Vector2.Distance(target.position, transform.position) < attackDistance)
@@ -243,20 +274,39 @@ public class SharkController : StateMachineBase
 					{
 						destructable.Explode();
 					}
+
+					var player = target.GetComponent<PlayerBehavior>();
+					if (player)
+					{
+						player.Die();
+					}
+					Debug.Log("EXPLODE?");
 					currentState = State.Pacing;
 				}
-				// keep gnawing on that robo steak
+				else
+				{
+					// keep gnawing on that robo steak
+					Debug.Log("MMM STEAK");
+					_hasSteak = true;
+					currentState = State.NomSteak;
+				}
 			}
 		}
 		else
 		{
 			// lost target...
+			Debug.Log("LOST TARGET");
 			currentState = State.Pacing;
 		}
 	}
 
 	void Attack_FixedUpdate()
 	{
+		if (_hasSteak)
+		{
+			return;
+		}
+
 		if (target)
 		{
 			Vector3 moveTarget = target.position;
@@ -276,12 +326,17 @@ public class SharkController : StateMachineBase
 	
 	void Attack_OnCollisionEnter2D(Collision2D collision)
 	{
+		if (_hasSteak)
+		{
+			return;
+		}
+
 		Debug.Log("NOM");
 		var destructable = collision.collider.GetComponent<DestructableBehaviour>();
 		if (destructable)
 		{
 			destructable.Explode();
-			currentState = State.Pacing;
+			//currentState = State.Pacing;
 		}
 	}
 
@@ -291,5 +346,31 @@ public class SharkController : StateMachineBase
 		_maintainAltitude = true;
 		yield return new WaitForSeconds(0.5f);
 		Debug.Log("Exited Attack");
+	}
+	
+	// NOM STEAK
+
+	public Transform nomWaypoint;
+
+	IEnumerator NomSteak_EnterState()
+	{
+		_maintainAltitude = false;
+		yield return 0;
+	}
+
+	void NomSteak_FixedUpdate()
+	{
+		Vector3 moveTarget = nomWaypoint.position;
+		Vector2 toMoveTarget = moveTarget - transform.position;
+
+		// Calculate target velocity, proportional to distance, but capped at max speed
+		Vector2 targetVelocity = Vector2.ClampMagnitude(moveSpeedModifier * toMoveTarget, maxMoveSpeed);
+		Vector2 velocityError = targetVelocity - rigidbody2D.velocity;
+
+		// Force proportional to gain and velocity error, capped at max force
+		Vector2 force = Vector2.ClampMagnitude(moveAccelGain * velocityError, maxMoveForce);
+
+		// Apply the force
+		rigidbody2D.AddForce(force);
 	}
 }

@@ -39,7 +39,7 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
             if (data[gameObject.name] != null )
             {
                 state = (State)State.Parse(typeof(State), data[gameObject.name]["state"]);
-				LoadState();
+				StartCoroutine(LoadState());
             }
     }
 
@@ -115,8 +115,10 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
 		LoadState();
 	}
 
-	public void LoadState()
+	IEnumerator LoadState()
 	{
+		yield return 0;
+
 		switch (state)
 		{
 			case State.Opened:

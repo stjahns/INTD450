@@ -14,7 +14,8 @@ GameObject:
   - 212: {fileID: 21200000}
   - 50: {fileID: 5000000}
   - 234: {fileID: 23400000}
-  m_Layer: 18
+  - 114: {fileID: 11400000}
+  m_Layer: 8
   m_Name: CeilingButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +32,7 @@ GameObject:
   - 4: {fileID: 400002}
   - 50: {fileID: 5000002}
   - 61: {fileID: 6100002}
-  m_Layer: 18
+  m_Layer: 8
   m_Name: ButtonSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +47,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ButtonContact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +62,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400006}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: TriggerContact
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -75,7 +76,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 1, w: -1.62920685e-07}
-  m_LocalPosition: {x: 54.5248299, y: 4.50320721, z: .0429174826}
+  m_LocalPosition: {x: 35.909729, y: 9.14864635, z: .0429174826}
   m_LocalScale: {x: .986192763, y: .986192763, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -167,6 +168,20 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: .830811918, y: .136094093}
   m_Center: {x: 1.07632452e-10, y: .0119533641}
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  message: Open
+  argument: 
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -178,7 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da302d13ea6654ee6afb1e355ae0e3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onPressed: []
+  onPressed:
+  - {fileID: 11400000}
   onReleased: []
   onHold: []
   debug: 0
@@ -220,9 +236,9 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_SortingLayerID: 0
-  m_Sprite: {fileID: 21300000, guid: 9954b5494ee1d4922af042d128757aca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1941ca064037a4e808318e51e93f161d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!234 &23400000
 SliderJoint2D:

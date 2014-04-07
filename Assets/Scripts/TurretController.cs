@@ -99,6 +99,7 @@ public class TurretController : MonoBehaviour
 			if (currentTarget) 
 			{
 				trackingState = TrackingState.TrackingTarget;
+				firingTimer = reloadTime;
 				AudioSource3D.PlayClipAtPoint(targetAcquiredSound, transform.position);
 			}
 

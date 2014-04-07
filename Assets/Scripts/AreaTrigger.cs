@@ -46,6 +46,11 @@ public class AreaTrigger : TriggerBase
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
+		if (other.isTrigger)
+		{
+			return;
+		}
+
 		// TODO check tags
 
 		Rigidbody2D body = other.attachedRigidbody;
@@ -82,6 +87,10 @@ public class AreaTrigger : TriggerBase
 
 	void OnTriggerExit2D(Collider2D other)
 	{
+		if (other.isTrigger)
+		{
+			return;
+		}
 
 		Rigidbody2D body = other.attachedRigidbody;
 		if (body)

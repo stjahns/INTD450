@@ -60,6 +60,11 @@ public class BossController : StateMachineBase {
 		components.torso.Attach(components.torso.GetJointForSlot(AttachmentSlot.RightHip), components.springArm.rootJoint);
 
 		// Also consider alternative of spawning the prefabs and attaching them..?
+
+		components.head.OnDestroy += c => {
+			onDeathTrigger.StartTimer();
+			currentState = State.Dead;
+		};
 	}
 
 	private bool facingLeft = true;
@@ -142,6 +147,25 @@ public class BossController : StateMachineBase {
 
 	private bool maintainAltitude = true;
 
+	private Vector3 holdPosition;
+	private bool _holdGround = false;
+	private bool _bumped = false;
+	public bool holdGround
+	{
+		set
+		{
+			if (!_bumped)
+			{
+				holdPosition = transform.position;
+				_holdGround = value;
+			}
+		}
+		get
+		{
+			return _holdGround;
+		}
+	}
+
 	override protected void FixedUpdate ()
 	{
 		base.FixedUpdate();
@@ -184,6 +208,33 @@ public class BossController : StateMachineBase {
 
 			rigidbody2D.AddForce(thrust);
 		}
+
+		if (holdGround)
+		{
+			Vector3 moveTarget = holdPosition;
+			Vector2 toMoveTarget = moveTarget - transform.position;
+
+			// Calculate target velocity, proportional to distance, but capped at max speed
+			Vector2 targetVelocity = Vector2.ClampMagnitude(moveSpeedModifier * toMoveTarget, maxMoveSpeed);
+			Vector2 velocityError = targetVelocity - rigidbody2D.velocity;
+
+			// Force proportional to gain and velocity error, capped at max force
+			Vector2 force = Vector2.ClampMagnitude(moveAccelGain * velocityError, maxMoveForce);
+
+			// Apply the force
+			rigidbody2D.AddForce(force);
+		}
+	}
+
+	public float bumpForce = 1000f;
+	[InputSocket]
+	public void Bump()
+	{
+		_bumped = true;
+		maxMoveForce = 0f;
+		paceForce = 0f;
+		holdGround = false;
+		rigidbody2D.AddForce(Vector3.left * bumpForce);
 	}
 
 	[InputSocket]
@@ -208,6 +259,55 @@ public class BossController : StateMachineBase {
 		currentState = State.Dead;
 	}
 
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.attachedRigidbody && other.attachedRigidbody.tag == "Player" && !_kicking)
+		{
+			StartCoroutine(KickRoutine(other.transform));
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D other)
+	{
+		if (other.attachedRigidbody && other.attachedRigidbody.tag == "Player" && !_kicking)
+		{
+			StartCoroutine(KickRoutine(other.transform));
+		}
+	}
+
+	private bool _kicking = false;
+	public int kickAimFrames = 10;
+
+	IEnumerator KickRoutine(Transform target)
+	{
+		_kicking = true;
+		animator.SetBool("aimLowerLeft", true);
+
+		for (int i = 0; i < 10; ++i)
+		{
+			// Aim leg at target
+			Vector2 toTarget = target.position - components.springArm.transform.position;
+			toTarget.Normalize();
+
+			if (skeleton.direction == PlayerSkeleton.Direction.Right)
+			{
+				toTarget.x *= -1;
+			}
+
+			animator.SetFloat("lowerLeftArmX", toTarget.x);
+			animator.SetFloat("lowerLeftArmY", toTarget.y);
+			yield return 0;
+		}
+
+		components.springArm.FireAbility();
+
+		yield return new WaitForSeconds(0.1f);
+
+		animator.SetBool("aimLowerLeft", false);
+
+		_kicking = false;
+	}
+
 	//================================================================================
 	// States
 	//================================================================================
@@ -229,6 +329,7 @@ public class BossController : StateMachineBase {
 		behaviourIndex += 1;
 		behaviourIndex %= behaviours.Count;
 		currentState = behaviours[behaviourIndex];
+		holdGround = true;
 	}
 
 	void Waiting_Update()
@@ -252,6 +353,7 @@ public class BossController : StateMachineBase {
 
 	IEnumerator Waiting_ExitState()
 	{
+		holdGround = false;
 		Debug.Log("Exited Waiting");
 		yield return 0;
 	}
@@ -343,10 +445,13 @@ public class BossController : StateMachineBase {
 
 		components.cannonArm.pip = _pipInstance;
 
+		holdGround = true;
+
 		// shoot 
 		yield return new WaitForSeconds(cannonAimTime);
 		components.cannonArm.FireAbility();
 		currentState = State.Waiting;
+
 	}
 
 	void UsingCannon_Update()
@@ -373,6 +478,8 @@ public class BossController : StateMachineBase {
 		components.cannonArm.pip = null;
 
 		Debug.Log("Exited UsingCannon");
+
+		holdGround = false;
 		yield return 0;
 	}
 

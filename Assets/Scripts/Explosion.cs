@@ -15,6 +15,7 @@ public class Explosion : MonoBehaviour {
 	public float explosionForce = 1.0f;
 	public int explosionDamage = 5;
 
+	public List<string> excludeTags;
 
 	void Start ()
 	{
@@ -30,6 +31,11 @@ public class Explosion : MonoBehaviour {
 
 		foreach (Collider2D collider in inExplosion)
 		{
+			if (collider.rigidbody2D &&
+				   	excludeTags.Contains(collider.attachedRigidbody.tag))
+			{
+				continue;
+			}
 
 			float distance = Vector2.Distance(collider.transform.position,
 					transform.position);
@@ -63,6 +69,12 @@ public class Explosion : MonoBehaviour {
 
 		foreach (Collider2D collider in inExplosion)
 		{
+			if (collider.rigidbody2D &&
+				   	excludeTags.Contains(collider.attachedRigidbody.tag))
+			{
+				continue;
+			}
+
 			RobotComponent component = collider.GetComponent<RobotComponent>();
 			if (component && component.attachedToPlayer() && !hurtPlayer)
 			{

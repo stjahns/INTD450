@@ -20,8 +20,17 @@ public class FollowCamera : MonoBehaviour
 	private float targetTransitionTimer = 0;
 
 	private Vector3 transitionStartPosition;
+	private float transitionStartHeight;
 
 	private List<CameraTarget> targetStack = new List<CameraTarget>();
+
+	public enum TransitionType
+	{
+		EaseIn,
+		EaseInOut
+	}
+
+	public TransitionType transitionType = TransitionType.EaseIn;
 
 	void Start ()
 	{
@@ -43,11 +52,24 @@ public class FollowCamera : MonoBehaviour
 
 			if (inTransition && targetTransitionTimer < targetTransitionTime)
 			{
-				float easedParameter = Mathfx.Sinerp(0, 1, 
-						targetTransitionTimer / targetTransitionTime);
-				easedParameter = Mathfx.Sinerp(0, 1, easedParameter); // Double smooth!
+				float easedParameter = 0;
+
+				if (transitionType == TransitionType.EaseIn)
+				{
+					easedParameter = Mathfx.Sinerp(0, 1, 
+							targetTransitionTimer / targetTransitionTime);
+					easedParameter = Mathfx.Sinerp(0, 1, easedParameter); // Double smooth!
+				}
+				else if (transitionType == TransitionType.EaseInOut)
+				{
+					easedParameter = Mathfx.Hermite(0, 1, 
+							targetTransitionTimer / targetTransitionTime);
+					easedParameter = Mathfx.Hermite(0, 1, easedParameter); // Double smooth!
+				}
 
 				transform.position = Vector3.Lerp(transitionStartPosition, targetPosition,
+						easedParameter);
+				viewportHeight = Mathf.Lerp(transitionStartHeight, currentTarget.targetViewportHeight,
 						easedParameter);
 			}
 			else
@@ -58,20 +80,25 @@ public class FollowCamera : MonoBehaviour
 			if (currentTarget.allowZoom)
 			{
 				// Zoom in
-				viewportHeight += Input.GetAxis("Mouse ScrollWheel");
-
+				if (Input.GetAxis("Mouse ScrollWheel") != 0)
+				{
+					viewportHeight += Input.GetAxis("Mouse ScrollWheel");
+					viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
+					currentTarget.targetViewportHeight = viewportHeight;
+				}
 
 				if (Input.GetKeyDown(KeyCode.Equals))
 				{
 					viewportHeight -= zoomStepSize;
+					viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
+					currentTarget.targetViewportHeight = viewportHeight;
 				}
 				else if (Input.GetKeyDown(KeyCode.Minus))
 				{
 					viewportHeight += zoomStepSize;
+					viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
+					currentTarget.targetViewportHeight = viewportHeight;
 				}
-
-				viewportHeight = Mathf.Clamp(viewportHeight, minViewportHeight, maxViewportHeight);
-				currentTarget.targetViewportHeight = viewportHeight;
 			}
 
 			camera.orthographicSize= Mathf.Lerp(
@@ -85,7 +112,7 @@ public class FollowCamera : MonoBehaviour
 	public void PushTarget(CameraTarget newTarget, float transitionTime = 0)
 	{
 		targetStack.Insert(0, newTarget);
-		viewportHeight = newTarget.targetViewportHeight;
+		//viewportHeight = newTarget.targetViewportHeight;
 
 		maxViewportHeight = newTarget.maxViewportHeight;
 		minViewportHeight = newTarget.minViewportHeight;
@@ -94,6 +121,7 @@ public class FollowCamera : MonoBehaviour
 		targetTransitionTime = transitionTime;
 		targetTransitionTimer = 0;
 		transitionStartPosition = transform.position;
+		transitionStartHeight = viewportHeight;
 		inTransition = true;
 	}
 
@@ -122,8 +150,9 @@ public class FollowCamera : MonoBehaviour
 			targetTransitionTime = transitionTime;
 			targetTransitionTimer = 0;
 			transitionStartPosition = transform.position;
+			transitionStartHeight = viewportHeight;
 
-			viewportHeight = targetStack[0].targetViewportHeight;
+			//viewportHeight = targetStack[0].targetViewportHeight;
 			maxViewportHeight = targetStack[0].maxViewportHeight;
 			minViewportHeight = targetStack[0].minViewportHeight;
 			zoomStepSize = targetStack[0].zoomStepSize;

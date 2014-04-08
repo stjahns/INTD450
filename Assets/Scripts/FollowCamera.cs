@@ -19,6 +19,8 @@ public class FollowCamera : MonoBehaviour
 	private float targetTransitionTime = 0;
 	private float targetTransitionTimer = 0;
 
+	private Vector3 transitionStartPosition;
+
 	private List<CameraTarget> targetStack = new List<CameraTarget>();
 
 	void Start ()
@@ -41,8 +43,12 @@ public class FollowCamera : MonoBehaviour
 
 			if (inTransition && targetTransitionTimer < targetTransitionTime)
 			{
-				transform.position = Vector3.Lerp(transform.position, targetPosition,
+				float easedParameter = Mathfx.Sinerp(0, 1, 
 						targetTransitionTimer / targetTransitionTime);
+				easedParameter = Mathfx.Sinerp(0, 1, easedParameter); // Double smooth!
+
+				transform.position = Vector3.Lerp(transitionStartPosition, targetPosition,
+						easedParameter);
 			}
 			else
 			{
@@ -87,6 +93,7 @@ public class FollowCamera : MonoBehaviour
 
 		targetTransitionTime = transitionTime;
 		targetTransitionTimer = 0;
+		transitionStartPosition = transform.position;
 		inTransition = true;
 	}
 
@@ -114,6 +121,7 @@ public class FollowCamera : MonoBehaviour
 			inTransition = true;
 			targetTransitionTime = transitionTime;
 			targetTransitionTimer = 0;
+			transitionStartPosition = transform.position;
 
 			viewportHeight = targetStack[0].targetViewportHeight;
 			maxViewportHeight = targetStack[0].maxViewportHeight;

@@ -77,6 +77,9 @@ public class PlayerAttachmentController : MonoBehaviour
 			as GameObject;
 		attachmentText = textObject.GetComponent<GUIText>();
 		attachmentText.enabled = false;
+
+		attachmentRangeVisual.sortingLayerName = "UI";
+		attachmentShadowVisual.sortingLayerName = "UI";
 	}
 
 	void OnEnable ()

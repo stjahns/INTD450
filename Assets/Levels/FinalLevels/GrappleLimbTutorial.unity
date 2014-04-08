@@ -5579,7 +5579,6 @@ MonoBehaviour:
   dialogText: The Apparatus is strong enough the push all Slate-standard buttons.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -9904,7 +9903,6 @@ MonoBehaviour:
   dialogText: Ha! I just won a bet!
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -11192,6 +11190,57 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_Size: {x: 1.28461075, y: .110821247}
   m_Center: {x: -.463690281, y: -.977994919}
+--- !u!1 &265089699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100014, guid: 71385483a49e544079179884a4bb787b, type: 2}
+  m_PrefabInternal: {fileID: 1382365901}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 265089700}
+  - 212: {fileID: 265089701}
+  m_Layer: 0
+  m_Name: WALL-V-FR2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &265089700
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400014, guid: 71385483a49e544079179884a4bb787b, type: 2}
+  m_PrefabInternal: {fileID: 1382365901}
+  m_GameObject: {fileID: 265089699}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 421712866}
+--- !u!212 &265089701
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 21200006, guid: 71385483a49e544079179884a4bb787b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1382365901}
+  m_GameObject: {fileID: 265089699}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_Sprite: {fileID: 21300000, guid: bbba8dd16716648e597a8edb2f20ae01, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &266017323
 GameObject:
   m_ObjectHideFlags: 0
@@ -12479,6 +12528,18 @@ Prefab:
     - target: {fileID: 400000, guid: ccf0b6f188e0d4e268d505a3f4f995d7, type: 2}
       propertyPath: m_LocalRotation.w
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: ccf0b6f188e0d4e268d505a3f4f995d7, type: 2}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: ccf0b6f188e0d4e268d505a3f4f995d7, type: 2}
+      propertyPath: m_SortingLayerID
+      value: 2669311083
+      objectReference: {fileID: 0}
+    - target: {fileID: 21200000, guid: ccf0b6f188e0d4e268d505a3f4f995d7, type: 2}
+      propertyPath: m_SortingOrder
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ccf0b6f188e0d4e268d505a3f4f995d7, type: 2}
@@ -14158,7 +14219,6 @@ MonoBehaviour:
     if your aim is a little off.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -15679,9 +15739,9 @@ SpriteRenderer:
   m_UseLightProbes: 0
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
+  m_SortingLayer: 1
+  m_SortingOrder: 1000
+  m_SortingLayerID: 2669311083
   m_Sprite: {fileID: 21300000, guid: e6a61c8d964a548719d08d5044c8c196, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &360366870
@@ -17416,7 +17476,6 @@ MonoBehaviour:
     challenge...
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -18316,6 +18375,7 @@ Transform:
   - {fileID: 264539566}
   - {fileID: 1897070678}
   - {fileID: 1624845173}
+  - {fileID: 265089700}
   m_Father: {fileID: 0}
 --- !u!1 &424211204
 GameObject:
@@ -19577,7 +19637,6 @@ MonoBehaviour:
   dialogText: Of course, your aim is perfect, so that shouldn't even come up.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -24788,7 +24847,6 @@ MonoBehaviour:
   dialogText: Keep this in mind when using it as a leg!
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -34921,7 +34979,6 @@ MonoBehaviour:
     what.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -44152,7 +44209,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400008, guid: 02da74bf6b7d64d59a19be29ea3c6114, type: 2}
   m_PrefabInternal: {fileID: 1531840494}
   m_GameObject: {fileID: 1080893432}
-  m_LocalRotation: {x: 0, y: 0, z: .707105994, w: .707107663}
+  m_LocalRotation: {x: 0, y: 0, z: .707105935, w: .707107604}
   m_LocalPosition: {x: 70.3999863, y: -13.4397383, z: -.0223421436}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -63313,7 +63370,6 @@ MonoBehaviour:
   dialogText: Calling it the "Grapparatus" is STRICTLY FORBIDDEN.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -66481,7 +66537,6 @@ MonoBehaviour:
   dialogText: Keep trying, HED-I. Think outside the box!
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -66842,7 +66897,6 @@ MonoBehaviour:
     attach to compatible surfaces.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -82177,7 +82231,6 @@ MonoBehaviour:
     the S-2112 Grapple Apparatus. '
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -83325,7 +83378,6 @@ MonoBehaviour:
   dialogText: Just hop on over that little gap there, and we'll get started.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -87160,7 +87212,6 @@ MonoBehaviour:
     pushed once, and not held.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996

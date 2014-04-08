@@ -139,6 +139,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400042}
   - 114: {fileID: 11400040}
+  - 114: {fileID: 11400064}
   m_Layer: 9
   m_Name: QA Crane Console
   m_TagString: Untagged
@@ -291,7 +292,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100006}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.6116371, y: 12.4939079, z: 0}
+  m_LocalPosition: {x: 43.9536362, y: 15.1663408, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400014}
@@ -473,7 +474,6 @@ MonoBehaviour:
     Crane down, ''SPACE'' : Crane grab'
   wrapMargin: 90
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -601,6 +601,7 @@ MonoBehaviour:
   - {fileID: 11400032}
   - {fileID: 11400038}
   - {fileID: 11400040}
+  - {fileID: 11400064}
   parent: {fileID: 0}
   child: {fileID: 0}
   animatorAimFlag: 
@@ -629,6 +630,7 @@ MonoBehaviour:
   end: {fileID: 400014}
   segmentCount: 4
   spread: .100000001
+  EnabledOnStart: 1
 --- !u!114 &11400020
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -949,6 +951,20 @@ MonoBehaviour:
   target: {fileID: 0}
   message: SetSpeed
   argument: -100
+--- !u!114 &11400064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100014}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 100004}
+  message: Hide
+  argument: 
 --- !u!120 &12000000
 LineRenderer:
   m_ObjectHideFlags: 1

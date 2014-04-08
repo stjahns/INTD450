@@ -80,6 +80,7 @@ public class Save_Load
             ResetComponents<DoorBehaviour>(data["array"][1]);
             ResetComponents<PlayerBehavior>(data["array"][1]);
             ResetComponents<TransformSaveable>(data["array"][1]);
+            ResetComponents<TurretController>(data["array"][1]);
 		}
 		else
 		{
@@ -88,6 +89,7 @@ public class Save_Load
             SaveComponents<DoorBehaviour>(data["array"][1]);
             SaveComponents<PlayerBehavior>(data["array"][1]);
             SaveComponents<TransformSaveable>(data["array"][1]);
+            SaveComponents<TurretController>(data["array"][1]);
 		}
 
 		data = data.SaveToBase64();

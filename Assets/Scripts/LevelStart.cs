@@ -81,6 +81,7 @@ public class LevelStart : MonoBehaviour
 			load.LoadComponents<SteakComponent>(data["array"][1]);
             load.LoadComponents<DoorBehaviour>(data["array"][1]);
             load.LoadComponents<TransformSaveable>(data["array"][1]);
+            load.LoadComponents<TurretController>(data["array"][1]);
 
 			// Load other stuff
 

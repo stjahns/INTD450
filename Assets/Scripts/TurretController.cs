@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleJSON;
 
-public class TurretController : MonoBehaviour
+public class TurretController : MonoBehaviour, SaveableComponent
 {
 	public Transform gunPivot; // use for aiming gun
 	public Transform laserOrigin;
@@ -67,6 +68,27 @@ public class TurretController : MonoBehaviour
 
 		targets = new List<GameObject>();
 		currentTarget = null;
+	}
+
+	public bool saveState = false;
+
+	public void SaveState(JSONNode data)
+	{
+		if (saveState)
+		{
+			data[gameObject.name]["activated"].AsBool = activated;
+		}
+	}
+
+	public void LoadState(JSONNode data)
+	{
+		if (saveState)
+		{
+			if (data[gameObject.name] != null)
+			{
+				activated = data[gameObject.name]["activated"].AsBool;
+			}
+		}
 	}
 
 	public void Update()

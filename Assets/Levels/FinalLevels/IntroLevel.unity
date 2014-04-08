@@ -2231,15 +2231,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 21200002, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_Color.r
-      value: .20784314
+      value: .45768714
       objectReference: {fileID: 0}
     - target: {fileID: 21200002, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_Color.g
-      value: .192156866
+      value: .452205867
       objectReference: {fileID: 0}
     - target: {fileID: 21200002, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_Color.b
-      value: .623529434
+      value: .602941155
       objectReference: {fileID: 0}
     - target: {fileID: 400012, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.x
@@ -2319,8 +2319,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
   m_PrefabInternal: {fileID: 599569872}
   m_GameObject: {fileID: 58567313}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.74154425, y: -2.82420874, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: -.701800764, w: .712373376}
+  m_LocalPosition: {x: -1.87066031, y: -4.36243582, z: .300128728}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 713336886}
@@ -5672,7 +5672,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: -1
-  m_SortingOrder: -1000
+  m_SortingOrder: -1
   m_SortingLayerID: 867771081
   m_Sprite: {fileID: 21300012, guid: a4b8b8648188bb948b466afc63d19081, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6606,11 +6606,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -6.49528217
+      value: -8.07426167
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.82420874
+      value: -5.62686491
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6626,11 +6626,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: .421462178
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: .906845987
       objectReference: {fileID: 0}
     - target: {fileID: 100018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_Name
@@ -7906,7 +7906,6 @@ MonoBehaviour:
   dialogText: Please stay away from the light bridge, HED-I.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -9790,7 +9789,6 @@ MonoBehaviour:
     F to select it.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -21748,6 +21746,123 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!1 &518686990
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 518686991}
+  - 114: {fileID: 518686993}
+  - 82: {fileID: 518686992}
+  m_Layer: 0
+  m_Name: PromptText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &518686991
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 518686990}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.8682299, y: 6.55624485, z: -.000198911875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1189871850}
+  - {fileID: 710833353}
+  m_Father: {fileID: 0}
+--- !u!82 &518686992
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 8200000, guid: 26a58e88f3b065b4ba03ea53123f788c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 518686990}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 100000
+  Pan2D: 0
+  rolloffMode: 2
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 9.99999975e-06
+      value: 1
+      inSlope: 0
+      outSlope: -1.00001001
+      tangentMode: 0
+    - time: 1
+      value: .814345956
+      inSlope: -.0911968425
+      outSlope: -.0911968425
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: .502777755
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+--- !u!114 &518686993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11400000, guid: 26a58e88f3b065b4ba03ea53123f788c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 518686990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f21b4df01ed046ae95e0d545fe9cb10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: 0
+  speaker: 
+  dialogText: '[Press Enter to skip over text boxes.]'
+  wrapMargin: 40
+  showOnStart: 0
+  showDelay: 0
+  fontToScreenWidthRatio: 20
+  letterTime: .0199999996
+  showTime: 3
+  textObject: {fileID: 710833354}
+  backgroundObject: {fileID: 1189871849}
+  typeSound: {fileID: 8300000, guid: a3fe6b5ffdc699f40acca10189c3dda4, type: 3}
+  skipSound: {fileID: 8300000, guid: 6e28e64588b80a14c8c7356f2f701d93, type: 3}
+  typeVolume: .231000006
+  onShow: []
+  onHide: []
 --- !u!1 &520061584
 GameObject:
   m_ObjectHideFlags: 0
@@ -22947,7 +23062,6 @@ MonoBehaviour:
     this out.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -25173,15 +25287,15 @@ Prefab:
     m_Modifications:
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -1.74154425
+      value: -1.87066031
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.82420874
+      value: -4.36243582
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: .300128728
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalRotation.x
@@ -25193,11 +25307,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -.701800764
       objectReference: {fileID: 0}
     - target: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: .712373376
       objectReference: {fileID: 0}
     - target: {fileID: 100018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
       propertyPath: m_Name
@@ -26623,8 +26737,8 @@ Transform:
   m_PrefabParentObject: {fileID: 400018, guid: ad65b4141c37349878a548c53a23fb32, type: 2}
   m_PrefabInternal: {fileID: 164204336}
   m_GameObject: {fileID: 648983414}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.49528217, y: -2.82420874, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: .421462178, w: .906845987}
+  m_LocalPosition: {x: -8.07426167, y: -5.62686491, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1280537721}
@@ -28921,7 +29035,6 @@ MonoBehaviour:
     using. Try lots of combinations!]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -29737,7 +29850,6 @@ MonoBehaviour:
   dialogText: One second. You aren't in the training area. You're in the warehouse...
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -30200,6 +30312,61 @@ Prefab:
   m_RootGameObject: {fileID: 2145098976}
   m_IsPrefabParent: 0
   m_IsExploded: 1
+--- !u!1 &710833352
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100004, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 710833353}
+  - 132: {fileID: 710833354}
+  m_Layer: 0
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &710833353
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400002, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 710833352}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: .5, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 518686991}
+--- !u!132 &710833354
+GUIText:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13200000, guid: 26a58e88f3b065b4ba03ea53123f788c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 710833352}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Text: "INTERCOM: \"Lorem ipsum dolor sit amet, consectetur \nelit, sed do eiusmod
+    tempor incididunt ut labore et \nmagna aliqua. Ut enim ad minim veniam, quis nostrud
+    \nullamco laboris nisi ut aliquip ex ea commodo \nDuis aute irure dolor in reprehenderit
+    in voluptate velit \ncillum dolore eu fugiat nulla pariatur. Excepteur sint \ncupidatat
+    non proident, sunt in culpa qui officia \n"
+  m_Anchor: 0
+  m_Alignment: 0
+  m_PixelOffset: {x: 65, y: -110}
+  m_LineSpacing: 1
+  m_TabSize: 4
+  m_Font: {fileID: 12800000, guid: 644aefc7d2c06bb4281161ff8ad36463, type: 3}
+  m_Material: {fileID: 0}
+  m_FontSize: 24
+  m_FontStyle: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4289593362
+  m_PixelCorrect: 1
+  m_RichText: 1
 --- !u!1 &711919547
 GameObject:
   m_ObjectHideFlags: 0
@@ -30633,7 +30800,6 @@ MonoBehaviour:
     way through the lab.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 10
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -31457,7 +31623,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400012, guid: 82440995a97c84d1eac7cff2d9b1b427, type: 2}
   m_PrefabInternal: {fileID: 669542297}
   m_GameObject: {fileID: 749462371}
-  m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106709}
+  m_LocalRotation: {x: 0, y: 0, z: .707106888, w: .707106769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -31979,6 +32145,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: onHide.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 9.02822971
@@ -32015,6 +32185,10 @@ Prefab:
       propertyPath: dialogText
       value: '[Press F to interact with components.]'
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: onHide.Array.data[0]
+      value: 
+      objectReference: {fileID: 1595018309}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
   m_RootGameObject: {fileID: 1595018305}
@@ -33332,7 +33506,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: -1
-  m_SortingOrder: -1000
+  m_SortingOrder: -1
   m_SortingLayerID: 867771081
   m_Sprite: {fileID: 21300012, guid: a4b8b8648188bb948b466afc63d19081, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -36726,7 +36900,7 @@ SpriteRenderer:
   m_LightProbeAnchor: {fileID: 0}
   m_ScaleInLightmap: 1
   m_SortingLayer: -1
-  m_SortingOrder: -1000
+  m_SortingOrder: -1
   m_SortingLayerID: 867771081
   m_Sprite: {fileID: 21300012, guid: a4b8b8648188bb948b466afc63d19081, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -37175,7 +37349,6 @@ MonoBehaviour:
     attach to yourself. Press F again to attach it.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -39534,7 +39707,6 @@ MonoBehaviour:
   dialogText: I don't think there's anything up there. See if you can find a way out.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -40235,7 +40407,6 @@ MonoBehaviour:
   dialogText: '...I''ve been meaning to do something about that.'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -43014,7 +43185,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400012, guid: 82440995a97c84d1eac7cff2d9b1b427, type: 2}
   m_PrefabInternal: {fileID: 1466102371}
   m_GameObject: {fileID: 1011798452}
-  m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106709}
+  m_LocalRotation: {x: 0, y: 0, z: .707106888, w: .707106769}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -46331,7 +46502,6 @@ MonoBehaviour:
     your leg.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -47854,7 +48024,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 867771081
   m_Sprite: {fileID: 21300010, guid: 4eb858c34247e49f58eb3d7f1c8c5041, type: 3}
-  m_Color: {r: .20784314, g: .192156866, b: .623529434, a: 1}
+  m_Color: {r: .45768714, g: .452205867, b: .602941155, a: 1}
 --- !u!1 &1136802631
 GameObject:
   m_ObjectHideFlags: 0
@@ -49108,6 +49278,53 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 592009665}
+--- !u!1 &1189871848
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 100002, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1189871850}
+  - 131: {fileID: 1189871849}
+  m_Layer: 0
+  m_Name: Background
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!131 &1189871849
+GUITexture:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 13100000, guid: 26a58e88f3b065b4ba03ea53123f788c,
+    type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 1189871848}
+  m_Enabled: 1
+  m_Texture: {fileID: 2800000, guid: f4b7f8b33c7f04d3595dd344f170d689, type: 3}
+  m_Color: {r: .338235319, g: .340722352, b: .338818491, a: .419607848}
+  m_PixelInset:
+    serializedVersion: 2
+    x: 40
+    y: 20
+    width: -80
+    height: -120
+  m_LeftBorder: 6
+  m_RightBorder: 6
+  m_TopBorder: 6
+  m_BottomBorder: 6
+--- !u!4 &1189871850
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 400004, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_PrefabInternal: {fileID: 1710629108}
+  m_GameObject: {fileID: 1189871848}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .5, y: .25, z: -1}
+  m_LocalScale: {x: 1, y: .5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 518686991}
 --- !u!1001 &1191117280
 Prefab:
   m_ObjectHideFlags: 0
@@ -50369,7 +50586,6 @@ MonoBehaviour:
     part will detach itself.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -65821,6 +66037,7 @@ GameObject:
   - 4: {fileID: 1595018306}
   - 114: {fileID: 1595018308}
   - 82: {fileID: 1595018307}
+  - 114: {fileID: 1595018309}
   m_Layer: 0
   m_Name: PromptTorso
   m_TagString: Untagged
@@ -65917,7 +66134,6 @@ MonoBehaviour:
   dialogText: '[Press F to interact with components.]'
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -65928,7 +66144,22 @@ MonoBehaviour:
   skipSound: {fileID: 8300000, guid: 6e28e64588b80a14c8c7356f2f701d93, type: 3}
   typeVolume: .231000006
   onShow: []
-  onHide: []
+  onHide:
+  - {fileID: 1595018309}
+--- !u!114 &1595018309
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1595018305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 518686990}
+  message: Show
+  argument: 
 --- !u!1 &1597531882
 GameObject:
   m_ObjectHideFlags: 0
@@ -67762,7 +67993,6 @@ MonoBehaviour:
   dialogText: "Welcome, HED-I, to the\u2014oh, no."
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -69031,7 +69261,6 @@ MonoBehaviour:
   dialogText: It won't support you, and those fans underneath it look pretty sharp.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -70006,7 +70235,6 @@ MonoBehaviour:
   dialogText: It must to lead to the training area. Or is that the incinerator?
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -71190,6 +71418,54 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!1001 &1710629108
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 12.8682299
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 6.55624485
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -.000198911875
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: m_Name
+      value: PromptText
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+      propertyPath: dialogText
+      value: '[Press Enter to skip over text boxes.]'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 26a58e88f3b065b4ba03ea53123f788c, type: 2}
+  m_RootGameObject: {fileID: 518686990}
+  m_IsPrefabParent: 0
+  m_IsExploded: 1
 --- !u!1 &1711100567
 GameObject:
   m_ObjectHideFlags: 0
@@ -74462,7 +74738,6 @@ MonoBehaviour:
   dialogText: Yes, this one looks good. Try that tube.
   wrapMargin: 40
   showOnStart: 0
-  skipWithEnter: 1
   showDelay: 0
   fontToScreenWidthRatio: 20
   letterTime: .0199999996
@@ -88784,7 +89059,7 @@ Transform:
   m_PrefabInternal: {fileID: 65914786}
   m_GameObject: {fileID: 2092532728}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25638056, y: -4.97698021, z: 0}
+  m_LocalPosition: {x: .760484755, y: -4.76209164, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

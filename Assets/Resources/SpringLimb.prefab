@@ -558,10 +558,13 @@ MonoBehaviour:
   springRange: {fileID: 400012}
   springForce: 700
   pushForce: 700
+  checkSpread: 0
+  checks: 1
   layers:
   - Ground
   - LevelObjects
   - UnattachedLimb
+  - Grappleable
   fireClip: {fileID: 8300000, guid: 298811a3f6b29fa44a56a78199f10d28, type: 3}
   alwaysAimPush: 0
 --- !u!114 &11400004
@@ -579,6 +582,7 @@ MonoBehaviour:
   end: {fileID: 400000}
   segmentCount: 4
   spread: .100000001
+  EnabledOnStart: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1

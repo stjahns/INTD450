@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using SimpleJSON;
 
-public class LightningRenderer : MonoBehaviour
+public class LightningRenderer : MonoBehaviour, SaveableComponent
 {
 	public Transform start;
 	public Transform end;
@@ -77,6 +78,27 @@ public class LightningRenderer : MonoBehaviour
 		lineRenderer = GetComponent<LineRenderer>();
 
 		EffectEnabled = EnabledOnStart;
+	}
+
+	public bool saveState = false;
+
+	public void SaveState(JSONNode data)
+	{
+		if (saveState)
+		{
+			data[gameObject.name]["enabled"].AsBool = EffectEnabled;
+		}
+	}
+
+	public void LoadState(JSONNode data)
+	{
+		if (saveState)
+		{
+			if (data[gameObject.name] != null)
+			{
+				EffectEnabled = data[gameObject.name]["enabled"].AsBool;
+			}
+		}
 	}
 	
 	void Update ()

@@ -82,6 +82,9 @@ public class LevelStart : MonoBehaviour
             load.LoadComponents<DoorBehaviour>(data["array"][1]);
             load.LoadComponents<TransformSaveable>(data["array"][1]);
             load.LoadComponents<TurretController>(data["array"][1]);
+            load.LoadComponents<DeathHazard>(data["array"][1]);
+            load.LoadComponents<LightningRenderer>(data["array"][1]);
+            load.LoadComponents<AreaTrigger>(data["array"][1]);
 
 			// Load other stuff
 

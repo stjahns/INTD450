@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SimpleJSON;
 
-public class DeathHazard : MonoBehaviour
+public class DeathHazard : MonoBehaviour, SaveableComponent
 {
 	public List<string> vulnerableTags;
 	public bool isEnabled = true;
@@ -45,5 +46,26 @@ public class DeathHazard : MonoBehaviour
 	public void setDisabled()
 	{
 		isEnabled = false;
+	}
+
+	public bool saveState = false;
+
+	public void SaveState(JSONNode data)
+	{
+		if (saveState)
+		{
+			data[gameObject.name]["enabled"].AsBool = isEnabled;
+		}
+	}
+
+	public void LoadState(JSONNode data)
+	{
+		if (saveState)
+		{
+			if (data[gameObject.name] != null)
+			{
+				isEnabled = data[gameObject.name]["enabled"].AsBool;
+			}
+		}
 	}
 }

@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System;
+using SimpleJSON;
 
-public class AreaTrigger : TriggerBase
+public class AreaTrigger : TriggerBase, SaveableComponent
 {
 	[OutputEventConnections]
 	[HideInInspector]
@@ -152,5 +153,26 @@ public class AreaTrigger : TriggerBase
 	public void DisableTrigger()
 	{
 		triggerEnabled = false;
+	}
+
+	public bool saveState = false;
+
+	public void SaveState(JSONNode data)
+	{
+		if (saveState)
+		{
+			data[gameObject.name]["enabled"].AsBool = triggerEnabled;
+		}
+	}
+
+	public void LoadState(JSONNode data)
+	{
+		if (saveState)
+		{
+			if (data[gameObject.name] != null)
+			{
+				triggerEnabled = data[gameObject.name]["enabled"].AsBool;
+			}
+		}
 	}
 }

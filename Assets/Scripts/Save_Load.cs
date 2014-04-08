@@ -81,6 +81,9 @@ public class Save_Load
             ResetComponents<PlayerBehavior>(data["array"][1]);
             ResetComponents<TransformSaveable>(data["array"][1]);
             ResetComponents<TurretController>(data["array"][1]);
+            ResetComponents<LightningRenderer>(data["array"][1]);
+            ResetComponents<DeathHazard>(data["array"][1]);
+            ResetComponents<AreaTrigger>(data["array"][1]);
 		}
 		else
 		{
@@ -90,6 +93,9 @@ public class Save_Load
             SaveComponents<PlayerBehavior>(data["array"][1]);
             SaveComponents<TransformSaveable>(data["array"][1]);
             SaveComponents<TurretController>(data["array"][1]);
+            SaveComponents<LightningRenderer>(data["array"][1]);
+            SaveComponents<DeathHazard>(data["array"][1]);
+            SaveComponents<AreaTrigger>(data["array"][1]);
 		}
 
 		data = data.SaveToBase64();

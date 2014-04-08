@@ -55,6 +55,15 @@ public class SelectLevelButton : MenuButton
 	override public void OnMouseUp()
 	{
 		base.OnMouseUp();
+
+		// Reset the level
+        Save_Load save = new Save_Load();
+        save.player_name = "player";
+        Vector3 empty=new Vector3() ;
+        save.add_checkpoint(level, "Null", "Null", empty);	
+
+		// Load it
+
 		loader.LoadLevel(level);
 	}
 }

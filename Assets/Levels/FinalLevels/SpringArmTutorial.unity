@@ -16094,6 +16094,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400004, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
+      propertyPath: onEnter.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
       propertyPath: m_LocalPosition.x
       value: -2.55649948
@@ -16126,6 +16130,10 @@ Prefab:
       propertyPath: m_Name
       value: DiaSlateTriggerExit
       objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
+      propertyPath: onEnter.Array.data[0]
+      value: 
+      objectReference: {fileID: 477813179}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
   m_RootGameObject: {fileID: 477813178}
@@ -17252,6 +17260,7 @@ GameObject:
   - 61: {fileID: 477813182}
   - 114: {fileID: 477813181}
   - 114: {fileID: 477813180}
+  - 114: {fileID: 477813179}
   m_Layer: 17
   m_Name: DiaSlateTriggerExit
   m_TagString: Untagged
@@ -17259,6 +17268,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &477813179
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 477813178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 1303847666}
+  message: FireOutput
+  argument: 
 --- !u!114 &477813180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17284,7 +17307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb868ace299c44ca7b6235d9c6b722d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onEnter: []
+  onEnter:
+  - {fileID: 477813179}
   onExit: []
   onStay: []
   triggerEnabled: 1

@@ -1399,6 +1399,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &45432052
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1769,6 +1770,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!120 &52238402
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -1921,6 +1923,7 @@ GameObject:
   - 61: {fileID: 53122364}
   - 114: {fileID: 53122363}
   - 114: {fileID: 53122362}
+  - 114: {fileID: 53122366}
   m_Layer: 17
   m_Name: DiaSlateTriggerEnter
   m_TagString: Untagged
@@ -1953,13 +1956,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb868ace299c44ca7b6235d9c6b722d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onEnter: []
+  onEnter:
+  - {fileID: 53122366}
   onExit: []
   onStay: []
   triggerEnabled: 1
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &53122364
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1983,6 +1988,20 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!114 &53122366
+MonoBehaviour:
+  m_ObjectHideFlags: 2
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 53122361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bab1588e3db1493488adbf7d13f50fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 857659322}
+  message: FireOutput
+  argument: 
 --- !u!1001 &55420191
 Prefab:
   m_ObjectHideFlags: 0
@@ -10256,6 +10275,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &262142618
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -14567,6 +14587,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!4 &397348228
 Transform:
   m_ObjectHideFlags: 0
@@ -17315,6 +17336,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &477813182
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -18867,6 +18889,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!1 &509604993
 GameObject:
   m_ObjectHideFlags: 0
@@ -22954,6 +22977,7 @@ MonoBehaviour:
   debug: 1
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &618060080
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -30261,6 +30285,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!1 &800132525
 GameObject:
   m_ObjectHideFlags: 0
@@ -32042,6 +32067,7 @@ MonoBehaviour:
   debug: 1
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &878859750
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -33935,6 +33961,7 @@ MonoBehaviour:
   - Ground
   - LevelObjects
   - UnattachedLimb
+  - Grappleable
   fireClip: {fileID: 8300000, guid: 298811a3f6b29fa44a56a78199f10d28, type: 3}
   alwaysAimPush: 0
 --- !u!4 &922945302
@@ -36517,6 +36544,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!120 &1002877508
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -37397,6 +37425,7 @@ MonoBehaviour:
   - Ground
   - LevelObjects
   - UnattachedLimb
+  - Grappleable
   fireClip: {fileID: 8300000, guid: 298811a3f6b29fa44a56a78199f10d28, type: 3}
   alwaysAimPush: 0
 --- !u!4 &1020739720
@@ -50162,6 +50191,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!120 &1372608905
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -50249,7 +50279,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: e6081c4b8f6e846119e66a49f9d0807d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: .545098066}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1376642749
 GameObject:
   m_ObjectHideFlags: 0
@@ -53100,6 +53130,7 @@ MonoBehaviour:
   - Ground
   - LevelObjects
   - UnattachedLimb
+  - Grappleable
   fireClip: {fileID: 8300000, guid: 298811a3f6b29fa44a56a78199f10d28, type: 3}
   alwaysAimPush: 0
 --- !u!4 &1451001319
@@ -56781,6 +56812,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &1555628381
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -57130,7 +57162,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: e6081c4b8f6e846119e66a49f9d0807d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: .545098066}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1564061862
 Prefab:
   m_ObjectHideFlags: 0
@@ -59672,6 +59704,10 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 11400004, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
+      propertyPath: onEnter.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
       propertyPath: m_LocalPosition.x
       value: 1.25594735
@@ -59708,6 +59744,10 @@ Prefab:
       propertyPath: m_Name
       value: DiaSlateTriggerEnter
       objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
+      propertyPath: onEnter.Array.data[0]
+      value: 
+      objectReference: {fileID: 53122366}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fdf6a06ca0e8df442aa58dd0c6a2dcd9, type: 2}
   m_RootGameObject: {fileID: 53122361}
@@ -61346,6 +61386,7 @@ MonoBehaviour:
   debug: 1
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &1704964056
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -62051,6 +62092,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!120 &1718940907
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -63189,6 +63231,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &1742747210
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -66890,6 +66933,7 @@ MonoBehaviour:
   debug: 0
   color: {r: 0, g: 0, b: 1, a: .501960814}
   tags: []
+  saveState: 0
 --- !u!61 &1866140875
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -67647,6 +67691,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!4 &1879087162
 Transform:
   m_ObjectHideFlags: 0
@@ -69942,7 +69987,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: e6081c4b8f6e846119e66a49f9d0807d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: .545098066}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &1940541272
 GameObject:
   m_ObjectHideFlags: 0
@@ -75108,7 +75153,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_SortingLayerID: 0
   m_Sprite: {fileID: 21300000, guid: e6081c4b8f6e846119e66a49f9d0807d, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: .545098066}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2062577351
 GameObject:
   m_ObjectHideFlags: 0
@@ -75976,6 +76021,7 @@ MonoBehaviour:
   segmentCount: 4
   spread: .100000001
   EnabledOnStart: 1
+  saveState: 0
 --- !u!120 &2082967411
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -76670,6 +76716,7 @@ MonoBehaviour:
   zoomSmoothing: 5
   maxViewportHeight: 15
   minViewportHeight: 1
+  transitionType: 0
 --- !u!81 &2104376252
 AudioListener:
   m_ObjectHideFlags: 0

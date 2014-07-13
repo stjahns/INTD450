@@ -86,6 +86,7 @@ public class GrappleComponent : LimbComponent {
 				distanceJoint.anchor = ropeStart.position - playerBody.transform.position;
 				distanceJoint.connectedBody = projectile.rigidbody2D;
 				distanceJoint.distance = Vector2.Distance(ropeStart.position, projectile.transform.position);
+				distanceJoint.maxDistanceOnly = true;
 			}
 			else
 			{
@@ -94,6 +95,7 @@ public class GrappleComponent : LimbComponent {
 
 				sliderJoint = playerBody.gameObject.AddComponent<SliderJoint2D>();
 				sliderJoint.anchor = ropeStart.position - playerBody.transform.position;
+				sliderJoint.angle = 270;
 
 				sliderJoint.connectedBody = anchorBody;
 				sliderJoint.connectedAnchor = ropeEnd.transform.position.XY()

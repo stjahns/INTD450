@@ -99,7 +99,8 @@ public class DoorBehaviour : MonoBehaviour, SaveableComponent
 		}
 		doorSlider.connectedBody = doorBody;
 
-		doorSlider.angle = Vector2.Angle(Vector3.down, openPosition.position - closedPosition.position);
+		doorSlider.angle = Vector2.Angle(Vector3.right, openPosition.position - closedPosition.position);
+
 
 		var limits = doorSlider.limits;
 		limits.min = 0;

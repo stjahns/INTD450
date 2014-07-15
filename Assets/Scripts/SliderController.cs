@@ -43,7 +43,7 @@ public class SliderController : MonoBehaviour
 
 		sliderJoint.limits = limits;
 
-		sliderJoint.angle = Quaternion.FromToRotation(Vector3.down, 
+		sliderJoint.angle = Quaternion.FromToRotation(Vector3.right, 
 				endLimit.position - startLimit.position).eulerAngles.z;
 
 		sliderJoint.useMotor = useMotor;

@@ -93,25 +93,16 @@ public class GrappleProjectile : MonoBehaviour
 		if (AttachedToPoint)
 			return;
 
-		Debug.Log("HIT");
-
-		Debug.Log(LayerMask.LayerToName(collision.collider.gameObject.layer));
-
 		if (body && (1 << collision.collider.gameObject.layer & layerMask) != 0)
 		{
 			// Hit something!
 			if (collision.rigidbody)
 			{
-				Debug.Log("HIT RIGID BODY");
 
 				// Create a distance joint to the body
 				body.fixedAngle = true;
 				grappleJoint = gameObject.AddComponent<HingeJoint2D>();
 				grappleJoint.connectedBody = collision.rigidbody;
-
-				grappleJoint.connectedAnchor = body.transform.position -
-				//grappleJoint.connectedAnchor = collision.collider.transform.position -
-					collision.rigidbody.transform.position;
 
 				JointAngleLimits2D limits = grappleJoint.limits;
 				limits.max = 0;
@@ -120,7 +111,6 @@ public class GrappleProjectile : MonoBehaviour
 			}
 			else
 			{
-				Debug.Log("HIT KINEMATIC BODY");
 				body.isKinematic = true;
 				transform.parent = collision.transform;
 			}
@@ -138,6 +128,21 @@ public class GrappleProjectile : MonoBehaviour
 		}
 	}
 
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (AttachedToPoint)
+			return;
+
+		if (body && (1 << other.gameObject.layer & layerMask) != 0)
+		{
+			// Near a grapple point, suck to it!
+			Vector2 toPoint = other.transform.position - transform.position;
+			Vector2 force = toPoint.normalized * (pointAttraction / toPoint.magnitude);
+			body.AddForce(force);
+			body.drag = projectileDrag;
+		}
+	}
+
 	void OnTriggerStay2D(Collider2D other)
 	{
 		if (AttachedToPoint)
@@ -145,9 +150,10 @@ public class GrappleProjectile : MonoBehaviour
 
 		if (body && (1 << other.gameObject.layer & layerMask) != 0)
 		{
-			Debug.Log(other.transform.position);
 			// Near a grapple point, suck to it!
-			body.AddForce((other.transform.position - transform.position) * pointAttraction);
+			Vector2 toPoint = other.transform.position - transform.position;
+			Vector2 force = toPoint.normalized * (pointAttraction / toPoint.magnitude);
+			body.AddForce(force);
 			body.drag = projectileDrag;
 		}
 	}

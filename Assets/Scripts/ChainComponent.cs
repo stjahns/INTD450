@@ -97,6 +97,9 @@ public class ChainComponent : TriggerBase, SaveableComponent
 		{
 			chainRenderer = GetComponent<ChainRenderer>();
 		}
+
+		// For some reason in 4.5.2, chains are getting stuck in some kind of fake-sleep mode unless you touch something...
+		rigidbody2D.mass = rigidbody2D.mass;
 	}
 
 	void Sever(Vector2 point)

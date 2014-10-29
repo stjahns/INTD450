@@ -70,14 +70,17 @@ public class PlayerMovementController : MonoBehaviour {
 			anim.SetTrigger("jump");
 		}
 
-		if (Input.GetMouseButtonDown(0))
+		if (!attachmentController.enabled)
 		{
-			player.FireArmAbility();
-		}
+			if (Input.GetMouseButtonDown(0))
+			{
+				player.FireArmAbility();
+			}
 
-		if (Input.GetMouseButtonDown(1))
-		{
-			player.FireLegAbility();
+			if (Input.GetMouseButtonDown(1))
+			{
+				player.FireLegAbility();
+			}
 		}
 
 		if (MouseAim)

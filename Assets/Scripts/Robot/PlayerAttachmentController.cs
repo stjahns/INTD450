@@ -54,7 +54,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 	private Vector3 parentStartPosition;
 	private Quaternion parentStartRotation;
-	
+
 	private Vector3 parentTargetPosition;
 	private Quaternion parentTargetRotation;
 
@@ -71,7 +71,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 	private GUIText attachmentText;
 
-	void Start ()
+	void Start()
 	{
 		GameObject textObject = Instantiate(textPrefab, new Vector3(0.5f, 0.5f, 0), Quaternion.identity)
 			as GameObject;
@@ -82,7 +82,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		attachmentShadowVisual.sortingLayerName = "UI";
 	}
 
-	void OnEnable ()
+	void OnEnable()
 	{
 		state = AttachmentState.SelectParent;
 
@@ -140,7 +140,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			{
 				continue;
 			}
-			
+
 			bool isHead = parentJoints.Count == 1;
 
 			AttachmentPoint joint = collider.gameObject.GetComponent<AttachmentPoint>();
@@ -192,7 +192,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	}
 
 	// Update is called once per frame
-	void Update ()
+	void Update()
 	{
 		switch (state)
 		{
@@ -216,7 +216,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	//
 	void SelectParent()
 	{
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.F))
 		{
 			// Abort to regular mode
 			Abort();
@@ -227,7 +227,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 		float closestDistance = float.MaxValue;
 		AttachmentPoint closestJoint = null;
-		foreach(var parentJoint in parentJoints)
+		foreach (var parentJoint in parentJoints)
 		{
 			float distance = Vector2.Distance(mousePosition.XY(), parentJoint.transform.position.XY());
 			if (distance < closestDistance)
@@ -250,7 +250,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
 				attachmentText.color = Color.red;
 			}
-			else if (selectedParentJoint.child != null )
+			else if (selectedParentJoint.child != null)
 			{
 				attachmentText.text = "DETACH ";
 				attachmentText.text += selectedParentJoint.child.AttachmentName;
@@ -270,7 +270,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			attachmentText.enabled = false;
 		}
 
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetMouseButtonDown(0))
 		{
 			if (selectedParentJoint.AttachedToLevelObject)
 			{
@@ -279,7 +279,7 @@ public class PlayerAttachmentController : MonoBehaviour
 				selectedParentJoint.childTransform = selectedParentJoint.transform;
 				enabled = false;
 			}
-			else if (selectedParentJoint.child != null )
+			else if (selectedParentJoint.child != null)
 			{
 				// If selected parent joint already has a child, detach it
 				selectedParentJoint.child.OnDetach();
@@ -313,7 +313,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		GetUnattachedChildren();
 
-		if (Input.GetKeyDown(KeyCode.Escape))
+		if (Input.GetKeyDown(KeyCode.F))
 		{
 			// Abort to regular mode
 			Abort();
@@ -326,7 +326,7 @@ public class PlayerAttachmentController : MonoBehaviour
 		float closestDistance = float.MaxValue;
 
 		AttachmentPoint closestJoint = null;
-		foreach(var child in childJoints)
+		foreach (var child in childJoints)
 		{
 			float distance = Vector2.Distance(mousePosition.XY(), child.transform.position.XY());
 			if (distance < closestDistance)
@@ -362,7 +362,7 @@ public class PlayerAttachmentController : MonoBehaviour
 			SetSelectedChild(null);
 		}
 
-		if (Input.GetKeyDown(KeyCode.F))
+		if (Input.GetMouseButtonDown(0))
 		{
 			if (selectedChildJoint != null)
 			{
@@ -386,7 +386,7 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		int layerMask = 0;
 		blockingLayers.ForEach(l => layerMask |= 1 << LayerMask.NameToLayer(l));
-		
+
 		if (selectedChildJoint.owner != null)
 		{
 			float partLength = selectedChildJoint.owner.partLength;
@@ -534,22 +534,22 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		float parameter = Mathfx.Hermite(0, 1, attachmentTime / attachmentEndTime);
 
-		selectedChildJoint.owner.transform.position = 
+		selectedChildJoint.owner.transform.position =
 			Vector3.Lerp(childStartPosition,
 					childTargetPosition,
 					parameter);
 
-		selectedChildJoint.owner.transform.rotation = 
+		selectedChildJoint.owner.transform.rotation =
 			Quaternion.Slerp(childStartRotation,
 					childTargetRotation,
 					parameter);
 
-		selectedParentJoint.owner.getRootComponent().transform.position = 
+		selectedParentJoint.owner.getRootComponent().transform.position =
 			Vector3.Lerp(parentStartPosition,
 					parentTargetPosition,
 					parameter);
 
-		selectedParentJoint.owner.getRootComponent().transform.rotation = 
+		selectedParentJoint.owner.getRootComponent().transform.rotation =
 			Quaternion.Lerp(parentStartRotation,
 					parentTargetRotation,
 					parameter);
@@ -610,8 +610,8 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		SetSelectedParent(null);
 
-		if (state == AttachmentState.SelectChild 
-			|| state == AttachmentState.AttachingPart 
+		if (state == AttachmentState.SelectChild
+			|| state == AttachmentState.AttachingPart
 			|| state == AttachmentState.AttachingToLevelObject)
 		{
 			Abort();
@@ -652,7 +652,7 @@ public class PlayerAttachmentController : MonoBehaviour
 	{
 		SetSelectedChild(null);
 
-		if (state == AttachmentState.AttachingPart 
+		if (state == AttachmentState.AttachingPart
 			|| state == AttachmentState.AttachingToLevelObject)
 		{
 			Abort();

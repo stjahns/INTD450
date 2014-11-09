@@ -75,9 +75,9 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 
 		// Create input hints GUI
 		inputHints = gameObject.AddComponent<InputHintsGUI>();
-		inputHints.AddHint("[A]", "Roll Left");
-		inputHints.AddHint("[D]", "Roll Right");
-		inputHints.AddHint("[F]", "Toggle Attachment Mode");
+		inputHints.AddHint("A", "Roll Left");
+		inputHints.AddHint("D", "Roll Right");
+		inputHints.AddHint("F", "Toggle Attachment Mode");
 
 		activeController.enabled = true;
 

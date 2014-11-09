@@ -330,13 +330,13 @@ public class GrappleComponent : LimbComponent {
 		{
 			if (state == State.Attached)
 			{
-				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Release Extend-o-Leg"));
-				hints.Add(new InputHintsGUI.InputHint("[W]", "Extend Leg"));
-				hints.Add(new InputHintsGUI.InputHint("[D]", "Retract Leg"));
+				hints.Add(new InputHintsGUI.InputHint("RMB", "Release Extend-o-Leg"));
+				hints.Add(new InputHintsGUI.InputHint("W", "Extend Leg"));
+				hints.Add(new InputHintsGUI.InputHint("D", "Retract Leg"));
 			}
 			else
 			{
-				hints.Add(new InputHintsGUI.InputHint("[RMB]", "Fire Extend-o-Leg"));
+				hints.Add(new InputHintsGUI.InputHint("RMB", "Fire Extend-o-Leg"));
 			}
 		}
 
@@ -344,13 +344,13 @@ public class GrappleComponent : LimbComponent {
 		{
 			if (state == State.Attached)
 			{
-				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Release Grappling Hook"));
-				hints.Add(new InputHintsGUI.InputHint("[W]", "Retract Grapple Rope"));
-				hints.Add(new InputHintsGUI.InputHint("[D]", "Extend Grapple Rope"));
+				hints.Add(new InputHintsGUI.InputHint("LMB", "Release Grappling Hook"));
+				hints.Add(new InputHintsGUI.InputHint("W", "Retract Grapple Rope"));
+				hints.Add(new InputHintsGUI.InputHint("D", "Extend Grapple Rope"));
 			}
 			else
 			{
-				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Fire Grappling Hook"));
+				hints.Add(new InputHintsGUI.InputHint("LMB", "Fire Grappling Hook"));
 			}
 		}
 

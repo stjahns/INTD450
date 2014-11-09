@@ -319,6 +319,22 @@ public class GrappleComponent : LimbComponent {
 		}
 	}
 
+	public override void GetInputHints(ref List<InputHintsGUI.InputHint> hints)
+	{
+		if (isActive && IsLeg)
+		{
+			hints.Add(new InputHintsGUI.InputHint("[RMB]", "Fire Extend-o-Leg"));
+		}
+
+		if (isActive && IsArm)
+		{
+			hints.Add(new InputHintsGUI.InputHint("[LMB]", "Fire Grappling Hook"));
+		}
+
+		base.GetInputHints(ref hints);
+	}
+
+
 	override public void OnRemove()
 	{
 		base.OnRemove();

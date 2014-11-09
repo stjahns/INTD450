@@ -88,6 +88,10 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		attachedParts = player.allComponents;
 
+		player.inputHints.ClearHints();
+		player.inputHints.AddHint("MOUSE 1:", "Select Joint");
+		player.inputHints.AddHint("[F]", "Exit Attachment Mode");
+
 		parentJoints = new List<AttachmentPoint>();
 
 		foreach (var part in attachedParts)
@@ -175,6 +179,8 @@ public class PlayerAttachmentController : MonoBehaviour
 
 		movementController.enabled = true;
 		movementController.MouseAim = true;
+
+		player.RefreshInputHints();
 	}
 
 	void Abort()
@@ -302,6 +308,10 @@ public class PlayerAttachmentController : MonoBehaviour
 
 				// Show the range...
 				AudioSource.PlayClipAtPoint(jointSelectedClip, transform.position);
+
+				player.inputHints.ClearHints();
+				player.inputHints.AddHint("MOUSE 1:", "Select Object To Attach");
+				player.inputHints.AddHint("[F]", "Exit Attachment Mode");
 			}
 		}
 	}

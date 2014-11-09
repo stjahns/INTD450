@@ -162,6 +162,14 @@ public class RobotComponent : MonoBehaviour {
 		}
 	}
 
+	virtual public void GetInputHints(ref List<InputHintsGUI.InputHint> hints)
+	{
+		foreach (RobotComponent part in getDirectChildren())
+		{
+			part.GetInputHints(ref hints);
+		}
+	}
+
 	virtual public void ResetSpriteOrders()
 	{
 		foreach (RobotComponent part in getDirectChildren())

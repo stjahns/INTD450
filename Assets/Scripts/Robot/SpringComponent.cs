@@ -24,12 +24,12 @@ public class SpringComponent : LimbComponent
 	{
 		if (isActive && IsLeg)
 		{
-			hints.Add(new InputHintsGUI.InputHint("[RMB]", "Fire Spring Leg"));
+			hints.Add(new InputHintsGUI.InputHint("RMB", "Fire Spring Leg"));
 		}
 
 		if (isActive && IsArm)
 		{
-			hints.Add(new InputHintsGUI.InputHint("[LMB]", "Fire Spring Arm"));
+			hints.Add(new InputHintsGUI.InputHint("LMB", "Fire Spring Arm"));
 		}
 
 		base.GetInputHints(ref hints);

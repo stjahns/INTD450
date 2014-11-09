@@ -62,7 +62,20 @@ public class InputHintsGUI : MonoBehaviour
 			foreach (var hint in inputHints)
 			{
 				GUILayout.BeginHorizontal();
-				GUILayout.Label(hint.Key, "HintKey");
+
+				switch (hint.Key)
+				{
+					case "LMB":
+						GUILayout.Label("", "HintLMB");
+						break;
+					case "RMB":
+						GUILayout.Label("", "HintRMB");
+						break;
+					default:
+						GUILayout.Label(hint.Key, "HintKey");
+						break;
+				}
+
 				GUILayout.Label(hint.Description, "HintDescription");
 				GUILayout.EndHorizontal();
 			}

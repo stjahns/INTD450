@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class InputHintsGUI : MonoBehaviour 
 {
-	public Vector2 screenPos = new Vector2(50, 50);
+	public Vector2 screenPos = new Vector2(25, 25);
 	public Vector2 size = new Vector2(400, 400);
 	public GUISkin skin;
 
@@ -50,10 +50,10 @@ public class InputHintsGUI : MonoBehaviour
 
 	void OnGUI()
 	{
-		if (enabled)
+		if (enabled && Time.timeScale > 0) // Don't show when paused
 		{
 			GUI.skin = skin;
-			GUI.depth = -1;
+			GUI.depth = 1;
 
 			GUILayout.BeginArea(new Rect(screenPos.x, screenPos.y, size.x, size.y));
 

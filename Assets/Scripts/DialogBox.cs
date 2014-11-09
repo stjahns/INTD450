@@ -17,18 +17,11 @@ public class DialogBox : TriggerBase
 	public string speaker;
 	public string dialogText;
 
-	public float wrapMargin;
-	
 	public bool showOnStart = false;
 	public float showDelay = 1.0f;
 
-	public float fontToScreenWidthRatio = 20.0f;
-
 	public float letterTime = 0.2f;
 	public float showTime = 5.0f;
-
-	public GUIText textObject;
-	public GUITexture backgroundObject;
 
 	public static DialogBox currentDialog = null;
 
@@ -52,26 +45,69 @@ public class DialogBox : TriggerBase
 	private float delayTimer;
 
 	private string prefix;
-	private string wrappedText;
 
-	void Start ()
+	public GUISkin skin;
+	private string fullText;
+	private string visibleText;
+
+	private float maxHeight = 200;
+
+	public enum DialogStyle
 	{
+		Normal,
+		Instruction
+	}
+
+	public DialogStyle style = DialogStyle.Normal;
+
+	void OnGUI()
+	{
+		bool shouldShow = state == DialogState.Showing || state == DialogState.Typing;
+		shouldShow = shouldShow && Time.timeScale > 0; // Don't show when paused
+		if (shouldShow)
+		{
+
+			string containerStyle = "DialogBoxContainer";
+			string dialogStyle = "DialogBox";
+			string textStyle = "DialogText";
+
+			switch (style)
+			{
+				case DialogStyle.Instruction:
+					textStyle = "DialogText_Inst";
+					break;
+			}
+
+
+			// Height can't exceed maxHeight or half the screen vertical
+			float height = Screen.height * 0.5f;
+			height = Mathf.Min(height, maxHeight);
+
+			GUI.skin = skin;
+			GUI.depth = 1;
+
+			GUILayout.BeginArea(new Rect(0, Screen.height - height, Screen.width, height));
+			GUILayout.BeginVertical(containerStyle);
+			GUILayout.BeginVertical(dialogStyle);
+			GUILayout.Label(visibleText, textStyle);
+			GUILayout.EndVertical();
+			GUILayout.EndVertical();
+			GUILayout.EndArea();
+		}
+	}
+
+	void Start()
+	{
+		if (skin == null)
+		{
+			skin = Resources.Load("ElectricGUI") as GUISkin;
+		}
 
 		prefix = "";
 		if (speaker.Length > 0)
 		{
 			prefix = speaker + ": ";
 		}
-
-		textObject.enabled = false;
-		backgroundObject.enabled = false;
-
-		// move gui elements to center... kinda hacky...
-		Vector3 position = transform.position;
-		transform.position = Vector3.zero;
-		textObject.transform.parent = null;
-		backgroundObject.transform.parent = null;
-		transform.position = position;
 
 		delayTimer = 0.0f;
 
@@ -90,7 +126,7 @@ public class DialogBox : TriggerBase
 
 	public void Show(bool suppressEvents)
 	{
-		textObject.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
+		//textObject.fontSize = (int)(Screen.width / fontToScreenWidthRatio);
 
 		if (currentDialog)
 		{
@@ -104,9 +140,9 @@ public class DialogBox : TriggerBase
 			onShow.ForEach(s => s.Fire());
 		}
 
-		wrappedText = GetWrappedText(prefix + dialogText);
-		textObject.text = wrappedText.Substring(0, prefix.Length);
-		
+		fullText = prefix + dialogText;
+		visibleText = prefix;
+
 		delayTimer = 0.0f;
 		letterTimer = 0.0f;
 		letterIndex = prefix.Length;
@@ -129,17 +165,15 @@ public class DialogBox : TriggerBase
 			onHide.ForEach(s => s.Fire());
 		}
 
-		textObject.enabled = false;
-		backgroundObject.enabled = false;
 		state = DialogState.Hidden;
 	}
-	
-	void Update ()
+
+	void Update()
 	{
 		// TODO need to adjust size according to viewport size, if a threshold is exceeded, use
 		// a fixed size for the box
 
-		textObject.fontSize = (int) (Screen.width / fontToScreenWidthRatio);
+		//textObject.fontSize = (int)(Screen.width / fontToScreenWidthRatio);
 
 		delayTimer += Time.deltaTime;
 
@@ -149,11 +183,9 @@ public class DialogBox : TriggerBase
 		}
 		else if (state == DialogState.Unhiding)
 		{
-			// enable visual elements and start typing after delay
+			// show and start typing after delay
 			if (delayTimer > showDelay)
 			{
-				textObject.enabled = true;
-				backgroundObject.enabled = true;
 				state = DialogState.Typing;
 			}
 		}
@@ -177,11 +209,10 @@ public class DialogBox : TriggerBase
 				letterTimer += Time.deltaTime;
 				if (letterTimer > letterTime)
 				{
-					if (letterIndex < wrappedText.Length)
+					if (letterIndex < fullText.Length)
 					{
 						if (typeSound)
 						{
-							//audio.PlayOneShot(typeSound, typeVolume);
 							AudioSource3D.PlayClipOmnipresent(typeSound, typeVolume);
 						}
 					}
@@ -198,11 +229,11 @@ public class DialogBox : TriggerBase
 				}
 			}
 
-			textObject.text = wrappedText.Substring(0, letterIndex);
+			visibleText = fullText.Substring(0, letterIndex);
 		}
 		else if (state == DialogState.Showing)
 		{
-			textObject.text = wrappedText;
+			visibleText = fullText;
 
 			// Hide if enter hit or if nonzero showtime expires
 			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)
@@ -212,62 +243,5 @@ public class DialogBox : TriggerBase
 				Hide();
 			}
 		}
-	}
-
-	//
-	// With the given string, return a new string with appropriate newlines to 
-	// nicely wrap the text in the box
-	//
-	string GetWrappedText(string text)
-	{
-		float textWidth = Screen.width + backgroundObject.pixelInset.width - wrapMargin;
-
-		string[] words = text.Split(' ');
-		string finalText = "";
-
-		GUIStyle style = new GUIStyle();
-		style.font = textObject.guiText.font;
-		style.fontSize = textObject.guiText.fontSize;
-		style.fontStyle = textObject.guiText.fontStyle;
-
-		float minWidth;
-		float maxWidth;
-
-		int i = 0;
-		for (int j = 0; j < words.Length; ++j)
-		{
-			// when from words from i to j exceed box width,
-			// add i to j-1 with newline to final string
-
-			string line = "";
-			for (int word = i; word <= j; word++)
-			{
-				line += words[word] + " ";
-			}
-
-			style.CalcMinMaxWidth(new GUIContent(line), out minWidth, out maxWidth);
-
-			// TODO what if single word too wide for box?
-
-			if (maxWidth > textWidth)
-			{
-				for (int word = i; word < j; word++)
-				{
-					finalText += words[word] + " ";
-				}
-
-				finalText += "\n";
-
-				i = j;
-			}
-		}
-
-		// Add remaining words on last line
-		for (int word = i; word < words.Length; word++)
-		{
-			finalText += words[word] + " ";
-		}
-
-		return finalText;
 	}
 }

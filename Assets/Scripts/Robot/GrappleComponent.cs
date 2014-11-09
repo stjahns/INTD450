@@ -74,6 +74,8 @@ public class GrappleComponent : LimbComponent {
 
 		state = State.Attached;
 
+		PlayerBehavior.Player.RefreshInputHints();
+
 		shouldAim = false;
 
 		playerBody = getRootComponent().rigidbody2D;
@@ -168,6 +170,7 @@ public class GrappleComponent : LimbComponent {
 				}
 
 				state = State.Cocked;
+				PlayerBehavior.Player.RefreshInputHints();
 			}
 		}
 
@@ -284,6 +287,7 @@ public class GrappleComponent : LimbComponent {
 		if (immediate || IsArm)
 		{
 			state = State.Cocked;
+			PlayerBehavior.Player.RefreshInputHints();
 
 			if (sliderJoint)
 			{
@@ -311,6 +315,7 @@ public class GrappleComponent : LimbComponent {
 			if (projectile.AttachedToPoint)
 			{
 				state = State.Retracting;
+				PlayerBehavior.Player.RefreshInputHints();
 			}
 			else
 			{
@@ -318,6 +323,40 @@ public class GrappleComponent : LimbComponent {
 			}
 		}
 	}
+
+	public override void GetInputHints(ref List<InputHintsGUI.InputHint> hints)
+	{
+		if (isActive && IsLeg)
+		{
+			if (state == State.Attached)
+			{
+				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Release Extend-o-Leg"));
+				hints.Add(new InputHintsGUI.InputHint("[W]", "Extend Leg"));
+				hints.Add(new InputHintsGUI.InputHint("[D]", "Retract Leg"));
+			}
+			else
+			{
+				hints.Add(new InputHintsGUI.InputHint("[RMB]", "Fire Extend-o-Leg"));
+			}
+		}
+
+		if (isActive && IsArm)
+		{
+			if (state == State.Attached)
+			{
+				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Release Grappling Hook"));
+				hints.Add(new InputHintsGUI.InputHint("[W]", "Retract Grapple Rope"));
+				hints.Add(new InputHintsGUI.InputHint("[D]", "Extend Grapple Rope"));
+			}
+			else
+			{
+				hints.Add(new InputHintsGUI.InputHint("[LMB]", "Fire Grappling Hook"));
+			}
+		}
+
+		base.GetInputHints(ref hints);
+	}
+
 
 	override public void OnRemove()
 	{

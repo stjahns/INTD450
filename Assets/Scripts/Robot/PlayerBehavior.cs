@@ -30,6 +30,8 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 
 	public CameraTarget cameraTarget;
 
+	public InputHintsGUI inputHints;
+
 	[HideInInspector]
 	public static PlayerBehavior Player;
 
@@ -70,6 +72,12 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 	{
 		// Set static reference (kinda hacky :/)
 		PlayerBehavior.Player = this;
+
+		// Create input hints GUI
+		inputHints = gameObject.AddComponent<InputHintsGUI>();
+		inputHints.AddHint("[A]", "Roll Left");
+		inputHints.AddHint("[D]", "Roll Right");
+		inputHints.AddHint("[F]", "Toggle Attachment Mode");
 
 		activeController.enabled = true;
 
@@ -295,6 +303,8 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 				}
 				break;
 		}
+
+		RefreshInputHints();
 	}
 
 	public void OnLimbRemoved(RobotComponent limb, AttachmentSlot slot, AttachmentType type)
@@ -351,6 +361,8 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 				}
 				break;
 		}
+
+		RefreshInputHints();
 	}
 
 	void Update ()
@@ -440,6 +452,8 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 			}
 			activeArm = null;
 		}
+
+		RefreshInputHints();
 	}
 
 	public void NextLegAbility()
@@ -474,6 +488,8 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 			}
 			activeLeg = null;
 		}
+
+		RefreshInputHints();
 	}
 
 	public void FireArmAbility()
@@ -500,5 +516,13 @@ public class PlayerBehavior : MonoBehaviour, SaveableComponent
 	public RobotComponent GetActiveLeg()
 	{
 		return activeLeg;
+	}
+
+	public void RefreshInputHints()
+	{
+		inputHints.ClearHints();
+		List<InputHintsGUI.InputHint> hints = new List<InputHintsGUI.InputHint>();
+		head.GetInputHints(ref hints);
+		hints.ForEach(h => inputHints.AddHint(h));
 	}
 }
